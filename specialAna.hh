@@ -64,9 +64,6 @@ public:
     bool runOnData;
     string const m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
 
-
-    //const double    m_pt_met_min_cut_ele,m_pt_met_max_cut_ele,m_delta_phi_cut_ele,m_pt_met_min_cut_muo,m_pt_met_max_cut_muo,m_delta_phi_cut_muo,m_pt_met_min_cut_tau,m_pt_met_max_cut_tau,m_delta_phi_cut_tau;
-
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
 
@@ -75,15 +72,11 @@ public:
 
     bool isOldPXLFile;
 
-    double m_pt_met_min_cut;
-    double m_pt_met_max_cut;
-    double m_delta_phi_cut;
-    double m_pt_cut;
-    double m_m_cut;
     const std::string m_cutdatafile;
     const vector< string >  m_trigger_string;
     TString d_mydiscmu[6];
     const std::string m_dataPeriod;
+    const std::string m_channel;
     const Tools::MConfig config_;
 
     double temp_run;

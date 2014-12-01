@@ -6,16 +6,17 @@
 
 
 specialAna::specialAna( const Tools::MConfig &cfg ) :
-   runOnData(       cfg.GetItem< bool >( "General.RunOnData" ) ),
-   m_JetAlgo(       cfg.GetItem< string >( "Jet.Type.Rec" ) ),
-   m_BJets_algo(    cfg.GetItem< string >( "Jet.BJets.Algo" ) ),
-   m_METType(       cfg.GetItem< string >( "MET.Type.Rec" ) ),
-   m_TauType(       cfg.GetItem< string >( "Tau.Type.Rec" ) ),
+    runOnData(       cfg.GetItem< bool >( "General.RunOnData" ) ),
+    m_JetAlgo(       cfg.GetItem< string >( "Jet.Type.Rec" ) ),
+    m_BJets_algo(    cfg.GetItem< string >( "Jet.BJets.Algo" ) ),
+    m_METType(       cfg.GetItem< string >( "MET.Type.Rec" ) ),
+    m_TauType(       cfg.GetItem< string >( "Tau.Type.Rec" ) ),
 
-//   m_trigger_string( Tools::splitString< string >( cfg.GetItem< string >( "wprime.TriggerList" ), true  ) ),
-   d_mydiscmu(  {"isPFMuon","isGlobalMuon","isTrackerMuon","isStandAloneMuon","isTightMuon","isHighPtMuon"} ),
-   m_dataPeriod("8TeV"),
-   config_(cfg)
+    m_trigger_string( Tools::splitString< string >( cfg.GetItem< string >( "RPV.trigger_list" ), true  ) ),
+    d_mydiscmu(  {"isPFMuon","isGlobalMuon","isTrackerMuon","isStandAloneMuon","isTightMuon","isHighPtMuon"} ),
+    m_dataPeriod(    cfg.GetItem< string >( "General.DataPeriod" )),
+    m_channel(       cfg.GetItem< string >( "RPV.channel" )),
+    config_(cfg)
 {
 
     string safeFileName = "SpecialHistos.root";
@@ -386,13 +387,13 @@ void specialAna::endJob( const Serializable* ) {
     file1->cd("Eles/");
     HistClass::WriteAll("_Ele_");
     file1->cd();
-    file1->mkdir("Trees");
-    file1->cd("Trees/");
-    HistClass::WriteAllTrees();
-    file1->cd();
-    file1->mkdir("nDim");
-    file1->cd("nDim");
-    HistClass::WriteN();
+    //file1->mkdir("Trees");
+    //file1->cd("Trees/");
+    //HistClass::WriteAllTrees();
+    //file1->cd();
+    //file1->mkdir("nDim");
+    //file1->cd("nDim");
+    //HistClass::WriteN();
     file1->Close();
 
     delete file1;
