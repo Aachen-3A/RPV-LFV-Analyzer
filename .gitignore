@@ -1,0 +1,8 @@
+*.[oaP]
+*.so
+*.pyc
+*~
+\#*\#
+*.tar.gz
+*Dict.cc
+*Dict.h
