@@ -53,6 +53,10 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
         }
     }
 
+    HistClass::CreateHisto("LLE_Gen",100,0,1,"LLE");
+    HistClass::CreateHisto("LQD_Gen",100,0,0.001,"LQD");
+    HistClass::CreateHisto("MSnl_Gen",4000,0,4000,"MSnl");
+
     if(not runOnData) {
         Create_Gen_histograms("emu", "ele", "muo");
         Create_Gen_histograms("etau", "ele", "tau");
@@ -139,7 +143,9 @@ specialAna::~specialAna() {
 
 void specialAna::analyseEvent( const pxl::Event* event ) {
     initEvent( event );
-    //if(tail_selector(event)) return;
+
+    if(tail_selector(event)) return;
+    
     if(not runOnData){
         Fill_Gen_Controll_histo();
     }
@@ -223,6 +229,80 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     FillSystematics(event, "Tau");
 
     endEvent( event );
+}
+
+bool specialAna::tail_selector(const pxl::Event* event) {
+    std::string datastream = event->getUserRecord("Dataset").asString();
+    TString Datastream = datastream;
+
+    double cut_w_mass = 0;
+    double cut_w_pt = 0;
+    if(Datastream.Contains("WJetsToLNu") || Datastream.Contains("WTo")){
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            if(TMath::Abs(S3ListGen->at(i) -> getPdgNumber()) == 24){
+                if(S3ListGen->at(i)->getMass() > cut_w_mass){
+                    cut_w_mass = S3ListGen->at(i)->getMass();
+                    cut_w_pt = S3ListGen->at(i)->getPt();
+                }
+            }
+        }
+    }
+
+    if(Datastream.Contains("WJetsToLNu_TuneZ2Star_8TeV")) {
+        if(cut_w_pt > 55)return true;
+    }
+
+    if(Datastream.Contains("WJetsToLNu_PtW")) {
+        if(cut_w_pt <= 55)return true;
+    }
+
+    if(Datastream.Contains("WJetsToLNu")) {
+        if(cut_w_mass > 300)return true;
+    }
+
+    if(Datastream.Contains("WTo")) {
+        if(cut_w_mass <= 300)return true;
+    }
+
+    /// Diboson tail fitting
+    if(Datastream.Contains("WW_") || Datastream.Contains("WZ_") || Datastream.Contains("ZZ_")) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            int part_id = TMath::Abs(S3ListGen->at(i) -> getPdgNumber());
+            if(part_id == 23 || part_id == 22){
+                if(S3ListGen->at(i)->getPt() > 500)return true;
+            }
+        }
+    }
+
+    /// ttbar tail fitting
+    if(Datastream.Contains("TT_CT10_powheg") && !Datastream.Contains("Mtt")) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            if(S3ListGen->at(i) -> getPdgNumber() == 6){
+                for(uint j = 0; j < S3ListGen->size(); j++){
+                    if(S3ListGen->at(j) -> getPdgNumber() == -6){
+                        double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
+                                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                        if(mass > 700)return true;
+                    }
+                }
+            }
+        }
+    }
+
+    /// Signal parameter selection
+    if(Datastream.Contains("RPVresonantToMuTau")){
+        HistClass::Fill("LLE_Gen",m_GenEvtView->getUserRecord( "MC_LLE" ).asDouble(),weight);
+        HistClass::Fill("LQD_Gen",m_GenEvtView->getUserRecord( "MC_LQD" ).asDouble(),weight);
+        HistClass::Fill("MSnl_Gen",m_GenEvtView->getUserRecord( "MC_MSnl" ).asDouble(),weight);
+        double gen_mass = m_GenEvtView->getUserRecord( "MC_MSnl").asDouble();
+        double gen_coupling = m_GenEvtView->getUserRecord( "MC_LLE").asDouble();
+        if(!(gen_mass > config_.GetItem< double >( "rpv_mass.min" ) && gen_mass < config_.GetItem< double >( "rpv_mass.max" )))return true;
+        if(!(gen_coupling > config_.GetItem< double >( "rpv_coupling.min" ) && gen_coupling < config_.GetItem< double >( "rpv_coupling.max" )))return true;
+    }
+
+    return false;
 }
 
 void specialAna::FillSystematics(const pxl::Event* event, std::string const particleName){
@@ -552,7 +632,7 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > gen
         return false;
     }
 
-    double resonance_mass_gen = 0;
+    resonance_mass_gen = 0;
     for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
         pxl::Particle *part_i = *part_it;
         if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
@@ -835,6 +915,7 @@ void specialAna::endJob( const Serializable* ) {
         file1->mkdir("MC");
         file1->cd("MC/");
         HistClass::WriteAll("_Gen");
+        //HistClass::WriteAll("_MC_");
     }
     file1->cd();
     file1->mkdir("Taus");

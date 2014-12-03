@@ -35,6 +35,8 @@ public:
 
     TFile* file1;
 
+    bool tail_selector(const pxl::Event* event);
+
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
 
@@ -66,7 +68,6 @@ public:
     bool Check_Ele_ID(pxl::Particle* ele);
 
     bool TriggerSelector(const pxl::Event* event);
-    bool tail_selector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
     double DeltaPhi(pxl::Particle* lepton, pxl::Particle* met);
     double MT(pxl::Particle* lepton, pxl::Particle* met);
