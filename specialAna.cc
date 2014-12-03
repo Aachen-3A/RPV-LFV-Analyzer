@@ -135,9 +135,9 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     }
 
     for(uint i = 0; i < TauList->size(); i++){
-        //if(Check_Tau_ID(TauList->at(i))){
+        if(Check_Tau_ID(TauList->at(i))){
             Fill_Particle_histos(2, TauList->at(i));
-        //}
+        }
     }
 
     for(uint i = 0; i < METList->size(); i++){
