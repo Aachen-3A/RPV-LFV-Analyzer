@@ -529,10 +529,10 @@ bool specialAna::Check_Par_ID(pxl::Particle* part) {
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     bool passed = false;
-    bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asBool();
-    bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asBool();
-    bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asBool();
-    bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asBool();
+    bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asFloat() >= 1 ? true : false;
+    bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asFloat() >= 1 ? true : false;
+    bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asFloat() >= 1 ? true : false;
+    bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asFloat() >= 1 ? true : false;
     if (tau_ID && tau_ISO && tau_ELE && tau_MUO) passed = true;
     return passed;
 }
@@ -702,13 +702,35 @@ void specialAna::endJob( const Serializable* ) {
     file1->cd("Eles/");
     HistClass::WriteAll("_Ele_");
     file1->cd();
-    //file1->mkdir("Trees");
-    //file1->cd("Trees/");
-    //HistClass::WriteAllTrees();
-    //file1->cd();
-    //file1->mkdir("nDim");
-    //file1->cd("nDim");
-    //HistClass::WriteN();
+    file1->mkdir("emu");
+    file1->cd("emu/");
+    HistClass::WriteAll("_emu_");
+    file1->cd();
+    file1->mkdir("etau");
+    file1->cd("etau/");
+    HistClass::WriteAll("_etau_");
+    file1->cd();
+    file1->mkdir("mutau");
+    file1->cd("mutau/");
+    HistClass::WriteAll("_mutau_");
+    file1->cd();
+    file1->mkdir("etaue");
+    file1->cd("etaue/");
+    HistClass::WriteAll("_etaue_");
+    file1->cd();
+    file1->mkdir("etaumu");
+    file1->cd("etaumu/");
+    HistClass::WriteAll("_etaumu_");
+    file1->cd();
+    file1->mkdir("mutaue");
+    file1->cd("mutaue/");
+    HistClass::WriteAll("_mutaue_");
+    file1->cd();
+    file1->mkdir("mutaumu");
+    file1->cd("mutaumu/");
+    HistClass::WriteAll("_mutaumu_");
+    file1->cd();
+
     file1->Close();
 
     delete file1;
