@@ -3,8 +3,6 @@
 #include "Tools/Tools.hh"
 #include "boost/format.hpp"
 
-
-
 specialAna::specialAna( const Tools::MConfig &cfg ) :
     runOnData(       cfg.GetItem< bool >( "General.RunOnData" ) ),
     m_JetAlgo(       cfg.GetItem< string >( "Jet.Type.Rec" ) ),
@@ -858,21 +856,23 @@ void specialAna::Fill_Particle_histos(int hist_number, pxl::Particle* lepton){
 }
 
 double specialAna::DeltaPhi(double a, double b) {
-  double temp = fabs(a-b);
-  if (temp <= TMath::Pi())
-    return temp;
-  else
-    return  2.*TMath::Pi() - temp;
+    double temp = fabs(a-b);
+    if (temp <= TMath::Pi()) {
+        return temp;
+    }else{
+        return  2.*TMath::Pi() - temp;
+    }
 }
 
 double specialAna::DeltaPhi(pxl::Particle* lepton, pxl::Particle* met) {
     double a=lepton->getPhi();
     double b=met->getPhi();
     double temp = fabs(a-b);
-    if (temp <= TMath::Pi())
+    if (temp <= TMath::Pi()) {
         return temp;
-    else
+    }else{
         return  2.*TMath::Pi() - temp;
+    }
 }
 
 double specialAna::MT(pxl::Particle* lepton, pxl::Particle* met) {
@@ -1078,40 +1078,38 @@ void specialAna::initEvent( const pxl::Event* event ){
             else if( Name == m_JetAlgo ) JetListGen->push_back( part );
             else if( Name == genCollection) S3ListGen->push_back( part );
         }
-
     }
 }
 
 void specialAna::endEvent( const pxl::Event* event ){
 
-   delete EleList;
-   delete MuonList;
-   delete GammaList;
-   delete TauList;
-   delete METList;
-   delete JetList;
+    delete EleList;
+    delete MuonList;
+    delete GammaList;
+    delete TauList;
+    delete METList;
+    delete JetList;
 
-   EleList = 0;
-   MuonList = 0;
-   GammaList = 0;
-   METList = 0;
-   JetList = 0;
-   TauList = 0;
+    EleList = 0;
+    MuonList = 0;
+    GammaList = 0;
+    METList = 0;
+    JetList = 0;
+    TauList = 0;
 
-   if( not runOnData ){
+    if( not runOnData ){
+        delete EleListGen;
+        delete MuonListGen;
+        delete GammaListGen;
+        delete METListGen;
+        delete JetListGen;
+        delete TauListGen;
 
-      delete EleListGen;
-      delete MuonListGen;
-      delete GammaListGen;
-      delete METListGen;
-      delete JetListGen;
-      delete TauListGen;
-
-      EleListGen = 0;
-      MuonListGen = 0;
-      GammaListGen = 0;
-      METListGen = 0;
-      JetListGen = 0;
-      TauListGen = 0;
-   }
+        EleListGen = 0;
+        MuonListGen = 0;
+        GammaListGen = 0;
+        METListGen = 0;
+        JetListGen = 0;
+        TauListGen = 0;
+    }
 }
