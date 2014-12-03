@@ -54,7 +54,13 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     }
 
     if(not runOnData) {
-
+        Create_Gen_histograms("emu", "ele", "muo");
+        Create_Gen_histograms("etau", "ele", "tau");
+        Create_Gen_histograms("mutau", "muo", "tau");
+        Create_Gen_histograms("etaue", "ele", "tau_ele");
+        Create_Gen_histograms("etaumu", "ele", "tau_muo");
+        Create_Gen_histograms("mutaue", "muo", "tau_ele");
+        Create_Gen_histograms("mutaumu", "muo", "tau_muo");
     }
 
     Create_Resonance_histograms(1, "emu", "ele", "muo");
