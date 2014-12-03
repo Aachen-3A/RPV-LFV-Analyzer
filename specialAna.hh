@@ -135,6 +135,8 @@ public:
     pxl::Particle* sel_met;
     pxl::Particle* sel_lepton_nprompt_corr;
 
+    double resonance_mass;
+
     unordered_set< string > triggers;
 
 

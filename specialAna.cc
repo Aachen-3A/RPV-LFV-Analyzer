@@ -200,6 +200,8 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     sel_lepton_nprompt = 0;
     sel_lepton_nprompt_corr = 0;
 
+    resonance_mass = 0;
+
     //KinematicsSelector();
 
     //if(sel_lepton && sel_met){
@@ -473,6 +475,8 @@ void specialAna::initEvent( const pxl::Event* event ){
     sel_lepton_prompt = 0;
     sel_lepton_nprompt = 0;
     sel_lepton_nprompt_corr = 0;
+
+    resonance_mass = 0;
 
     EleListGen     = new vector< pxl::Particle* >;
     MuonListGen    = new vector< pxl::Particle* >;
