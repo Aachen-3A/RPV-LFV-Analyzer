@@ -52,6 +52,20 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
             HistClass::CreateHisto(1,"phi_Gen",particles[i].c_str(), 40, -3.2, 3.2,    TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()) );
         }
     }
+
+    Create_Resonance_histograms(1, "emu", "ele", "muo");
+
+    Create_Resonance_histograms(1, "etau", "ele", "tau");
+
+    Create_Resonance_histograms(1, "mutau", "muo", "tau");
+
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele");
+
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo");
+
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele");
+
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo");
 }
 
 specialAna::~specialAna() {
@@ -129,6 +143,8 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     for(uint i = 0; i < METList->size(); i++){
         Fill_Particle_histos(2, METList->at(i));
     }
+
+    KinematicsSelector();
 
     endEvent( event );
 }
@@ -235,8 +251,67 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     //}else if(particleName==m_METType){}
 
 }
+bool specialAna::KinematicsSelector(std::string const endung) {
+    if(b_emu) {
+        if(FindResonance(*EleList, *MuonList)) {
+            Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_etau) {
+        if(FindResonance(*EleList, *TauList, *METList)) {
+            Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_mutau) {
+        if(FindResonance(*MuonList, *TauList, *METList)) {
+            Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_etaue) {
+        if(FindResonance(*EleList, *EleList, *METList)) {
+            Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_etaumu) {
+        if(FindResonance(*EleList, *MuonList, *METList)) {
+            Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_mutaue) {
+        if(FindResonance(*MuonList, *EleList, *METList)) {
+            Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_mutaumu) {
+        if(FindResonance(*MuonList, *MuonList, *METList)) {
+            Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    return false;
+}
 
-void specialAna::Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung) {
+void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos,TString::Format("%s_Mass",                 channel) + endung,             5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
     /// First particle histograms
@@ -273,7 +348,7 @@ void specialAna::Create_Resonance_histograms(int n_histos, char* channel, char* 
     }
 }
 
-void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung) {
+void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
     /// Resonant mass histogram
     HistClass::Fill(n_histos,TString::Format("%s_Mass",                 channel) + endung,             resonance_mass,                                                    weight );
     /// First particle histograms
