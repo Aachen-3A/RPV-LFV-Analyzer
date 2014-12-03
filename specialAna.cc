@@ -529,10 +529,10 @@ bool specialAna::Check_Par_ID(pxl::Particle* part) {
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     bool passed = false;
-    bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asBool();
-    bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asBool();
-    bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asBool();
-    bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asBool();
+    bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asFloat() > 1 ? true : false;
+    bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asFloat() > 1 ? true : false;
+    bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asFloat() > 1 ? true : false;
+    bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asFloat() > 1 ? true : false;
     if (tau_ID && tau_ISO && tau_ELE && tau_MUO) passed = true;
     return passed;
 }
