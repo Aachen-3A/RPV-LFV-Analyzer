@@ -35,8 +35,8 @@ public:
 
     TFile* file1;
 
-    void Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
-    void Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
+    void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
+    void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
 
     bool KinematicsSelector(std::string const endung = "");

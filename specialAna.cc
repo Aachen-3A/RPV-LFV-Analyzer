@@ -251,7 +251,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 }
 bool specialAna::KinematicsSelector(std::string const endung) {
     if(b_emu) {
-        if() {
+        if(FindResonance(*EleList, *MuonList)) {
             Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
             return true;
         }else{
@@ -259,7 +259,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     if(b_etau) {
-        if() {
+        if(FindResonance(*EleList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
             return true;
         }else{
@@ -267,7 +267,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     if(b_mutau) {
-        if() {
+        if(FindResonance(*MuonList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
             return true;
         }else{
@@ -275,7 +275,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     if(b_etaue) {
-        if() {
+        if(FindResonance(*EleList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
             return true;
         }else{
@@ -283,7 +283,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     if(b_etaumu) {
-        if() {
+        if(FindResonance(*EleList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
             return true;
         }else{
@@ -291,7 +291,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     if(b_mutaue) {
-        if() {
+        if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
             return true;
         }else{
@@ -299,7 +299,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     if(b_mutaumu) {
-        if() {
+        if(FindResonance(*MuonList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
             return true;
         }else{
@@ -309,7 +309,7 @@ bool specialAna::KinematicsSelector(std::string const endung) {
     return false;
 }
 
-void specialAna::Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung) {
+void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos,TString::Format("%s_Mass",                 channel) + endung,             5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
     /// First particle histograms
@@ -346,7 +346,7 @@ void specialAna::Create_Resonance_histograms(int n_histos, char* channel, char* 
     }
 }
 
-void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung) {
+void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
     /// Resonant mass histogram
     HistClass::Fill(n_histos,TString::Format("%s_Mass",                 channel) + endung,             resonance_mass,                                                    weight );
     /// First particle histograms
