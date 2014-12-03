@@ -330,6 +330,10 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
     return passed;
 }
 
+bool specialAna::Check_Ele_ID(pxl::Particle* ele) {
+    return true;
+}
+
 bool specialAna::TriggerSelector(const pxl::Event* event){
     bool triggered=false;
 
