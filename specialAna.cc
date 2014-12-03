@@ -312,18 +312,22 @@ void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* pa
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     bool passed = false;
-    bool tau_ID = tau->getUserRecord("decayModeFindingNewDMs").asBool();
-    bool tau_ISO = tau->getUserRecord("byTightIsolationMVA3newDMwLT").asBool();
-    bool tau_ELE = tau->getUserRecord("againstElectronMediumMVA5"/*"againstElectronTightMVA5"*/).asBool();
-    bool tau_MUO = tau->getUserRecord("againstMuonMedium2"/*"againstMuonTightMVA"*/).asBool();
+    bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asBool();
+    bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asBool();
+    bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asBool();
+    bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asBool();
     if (tau_ID && tau_ISO && tau_ELE && tau_MUO) passed = true;
     return passed;
 }
 
 bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
-	bool passed = false;
-	muon->getUserRecord("isHighPtMuon").asBool() ? passed = true : passed = false;
-	return passed;
+    bool passed = false;
+    bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? passed = true : passed = false;
+    bool muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
+    bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
+    bool muon_pt = muon -> getPt() > 45. ? true : false;
+    if (muon_ID && muon_ISO && muon_eta && muon_pt) return true;
+    return passed;
 }
 
 bool specialAna::TriggerSelector(const pxl::Event* event){
