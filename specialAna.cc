@@ -196,23 +196,25 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     }else{
         sel_met=0;
     }
-    sel_lepton=0;
+    sel_lepton_prompt = 0;
+    sel_lepton_nprompt = 0;
+    sel_lepton_nprompt_corr = 0;
 
     //KinematicsSelector();
 
-    if(sel_lepton && sel_met){
-        //if(sel_lepton->getUserRecord("passedDeltaPhi")){
-            //Fill_Particle_hisos(1, sel_lepton, shiftType + updown);
+    //if(sel_lepton && sel_met){
+        ////if(sel_lepton->getUserRecord("passedDeltaPhi")){
+            ////Fill_Particle_hisos(1, sel_lepton, shiftType + updown);
+        ////}
+        ////if(sel_lepton->getUserRecord("passedPtMet")){
+            ////Fill_Particle_hisos(2, sel_lepton, shiftType + updown);
+        ////}
+        //if(sel_lepton->getUserRecord("passed")){
+            ////Fill_Particle_histos(3, sel_lepton, particleName + shiftType + updown);
+            //Fill_Particle_histos(3, sel_lepton);
+            //// cout << "h1_3_" << sel_lepton->getName() << "_[val]_syst_" + particleName + shiftType + updown << endl;
         //}
-        //if(sel_lepton->getUserRecord("passedPtMet")){
-            //Fill_Particle_hisos(2, sel_lepton, shiftType + updown);
-        //}
-        if(sel_lepton->getUserRecord("passed")){
-            //Fill_Particle_histos(3, sel_lepton, particleName + shiftType + updown);
-            Fill_Particle_histos(3, sel_lepton);
-            // cout << "h1_3_" << sel_lepton->getName() << "_[val]_syst_" + particleName + shiftType + updown << endl;
-        }
-    }
+    //}
 
 
     // return to backup
@@ -468,7 +470,9 @@ void specialAna::initEvent( const pxl::Event* event ){
     }else{
         sel_met=0;
     }
-    sel_lepton=0;
+    sel_lepton_prompt = 0;
+    sel_lepton_nprompt = 0;
+    sel_lepton_nprompt_corr = 0;
 
     EleListGen     = new vector< pxl::Particle* >;
     MuonListGen    = new vector< pxl::Particle* >;

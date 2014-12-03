@@ -130,8 +130,10 @@ public:
     pxl::Particle* sel_tau_gen;
     pxl::Particle* sel_ele_gen;
 
-    pxl::Particle* sel_lepton;
+    pxl::Particle* sel_lepton_prompt;
+    pxl::Particle* sel_lepton_nprompt;
     pxl::Particle* sel_met;
+    pxl::Particle* sel_lepton_nprompt_corr;
 
     unordered_set< string > triggers;
 
