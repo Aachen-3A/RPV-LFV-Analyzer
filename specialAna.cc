@@ -144,6 +144,8 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
         Fill_Gen_Controll_histo();
     }
 
+    GenSelector();
+
     for(uint i = 0; i < MuonList->size(); i++){
         if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
         Fill_Particle_histos(0, MuonList->at(i));
