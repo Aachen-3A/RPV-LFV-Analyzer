@@ -23,13 +23,13 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     b_13TeV = m_dataPeriod == "13TeV" ? true : false;
     b_8TeV = m_dataPeriod == "8TeV" ? true : false;
 
-    b_emu = m_channel == "emu" ? true : false;
-    b_etau = m_channel == "etau" ? true : false;
-    b_mutau = m_channel == "mutau" ? true : false;
-    b_etaue = m_channel == "etaue" ? true : false;
-    b_etaumu = m_channel == "etaumu" ? true : false;
-    b_mutaue = m_channel == "mutaue" ? true : false;
-    b_mutaumu = m_channel == "mutaumu" ? true : false;
+    b_emu = m_channel.find("emu") != std::string::npos ? true : false;
+    b_etau = m_channel.find("etau") != std::string::npos ? true : false;
+    b_mutau = m_channel.find("mutau") != std::string::npos ? true : false;
+    b_etaue = m_channel.find("etaue") != std::string::npos ? true : false;
+    b_etaumu = m_channel.find("etaumu") != std::string::npos ? true : false;
+    b_mutaue = m_channel.find("mutaue") != std::string::npos ? true : false;
+    b_mutaumu = m_channel.find("mutaumu") != std::string::npos ? true : false;
 
     string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
