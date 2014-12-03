@@ -114,6 +114,10 @@ public:
     vector< pxl::Particle* > * JetListGen;
     vector< pxl::Particle* > * S3ListGen;
 
+    bool b_14TeV;
+    bool b_13TeV;
+    bool b_8TeV;
+
     pxl::Particle* sel_muon_gen;
     pxl::Particle* sel_tau_gen;
     pxl::Particle* sel_ele_gen;

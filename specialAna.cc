@@ -19,6 +19,10 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     config_(cfg)
 {
 
+    b_14TeV = m_dataPeriod == "14TeV" ? true : false;
+    b_13TeV = m_dataPeriod == "13TeV" ? true : false;
+    b_8TeV = m_dataPeriod == "8TeV" ? true : false;
+
     string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
     events_ = 0;
