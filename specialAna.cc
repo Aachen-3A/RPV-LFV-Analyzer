@@ -383,6 +383,132 @@ void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* pa
     }
 }
 
+bool specialAna::FindResonance(char* channel, vector< pxl::Particle* > gen_list) {
+    int id_1, id_2;
+    if(channel == (char*)"emu") {
+        id_1 = 11;
+        id_2 = 13;
+    }else if(channel == (char*)"etau" or channel == (char*)"etaue" or channel == (char*)"etaumu") {
+        id_1 = 11;
+        id_2 = 15;
+    }else if(channel == (char*)"mutau" or channel == (char*)"mutaue" or channel == (char*)"mutaumu") {
+        id_1 = 13;
+        id_2 = 15;
+    }else {
+        return false;
+    }
+
+    double resonance_mass_gen = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
+            for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
+                pxl::Particle *part_j = *part_jt;
+                if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
+                pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                part_sum -> addP4(part_j);
+                if(part_sum -> getMass() > resonance_mass_gen) {
+                    resonance_mass_gen = part_sum -> getMass();
+                    sel_part1_gen = (pxl::Particle*) part_i->clone();
+                    sel_part2_gen = (pxl::Particle*) part_j->clone();
+                }
+            }
+        }
+    }
+    if(resonance_mass_gen > 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list) {
+    resonance_mass = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        if(Check_Par_ID(part_i)) {
+            for( vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
+                pxl::Particle *part_j = *part_jt;
+                if (not Check_Par_ID(part_j)) continue;
+                pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                part_sum -> addP4(part_j);
+                if(part_sum -> getMass() > resonance_mass) {
+                    resonance_mass = part_sum -> getMass();
+                    sel_lepton_prompt = (pxl::Particle*) part_i->clone();
+                    sel_lepton_nprompt = (pxl::Particle*) part_j->clone();
+                }
+            }
+        }
+    }
+    if(resonance_mass > 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
+    resonance_mass = 0;
+    if( not sel_met ) return false;
+    for( vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        if(Check_Par_ID(part_i)) {
+            for( vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
+                pxl::Particle *part_j = *part_jt;
+                if (not Check_Par_ID(part_j)) continue;
+                pxl::Particle* dummy_taumu = ( pxl::Particle* ) part_i->clone();
+                pxl::Particle* dummy_taumu_uncorr = ( pxl::Particle* ) part_i->clone();
+                dummy_taumu->addP4(part_j);
+                dummy_taumu_uncorr->addP4(part_j);
+                pxl::Particle* dummy_met = new pxl::Particle();
+                /// use tau eta to project MET
+                TLorentzVector* calc_met = new TLorentzVector();
+                calc_met -> SetPtEtaPhiM(sel_met->getPt(),part_j->getEta(),sel_met->getPhi(),0);
+                dummy_met->setP4(calc_met->Px(),calc_met->Py(),calc_met->Pz(),calc_met->E());
+                dummy_taumu->addP4(dummy_met);
+                delete calc_met;
+
+                /// rotate MET to tau direction
+                //TLorentzVector* calc_met = new TLorentzVector();
+                //calc_met -> SetPtEtaPhiM(METList->at(0)->getPt(),0,METList->at(0)->getPhi(),0);
+                //TVector3* tau_direction = new TVector3(TauList->at(i)->getPx(),TauList->at(i)->getPy(),TauList->at(i)->getPz());
+                //*tau_direction = tau_direction -> Unit();
+                //calc_met -> RotateUz(*tau_direction);
+                //dummy_met->setP4(calc_met->Px(),calc_met->Py(),calc_met->Pz(),calc_met->E());
+                //dummy_taumu->addP4(dummy_met);
+                //delete tau_direction;
+                //delete calc_met;
+
+                /// project MET to tau direction
+                //double dummy_p1 = METList->at(0)->getPx()/(TMath::Sin(TauList->at(i)->getTheta()) * TMath::Cos(TauList->at(i)->getPhi()));
+                //double dummy_p2 = METList->at(0)->getPy()/(TMath::Sin(TauList->at(i)->getTheta()) * TMath::Sin(TauList->at(i)->getPhi()));
+                //double dummy_p = (dummy_p1 + dummy_p2) / 2.;
+                //dummy_met->setP4(dummy_p*TMath::Sin(TauList->at(i)->getTheta()) * TMath::Cos(TauList->at(i)->getPhi()),dummy_p*TMath::Sin(TauList->at(i)->getTheta()) * TMath::Sin(TauList->at(i)->getPhi()),dummy_p*TMath::Cos(TauList->at(i)->getTheta()),dummy_p);
+                //dummy_taumu->addP4(dummy_met);
+
+                /// project MET parallel to tau direction
+                //double value = (METList->at(0)->getPx() * TauList->at(i)->getPx() + METList->at(0)->getPy() * TauList->at(i)->getPy()) / sqrt(pow(TauList->at(i)->getPx(),2) + pow(TauList->at(i)->getPy(),2));
+                //TLorentzVector* calc_met = new TLorentzVector();
+                //calc_met -> SetPtEtaPhiM(value,TauList->at(i)->getEta(),TauList->at(i)->getPhi(),0);
+                //dummy_taumu->addP4(dummy_met);
+
+                if (dummy_taumu->getMass() > resonance_mass){
+                    resonance_mass = dummy_taumu->getMass();
+                    sel_lepton_prompt = ( pxl::Particle* ) part_i -> clone();
+                    sel_lepton_nprompt = ( pxl::Particle* ) part_j -> clone();
+                    sel_lepton_nprompt_corr = ( pxl::Particle* ) part_j -> clone();
+                    sel_lepton_nprompt_corr -> addP4(dummy_met);
+                }
+            }
+        }
+    }
+    if(resonance_mass > 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 bool specialAna::Check_Par_ID(pxl::Particle* part) {
     string name = part -> getName();
     if(name == m_TauType){
@@ -648,6 +774,7 @@ void specialAna::initEvent( const pxl::Event* event ){
     sel_lepton_nprompt_corr = 0;
 
     resonance_mass = 0;
+    resonance_mass_gen = 0;
 
     EleListGen     = new vector< pxl::Particle* >;
     MuonListGen    = new vector< pxl::Particle* >;
