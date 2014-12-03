@@ -353,22 +353,31 @@ bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl:
     resonance_mass = 0;
     for( vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
         pxl::Particle *part_i = *part_it;
-        if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
+        if(Check_Par_ID(part_i)) {
             for( vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
                 pxl::Particle *part_j = *part_jt;
-                if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
+                if (not Check_Par_ID(part_j)) continue;
                 pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
                 part_sum -> addP4(part_j);
-                if(part_sum -> getMass() > resonance_mass_gen) {
-                    resonance_mass_gen = part_sum -> getMass();
-                    sel_part1_gen = (pxl::Particle*) part_i->clone();
-                    sel_part2_gen = (pxl::Particle*) part_j->clone();
+                if(part_sum -> getMass() > resonance_mass) {
+                    resonance_mass = part_sum -> getMass();
+                    sel_lepton_prompt = (pxl::Particle*) part_i->clone();
+                    sel_lepton_nprompt = (pxl::Particle*) part_j->clone();
                 }
             }
         }
     }
     if(resonance_mass > 0){
         return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
+    return false;
+}
+
 bool specialAna::Check_Par_ID(pxl::Particle* part) {
     string name = part -> getName();
     if(name == m_TauType){
@@ -383,10 +392,6 @@ bool specialAna::Check_Par_ID(pxl::Particle* part) {
     }else{
         return false;
     }
-}
-
-bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
-    return false;
 }
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
