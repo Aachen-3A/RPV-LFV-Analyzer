@@ -38,6 +38,10 @@ public:
     void Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
 
+    bool FindResonance(vector< pxl::Particle* > gen_list);
+    bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
+    bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
+
     void Fill_Gen_Controll_histo( );
 
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);

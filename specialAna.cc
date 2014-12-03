@@ -310,6 +310,18 @@ void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* pa
     }
 }
 
+bool specialAna::FindResonance(vector< pxl::Particle* > gen_list) {
+    
+}
+
+bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list) {
+    
+}
+
+bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
+    
+}
+
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     bool passed = false;
     bool tau_ID = tau->getUserRecord("decayModeFindingNewDMs").asBool();
