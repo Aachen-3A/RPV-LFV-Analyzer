@@ -19,6 +19,18 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     config_(cfg)
 {
 
+    b_14TeV = m_dataPeriod == "14TeV" ? true : false;
+    b_13TeV = m_dataPeriod == "13TeV" ? true : false;
+    b_8TeV = m_dataPeriod == "8TeV" ? true : false;
+
+    b_emu = m_channel.find("emu") != std::string::npos ? true : false;
+    b_etau = m_channel.find("etau") != std::string::npos ? true : false;
+    b_mutau = m_channel.find("mutau") != std::string::npos ? true : false;
+    b_etaue = m_channel.find("etaue") != std::string::npos ? true : false;
+    b_etaumu = m_channel.find("etaumu") != std::string::npos ? true : false;
+    b_mutaue = m_channel.find("mutaue") != std::string::npos ? true : false;
+    b_mutaumu = m_channel.find("mutaumu") != std::string::npos ? true : false;
+
     string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
     events_ = 0;
@@ -472,9 +484,9 @@ void specialAna::initEvent( const pxl::Event* event ){
         //double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
         double pileup_weight = m_GenEvtView->getUserRecord_def( "PUWeight",1.);
 
-        if(m_dataPeriod=="13TeV"){
+        if(b_13TeV){
             weight = event_weight ;
-        }else if(m_dataPeriod=="8TeV"){
+        }else if(b_8TeV){
             weight = event_weight  * pileup_weight;
         }else{
             stringstream error;
@@ -488,7 +500,7 @@ void specialAna::initEvent( const pxl::Event* event ){
         pxl::sortParticles( AllParticlesGen );
         // push them into the corresponding vectors
         string genCollection="gen";
-        if(m_dataPeriod=="8TeV"){
+        if(b_8TeV){
             genCollection="S3";
         }
         for( vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); ++part_it ) {
