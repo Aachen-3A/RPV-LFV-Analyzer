@@ -35,9 +35,26 @@ public:
 
     TFile* file1;
 
+    bool tail_selector(const pxl::Event* event);
+
+    void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
+    void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
+
+    void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
+    void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
+
+    bool KinematicsSelector(std::string const endung = "");
+
+    bool FindResonance(const char* channel, vector< pxl::Particle* > gen_list);
+    bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
+    bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
+
+    bool GenSelector();
+
     void Fill_Gen_Controll_histo( );
 
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);
+    void Fill_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2);
 
     void FillSystematics(const pxl::Event* event, std::string const particleName);
     void FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType);
@@ -45,12 +62,12 @@ public:
     void initEvent( const pxl::Event* event );
     void endEvent( const pxl::Event* event );
 
+    bool Check_Par_ID(pxl::Particle* part);
     bool Check_Muo_ID(pxl::Particle* muon);
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele);
 
     bool TriggerSelector(const pxl::Event* event);
-    bool tail_selector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
     double DeltaPhi(pxl::Particle* lepton, pxl::Particle* met);
     double MT(pxl::Particle* lepton, pxl::Particle* met);
@@ -64,9 +81,6 @@ public:
     bool runOnData;
     string const m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
 
-
-    //const double    m_pt_met_min_cut_ele,m_pt_met_max_cut_ele,m_delta_phi_cut_ele,m_pt_met_min_cut_muo,m_pt_met_max_cut_muo,m_delta_phi_cut_muo,m_pt_met_min_cut_tau,m_pt_met_max_cut_tau,m_delta_phi_cut_tau;
-
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
 
@@ -75,15 +89,11 @@ public:
 
     bool isOldPXLFile;
 
-    double m_pt_met_min_cut;
-    double m_pt_met_max_cut;
-    double m_delta_phi_cut;
-    double m_pt_cut;
-    double m_m_cut;
     const std::string m_cutdatafile;
     const vector< string >  m_trigger_string;
     TString d_mydiscmu[6];
     const std::string m_dataPeriod;
+    const std::string m_channel;
     const Tools::MConfig config_;
 
     double temp_run;
@@ -121,12 +131,28 @@ public:
     vector< pxl::Particle* > * JetListGen;
     vector< pxl::Particle* > * S3ListGen;
 
-    pxl::Particle* sel_muon_gen;
-    pxl::Particle* sel_tau_gen;
-    pxl::Particle* sel_ele_gen;
+    bool b_14TeV;
+    bool b_13TeV;
+    bool b_8TeV;
 
-    pxl::Particle* sel_lepton;
+    bool b_emu;
+    bool b_etau;
+    bool b_mutau;
+    bool b_etaue;
+    bool b_etaumu;
+    bool b_mutaue;
+    bool b_mutaumu;
+
+    pxl::Particle* sel_part1_gen;
+    pxl::Particle* sel_part2_gen;
+
+    pxl::Particle* sel_lepton_prompt;
+    pxl::Particle* sel_lepton_nprompt;
     pxl::Particle* sel_met;
+    pxl::Particle* sel_lepton_nprompt_corr;
+
+    double resonance_mass;
+    double resonance_mass_gen;
 
     unordered_set< string > triggers;
 
