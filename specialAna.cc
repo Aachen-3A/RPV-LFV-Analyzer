@@ -54,18 +54,74 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     }
 
     Create_Resonance_histograms(1, "emu", "ele", "muo");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "etau", "ele", "tau");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "mutau", "muo", "tau");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "etaue", "ele", "tau_ele");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionDown");
 }
 
 specialAna::~specialAna() {
@@ -146,6 +202,14 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
 
     KinematicsSelector();
 
+    FillSystematics(event, "Ele");
+
+    FillSystematics(event, "Muon");
+    FillSystematicsUpDown(event, "Muon", "Up", "Resolution");
+    FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
+
+    FillSystematics(event, "Tau");
+
     endEvent( event );
 }
 
@@ -159,9 +223,8 @@ void specialAna::FillSystematics(const pxl::Event* event, std::string const part
 void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType){
     pxl::EventView *tempEventView;
 
-    // extract one EventView
-    // make sure the object key is the same as in Systematics.cc specified
-//     tempEventView = event->getObjectOwner().findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
+    /// extract one EventView
+    /// make sure the object key is the same as in Systematics.cc specified
     tempEventView = event->findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
 
 
@@ -169,11 +232,11 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     if(tempEventView == 0){
         throw std::runtime_error("specialAna.cc: no EventView '" + particleName + "_syst" + shiftType + updown + "' found!");
     }
-    // get all particles
+    /// get all particles
     std::vector< pxl::Particle* > shiftedParticles;
     tempEventView->getObjectsOfType< pxl::Particle >(shiftedParticles);
 
-    //backup OldList
+    /// backup OldList
     RememberMET=METList;
     METList = new vector< pxl::Particle* >;
     if(particleName=="Muon"){
@@ -206,7 +269,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     }//else if(particleName=="JET"){
     //}else if(particleName==m_METType){}
 
-    // reset the chosen MET and lepton
+    /// reset the chosen MET and lepton
     if(METList->size()>0){
         sel_met=METList->at(0);
     }else{
@@ -218,24 +281,9 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     resonance_mass = 0;
 
-    //KinematicsSelector();
+    KinematicsSelector("_" + particleName + "_syst_" + shiftType + updown);
 
-    //if(sel_lepton && sel_met){
-        ////if(sel_lepton->getUserRecord("passedDeltaPhi")){
-            ////Fill_Particle_hisos(1, sel_lepton, shiftType + updown);
-        ////}
-        ////if(sel_lepton->getUserRecord("passedPtMet")){
-            ////Fill_Particle_hisos(2, sel_lepton, shiftType + updown);
-        ////}
-        //if(sel_lepton->getUserRecord("passed")){
-            ////Fill_Particle_histos(3, sel_lepton, particleName + shiftType + updown);
-            //Fill_Particle_histos(3, sel_lepton);
-            //// cout << "h1_3_" << sel_lepton->getName() << "_[val]_syst_" + particleName + shiftType + updown << endl;
-        //}
-    //}
-
-
-    // return to backup
+    /// return to backup
     delete METList;
     METList = RememberMET;
     if(particleName=="Muon"){
