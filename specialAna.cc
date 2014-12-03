@@ -310,6 +310,22 @@ void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* pa
     }
 }
 
+bool specialAna::Check_Par_ID(pxl::Particle* part) {
+    string name = part -> getName();
+    if(name == m_TauType){
+        bool tau_id = Check_Tau_ID(part);
+        return tau_id;
+    }else if(name == "Ele"){
+        bool ele_id = Check_Ele_ID(part);
+        return ele_id;
+    }else if(name == "Muon"){
+        bool muo_id = Check_Muo_ID(part);
+        return muo_id;
+    }else{
+        return false;
+    }
+}
+
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     bool passed = false;
     bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asBool();
