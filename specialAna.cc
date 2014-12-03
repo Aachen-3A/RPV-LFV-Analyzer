@@ -484,9 +484,9 @@ void specialAna::initEvent( const pxl::Event* event ){
         //double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
         double pileup_weight = m_GenEvtView->getUserRecord_def( "PUWeight",1.);
 
-        if(m_dataPeriod=="13TeV"){
+        if(b_13TeV){
             weight = event_weight ;
-        }else if(m_dataPeriod=="8TeV"){
+        }else if(b_8TeV){
             weight = event_weight  * pileup_weight;
         }else{
             stringstream error;
@@ -500,7 +500,7 @@ void specialAna::initEvent( const pxl::Event* event ){
         pxl::sortParticles( AllParticlesGen );
         // push them into the corresponding vectors
         string genCollection="gen";
-        if(m_dataPeriod=="8TeV"){
+        if(b_8TeV){
             genCollection="S3";
         }
         for( vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); ++part_it ) {
