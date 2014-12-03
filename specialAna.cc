@@ -310,16 +310,51 @@ void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* pa
     }
 }
 
-bool specialAna::FindResonance(vector< pxl::Particle* > gen_list) {
-    
+bool specialAna::FindResonance(char* channel, vector< pxl::Particle* > gen_list) {
+    int id_1, id_2;
+    if(channel == (char*)"emu") {
+        id_1 = 11;
+        id_2 = 13;
+    }else if(channel == (char*)"etau" or channel == (char*)"etaue" or channel == (char*)"etaumu") {
+        id_1 = 11;
+        id_2 = 15;
+    }else if(channel == (char*)"mutau" or channel == (char*)"mutaue" or channel == (char*)"mutaumu") {
+        id_1 = 13;
+        id_2 = 15;
+    }else {
+        return false;
+    }
+
+    double resonance_mass_gen = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
+            for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
+                pxl::Particle *part_j = *part_jt;
+                if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
+                pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                part_sum -> addP4(part_j);
+                if(part_sum -> getMass() > resonance_mass_gen) {
+                    resonance_mass_gen = part_sum -> getMass();
+                    sel_part1_gen = (pxl::Particle*) part_i->clone();
+                    sel_part2_gen = (pxl::Particle*) part_j->clone();
+                }
+            }
+        }
+    }
+    if(resonance_mass_gen > 0){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list) {
-    
+    return false;
 }
 
 bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
-    
+    return false;
 }
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
@@ -563,6 +598,7 @@ void specialAna::initEvent( const pxl::Event* event ){
     sel_lepton_nprompt_corr = 0;
 
     resonance_mass = 0;
+    resonance_mass_gen = 0;
 
     EleListGen     = new vector< pxl::Particle* >;
     MuonListGen    = new vector< pxl::Particle* >;

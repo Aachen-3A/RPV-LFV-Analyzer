@@ -38,7 +38,7 @@ public:
     void Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
 
-    bool FindResonance(vector< pxl::Particle* > gen_list);
+    bool FindResonance(char* channel, vector< pxl::Particle* > gen_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
 
@@ -133,9 +133,8 @@ public:
     bool b_mutaue;
     bool b_mutaumu;
 
-    pxl::Particle* sel_muon_gen;
-    pxl::Particle* sel_tau_gen;
-    pxl::Particle* sel_ele_gen;
+    pxl::Particle* sel_part1_gen;
+    pxl::Particle* sel_part2_gen;
 
     pxl::Particle* sel_lepton_prompt;
     pxl::Particle* sel_lepton_nprompt;
@@ -143,6 +142,7 @@ public:
     pxl::Particle* sel_lepton_nprompt_corr;
 
     double resonance_mass;
+    double resonance_mass_gen;
 
     unordered_set< string > triggers;
 
