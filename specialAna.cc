@@ -52,6 +52,20 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
             HistClass::CreateHisto(1,"phi_Gen",particles[i].c_str(), 40, -3.2, 3.2,    TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()) );
         }
     }
+
+    Create_Resonance_histograms(1, "emu", "ele", "muo");
+
+    Create_Resonance_histograms(1, "etau", "ele", "tau");
+
+    Create_Resonance_histograms(1, "mutau", "muo", "tau");
+
+    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele");
+
+    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo");
+
+    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele");
+
+    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo");
 }
 
 specialAna::~specialAna() {
@@ -234,6 +248,65 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     }//else if(particleName=="JET"){
     //}else if(particleName==m_METType){}
 
+}
+bool specialAna::KinematicsSelector(std::string const endung) {
+    if(b_emu) {
+        if() {
+            Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_etau) {
+        if() {
+            Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_mutau) {
+        if() {
+            Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_etaue) {
+        if() {
+            Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_etaumu) {
+        if() {
+            Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_mutaue) {
+        if() {
+            Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    if(b_mutaumu) {
+        if() {
+            Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    return false;
 }
 
 void specialAna::Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung) {
