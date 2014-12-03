@@ -144,6 +144,8 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
         Fill_Particle_histos(2, METList->at(i));
     }
 
+    KinematicsSelector();
+
     endEvent( event );
 }
 
