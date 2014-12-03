@@ -35,6 +35,8 @@ public:
 
     TFile* file1;
 
+    void Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
+
     void Fill_Gen_Controll_histo( );
 
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);
