@@ -227,8 +227,6 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     /// make sure the object key is the same as in Systematics.cc specified
     tempEventView = event->findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
 
-
-
     if(tempEventView == 0){
         throw std::runtime_error("specialAna.cc: no EventView '" + particleName + "_syst" + shiftType + updown + "' found!");
     }
@@ -297,8 +295,8 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
         TauList = RememberPart;
     }//else if(particleName=="JET"){
     //}else if(particleName==m_METType){}
-
 }
+
 bool specialAna::KinematicsSelector(std::string const endung) {
     if(b_emu) {
         if(FindResonance(*EleList, *MuonList)) {
