@@ -35,6 +35,9 @@ public:
 
     TFile* file1;
 
+    void Create_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
+    void Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung = "");
+
     void Fill_Gen_Controll_histo( );
 
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);
@@ -130,8 +133,12 @@ public:
     pxl::Particle* sel_tau_gen;
     pxl::Particle* sel_ele_gen;
 
-    pxl::Particle* sel_lepton;
+    pxl::Particle* sel_lepton_prompt;
+    pxl::Particle* sel_lepton_nprompt;
     pxl::Particle* sel_met;
+    pxl::Particle* sel_lepton_nprompt_corr;
+
+    double resonance_mass;
 
     unordered_set< string > triggers;
 
