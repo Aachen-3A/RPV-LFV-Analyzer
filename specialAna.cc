@@ -269,6 +269,43 @@ void specialAna::Create_Resonance_histograms(int n_histos, char* channel, char* 
     }
 }
 
+void specialAna::Fill_Resonance_histograms(int n_histos, char* channel, char* part1, char* part2, std::string const endung) {
+    /// Resonant mass histogram
+    HistClass::Fill(n_histos,TString::Format("%s_Mass",                 channel) + endung,             5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
+    /// First particle histograms
+    HistClass::Fill(n_histos,TString::Format("%s_pT_%s",                channel,part1) + endung,       5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part1) );
+    HistClass::Fill(n_histos,TString::Format("%s_eta_%s",               channel,part1) + endung,       80, -4, 4,     TString::Format("#eta^{%s}",                               part1) );
+    HistClass::Fill(n_histos,TString::Format("%s_phi_%s",               channel,part1) + endung,       40, -3.2, 3.2, TString::Format("#phi^{%s} (rad)",                         part1) );
+    /// Second particle histograms
+    HistClass::Fill(n_histos,TString::Format("%s_pT_%s",                channel,part2) + endung,       5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part2) );
+    HistClass::Fill(n_histos,TString::Format("%s_eta_%s",               channel,part2) + endung,       80, -4, 4,     TString::Format("#eta^{%s}",                               part2) );
+    HistClass::Fill(n_histos,TString::Format("%s_phi_%s",               channel,part2) + endung,       40, -3.2, 3.2, TString::Format("#phi^{%s} (rad)",                         part2) );
+    /// Delta phi between the two particles
+    HistClass::Fill(n_histos,TString::Format("%s_Delta_phi_%s_%s",      channel,part1,part2) + endung, 40, 0, 3.2,    TString::Format("#Delta#phi(%s,%s) (rad)",                 part1, part2) );
+    /// pT ratio of the two particles
+    HistClass::Fill(n_histos,TString::Format("%s_pT_ratio_%s_%s",       channel,part1,part2) + endung, 50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{p_{T}^{%s}}",           part1, part2) );
+    /// Create histograms for channels with MET
+    if(channel != (char*)"emu") {
+        /// MET histograms
+        HistClass::Fill(n_histos,TString::Format("%s_MET",                  channel) + endung,             5000, 0, 5000, "E_{T}^{miss} (GeV)");
+        HistClass::Fill(n_histos,TString::Format("%s_phi_MET",              channel) + endung,             40, -3.2, 3.2, "#phi^{E_{T}^{miss}} (rad)");
+        /// Corrected second particle histogram
+        HistClass::Fill(n_histos,TString::Format("%s_pT_%s_corr",           channel,part2) + endung,       5000, 0, 5000, TString::Format("p_{T}^{%s(corr)} (GeV)",                  part2) );
+        HistClass::Fill(n_histos,TString::Format("%s_eta_%s_corr",          channel,part2) + endung,       80, -4, 4,     TString::Format("#eta^{%s(corr)}",                         part2) );
+        HistClass::Fill(n_histos,TString::Format("%s_phi_%s_corr",          channel,part2) + endung,       40, -3.2, 3.2, TString::Format("#phi^{%s(corr)} (rad)",                   part2) );
+        /// Delta phi between the other particles
+        HistClass::Fill(n_histos,TString::Format("%s_Delta_phi_%s_MET",     channel,part1) + endung,       40, 0, 3.2,    TString::Format("#Delta#phi(%s,E_{T}^{miss}) (rad)",       part1) );
+        HistClass::Fill(n_histos,TString::Format("%s_Delta_phi_%s_MET",     channel,part2) + endung,       40, 0, 3.2,    TString::Format("#Delta#phi(%s,E_{T}^{miss}) (rad)",       part2) );
+        HistClass::Fill(n_histos,TString::Format("%s_Delta_phi_%s_MET_corr",channel,part2) + endung,       40, 0, 3.2,    TString::Format("#Delta#phi(%s(corr),E_{T}^{miss}) (rad)", part2) );
+        HistClass::Fill(n_histos,TString::Format("%s_Delta_phi_%s_%s_corr", channel,part1,part2) + endung, 40, 0, 3.2,    TString::Format("#Delta#phi(%s,%s(corr)) (rad)",           part1, part2) );
+        /// pT ratio of the other particles
+        HistClass::Fill(n_histos,TString::Format("%s_pT_ratio_%s_MET",      channel,part1) + endung,       50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{E_{T}^{miss}}",         part1) );
+        HistClass::Fill(n_histos,TString::Format("%s_pT_ratio_%s_MET",      channel,part2) + endung,       50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{E_{T}^{miss}}",         part2) );
+        HistClass::Fill(n_histos,TString::Format("%s_pT_ratio_%s_MET_corr", channel,part2) + endung,       50, 0, 10,     TString::Format("#frac{p_{T}^{%s(corr)}}{E_{T}^{miss}}",   part2) );
+        HistClass::Fill(n_histos,TString::Format("%s_pT_ratio_%s_%s_corr",  channel,part1,part2) + endung, 50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{p_{T}^{%s(corr)}}",     part1, part2) );
+    }
+}
+
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     bool passed = false;
     bool tau_ID = tau->getUserRecord("decayModeFindingNewDMs").asBool();
