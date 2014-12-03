@@ -350,7 +350,28 @@ bool specialAna::FindResonance(char* channel, vector< pxl::Particle* > gen_list)
 }
 
 bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list) {
-    return false;
+    resonance_mass = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
+            for( vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
+                pxl::Particle *part_j = *part_jt;
+                if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
+                pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                part_sum -> addP4(part_j);
+                if(part_sum -> getMass() > resonance_mass_gen) {
+                    resonance_mass_gen = part_sum -> getMass();
+                    sel_part1_gen = (pxl::Particle*) part_i->clone();
+                    sel_part2_gen = (pxl::Particle*) part_j->clone();
+                }
+            }
+        }
+    }
+    if(resonance_mass > 0){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool specialAna::FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
