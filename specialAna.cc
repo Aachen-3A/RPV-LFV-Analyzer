@@ -53,6 +53,10 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
         }
     }
 
+    if(not runOnData) {
+
+    }
+
     Create_Resonance_histograms(1, "emu", "ele", "muo");
     Create_Resonance_histograms(1, "emu", "ele", "muo","_Ele_syst_ScaleUp");
     Create_Resonance_histograms(1, "emu", "ele", "muo","_Ele_syst_ScaleDown");
@@ -355,6 +359,40 @@ bool specialAna::KinematicsSelector(std::string const endung) {
         }
     }
     return false;
+}
+
+void specialAna::Create_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2) {
+    /// Resonant mass histogram
+    HistClass::CreateHisto(n_histos,TString::Format("%s_Mass_Gen",            channel),             5000, 0, 5000, TString::Format("M_{%s,%s}(gen) (GeV)",                    part1, part2) );
+    /// First particle histograms
+    HistClass::CreateHisto(n_histos,TString::Format("%s_pT_%s_Gen",           channel,part1),       5000, 0, 5000, TString::Format("p_{T}^{%s,gen} (GeV)",                    part1) );
+    HistClass::CreateHisto(n_histos,TString::Format("%s_eta_%s_Gen",          channel,part1),       80, -4, 4,     TString::Format("#eta^{%s,gen}",                           part1) );
+    HistClass::CreateHisto(n_histos,TString::Format("%s_phi_%s_Gen",          channel,part1),       40, -3.2, 3.2, TString::Format("#phi^{%s,gen} (rad)",                     part1) );
+    /// Second particle histograms
+    HistClass::CreateHisto(n_histos,TString::Format("%s_pT_%s_Gen",           channel,part2),       5000, 0, 5000, TString::Format("p_{T}^{%s,gen} (GeV)",                    part2) );
+    HistClass::CreateHisto(n_histos,TString::Format("%s_eta_%s_Gen",          channel,part2),       80, -4, 4,     TString::Format("#eta^{%s,gen}",                           part2) );
+    HistClass::CreateHisto(n_histos,TString::Format("%s_phi_%s_Gen",          channel,part2),       40, -3.2, 3.2, TString::Format("#phi^{%s,gen} (rad)",                     part2) );
+    /// Delta phi between the two particles
+    HistClass::CreateHisto(n_histos,TString::Format("%s_Delta_phi_%s_%s_Gen", channel,part1,part2), 40, 0, 3.2,    TString::Format("#Delta#phi(%s(gen),%s(gen)) (rad)",       part1, part2) );
+    /// pT ratio of the two particles
+    HistClass::CreateHisto(n_histos,TString::Format("%s_pT_ratio_%s_%s_Gen",  channel,part1,part2), 50, 0, 10,     TString::Format("#frac{p_{T}^{%s(gen)}}{p_{T}^{%s(gen)}}", part1, part2) );
+}
+
+void specialAna::Fill_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2) {
+    /// Resonant mass histogram
+    HistClass::Fill(n_histos,TString::Format("%s_Mass_Gen",            channel),             resonance_mass_gen,                                  weight );
+    /// First particle histograms
+    HistClass::Fill(n_histos,TString::Format("%s_pT_%s_Gen",           channel,part1),       sel_part1_gen -> getPt(),                            weight );
+    HistClass::Fill(n_histos,TString::Format("%s_eta_%s_Gen",          channel,part1),       sel_part1_gen -> getEta(),                           weight );
+    HistClass::Fill(n_histos,TString::Format("%s_phi_%s_Gen",          channel,part1),       sel_part1_gen -> getPhi(),                           weight );
+    /// Second particle histograms
+    HistClass::Fill(n_histos,TString::Format("%s_pT_%s_Gen",           channel,part2),       sel_part2_gen -> getPt(),                            weight );
+    HistClass::Fill(n_histos,TString::Format("%s_eta_%s_Gen",          channel,part2),       sel_part2_gen -> getEta(),                           weight );
+    HistClass::Fill(n_histos,TString::Format("%s_phi_%s_Gen",          channel,part2),       sel_part2_gen -> getPhi(),                           weight );
+    /// Delta phi between the two particles
+    HistClass::Fill(n_histos,TString::Format("%s_Delta_phi_%s_%s_Gen", channel,part1,part2), DeltaPhi(sel_part1_gen, sel_part2_gen),              weight );
+    /// pT ratio of the two particles
+    HistClass::Fill(n_histos,TString::Format("%s_pT_ratio_%s_%s_Gen",  channel,part1,part2), sel_part1_gen -> getPt() / sel_part2_gen -> getPt(), weight );
 }
 
 void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
