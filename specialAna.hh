@@ -35,18 +35,19 @@ public:
 
     TFile* file1;
 
-    void Create_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2);
+    void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
+    void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
 
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
-
     bool KinematicsSelector(std::string const endung = "");
 
-    bool FindResonance(char* channel, vector< pxl::Particle* > gen_list);
+    bool FindResonance(const char* channel, vector< pxl::Particle* > gen_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
 
+    bool GenSelector();
 
     void Fill_Gen_Controll_histo( );
 
