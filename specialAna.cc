@@ -85,15 +85,15 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ResolutionDown");
 
-    Create_Resonance_histograms(1, "mutau", "muo", "tau");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
 
     Create_Resonance_histograms(1, "etaue", "ele", "tau_ele");
     Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Ele_syst_ScaleUp");
@@ -388,39 +388,104 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 }
 
 void specialAna::KinematicsSelector(std::string const endung) {
+    /// Selection for the e-mu channel
     if(b_emu) {
+        bool b_emu_success = false;
         if(FindResonance(*EleList, *MuonList)) {
             Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
+            b_emu_success = true;
+            emu_cuts["kinematics"] = true;
+        }else{
+            b_emu_success = false;
+            emu_cuts["kinematics"] = false;
         }
     }
+    ///-----------------------------------------------------------------
+    /// Selection for the e-tau_h channel
     if(b_etau) {
+        bool b_etau_success = false;
         if(FindResonance(*EleList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
+            b_etau_success = true;
+            etau_cuts["kinematics"] = true;
+        }else{
+            b_etau_success = false;
+            etau_cuts["kinematics"] = false;
         }
     }
+    ///-----------------------------------------------------------------
+    /// Selection for the muo-tau_h channel
     if(b_mutau) {
+        bool b_mutau_success = false;
         if(FindResonance(*MuonList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
+            b_mutau_success = true;
+            mutau_cuts["kinematics"] = true;
+        }else{
+            b_mutau_success = false;
+            mutau_cuts["kinematics"] = false;
+        }
+        if(Make_zeta_cut()) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(1, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cuts["zeta"] = true;
+        }else{
+            b_mutau_success = false;
+            mutau_cuts["zeta"] = true;
         }
     }
+    ///-----------------------------------------------------------------
+    /// Selection for the e-tau_e channel
     if(b_etaue) {
+        bool b_etaue_success = false;
         if(FindResonance(*EleList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
+            b_etaue_success = true;
+            etaue_cuts["kinematics"] = true;
+        }else{
+            b_etaue_success = false;
+            etaue_cuts["kinematics"] = false;
         }
     }
+    ///-----------------------------------------------------------------
+    /// Selection for the e-tau_muo channel
     if(b_etaumu) {
+        bool b_etaumu_success = false;
         if(FindResonance(*EleList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
+            b_etaumu_success = true;
+            etaumu_cuts["kinematics"] = true;
+        }else{
+            b_etaumu_success = false;
+            etaumu_cuts["kinematics"] = false;
         }
     }
+    ///-----------------------------------------------------------------
+    /// Selection for the muo-tau_e channel
     if(b_mutaue) {
+        bool b_mutaue_success = false;
         if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
+            b_mutaue_success = true;
+            mutaue_cuts["kinematics"] = true;
+        }else{
+            b_mutaue_success = false;
+            mutaue_cuts["kinematics"] = false;
         }
     }
+    ///-----------------------------------------------------------------
+    /// Selection for the muo-tau_muo channel
     if(b_mutaumu) {
+        bool b_mutaumu_success = false;
         if(FindResonance(*MuonList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
+            b_mutaumu_success = true;
+            mutaumu_cuts["kinematics"] = true;
+        }else{
+            b_mutaumu_success = false;
+            mutaumu_cuts["kinematics"] = false;
         }
     }
 }
@@ -461,7 +526,6 @@ void specialAna::GenSelector() {
             Fill_Gen_histograms("mutaumu", "muo", "tau_muo");
         }
     }
-    return false;
 }
 
 void specialAna::Create_Gen_histograms(const char* channel, const char* part1, const char* part2) {
@@ -736,6 +800,44 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
 
 bool specialAna::Check_Ele_ID(pxl::Particle* ele) {
     return true;
+}
+
+vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
+    double p_zeta_vis = 0;
+    double p_zeta = 0;
+
+    if(met and muon and tau){
+        TVector3* vec_mu = new TVector3();
+        TVector3* vec_tau = new TVector3();
+
+        vec_mu -> SetXYZ(muon->getPx(),muon->getPy(),0);
+        vec_tau -> SetXYZ(tau->getPx(),tau->getPy(),0);
+
+        TVector3 bisec = vec_mu->Unit() + vec_tau->Unit();
+        TVector3 bisec_norm = bisec.Unit();
+
+        p_zeta_vis = (tau->getPx() * bisec_norm.X() + tau->getPy() * bisec_norm.Y()) + (muon->getPx() * bisec_norm.X() + muon->getPy() * bisec_norm.Y());
+        p_zeta = p_zeta_vis + (met->getPx() * bisec_norm.X() + met->getPy() * bisec_norm.Y());
+        delete vec_mu;
+        delete vec_tau;
+    }
+
+    vector<double> out;
+    out.push_back(p_zeta_vis);
+    out.push_back(p_zeta);
+
+    return out;
+}
+
+bool specialAna::Make_zeta_cut() {
+    vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt, sel_lepton_nprompt, sel_met);
+    double zeta_steepnes_cut_value = -1.21;
+    double zeta_offset_cut_value   = -24.1;
+    if ((zeta_vals[0] + zeta_steepnes_cut_value * zeta_vals[1]) > zeta_offset_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool specialAna::TriggerSelector(const pxl::Event* event){
