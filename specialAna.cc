@@ -387,121 +387,78 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     //}else if(particleName==m_METType){}
 }
 
-bool specialAna::KinematicsSelector(std::string const endung) {
+void specialAna::KinematicsSelector(std::string const endung) {
     if(b_emu) {
         if(FindResonance(*EleList, *MuonList)) {
             Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_etau) {
         if(FindResonance(*EleList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_mutau) {
         if(FindResonance(*MuonList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_etaue) {
         if(FindResonance(*EleList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_etaumu) {
         if(FindResonance(*EleList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_mutaue) {
         if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_mutaumu) {
         if(FindResonance(*MuonList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
-            return true;
-        }else{
-            return false;
         }
     }
-    return false;
 }
 
-bool specialAna::GenSelector() {
+void specialAna::GenSelector() {
     if(b_emu) {
         if(FindResonance("emu", *S3ListGen)) {
             Fill_Gen_histograms("emu", "ele", "muo");
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_etau) {
         if(FindResonance("etau", *S3ListGen)) {
             Fill_Gen_histograms("etau", "ele", "tau");
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_mutau) {
         if(FindResonance("mutau", *S3ListGen)) {
             Fill_Gen_histograms("mutau", "muo", "tau");
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_etaue) {
         if(FindResonance("etaue", *S3ListGen)) {
             Fill_Gen_histograms("etaue", "ele", "tau_ele");
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_etaumu) {
         if(FindResonance("etaumu", *S3ListGen)) {
             Fill_Gen_histograms("etaumu", "ele", "tau_muo");
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_mutaue) {
         if(FindResonance("mutaue", *S3ListGen)) {
             Fill_Gen_histograms("mutaue", "muo", "tau_ele");
-            return true;
-        }else{
-            return false;
         }
     }
     if(b_mutaumu) {
         if(FindResonance("mutaumu", *S3ListGen)) {
             Fill_Gen_histograms("mutaumu", "muo", "tau_muo");
-            return true;
-        }else{
-            return false;
         }
     }
     return false;
