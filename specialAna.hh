@@ -49,7 +49,7 @@ public:
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
 
-    bool GenSelector();
+    void GenSelector();
 
     void Fill_Gen_Controll_histo( );
 
