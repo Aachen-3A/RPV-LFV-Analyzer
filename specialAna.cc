@@ -393,62 +393,82 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*EleList, *MuonList)) {
             Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
             b_emu_success = true;
+            emu_cuts["kinematics"] = true;
         }else{
             b_emu_success = false;
+            emu_cuts["kinematics"] = false;
         }
     }
+
     if(b_etau) {
         bool b_etau_success = false;
         if(FindResonance(*EleList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
             b_etau_success = true;
+            etau_cuts["kinematics"] = true;
         }else{
             b_etau_success = false;
+            etau_cuts["kinematics"] = false;
         }
     }
+
     if(b_mutau) {
         bool b_mutau_success = false;
         if(FindResonance(*MuonList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
             b_mutau_success = true;
+            mutau_cuts["kinematics"] = true;
         }else{
             b_mutau_success = false;
+            mutau_cuts["kinematics"] = false;
         }
     }
+
     if(b_etaue) {
         bool b_etaue_success = false;
         if(FindResonance(*EleList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
             b_etaue_success = true;
+            etaue_cuts["kinematics"] = true;
         }else{
             b_etaue_success = false;
+            etaue_cuts["kinematics"] = false;
         }
     }
+
     if(b_etaumu) {
         bool b_etaumu_success = false;
         if(FindResonance(*EleList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
             b_etaumu_success = true;
+            etaumu_cuts["kinematics"] = true;
         }else{
             b_etaumu_success = false;
+            etaumu_cuts["kinematics"] = false;
         }
     }
+
     if(b_mutaue) {
         bool b_mutaue_success = false;
         if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
             b_mutaue_success = true;
+            mutaue_cuts["kinematics"] = true;
         }else{
             b_mutaue_success = false;
+            mutaue_cuts["kinematics"] = false;
         }
     }
+
     if(b_mutaumu) {
         bool b_mutaumu_success = false;
         if(FindResonance(*MuonList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
             b_mutaumu_success = true;
+            mutaumu_cuts["kinematics"] = true;
         }else{
             b_mutaumu_success = false;
+            mutaumu_cuts["kinematics"] = false;
         }
     }
 }

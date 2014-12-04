@@ -143,6 +143,14 @@ public:
     bool b_mutaue;
     bool b_mutaumu;
 
+    map< string, bool > emu_cuts;
+    map< string, bool > etau_cuts;
+    map< string, bool > mutau_cuts;
+    map< string, bool > etaue_cuts;
+    map< string, bool > etaumu_cuts;
+    map< string, bool > mutaue_cuts;
+    map< string, bool > mutaumu_cuts;
+
     pxl::Particle* sel_part1_gen;
     pxl::Particle* sel_part2_gen;
 
