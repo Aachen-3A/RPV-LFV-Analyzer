@@ -388,6 +388,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 }
 
 void specialAna::KinematicsSelector(std::string const endung) {
+    /// Selection for the e-mu channel
     if(b_emu) {
         bool b_emu_success = false;
         if(FindResonance(*EleList, *MuonList)) {
@@ -399,7 +400,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             emu_cuts["kinematics"] = false;
         }
     }
-
+    ///-----------------------------------------------------------------
+    /// Selection for the e-tau_h channel
     if(b_etau) {
         bool b_etau_success = false;
         if(FindResonance(*EleList, *TauList, *METList)) {
@@ -411,7 +413,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             etau_cuts["kinematics"] = false;
         }
     }
-
+    ///-----------------------------------------------------------------
+    /// Selection for the muo-tau_h channel
     if(b_mutau) {
         bool b_mutau_success = false;
         if(FindResonance(*MuonList, *TauList, *METList)) {
@@ -423,7 +426,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cuts["kinematics"] = false;
         }
     }
-
+    ///-----------------------------------------------------------------
+    /// Selection for the e-tau_e channel
     if(b_etaue) {
         bool b_etaue_success = false;
         if(FindResonance(*EleList, *EleList, *METList)) {
@@ -435,7 +439,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             etaue_cuts["kinematics"] = false;
         }
     }
-
+    ///-----------------------------------------------------------------
+    /// Selection for the e-tau_muo channel
     if(b_etaumu) {
         bool b_etaumu_success = false;
         if(FindResonance(*EleList, *MuonList, *METList)) {
@@ -447,7 +452,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             etaumu_cuts["kinematics"] = false;
         }
     }
-
+    ///-----------------------------------------------------------------
+    /// Selection for the muo-tau_e channel
     if(b_mutaue) {
         bool b_mutaue_success = false;
         if(FindResonance(*MuonList, *EleList, *METList)) {
@@ -459,7 +465,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaue_cuts["kinematics"] = false;
         }
     }
-
+    ///-----------------------------------------------------------------
+    /// Selection for the muo-tau_muo channel
     if(b_mutaumu) {
         bool b_mutaumu_success = false;
         if(FindResonance(*MuonList, *MuonList, *METList)) {
@@ -783,6 +790,31 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
 
 bool specialAna::Check_Ele_ID(pxl::Particle* ele) {
     return true;
+}
+
+vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
+    double p_zeta_vis = 0;
+    double p_zeta = 0;
+
+    if(sel_met){
+        TVector3* vec_mu = new TVector3();
+        TVector3* vec_tau = new TVector3();
+
+        vec_mu -> SetXYZ(muon->getPx(),muon->getPy(),0);
+        vec_tau -> SetXYZ(tau->getPx(),tau->getPy(),0);
+
+        TVector3 bisec = vec_mu->Unit() + vec_tau->Unit();
+        TVector3 bisec_norm = bisec.Unit();
+
+        p_zeta_vis = (tau->getPx() * bisec_norm.X() + tau->getPy() * bisec_norm.Y()) + (muon->getPx() * bisec_norm.X() + muon->getPy() * bisec_norm.Y());
+        p_zeta = p_zeta_vis + (met->getPx() * bisec_norm.X() + met->getPy() * bisec_norm.Y());
+        delete vec_mu;
+        delete vec_tau;
+    }
+    vector<double> out;
+    out.push_back(p_zeta_vis);
+    out.push_back(p_zeta);
+    return out;
 }
 
 bool specialAna::TriggerSelector(const pxl::Event* event){

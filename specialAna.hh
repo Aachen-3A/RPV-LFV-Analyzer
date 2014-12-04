@@ -67,6 +67,8 @@ public:
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele);
 
+    vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
+
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
     double DeltaPhi(pxl::Particle* lepton, pxl::Particle* met);
