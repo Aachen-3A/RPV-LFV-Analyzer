@@ -966,6 +966,14 @@ double specialAna::getPtHat(){
     return pthat;
 }
 
+void specialAna::channel_writer(TFile* file, const char* channel) {
+    file1->cd();
+    file1->mkdir(channel);
+    file1->cd(TString::Format("%s/", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel));
+    file1->cd();
+}
+
 void specialAna::endJob( const Serializable* ) {
 
     file1->cd();
@@ -994,34 +1002,14 @@ void specialAna::endJob( const Serializable* ) {
     file1->cd("Eles/");
     HistClass::WriteAll("_Ele_");
     file1->cd();
-    file1->mkdir("emu");
-    file1->cd("emu/");
-    HistClass::WriteAll("_emu_");
-    file1->cd();
-    file1->mkdir("etau");
-    file1->cd("etau/");
-    HistClass::WriteAll("_etau_");
-    file1->cd();
-    file1->mkdir("mutau");
-    file1->cd("mutau/");
-    HistClass::WriteAll("_mutau_");
-    file1->cd();
-    file1->mkdir("etaue");
-    file1->cd("etaue/");
-    HistClass::WriteAll("_etaue_");
-    file1->cd();
-    file1->mkdir("etaumu");
-    file1->cd("etaumu/");
-    HistClass::WriteAll("_etaumu_");
-    file1->cd();
-    file1->mkdir("mutaue");
-    file1->cd("mutaue/");
-    HistClass::WriteAll("_mutaue_");
-    file1->cd();
-    file1->mkdir("mutaumu");
-    file1->cd("mutaumu/");
-    HistClass::WriteAll("_mutaumu_");
-    file1->cd();
+    
+    channel_writer(file1, "emu");
+    channel_writer(file1, "etau");
+    channel_writer(file1, "mutau");
+    channel_writer(file1, "etaue");
+    channel_writer(file1, "etaumu");
+    channel_writer(file1, "mutaue");
+    channel_writer(file1, "mutaumu");
 
     file1->Close();
 

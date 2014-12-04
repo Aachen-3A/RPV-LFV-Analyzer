@@ -33,6 +33,8 @@ public:
     virtual void endJob(const Serializable*);
     virtual void analyseEvent( const pxl::Event* event );
 
+    void channel_writer(TFile* file, const char* channel);
+
     TFile* file1;
 
     bool tail_selector(const pxl::Event* event);
