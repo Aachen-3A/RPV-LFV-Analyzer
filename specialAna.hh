@@ -43,7 +43,7 @@ public:
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
-    bool KinematicsSelector(std::string const endung = "");
+    void KinematicsSelector(std::string const endung = "");
 
     bool FindResonance(const char* channel, vector< pxl::Particle* > gen_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
