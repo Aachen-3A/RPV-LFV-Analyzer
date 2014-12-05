@@ -33,6 +33,8 @@ public:
     virtual void endJob(const Serializable*);
     virtual void analyseEvent( const pxl::Event* event );
 
+    void channel_writer(TFile* file, const char* channel);
+
     TFile* file1;
 
     bool tail_selector(const pxl::Event* event);
@@ -153,6 +155,8 @@ public:
     map< string, bool > etaumu_cuts;
     map< string, bool > mutaue_cuts;
     map< string, bool > mutaumu_cuts;
+
+    map< string, int > channel_stages;
 
     pxl::Particle* sel_part1_gen;
     pxl::Particle* sel_part2_gen;
