@@ -33,6 +33,8 @@ public:
     virtual void endJob(const Serializable*);
     virtual void analyseEvent( const pxl::Event* event );
 
+    void channel_writer(TFile* file, const char* channel);
+
     TFile* file1;
 
     bool tail_selector(const pxl::Event* event);
@@ -43,13 +45,13 @@ public:
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
-    bool KinematicsSelector(std::string const endung = "");
+    void KinematicsSelector(std::string const endung = "");
 
     bool FindResonance(const char* channel, vector< pxl::Particle* > gen_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
     bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
 
-    bool GenSelector();
+    void GenSelector();
 
     void Fill_Gen_Controll_histo( );
 
@@ -66,6 +68,9 @@ public:
     bool Check_Muo_ID(pxl::Particle* muon);
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele);
+
+    vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
+    bool Make_zeta_cut();
 
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
@@ -142,6 +147,16 @@ public:
     bool b_etaumu;
     bool b_mutaue;
     bool b_mutaumu;
+
+    map< string, bool > emu_cuts;
+    map< string, bool > etau_cuts;
+    map< string, bool > mutau_cuts;
+    map< string, bool > etaue_cuts;
+    map< string, bool > etaumu_cuts;
+    map< string, bool > mutaue_cuts;
+    map< string, bool > mutaumu_cuts;
+
+    map< string, int > channel_stages;
 
     pxl::Particle* sel_part1_gen;
     pxl::Particle* sel_part2_gen;
