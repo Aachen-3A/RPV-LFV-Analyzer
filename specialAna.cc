@@ -65,75 +65,89 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
         Create_Gen_histograms("mutaumu", "muo", "tau_muo");
     }
 
-    Create_Resonance_histograms(1, "emu", "ele", "muo");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "emu", "ele", "muo","_Muon_syst_ResolutionDown");
+    channel_stages["emu"] = 1;
 
-    Create_Resonance_histograms(1, "etau", "ele", "tau");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "etau", "ele", "tau","_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ResolutionDown");
 
-    Create_Resonance_histograms(2, "mutau", "muo", "tau");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(2, "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
+    channel_stages["etau"] = 1;
 
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "etaue", "ele", "tau_ele","_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ResolutionDown");
 
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionDown");
+    channel_stages["mutau"] = 2;
 
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
 
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Ele_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Ele_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Tau_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Tau_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleUp");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleDown");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionUp");
-    Create_Resonance_histograms(1, "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionDown");
+    channel_stages["etaue"] = 1;
+
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ResolutionDown");
+
+    channel_stages["etaumu"] = 1;
+
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionDown");
+
+    channel_stages["mutaue"] = 1;
+
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionDown");
+
+    channel_stages["mutaumu"] = 1;
+
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Ele_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Ele_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Tau_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Tau_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionDown");
 }
 
 specialAna::~specialAna() {
@@ -969,8 +983,19 @@ double specialAna::getPtHat(){
 void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
     file1->mkdir(channel);
-    file1->cd(TString::Format("%s/", channel));
-    HistClass::WriteAll(TString::Format("_%s_", channel));
+    //const string sys_s = "sys";
+    //file1->cd(TString::Format("%s/", channel));
+    for ( int i = 0; i < channel_stages[channel]; i++) {
+        char n_satge = (char)(((int)'0')+i);
+        file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
+        file1->cd(TString::Format("%s/Stage_%c/", channel, n_satge));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:%s", n_satge, channel),TString::Format("sys"));
+        file1->cd();
+        file1->mkdir(TString::Format("%s/Stage_%c/sys", channel, n_satge));
+        file1->cd(TString::Format("%s/Stage_%c/sys/", channel, n_satge));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge));
+    }
+    //HistClass::WriteAll(TString::Format("_%s_", channel),"_1_:sys");
     file1->cd();
 }
 
