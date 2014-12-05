@@ -983,8 +983,19 @@ double specialAna::getPtHat(){
 void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
     file1->mkdir(channel);
-    file1->cd(TString::Format("%s/", channel));
-    HistClass::WriteAll(TString::Format("_%s_", channel),"_1_:sys");
+    //const string sys_s = "sys";
+    //file1->cd(TString::Format("%s/", channel));
+    for ( int i = 0; i < channel_stages[channel]; i++) {
+        char n_satge = (char)(((int)'0')+i);
+        file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
+        file1->cd(TString::Format("%s/Stage_%c/", channel, n_satge));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:%s", n_satge, channel),TString::Format("sys"));
+        file1->cd();
+        file1->mkdir(TString::Format("%s/Stage_%c/sys", channel, n_satge));
+        file1->cd(TString::Format("%s/Stage_%c/sys/", channel, n_satge));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge));
+    }
+    //HistClass::WriteAll(TString::Format("_%s_", channel),"_1_:sys");
     file1->cd();
 }
 
