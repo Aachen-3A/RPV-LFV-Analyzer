@@ -42,6 +42,9 @@ public:
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
 
+    void Create_N1_histos(std::map<std::string, TH1D * > m_histo);
+    void Fill_N1_histos(std::map<std::string, TH1D * > m_histo);
+
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 

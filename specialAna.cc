@@ -504,6 +504,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
     }
 }
 
+void specialAna::Create_N1_histos(std::map<std::string, TH1D * > m_histo) {
+    
+}
+
+void specialAna::Fill_N1_histos(std::map<std::string, TH1D * > m_histo) {
+    
+}
+
 void specialAna::GenSelector() {
     if(b_emu) {
         if(FindResonance("emu", *S3ListGen)) {
