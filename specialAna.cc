@@ -983,19 +983,16 @@ double specialAna::getPtHat(){
 void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
     file1->mkdir(channel);
-    //const string sys_s = "sys";
-    //file1->cd(TString::Format("%s/", channel));
     for ( int i = 0; i < channel_stages[channel]; i++) {
         char n_satge = (char)(((int)'0')+i);
         file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
         file1->cd(TString::Format("%s/Stage_%c/", channel, n_satge));
-        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:%s", n_satge, channel),TString::Format("sys"));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("%s:_%c_", channel, n_satge),TString::Format("sys"));
         file1->cd();
         file1->mkdir(TString::Format("%s/Stage_%c/sys", channel, n_satge));
         file1->cd(TString::Format("%s/Stage_%c/sys/", channel, n_satge));
         HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge));
     }
-    //HistClass::WriteAll(TString::Format("_%s_", channel),"_1_:sys");
     file1->cd();
 }
 
@@ -1007,13 +1004,11 @@ void specialAna::endJob( const Serializable* ) {
         file1->mkdir("MC");
         file1->cd("MC/");
         HistClass::WriteAll("_Gen");
-        //HistClass::WriteAll("_MC_");
     }
     file1->cd();
     file1->mkdir("Taus");
     file1->cd("Taus/");
     HistClass::WriteAll("_Tau_");
-    //HistClass::Write2("Tau_eta_phi");
     file1->cd();
     file1->mkdir("Muons");
     file1->cd("Muons/");
