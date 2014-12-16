@@ -76,6 +76,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Muon_syst_ResolutionDown");
+    Init_emu_cuts();
+    Create_N1_histos("emu", emu_cut_cfgs);
+    Create_N1_histos("emu", emu_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["etau"] = 1;
 
@@ -88,6 +98,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau","_Muon_syst_ResolutionDown");
+    Init_etau_cuts();
+    Create_N1_histos("etau", etau_cut_cfgs);
+    Create_N1_histos("etau", etau_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["mutau"] = 2;
 
@@ -100,6 +120,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
+    Init_mutau_cuts();
+    Create_N1_histos("mutau", mutau_cut_cfgs);
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["etaue"] = 1;
 
@@ -112,6 +142,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele","_Muon_syst_ResolutionDown");
+    Init_etaue_cuts();
+    Create_N1_histos("etaue", etaue_cut_cfgs);
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["etaumu"] = 1;
 
@@ -124,6 +164,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo","_Muon_syst_ResolutionDown");
+    Init_etaumu_cuts();
+    Create_N1_histos("etaumu", etaumu_cut_cfgs);
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["mutaue"] = 1;
 
@@ -136,6 +186,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Muon_syst_ResolutionDown");
+    Init_mutaue_cuts();
+    Create_N1_histos("mutaue", mutaue_cut_cfgs);
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["mutaumu"] = 1;
 
@@ -148,6 +208,16 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo","_Muon_syst_ResolutionDown");
+    Init_mutaumu_cuts();
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs);
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 }
 
 specialAna::~specialAna() {
@@ -401,6 +471,35 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     //}else if(particleName==m_METType){}
 }
 
+void specialAna::Init_emu_cuts() {
+    emu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+}
+
+void specialAna::Init_etau_cuts() {
+    etau_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+}
+
+void specialAna::Init_mutau_cuts() {
+    mutau_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+    mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500,"p_{#zeta} (GeV)","p_{#zeta}^{vis} (GeV)");
+}
+
+void specialAna::Init_etaue_cuts() {
+    etaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+}
+
+void specialAna::Init_etaumu_cuts() {
+    etaumu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+}
+
+void specialAna::Init_mutaue_cuts() {
+    mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+}
+
+void specialAna::Init_mutaumu_cuts() {
+    mutaumu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+}
+
 void specialAna::KinematicsSelector(std::string const endung) {
     /// Selection for the e-mu channel
     if(b_emu) {
@@ -408,11 +507,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*EleList, *MuonList)) {
             Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
             b_emu_success = true;
-            emu_cuts["kinematics"] = true;
+            emu_cut_cfgs["kinematics"].SetPassed(true);
+            emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_emu_success = false;
-            emu_cuts["kinematics"] = false;
+            emu_cut_cfgs["kinematics"].SetPassed(false);
+            emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
+        Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
     /// Selection for the e-tau_h channel
@@ -421,11 +523,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*EleList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
             b_etau_success = true;
-            etau_cuts["kinematics"] = true;
+            etau_cut_cfgs["kinematics"].SetPassed(true);
+            etau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_etau_success = false;
-            etau_cuts["kinematics"] = false;
+            etau_cut_cfgs["kinematics"].SetPassed(false);
+            etau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
+        Fill_N1_histos("etau", etau_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
     /// Selection for the muo-tau_h channel
@@ -434,21 +539,24 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*MuonList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
             b_mutau_success = true;
-            mutau_cuts["kinematics"] = true;
+            mutau_cut_cfgs["kinematics"].SetPassed(true);
+            mutau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_mutau_success = false;
-            mutau_cuts["kinematics"] = false;
+            mutau_cut_cfgs["kinematics"].SetPassed(false);
+            mutau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
-        if(Make_zeta_cut()) {
+        if(Make_zeta_cut(mutau_cut_cfgs["zeta"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(1, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
             }
-            mutau_cuts["zeta"] = true;
+            mutau_cut_cfgs["zeta"].SetPassed(true);
         }else{
             b_mutau_success = false;
-            mutau_cuts["zeta"] = true;
+            mutau_cut_cfgs["zeta"].SetPassed(false);
         }
+        Fill_N1_histos("mutau", mutau_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
     /// Selection for the e-tau_e channel
@@ -457,11 +565,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*EleList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
             b_etaue_success = true;
-            etaue_cuts["kinematics"] = true;
+            etaue_cut_cfgs["kinematics"].SetPassed(true);
+            etaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_etaue_success = false;
-            etaue_cuts["kinematics"] = false;
+            etaue_cut_cfgs["kinematics"].SetPassed(false);
+            etaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
+        Fill_N1_histos("etaue", etaue_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
     /// Selection for the e-tau_muo channel
@@ -470,11 +581,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*EleList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
             b_etaumu_success = true;
-            etaumu_cuts["kinematics"] = true;
+            etaumu_cut_cfgs["kinematics"].SetPassed(true);
+            etaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_etaumu_success = false;
-            etaumu_cuts["kinematics"] = false;
+            etaumu_cut_cfgs["kinematics"].SetPassed(false);
+            etaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
+        Fill_N1_histos("etaumu", etaumu_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
     /// Selection for the muo-tau_e channel
@@ -483,11 +597,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
             b_mutaue_success = true;
-            mutaue_cuts["kinematics"] = true;
+            mutaue_cut_cfgs["kinematics"].SetPassed(true);
+            mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_mutaue_success = false;
-            mutaue_cuts["kinematics"] = false;
+            mutaue_cut_cfgs["kinematics"].SetPassed(false);
+            mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
+        Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
     /// Selection for the muo-tau_muo channel
@@ -496,10 +613,55 @@ void specialAna::KinematicsSelector(std::string const endung) {
         if(FindResonance(*MuonList, *MuonList, *METList)) {
             Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
             b_mutaumu_success = true;
-            mutaumu_cuts["kinematics"] = true;
+            mutaumu_cut_cfgs["kinematics"].SetPassed(true);
+            mutaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_mutaumu_success = false;
-            mutaumu_cuts["kinematics"] = false;
+            mutaumu_cut_cfgs["kinematics"].SetPassed(false);
+            mutaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
+        }
+        Fill_N1_histos("mutaumu", mutaumu_cut_cfgs, endung);
+    }
+}
+
+void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
+    for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
+        std::string dummy_key = iterator->first;
+        if (m_cfg[dummy_key].dim() == 1) {
+            HistClass::CreateHisto(2,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].xt() );
+        }else if(m_cfg[dummy_key].dim() == 2) {
+            HistClass::CreateHisto(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), m_cfg[dummy_key].xt(), m_cfg[dummy_key].yt() );
+            HistClass::CreateHisto(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), m_cfg[dummy_key].xt(), m_cfg[dummy_key].yt() );
+        }else{
+            std::cerr << "At the moment only one and two dimensional N-1 distributions are supported!" << std::endl;
+        }
+    }
+}
+
+void specialAna::Fill_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
+    for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
+        std::string dummy_key = iterator->first;
+        bool do_n_plot = true;
+        for(auto jterator = m_cfg.begin(); jterator != m_cfg.end(); jterator++) {
+            if(dummy_key == jterator->first) continue;
+            if(not m_cfg[jterator->first].pass()){
+                do_n_plot = false;
+                break;
+            }
+        }
+        if (m_cfg[dummy_key].dim() == 1) {
+            HistClass::Fill(0,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), weight );
+            if(do_n_plot){
+                HistClass::Fill(1,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), weight );
+            }
+        }else if(m_cfg[dummy_key].dim() == 2) {
+            HistClass::Fill(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), m_cfg[dummy_key].v2(), weight );
+            if(do_n_plot){
+                HistClass::Fill(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), m_cfg[dummy_key].v2(), weight );
+            }
+        }else{
+            std::cerr << "At the moment only one and two dimensional N-1 distributions are supported!" << std::endl;
+            return;
         }
     }
 }
@@ -843,10 +1005,11 @@ vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* t
     return out;
 }
 
-bool specialAna::Make_zeta_cut() {
+bool specialAna::Make_zeta_cut(Cuts& cuts) {
     vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt, sel_lepton_nprompt, sel_met);
     double zeta_steepnes_cut_value = -1.21;
     double zeta_offset_cut_value   = -24.1;
+    cuts.SetVars(zeta_vals[0],zeta_vals[1]);
     if ((zeta_vals[0] + zeta_steepnes_cut_value * zeta_vals[1]) > zeta_offset_cut_value) {
         return true;
     }else{
@@ -987,12 +1150,24 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
         char n_satge = (char)(((int)'0')+i);
         file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
         file1->cd(TString::Format("%s/Stage_%c/", channel, n_satge));
-        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("%s:_%c_", channel, n_satge),TString::Format("sys"));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("%s:_%c_", channel, n_satge),TString::Format("sys:N-1"));
+        HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("%s:_%c_", channel, n_satge),TString::Format("sys:N-1"));
         file1->cd();
         file1->mkdir(TString::Format("%s/Stage_%c/sys", channel, n_satge));
         file1->cd(TString::Format("%s/Stage_%c/sys/", channel, n_satge));
-        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge));
+        HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge),TString::Format("N-1"));
+        HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge),TString::Format("N-1"));
     }
+    file1->cd();
+    file1->mkdir(TString::Format("%s/N-1", channel));
+    file1->cd(TString::Format("%s/N-1/", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("N-1"),TString::Format("sys"));
+    HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("N-1"),TString::Format("sys"));
+    file1->cd();
+    file1->mkdir(TString::Format("%s/N-1/sys", channel));
+    file1->cd(TString::Format("%s/N-1/sys/", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("N-1:sys"));
+    HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("N-1:sys"));
     file1->cd();
 }
 
