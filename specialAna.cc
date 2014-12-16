@@ -101,6 +101,15 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Muon_syst_ResolutionDown");
     Init_mutau_cuts();
+    Create_N1_histos("mutau", mutau_cut_cfgs);
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Ele_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Ele_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Tau_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Tau_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
     channel_stages["etaue"] = 1;
 
@@ -416,7 +425,6 @@ void specialAna::Init_mutau_cuts() {
 
     mutau_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500);
-    Create_N1_histos("mutau", mutau_cut_cfgs);
 }
 
 void specialAna::Init_etaue_cuts() {
@@ -1076,6 +1084,11 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd(TString::Format("%s/N-1/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("N-1"),TString::Format("sys"));
     HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("N-1"),TString::Format("sys"));
+    file1->cd();
+    file1->mkdir(TString::Format("%s/N-1/sys", channel));
+    file1->cd(TString::Format("%s/N-1/sys/", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("N-1:sys"));
+    HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("N-1:sys"));
     file1->cd();
 }
 
