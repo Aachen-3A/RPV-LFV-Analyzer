@@ -535,7 +535,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
 
 void specialAna::Create_N1_histos(const char* channel, std::map<std::string, TH1D * > m_histo, std::string const endung) {
     for(int i = 0; i < channel_stages[channel]; i++) {
-        for(it_type iterator = m_histo.begin(); iterator != m_histo.end(); iterator++) {
+        for(auto iterator = m_histo.begin(); iterator != m_histo.end(); iterator++) {
+            if (true) {
+                return;
+            }else if(false) {
+                return;
+            }else{
+                return;
+            }
             // iterator->first = key
         }
     }
@@ -543,8 +550,9 @@ void specialAna::Create_N1_histos(const char* channel, std::map<std::string, TH1
 
 void specialAna::Fill_N1_histos(const char* channel, std::map<std::string, TH1D * > m_histo, std::string const endung) {
     for(int i = 0; i < channel_stages[channel]; i++) {
-        for(it_type iterator = m_histo.begin(); iterator != m_histo.end(); iterator++) {
+        for(auto iterator = m_histo.begin(); iterator != m_histo.end(); iterator++) {
             // iterator->first = key
+            return;
         }
     }
 }
