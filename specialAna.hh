@@ -19,6 +19,7 @@
 #include <TFile.h>
 
 #include "Main/Systematics.hh"
+#include "CutClass.hh"
 
 //----------------------------------------------------------------------
 using namespace std;
@@ -41,6 +42,17 @@ public:
 
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
+
+    void Init_emu_cuts();
+    void Init_etau_cuts();
+    void Init_mutau_cuts();
+    void Init_etaue_cuts();
+    void Init_etaumu_cuts();
+    void Init_mutaue_cuts();
+    void Init_mutaumu_cuts();
+
+    void Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
+    void Fill_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
 
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
@@ -70,7 +82,7 @@ public:
     bool Check_Ele_ID(pxl::Particle* ele);
 
     vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
-    bool Make_zeta_cut();
+    bool Make_zeta_cut(Cuts& cuts);
 
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
@@ -148,13 +160,13 @@ public:
     bool b_mutaue;
     bool b_mutaumu;
 
-    map< string, bool > emu_cuts;
-    map< string, bool > etau_cuts;
-    map< string, bool > mutau_cuts;
-    map< string, bool > etaue_cuts;
-    map< string, bool > etaumu_cuts;
-    map< string, bool > mutaue_cuts;
-    map< string, bool > mutaumu_cuts;
+    map< string, Cuts > emu_cut_cfgs;
+    map< string, Cuts > etau_cut_cfgs;
+    map< string, Cuts > mutau_cut_cfgs;
+    map< string, Cuts > etaue_cut_cfgs;
+    map< string, Cuts > etaumu_cut_cfgs;
+    map< string, Cuts > mutaue_cut_cfgs;
+    map< string, Cuts > mutaumu_cut_cfgs;
 
     map< string, int > channel_stages;
 
