@@ -401,6 +401,11 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     //}else if(particleName==m_METType){}
 }
 
+void specialAna::Init_mutau_cuts() {
+    mutau_cuts["kinematics"] = false;
+    mutau_cuts["zeta"] = false;
+}
+
 void specialAna::KinematicsSelector(std::string const endung) {
     /// Selection for the e-mu channel
     if(b_emu) {
@@ -447,7 +452,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cuts["zeta"] = true;
         }else{
             b_mutau_success = false;
-            mutau_cuts["zeta"] = true;
+            mutau_cuts["zeta"] = false;
         }
     }
     ///-----------------------------------------------------------------
@@ -504,12 +509,20 @@ void specialAna::KinematicsSelector(std::string const endung) {
     }
 }
 
-void specialAna::Create_N1_histos(std::map<std::string, TH1D * > m_histo) {
-    
+void specialAna::Create_N1_histos(const char* channel, std::map<std::string, TH1D * > m_histo) {
+    for(int i = 0; i < channel_stages[channel]; i++) {
+        for(it_type iterator = m_histo.begin(); iterator != m_histo.end(); iterator++) {
+            // iterator->first = key
+        }
+    }
 }
 
-void specialAna::Fill_N1_histos(std::map<std::string, TH1D * > m_histo) {
-    
+void specialAna::Fill_N1_histos(const char* channel, std::map<std::string, TH1D * > m_histo) {
+    for(int i = 0; i < channel_stages[channel]; i++) {
+        for(it_type iterator = m_histo.begin(); iterator != m_histo.end(); iterator++) {
+            // iterator->first = key
+        }
+    }
 }
 
 void specialAna::GenSelector() {
