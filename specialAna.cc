@@ -481,7 +481,7 @@ void specialAna::Init_etau_cuts() {
 
 void specialAna::Init_mutau_cuts() {
     mutau_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
-    mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500);
+    mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500,"p_{#zeta} (GeV)","p_{#zeta}^{vis} (GeV)");
 }
 
 void specialAna::Init_etaue_cuts() {
@@ -614,10 +614,10 @@ void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cu
     for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
         std::string dummy_key = iterator->first;
         if (m_cfg[dummy_key].dim() == 1) {
-            HistClass::CreateHisto(2,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), dummy_key );
+            HistClass::CreateHisto(2,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].xt() );
         }else if(m_cfg[dummy_key].dim() == 2) {
-            HistClass::CreateHisto(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), dummy_key );
-            HistClass::CreateHisto(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), dummy_key );
+            HistClass::CreateHisto(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), m_cfg[dummy_key].xt(), m_cfg[dummy_key].yt() );
+            HistClass::CreateHisto(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), m_cfg[dummy_key].xt(), m_cfg[dummy_key].yt() );
         }else{
             std::cerr << "At the moment only one and two dimensional N-1 distributions are supported!" << std::endl;
         }
