@@ -401,9 +401,33 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     //}else if(particleName==m_METType){}
 }
 
+void specialAna::Init_emu_cuts() {
+    emu_cuts["kinematics"] = false;
+}
+
+void specialAna::Init_etau_cuts() {
+    etau_cuts["kinematics"] = false;
+}
+
 void specialAna::Init_mutau_cuts() {
     mutau_cuts["kinematics"] = false;
     mutau_cuts["zeta"] = false;
+}
+
+void specialAna::Init_etaue_cuts() {
+    etaue_cuts["kinematics"] = false;
+}
+
+void specialAna::Init_etaumu_cuts() {
+    etaumu_cuts["kinematics"] = false;
+}
+
+void specialAna::Init_mutaue_cuts() {
+    mutaue_cuts["kinematics"] = false;
+}
+
+void specialAna::Init_mutaumu_cuts() {
+    mutaumu_cuts["kinematics"] = false;
 }
 
 void specialAna::KinematicsSelector(std::string const endung) {

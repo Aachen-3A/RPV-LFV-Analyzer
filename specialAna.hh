@@ -42,7 +42,13 @@ public:
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
 
+    void Init_emu_cuts();
+    void Init_etau_cuts();
     void Init_mutau_cuts();
+    void Init_etaue_cuts();
+    void Init_etaumu_cuts();
+    void Init_mutaue_cuts();
+    void Init_mutaumu_cuts();
 
     void Create_N1_histos(const char* channel, std::map<std::string, TH1D * > m_histo);
     void Fill_N1_histos(const char* channel, std::map<std::string, TH1D * > m_histo);
