@@ -42,9 +42,7 @@ class Cuts
             y_max (0),
             var_1 (0),
             var_2 (0)
-            {
-                std::cerr << "done init with " << dimensions << " dimensions" << std::endl;
-            }
+            {}
         Cuts(const std::string name, int i_n_bins_x, double i_x_min, double i_x_max, int i_n_bins_y, double i_y_min, double i_y_max) :
             cut_name (name),
             cut_passed (false),
@@ -57,9 +55,7 @@ class Cuts
             y_max (i_y_max),
             var_1 (0),
             var_2 (0)
-            {
-                std::cerr << "done init with " << dimensions << " dimensions" << std::endl;
-            }
+            {}
         Cuts(const Cuts& a)
         {}
         ~Cuts()

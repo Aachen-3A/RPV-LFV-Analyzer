@@ -416,7 +416,6 @@ void specialAna::Init_mutau_cuts() {
 
     mutau_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500);
-    cerr << mutau_cut_cfgs["kinematics"].dim() << "\t" << mutau_cut_cfgs["zeta"].dim() << std::endl;
     Create_N1_histos("mutau", mutau_cut_cfgs);
 }
 
@@ -542,9 +541,6 @@ void specialAna::KinematicsSelector(std::string const endung) {
 void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
     for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
         std::string dummy_key = iterator->first;
-        //Cuts dummy_cut = iterator->second;
-        //std::cout << dummy_key << "\t" << dummy_cut.dim() << std::endl;
-        //cerr << m_cfg[dummy_key].dim() << std::endl;
         if (m_cfg[dummy_key].dim() == 1) {
             HistClass::CreateHisto(2,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), dummy_key );
         }else if(m_cfg[dummy_key].dim() == 2) {
@@ -552,12 +548,11 @@ void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cu
             HistClass::CreateHisto(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), dummy_key );
         }else{
             std::cerr << "At the moment only one and two dimensional N-1 distributions are supported!" << std::endl;
-            //return;
         }
     }
 }
 
-void specialAna::Fill_N1_histos(const char* channel, std::map< std::string, Cuts > m_cfg, std::string const endung) {
+void specialAna::Fill_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
     for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
         std::string dummy_key = iterator->first;
         bool do_n_plot = true;
@@ -1069,15 +1064,18 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
         file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
         file1->cd(TString::Format("%s/Stage_%c/", channel, n_satge));
         HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("%s:_%c_", channel, n_satge),TString::Format("sys:N-1"));
+        HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("%s:_%c_", channel, n_satge),TString::Format("sys:N-1"));
         file1->cd();
         file1->mkdir(TString::Format("%s/Stage_%c/sys", channel, n_satge));
         file1->cd(TString::Format("%s/Stage_%c/sys/", channel, n_satge));
         HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge),TString::Format("N-1"));
+        HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("_%c_:sys", n_satge),TString::Format("N-1"));
     }
     file1->cd();
     file1->mkdir(TString::Format("%s/N-1", channel));
     file1->cd(TString::Format("%s/N-1/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("N-1"),TString::Format("sys"));
+    HistClass::WriteAll2(TString::Format("_%s_", channel),TString::Format("N-1"),TString::Format("sys"));
     file1->cd();
 }
 
