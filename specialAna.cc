@@ -508,9 +508,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "emu", "ele", "muo", endung);
             b_emu_success = true;
             emu_cut_cfgs["kinematics"].SetPassed(true);
+            emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_emu_success = false;
             emu_cut_cfgs["kinematics"].SetPassed(false);
+            emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
@@ -522,9 +524,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "etau", "ele", "tau", endung);
             b_etau_success = true;
             etau_cut_cfgs["kinematics"].SetPassed(true);
+            etau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_etau_success = false;
             etau_cut_cfgs["kinematics"].SetPassed(false);
+            etau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
         Fill_N1_histos("etau", etau_cut_cfgs, endung);
     }
@@ -536,11 +540,13 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
             b_mutau_success = true;
             mutau_cut_cfgs["kinematics"].SetPassed(true);
+            mutau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_mutau_success = false;
             mutau_cut_cfgs["kinematics"].SetPassed(false);
+            mutau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
-        if(Make_zeta_cut()) {
+        if(Make_zeta_cut(mutau_cut_cfgs["zeta"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(1, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -560,9 +566,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "etaue", "ele", "tau_ele", endung);
             b_etaue_success = true;
             etaue_cut_cfgs["kinematics"].SetPassed(true);
+            etaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_etaue_success = false;
             etaue_cut_cfgs["kinematics"].SetPassed(false);
+            etaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
         Fill_N1_histos("etaue", etaue_cut_cfgs, endung);
     }
@@ -574,9 +582,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "etaumu", "ele", "tau_muo", endung);
             b_etaumu_success = true;
             etaumu_cut_cfgs["kinematics"].SetPassed(true);
+            etaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_etaumu_success = false;
             etaumu_cut_cfgs["kinematics"].SetPassed(false);
+            etaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
         Fill_N1_histos("etaumu", etaumu_cut_cfgs, endung);
     }
@@ -588,9 +598,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
             b_mutaue_success = true;
             mutaue_cut_cfgs["kinematics"].SetPassed(true);
+            mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_mutaue_success = false;
             mutaue_cut_cfgs["kinematics"].SetPassed(false);
+            mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
         Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
@@ -602,9 +614,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
             Fill_Resonance_histograms(0, "mutaumu", "muo", "tau_muo", endung);
             b_mutaumu_success = true;
             mutaumu_cut_cfgs["kinematics"].SetPassed(true);
+            mutaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }else{
             b_mutaumu_success = false;
             mutaumu_cut_cfgs["kinematics"].SetPassed(false);
+            mutaumu_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
         Fill_N1_histos("mutaumu", mutaumu_cut_cfgs, endung);
     }
@@ -991,10 +1005,11 @@ vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* t
     return out;
 }
 
-bool specialAna::Make_zeta_cut() {
+bool specialAna::Make_zeta_cut(Cuts& cuts) {
     vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt, sel_lepton_nprompt, sel_met);
     double zeta_steepnes_cut_value = -1.21;
     double zeta_offset_cut_value   = -24.1;
+    cuts.SetVars(zeta_vals[0],zeta_vals[1]);
     if ((zeta_vals[0] + zeta_steepnes_cut_value * zeta_vals[1]) > zeta_offset_cut_value) {
         return true;
     }else{
