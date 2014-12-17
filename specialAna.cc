@@ -65,7 +65,9 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
         Create_Gen_histograms("mutaumu", "muo", "tau_muo");
     }
 
-    channel_stages["emu"] = 1;
+    ///-----------------------------------------------------------------
+    /// Init for the e-mu channel
+    channel_stages["emu"] = 4;
 
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Ele_syst_ScaleUp");
@@ -87,6 +89,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-tau_h channel
     channel_stages["etau"] = 1;
 
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau");
@@ -109,6 +113,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the mu-tau_h channel
     channel_stages["mutau"] = 7;
 
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
@@ -131,6 +137,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-tau_e channel
     channel_stages["etaue"] = 1;
 
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele");
@@ -153,6 +161,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-tau_mu channel
     channel_stages["etaumu"] = 1;
 
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo");
@@ -175,6 +185,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the mu-tau_e channel
     channel_stages["mutaue"] = 6;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
@@ -197,6 +209,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the mu-tau_mu channel
     channel_stages["mutaumu"] = 1;
 
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo");
@@ -473,6 +487,9 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
 void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+    emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
+    emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    emu_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -523,6 +540,39 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_emu_success = false;
             emu_cut_cfgs["kinematics"].SetPassed(false);
             emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
+        }
+        /// Make the same-sign charge cut
+        if(OppSign_charge(emu_cut_cfgs["OppSign_charge"])) {
+            if(b_emu_success) {
+                Fill_Resonance_histograms(1, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["OppSign_charge"].SetPassed(true);
+        }else{
+            b_emu_success = false;
+            emu_cut_cfgs["OppSign_charge"].SetPassed(false);
+        }
+        /// Make the b-jet veto
+        if(Bjet_veto(emu_cut_cfgs["BJet_veto"])) {
+            if(b_emu_success) {
+                Fill_Resonance_histograms(2, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["BJet_veto"].SetPassed(true);
+        }else{
+            b_emu_success = false;
+            emu_cut_cfgs["BJet_veto"].SetPassed(false);
+        }
+        /// Make the cut on DeltaPhi(e,mu)
+        if(Make_DeltaPhi_emu(emu_cut_cfgs["DeltaPhi_emu"])) {
+            if(b_emu_success) {
+                Fill_Resonance_histograms(3, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["DeltaPhi_emu"].SetPassed(true);
+        }else{
+            b_emu_success = false;
+            emu_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
         }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
@@ -1177,6 +1227,20 @@ bool specialAna::Make_DeltaPhi_tauemu(Cuts& cuts) {
     double delta_phi_mu_tau_cut_value = 2.7;
     cuts.SetVars(delta_phi);
     if(delta_phi > delta_phi_mu_tau_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Make_DeltaPhi_emu(Cuts& cuts) {
+    double delta_phi = 0.;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
+    }
+    double delta_phi_e_mu_cut_value = 2.7;
+    cuts.SetVars(delta_phi);
+    if(delta_phi > delta_phi_e_mu_cut_value) {
         return true;
     }else{
         return false;
