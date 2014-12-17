@@ -175,7 +175,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutaue"] = 3;
+    channel_stages["mutaue"] = 4;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
@@ -501,6 +501,7 @@ void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
     mutaue_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
+    mutaue_cut_cfgs["lep_fraction"] = Cuts("lep_fraction",100,0,5);
 }
 
 void specialAna::Init_mutaumu_cuts() {
@@ -691,6 +692,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }else{
             b_mutaue_success = false;
             mutaue_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
+        }
+        /// Make the cut on the leptonic pT fraction
+        if(Leptonic_fraction_cut(mutaue_cut_cfgs["lep_fraction"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(3, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["lep_fraction"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["lep_fraction"].SetPassed(false);
         }
         Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
@@ -1174,6 +1186,17 @@ bool specialAna::MT_cut(Cuts& cuts) {
     cuts.SetVars(mt);
     double mt_min_cut_value = 180;
     if(mt > mt_min_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Leptonic_fraction_cut(Cuts& cuts) {
+    double lep_fraction = 1;
+    cuts.SetVars(lep_fraction);
+    double lep_fraction_cut_value = 0.8;
+    if(lep_fraction > lep_fraction_cut_value) {
         return true;
     }else{
         return false;
