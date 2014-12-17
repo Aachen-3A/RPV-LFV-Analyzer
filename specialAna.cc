@@ -109,7 +109,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutau"] = 2;
+    channel_stages["mutau"] = 7;
 
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Ele_syst_ScaleUp");
@@ -482,6 +482,11 @@ void specialAna::Init_etau_cuts() {
 void specialAna::Init_mutau_cuts() {
     mutau_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500,"p_{#zeta} (GeV)","p_{#zeta}^{vis} (GeV)");
+    mutau_cut_cfgs["DeltaPhi_tauMET"] = Cuts("DeltaPhi_tauMET",100,0,3.2);
+    mutau_cut_cfgs["DeltaPhi_mutau"] = Cuts("DeltaPhi_mutau",100,0,3.2);
+    mutau_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    mutau_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
+    mutau_cut_cfgs["MT_cut"] = Cuts("MT_cut",5000,0,5000);
 }
 
 void specialAna::Init_etaue_cuts() {
@@ -536,6 +541,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
     /// Selection for the muo-tau_h channel
     if(b_mutau) {
         bool b_mutau_success = false;
+        /// Find the actual resonance
         if(FindResonance(*MuonList, *TauList, *METList)) {
             Fill_Resonance_histograms(0, "mutau", "muo", "tau", endung);
             b_mutau_success = true;
@@ -546,6 +552,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["kinematics"].SetPassed(false);
             mutau_cut_cfgs["kinematics"].SetVars(resonance_mass);
         }
+        /// Make the cut on zeta
         if(Make_zeta_cut(mutau_cut_cfgs["zeta"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(1, "mutau", "muo", "tau", endung);
@@ -556,6 +563,62 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_mutau_success = false;
             mutau_cut_cfgs["zeta"].SetPassed(false);
         }
+        /// Make the cut on DeltaPhi(tau,MET)
+        if(Make_DeltaPhi_tauMET(mutau_cut_cfgs["DeltaPhi_tauMET"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(2, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["DeltaPhi_tauMET"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["DeltaPhi_tauMET"].SetPassed(false);
+        }
+        /// Make the cut on DeltaPhi(mu,tau)
+        if(Make_DeltaPhi_mutau(mutau_cut_cfgs["DeltaPhi_mutau"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(3, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["DeltaPhi_mutau"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["DeltaPhi_mutau"].SetPassed(false);
+        }
+        /// Make the b-jet veto
+        if(Bjet_veto(mutau_cut_cfgs["BJet_veto"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(4, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["BJet_veto"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["BJet_veto"].SetPassed(false);
+        }
+        /// Make the same-sign charge cut
+        if(OppSign_charge(mutau_cut_cfgs["OppSign_charge"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(5, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["OppSign_charge"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["OppSign_charge"].SetPassed(false);
+        }
+        /// Make the M_T cut
+        if(MT_cut(mutau_cut_cfgs["MT_cut"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(6, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["MT_cut"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["MT_cut"].SetPassed(false);
+        }
+        /// Fill the N-1 histograms
         Fill_N1_histos("mutau", mutau_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
@@ -1011,6 +1074,67 @@ bool specialAna::Make_zeta_cut(Cuts& cuts) {
     double zeta_offset_cut_value   = -24.1;
     cuts.SetVars(zeta_vals[0],zeta_vals[1]);
     if ((zeta_vals[0] + zeta_steepnes_cut_value * zeta_vals[1]) > zeta_offset_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Make_DeltaPhi_tauMET(Cuts& cuts) {
+    double delta_phi = 10.;
+    if(sel_met and sel_lepton_nprompt) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt,sel_met);
+    }
+    double delta_phi_tau_met_cut_value = 1.3;
+    cuts.SetVars(delta_phi);
+    if(delta_phi < delta_phi_tau_met_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Make_DeltaPhi_mutau(Cuts& cuts) {
+    double delta_phi = 0.;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
+    }
+    double delta_phi_mu_tau_cut_value = 2.3;
+    cuts.SetVars(delta_phi);
+    if(delta_phi > delta_phi_mu_tau_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Bjet_veto(Cuts& cuts) {
+    /// TODO: include b-jet veto
+    cuts.SetVars(0);
+    return true;
+}
+
+bool specialAna::OppSign_charge(Cuts& cuts) {
+    double charge_product = 0;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        charge_product = sel_lepton_prompt->getCharge() * sel_lepton_nprompt->getCharge();
+    }
+    cuts.SetVars(charge_product);
+    if(charge_product < 0) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::MT_cut(Cuts& cuts) {
+    double mt = 0;
+    if(sel_lepton_prompt and sel_met) {
+        mt = MT(sel_lepton_prompt,sel_met);
+    }
+    cuts.SetVars(mt);
+    double mt_min_cut_value = 180;
+    if(mt > mt_min_cut_value) {
         return true;
     }else{
         return false;
