@@ -87,6 +87,7 @@ public:
     bool Make_DeltaPhi_mutau(Cuts& cuts);
     bool Bjet_veto(Cuts& cuts);
     bool OppSign_charge(Cuts& cuts);
+    bool MT_cut(Cuts& cuts);
 
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);

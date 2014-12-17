@@ -109,7 +109,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutau"] = 6;
+    channel_stages["mutau"] = 7;
 
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Ele_syst_ScaleUp");
@@ -486,6 +486,7 @@ void specialAna::Init_mutau_cuts() {
     mutau_cut_cfgs["DeltaPhi_mutau"] = Cuts("DeltaPhi_mutau",100,0,3.2);
     mutau_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
     mutau_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
+    mutau_cut_cfgs["MT_cut"] = Cuts("MT_cut",5000,0,5000);
 }
 
 void specialAna::Init_etaue_cuts() {
@@ -607,7 +608,16 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["OppSign_charge"].SetPassed(false);
         }
         /// Make the M_T cut
-        
+        if(MT_cut(mutau_cut_cfgs["MT_cut"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(6, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["MT_cut"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["MT_cut"].SetPassed(false);
+        }
         /// Fill the N-1 histograms
         Fill_N1_histos("mutau", mutau_cut_cfgs, endung);
     }
@@ -1111,6 +1121,20 @@ bool specialAna::OppSign_charge(Cuts& cuts) {
     }
     cuts.SetVars(charge_product);
     if(charge_product < 0) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::MT_cut(Cuts& cuts) {
+    double mt = 0;
+    if(sel_lepton_prompt and sel_met) {
+        mt = MT(sel_lepton_prompt,sel_met);
+    }
+    cuts.SetVars(mt);
+    double mt_min_cut_value = 180;
+    if(mt > mt_min_cut_value) {
         return true;
     }else{
         return false;
