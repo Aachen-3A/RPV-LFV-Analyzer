@@ -109,7 +109,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutau"] = 5;
+    channel_stages["mutau"] = 6;
 
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Ele_syst_ScaleUp");
@@ -485,6 +485,7 @@ void specialAna::Init_mutau_cuts() {
     mutau_cut_cfgs["DeltaPhi_tauMET"] = Cuts("DeltaPhi_tauMET",100,0,3.2);
     mutau_cut_cfgs["DeltaPhi_mutau"] = Cuts("DeltaPhi_mutau",100,0,3.2);
     mutau_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    mutau_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
 }
 
 void specialAna::Init_etaue_cuts() {
@@ -595,7 +596,16 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         /// Make the same-sign charge cut
-        
+        if(OppSign_charge(mutau_cut_cfgs["OppSign_charge"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(5, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["OppSign_charge"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["OppSign_charge"].SetPassed(false);
+        }
         /// Make the M_T cut
         
         /// Fill the N-1 histograms
@@ -1092,6 +1102,19 @@ bool specialAna::Bjet_veto(Cuts& cuts) {
     /// TODO: include b-jet veto
     cuts.SetVars(0);
     return true;
+}
+
+bool specialAna::OppSign_charge(Cuts& cuts) {
+    double charge_product = 0;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        charge_product = sel_lepton_prompt->getCharge() * sel_lepton_nprompt->getCharge();
+    }
+    cuts.SetVars(charge_product);
+    if(charge_product < 0) {
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool specialAna::TriggerSelector(const pxl::Event* event){
