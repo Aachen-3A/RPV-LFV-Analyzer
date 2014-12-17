@@ -175,7 +175,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutaue"] = 1;
+    channel_stages["mutaue"] = 2;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
@@ -499,6 +499,7 @@ void specialAna::Init_etaumu_cuts() {
 
 void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+    mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
 }
 
 void specialAna::Init_mutaumu_cuts() {
@@ -657,6 +658,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
     /// Selection for the muo-tau_e channel
     if(b_mutaue) {
         bool b_mutaue_success = false;
+        /// Find the actual resonance
         if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
             b_mutaue_success = true;
@@ -666,6 +668,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_mutaue_success = false;
             mutaue_cut_cfgs["kinematics"].SetPassed(false);
             mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
+        }
+        /// Make the b-jet veto
+        if(Bjet_veto(mutaue_cut_cfgs["BJet_veto"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(1, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["BJet_veto"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
