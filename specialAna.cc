@@ -67,7 +67,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
 
     ///-----------------------------------------------------------------
     /// Init for the e-mu channel
-    channel_stages["emu"] = 1;
+    channel_stages["emu"] = 2;
 
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Ele_syst_ScaleUp");
@@ -487,6 +487,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
 void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+    emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -537,6 +538,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_emu_success = false;
             emu_cut_cfgs["kinematics"].SetPassed(false);
             emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
+        }
+        /// Make the same-sign charge cut
+        if(OppSign_charge(emu_cut_cfgs["OppSign_charge"])) {
+            if(b_emu_success) {
+                Fill_Resonance_histograms(1, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["OppSign_charge"].SetPassed(true);
+        }else{
+            b_emu_success = false;
+            emu_cut_cfgs["OppSign_charge"].SetPassed(false);
         }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
