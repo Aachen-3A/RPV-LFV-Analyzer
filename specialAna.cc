@@ -109,7 +109,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutau"] = 4;
+    channel_stages["mutau"] = 5;
 
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau","_Ele_syst_ScaleUp");
@@ -484,6 +484,7 @@ void specialAna::Init_mutau_cuts() {
     mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500,"p_{#zeta} (GeV)","p_{#zeta}^{vis} (GeV)");
     mutau_cut_cfgs["DeltaPhi_tauMET"] = Cuts("DeltaPhi_tauMET",100,0,3.2);
     mutau_cut_cfgs["DeltaPhi_mutau"] = Cuts("DeltaPhi_mutau",100,0,3.2);
+    mutau_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
 }
 
 void specialAna::Init_etaue_cuts() {
@@ -583,7 +584,16 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["DeltaPhi_mutau"].SetPassed(false);
         }
         /// Make the b-jet veto
-        
+        if(Bjet_veto(mutau_cut_cfgs["BJet_veto"])) {
+            if(b_mutau_success) {
+                Fill_Resonance_histograms(4, "mutau", "muo", "tau", endung);
+                b_mutau_success = true;
+            }
+            mutau_cut_cfgs["BJet_veto"].SetPassed(true);
+        }else{
+            b_mutau_success = false;
+            mutau_cut_cfgs["BJet_veto"].SetPassed(false);
+        }
         /// Make the same-sign charge cut
         
         /// Make the M_T cut
@@ -1076,6 +1086,12 @@ bool specialAna::Make_DeltaPhi_mutau(Cuts& cuts) {
     }else{
         return false;
     }
+}
+
+bool specialAna::Bjet_veto(Cuts& cuts) {
+    /// TODO: include b-jet veto
+    cuts.SetVars(0);
+    return true;
 }
 
 bool specialAna::TriggerSelector(const pxl::Event* event){
