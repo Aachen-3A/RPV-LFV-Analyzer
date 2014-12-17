@@ -92,6 +92,7 @@ public:
     double calc_lep_fraction();
     bool Leptonic_fraction_cut(Cuts& cuts);
     bool pT_mutau_ratio_cut(Cuts& cuts);
+    bool pT_muele_ratio_cut(Cuts& cuts);
 
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
