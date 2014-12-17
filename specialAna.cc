@@ -175,7 +175,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutaue"] = 1;
+    channel_stages["mutaue"] = 6;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
@@ -499,6 +499,11 @@ void specialAna::Init_etaumu_cuts() {
 
 void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
+    mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    mutaue_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
+    mutaue_cut_cfgs["lep_fraction"] = Cuts("lep_fraction",100,0,5);
+    mutaue_cut_cfgs["pT_taumu_ratio"] = Cuts("pT_taumu_ratio",100,0,10);
+    mutaue_cut_cfgs["pT_elemu_ratio"] = Cuts("pT_elemu_ratio",100,0,10);
 }
 
 void specialAna::Init_mutaumu_cuts() {
@@ -657,6 +662,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
     /// Selection for the muo-tau_e channel
     if(b_mutaue) {
         bool b_mutaue_success = false;
+        /// Find the actual resonance
         if(FindResonance(*MuonList, *EleList, *METList)) {
             Fill_Resonance_histograms(0, "mutaue", "muo", "tau_ele", endung);
             b_mutaue_success = true;
@@ -666,6 +672,61 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_mutaue_success = false;
             mutaue_cut_cfgs["kinematics"].SetPassed(false);
             mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass);
+        }
+        /// Make the b-jet veto
+        if(Bjet_veto(mutaue_cut_cfgs["BJet_veto"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(1, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["BJet_veto"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["BJet_veto"].SetPassed(false);
+        }
+        /// Make the cut on DeltaPhi(e,mu)
+        if(Make_DeltaPhi_tauemu(mutaue_cut_cfgs["DeltaPhi_emu"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(2, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["DeltaPhi_emu"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
+        }
+        /// Make the cut on the leptonic pT fraction
+        if(Leptonic_fraction_cut(mutaue_cut_cfgs["lep_fraction"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(3, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["lep_fraction"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["lep_fraction"].SetPassed(false);
+        }
+        /// Make the cut on the pT ratio of mu and tau
+        if(pT_mutau_ratio_cut(mutaue_cut_cfgs["pT_taumu_ratio"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(4, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["pT_taumu_ratio"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["pT_taumu_ratio"].SetPassed(false);
+        }
+        /// Make the cut on the pT ratio of mu and ele
+        if(pT_muele_ratio_cut(mutaue_cut_cfgs["pT_elemu_ratio"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(5, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["pT_elemu_ratio"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["pT_elemu_ratio"].SetPassed(false);
         }
         Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
@@ -1108,6 +1169,20 @@ bool specialAna::Make_DeltaPhi_mutau(Cuts& cuts) {
     }
 }
 
+bool specialAna::Make_DeltaPhi_tauemu(Cuts& cuts) {
+    double delta_phi = 0.;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
+    }
+    double delta_phi_mu_tau_cut_value = 2.7;
+    cuts.SetVars(delta_phi);
+    if(delta_phi > delta_phi_mu_tau_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
 bool specialAna::Bjet_veto(Cuts& cuts) {
     /// TODO: include b-jet veto
     cuts.SetVars(0);
@@ -1135,6 +1210,60 @@ bool specialAna::MT_cut(Cuts& cuts) {
     cuts.SetVars(mt);
     double mt_min_cut_value = 180;
     if(mt > mt_min_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+double specialAna::calc_lep_fraction() {
+    double pT_sum_lep = sel_lepton_prompt->getPt() + sel_lepton_nprompt->getPt();
+    double pT_sum_had = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = JetList->begin(); part_it != JetList->end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        pT_sum_had += part_i->getPt();
+    }
+    double pT_sum_all = pT_sum_lep + pT_sum_had;
+    return pT_sum_lep / pT_sum_all;
+}
+
+bool specialAna::Leptonic_fraction_cut(Cuts& cuts) {
+    double lep_fraction = 0;
+    if(sel_lepton_nprompt and sel_lepton_prompt) {
+        lep_fraction = calc_lep_fraction();
+    }
+    cuts.SetVars(lep_fraction);
+    double lep_fraction_cut_value = 0.8;
+    if(lep_fraction > lep_fraction_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::pT_mutau_ratio_cut(Cuts& cuts) {
+    double pT_ratio = 0;
+    if(sel_lepton_nprompt_corr and sel_lepton_prompt) {
+        pT_ratio = sel_lepton_nprompt_corr->getPt() / sel_lepton_prompt->getPt();
+    }
+    cuts.SetVars(pT_ratio);
+    double pT_mutau_ratio_cut_min_val = 0.6;
+    double pT_mutau_ratio_cut_max_val = 1.4;
+    if(pT_ratio > pT_mutau_ratio_cut_min_val and pT_ratio < pT_mutau_ratio_cut_max_val) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::pT_muele_ratio_cut(Cuts& cuts) {
+    double pT_ratio = 0;
+    if(sel_lepton_nprompt and sel_lepton_prompt) {
+        pT_ratio = sel_lepton_prompt->getPt() / sel_lepton_nprompt->getEt();
+    }
+    cuts.SetVars(pT_ratio);
+    double pT_muele_ratio_cut_min_val = 1;
+    if(pT_ratio > pT_muele_ratio_cut_min_val) {
         return true;
     }else{
         return false;
