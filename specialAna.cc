@@ -175,7 +175,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutaue"] = 4;
+    channel_stages["mutaue"] = 5;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
@@ -502,6 +502,7 @@ void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
     mutaue_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
     mutaue_cut_cfgs["lep_fraction"] = Cuts("lep_fraction",100,0,5);
+    mutaue_cut_cfgs["pT_taumu_ratio"] = Cuts("pT_taumu_ratio",100,0,10);
 }
 
 void specialAna::Init_mutaumu_cuts() {
@@ -703,6 +704,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }else{
             b_mutaue_success = false;
             mutaue_cut_cfgs["lep_fraction"].SetPassed(false);
+        }
+        /// Make the cut on the pT ratio of mu and tau
+        if(pT_mutau_ratio_cut(mutaue_cut_cfgs["pT_taumu_ratio"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(4, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["pT_taumu_ratio"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["pT_taumu_ratio"].SetPassed(false);
         }
         Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
@@ -1211,6 +1223,21 @@ bool specialAna::Leptonic_fraction_cut(Cuts& cuts) {
     cuts.SetVars(lep_fraction);
     double lep_fraction_cut_value = 0.8;
     if(lep_fraction > lep_fraction_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::pT_mutau_ratio_cut(Cuts& cuts) {
+    double pT_ratio = 0;
+    if(sel_lepton_nprompt_corr and sel_lepton_prompt) {
+        pT_ratio = sel_lepton_nprompt_corr->getPt() / sel_lepton_prompt->getPt();
+    }
+    cuts.SetVars(pT_ratio);
+    double pT_mutau_ratio_cut_min_val = 0.6;
+    double pT_mutau_ratio_cut_max_val = 1.4;
+    if(pT_ratio > pT_mutau_ratio_cut_min_val and pT_ratio < pT_mutau_ratio_cut_max_val) {
         return true;
     }else{
         return false;
