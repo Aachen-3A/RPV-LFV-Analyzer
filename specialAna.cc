@@ -65,6 +65,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
         Create_Gen_histograms("mutaumu", "muo", "tau_muo");
     }
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-mu channel
     channel_stages["emu"] = 1;
 
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
@@ -87,6 +89,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("emu", emu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-tau_h channel
     channel_stages["etau"] = 1;
 
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau");
@@ -109,6 +113,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the mu-tau_h channel
     channel_stages["mutau"] = 7;
 
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau");
@@ -131,6 +137,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("mutau", mutau_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-tau_e channel
     channel_stages["etaue"] = 1;
 
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele");
@@ -153,6 +161,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaue", etaue_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the e-tau_mu channel
     channel_stages["etaumu"] = 1;
 
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo");
@@ -175,6 +185,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the mu-tau_e channel
     channel_stages["mutaue"] = 6;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
@@ -197,6 +209,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("mutaue", mutaue_cut_cfgs,"_Muon_syst_ResolutionDown");
 
+    ///-----------------------------------------------------------------
+    /// Init for the mu-tau_mu channel
     channel_stages["mutaumu"] = 1;
 
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo");
