@@ -67,7 +67,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
 
     ///-----------------------------------------------------------------
     /// Init for the e-mu channel
-    channel_stages["emu"] = 3;
+    channel_stages["emu"] = 4;
 
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Ele_syst_ScaleUp");
@@ -489,6 +489,7 @@ void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
     emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    emu_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -561,6 +562,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }else{
             b_emu_success = false;
             emu_cut_cfgs["BJet_veto"].SetPassed(false);
+        }
+        /// Make the cut on DeltaPhi(e,mu)
+        if(Make_DeltaPhi_emu(emu_cut_cfgs["DeltaPhi_emu"])) {
+            if(b_emu_success) {
+                Fill_Resonance_histograms(3, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["DeltaPhi_emu"].SetPassed(true);
+        }else{
+            b_emu_success = false;
+            emu_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
         }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
@@ -1215,6 +1227,20 @@ bool specialAna::Make_DeltaPhi_tauemu(Cuts& cuts) {
     double delta_phi_mu_tau_cut_value = 2.7;
     cuts.SetVars(delta_phi);
     if(delta_phi > delta_phi_mu_tau_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Make_DeltaPhi_emu(Cuts& cuts) {
+    double delta_phi = 0.;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
+    }
+    double delta_phi_e_mu_cut_value = 2.7;
+    cuts.SetVars(delta_phi);
+    if(delta_phi > delta_phi_e_mu_cut_value) {
         return true;
     }else{
         return false;
