@@ -67,7 +67,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
 
     ///-----------------------------------------------------------------
     /// Init for the e-mu channel
-    channel_stages["emu"] = 2;
+    channel_stages["emu"] = 3;
 
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo","_Ele_syst_ScaleUp");
@@ -488,6 +488,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
+    emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -549,6 +550,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }else{
             b_emu_success = false;
             emu_cut_cfgs["OppSign_charge"].SetPassed(false);
+        }
+        /// Make the b-jet veto
+        if(Bjet_veto(emu_cut_cfgs["BJet_veto"])) {
+            if(b_emu_success) {
+                Fill_Resonance_histograms(2, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["BJet_veto"].SetPassed(true);
+        }else{
+            b_emu_success = false;
+            emu_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
