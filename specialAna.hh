@@ -89,6 +89,7 @@ public:
     bool Bjet_veto(Cuts& cuts);
     bool OppSign_charge(Cuts& cuts);
     bool MT_cut(Cuts& cuts);
+    double calc_lep_fraction();
     bool Leptonic_fraction_cut(Cuts& cuts);
 
     bool TriggerSelector(const pxl::Event* event);

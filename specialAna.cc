@@ -1192,8 +1192,22 @@ bool specialAna::MT_cut(Cuts& cuts) {
     }
 }
 
+double specialAna::calc_lep_fraction() {
+    double pT_sum_lep = sel_lepton_prompt->getPt() + sel_lepton_nprompt->getPt();
+    double pT_sum_had = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = JetList->begin(); part_it != JetList->end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        pT_sum_had += part_i->getPt();
+    }
+    double pT_sum_all = pT_sum_lep + pT_sum_had;
+    return pT_sum_lep / pT_sum_all;
+}
+
 bool specialAna::Leptonic_fraction_cut(Cuts& cuts) {
-    double lep_fraction = 1;
+    double lep_fraction = 0;
+    if(sel_lepton_nprompt and sel_lepton_prompt) {
+        lep_fraction = calc_lep_fraction();
+    }
     cuts.SetVars(lep_fraction);
     double lep_fraction_cut_value = 0.8;
     if(lep_fraction > lep_fraction_cut_value) {
