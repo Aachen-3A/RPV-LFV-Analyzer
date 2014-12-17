@@ -175,7 +175,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs,"_Muon_syst_ResolutionDown");
 
-    channel_stages["mutaue"] = 2;
+    channel_stages["mutaue"] = 3;
 
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele","_Ele_syst_ScaleUp");
@@ -500,6 +500,7 @@ void specialAna::Init_etaumu_cuts() {
 void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
     mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    mutaue_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
 }
 
 void specialAna::Init_mutaumu_cuts() {
@@ -679,6 +680,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }else{
             b_mutaue_success = false;
             mutaue_cut_cfgs["BJet_veto"].SetPassed(false);
+        }
+        /// Make the cut on DeltaPhi(e,mu)
+        if(Make_DeltaPhi_tauemu(mutaue_cut_cfgs["DeltaPhi_emu"])) {
+            if(b_mutaue_success) {
+                Fill_Resonance_histograms(2, "mutaue", "muo", "tau_ele", endung);
+                b_mutaue_success = true;
+            }
+            mutaue_cut_cfgs["DeltaPhi_emu"].SetPassed(true);
+        }else{
+            b_mutaue_success = false;
+            mutaue_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
         }
         Fill_N1_histos("mutaue", mutaue_cut_cfgs, endung);
     }
@@ -1113,6 +1125,20 @@ bool specialAna::Make_DeltaPhi_mutau(Cuts& cuts) {
         delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
     }
     double delta_phi_mu_tau_cut_value = 2.3;
+    cuts.SetVars(delta_phi);
+    if(delta_phi > delta_phi_mu_tau_cut_value) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool specialAna::Make_DeltaPhi_tauemu(Cuts& cuts) {
+    double delta_phi = 0.;
+    if(sel_lepton_prompt and sel_lepton_nprompt) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
+    }
+    double delta_phi_mu_tau_cut_value = 2.7;
     cuts.SetVars(delta_phi);
     if(delta_phi > delta_phi_mu_tau_cut_value) {
         return true;
