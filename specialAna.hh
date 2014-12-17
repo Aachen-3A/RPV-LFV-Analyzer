@@ -85,9 +85,14 @@ public:
     bool Make_zeta_cut(Cuts& cuts);
     bool Make_DeltaPhi_tauMET(Cuts& cuts);
     bool Make_DeltaPhi_mutau(Cuts& cuts);
+    bool Make_DeltaPhi_tauemu(Cuts& cuts);
     bool Bjet_veto(Cuts& cuts);
     bool OppSign_charge(Cuts& cuts);
     bool MT_cut(Cuts& cuts);
+    double calc_lep_fraction();
+    bool Leptonic_fraction_cut(Cuts& cuts);
+    bool pT_mutau_ratio_cut(Cuts& cuts);
+    bool pT_muele_ratio_cut(Cuts& cuts);
 
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
