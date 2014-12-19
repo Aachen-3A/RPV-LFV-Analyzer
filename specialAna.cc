@@ -480,8 +480,8 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
 void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
-    emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
-    emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",4,-2,2);
+    emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,10);
     emu_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
 }
 
@@ -494,8 +494,8 @@ void specialAna::Init_mutau_cuts() {
     mutau_cut_cfgs["zeta"] = Cuts("zeta",500,0,500,500,0,500,"p_{#zeta} (GeV)","p_{#zeta}^{vis} (GeV)");
     mutau_cut_cfgs["DeltaPhi_tauMET"] = Cuts("DeltaPhi_tauMET",100,0,3.2);
     mutau_cut_cfgs["DeltaPhi_mutau"] = Cuts("DeltaPhi_mutau",100,0,3.2);
-    mutau_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
-    mutau_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",5,-2,2);
+    mutau_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,10);
+    mutau_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",4,-2,2);
     mutau_cut_cfgs["MT_cut"] = Cuts("MT_cut",5000,0,5000);
 }
 
@@ -509,7 +509,7 @@ void specialAna::Init_etaumu_cuts() {
 
 void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",500,0,500);
-    mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,9);
+    mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",10,0,10);
     mutaue_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",100,0,3.2);
     mutaue_cut_cfgs["lep_fraction"] = Cuts("lep_fraction",100,0,5);
     mutaue_cut_cfgs["pT_taumu_ratio"] = Cuts("pT_taumu_ratio",100,0,10);
