@@ -1241,9 +1241,12 @@ bool specialAna::Make_DeltaPhi_emu(Cuts& cuts) {
 }
 
 bool specialAna::Bjet_veto(Cuts& cuts) {
-    /// TODO: include b-jet veto
-    cuts.SetVars(0);
-    return true;
+    cuts.SetVars(numBJet);
+    if(numBJet < 1) {
+        return true;
+    }else{
+        return false;
+    }
 }
 
 bool specialAna::OppSign_charge(Cuts& cuts) {
@@ -1546,19 +1549,20 @@ void specialAna::initEvent( const pxl::Event* event ){
     numTau   = m_RecEvtView->getUserRecord( "Num" + m_TauType );
     numMET   = m_RecEvtView->getUserRecord( "Num" + m_METType );
     numJet   = m_RecEvtView->getUserRecord( "Num" + m_JetAlgo );
-    numBJet  = m_RecEvtView->getUserRecord_def( "Num" + m_BJets_algo,-1 );
 
     EleList   = new vector< pxl::Particle* >;
     MuonList  = new vector< pxl::Particle* >;
     GammaList = new vector< pxl::Particle* >;
     METList   = new vector< pxl::Particle* >;
     JetList   = new vector< pxl::Particle* >;
+    BJetList  = new vector< pxl::Particle* >;
     TauList   = new vector< pxl::Particle* >;
 
     // get all particles
     vector< pxl::Particle* > AllParticles;
     m_RecEvtView->getObjectsOfType< pxl::Particle >( AllParticles );
     pxl::sortParticles( AllParticles );
+    numBJet = 0;
     // push them into the corresponding vectors
     for( vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it ) {
         pxl::Particle *part = *part_it;
@@ -1570,7 +1574,15 @@ void specialAna::initEvent( const pxl::Event* event ){
         else if( Name == "Gamma"   ) GammaList->push_back( part );
         else if( Name == m_TauType   ) TauList->push_back( part );
         else if( Name == m_METType ) METList->push_back( part );
-        else if( Name == m_JetAlgo ) JetList->push_back( part );
+        else if( Name == m_JetAlgo ){
+            if( part->getUserRecord( "combinedSecondaryVertexBJetTags" ).toDouble() > -9999 ){
+                BJetList->push_back( part );
+                numBJet++;
+            }
+            else {
+                JetList->push_back( part );
+            }
+        }
     }
 
     if(METList->size()>0){
