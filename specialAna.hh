@@ -147,6 +147,7 @@ public:
     vector< pxl::Particle* > * GammaList;
     vector< pxl::Particle* > * METList;
     vector< pxl::Particle* > * JetList;
+    vector< pxl::Particle* > * BJetList;
 
     vector< pxl::Particle* > * RememberPart;
     vector< pxl::Particle* > * RememberMET;
