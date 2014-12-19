@@ -1575,7 +1575,7 @@ void specialAna::initEvent( const pxl::Event* event ){
         else if( Name == m_TauType   ) TauList->push_back( part );
         else if( Name == m_METType ) METList->push_back( part );
         else if( Name == m_JetAlgo ){
-            if( part->getUserRecord( "combinedSecondaryVertexBJetTags" ).toDouble() > -9999 ){
+            if( part->getUserRecord( "combinedSecondaryVertexBJetTags" ).toDouble() > 0.679 ){
                 BJetList->push_back( part );
                 numBJet++;
             }
