@@ -1,7 +1,11 @@
 #include "specialAna.hh"
 #include "HistClass.hh"
 #include "Tools/Tools.hh"
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #include "boost/format.hpp"
+#pragma GCC diagnostic pop
 
 specialAna::specialAna( const Tools::MConfig &cfg ) :
     runOnData(       cfg.GetItem< bool >( "General.RunOnData" ) ),
@@ -234,7 +238,7 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     initEvent( event );
 
     if(tail_selector(event)) return;
-    
+
     if(not runOnData){
         Fill_Gen_Controll_histo();
     }
@@ -309,13 +313,15 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
 
     KinematicsSelector();
 
-    FillSystematics(event, "Ele");
-
-    FillSystematics(event, "Muon");
-    FillSystematicsUpDown(event, "Muon", "Up", "Resolution");
-    FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
-
-    FillSystematics(event, "Tau");
+    if(not runOnData) {
+        FillSystematics(event, "Ele");
+    
+        FillSystematics(event, "Muon");
+        FillSystematicsUpDown(event, "Muon", "Up", "Resolution");
+        FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
+    
+        FillSystematics(event, "Tau");
+    }
 
     endEvent( event );
 }
@@ -324,74 +330,78 @@ bool specialAna::tail_selector(const pxl::Event* event) {
     std::string datastream = event->getUserRecord("Dataset").asString();
     TString Datastream = datastream;
 
-    double cut_w_mass = 0;
-    double cut_w_pt = 0;
-    if(Datastream.Contains("WJetsToLNu") || Datastream.Contains("WTo")){
-        for(uint i = 0; i < S3ListGen->size(); i++){
-            if(TMath::Abs(S3ListGen->at(i) -> getPdgNumber()) == 24){
-                if(S3ListGen->at(i)->getMass() > cut_w_mass){
-                    cut_w_mass = S3ListGen->at(i)->getMass();
-                    cut_w_pt = S3ListGen->at(i)->getPt();
-                }
-            }
-        }
-    }
-
-    if(Datastream.Contains("WJetsToLNu_TuneZ2Star_8TeV")) {
-        if(cut_w_pt > 55)return true;
-    }
-
-    if(Datastream.Contains("WJetsToLNu_PtW")) {
-        if(cut_w_pt <= 55)return true;
-    }
-
-    if(Datastream.Contains("WJetsToLNu")) {
-        if(cut_w_mass > 300)return true;
-    }
-
-    if(Datastream.Contains("WTo")) {
-        if(cut_w_mass <= 300)return true;
-    }
-
-    /// Diboson tail fitting
-    if(Datastream.Contains("WW_") || Datastream.Contains("WZ_") || Datastream.Contains("ZZ_")) {
-        for(uint i = 0; i < S3ListGen->size(); i++){
-            int part_id = TMath::Abs(S3ListGen->at(i) -> getPdgNumber());
-            if(part_id == 23 || part_id == 22){
-                if(S3ListGen->at(i)->getPt() > 500)return true;
-            }
-        }
-    }
-
-    /// ttbar tail fitting
-    if(Datastream.Contains("TT_CT10_powheg") && !Datastream.Contains("Mtt")) {
-        for(uint i = 0; i < S3ListGen->size(); i++){
-            if(S3ListGen->at(i) -> getPdgNumber() == 6){
-                for(uint j = 0; j < S3ListGen->size(); j++){
-                    if(S3ListGen->at(j) -> getPdgNumber() == -6){
-                        double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
-                                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
-                                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
-                                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                        if(mass > 700)return true;
+    if(b_8TeV) {
+        double cut_w_mass = 0;
+        double cut_w_pt = 0;
+        if(Datastream.Contains("WJetsToLNu") || Datastream.Contains("WTo")){
+            for(uint i = 0; i < S3ListGen->size(); i++){
+                if(TMath::Abs(S3ListGen->at(i) -> getPdgNumber()) == 24){
+                    if(S3ListGen->at(i)->getMass() > cut_w_mass){
+                        cut_w_mass = S3ListGen->at(i)->getMass();
+                        cut_w_pt = S3ListGen->at(i)->getPt();
                     }
                 }
             }
         }
+    
+        if(Datastream.Contains("WJetsToLNu_TuneZ2Star_8TeV")) {
+            if(cut_w_pt > 55)return true;
+        }
+    
+        if(Datastream.Contains("WJetsToLNu_PtW")) {
+            if(cut_w_pt <= 55)return true;
+        }
+    
+        if(Datastream.Contains("WJetsToLNu")) {
+            if(cut_w_mass > 300)return true;
+        }
+    
+        if(Datastream.Contains("WTo")) {
+            if(cut_w_mass <= 300)return true;
+        }
+    
+        /// Diboson tail fitting
+        if(Datastream.Contains("WW_") || Datastream.Contains("WZ_") || Datastream.Contains("ZZ_")) {
+            for(uint i = 0; i < S3ListGen->size(); i++){
+                int part_id = TMath::Abs(S3ListGen->at(i) -> getPdgNumber());
+                if(part_id == 23 || part_id == 22){
+                    if(S3ListGen->at(i)->getPt() > 500)return true;
+                }
+            }
+        }
+    
+        /// ttbar tail fitting
+        if(Datastream.Contains("TT_CT10_powheg") && !Datastream.Contains("Mtt")) {
+            for(uint i = 0; i < S3ListGen->size(); i++){
+                if(S3ListGen->at(i) -> getPdgNumber() == 6){
+                    for(uint j = 0; j < S3ListGen->size(); j++){
+                        if(S3ListGen->at(j) -> getPdgNumber() == -6){
+                            double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
+                                                        - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                                        - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                                        - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                            if(mass > 700)return true;
+                        }
+                    }
+                }
+            }
+        }
+    
+        /// Signal parameter selection
+        if(Datastream.Contains("RPVresonantToMuTau")){
+            HistClass::Fill("LLE_Gen",m_GenEvtView->getUserRecord( "MC_LLE" ).asDouble(),weight);
+            HistClass::Fill("LQD_Gen",m_GenEvtView->getUserRecord( "MC_LQD" ).asDouble(),weight);
+            HistClass::Fill("MSnl_Gen",m_GenEvtView->getUserRecord( "MC_MSnl" ).asDouble(),weight);
+            double gen_mass = m_GenEvtView->getUserRecord( "MC_MSnl").asDouble();
+            double gen_coupling = m_GenEvtView->getUserRecord( "MC_LLE").asDouble();
+            if(!(gen_mass > config_.GetItem< double >( "rpv_mass.min" ) && gen_mass < config_.GetItem< double >( "rpv_mass.max" )))return true;
+            if(!(gen_coupling > config_.GetItem< double >( "rpv_coupling.min" ) && gen_coupling < config_.GetItem< double >( "rpv_coupling.max" )))return true;
+        }
+    
+        return false;
+    }else{
+        return false;
     }
-
-    /// Signal parameter selection
-    if(Datastream.Contains("RPVresonantToMuTau")){
-        HistClass::Fill("LLE_Gen",m_GenEvtView->getUserRecord( "MC_LLE" ).asDouble(),weight);
-        HistClass::Fill("LQD_Gen",m_GenEvtView->getUserRecord( "MC_LQD" ).asDouble(),weight);
-        HistClass::Fill("MSnl_Gen",m_GenEvtView->getUserRecord( "MC_MSnl" ).asDouble(),weight);
-        double gen_mass = m_GenEvtView->getUserRecord( "MC_MSnl").asDouble();
-        double gen_coupling = m_GenEvtView->getUserRecord( "MC_LLE").asDouble();
-        if(!(gen_mass > config_.GetItem< double >( "rpv_mass.min" ) && gen_mass < config_.GetItem< double >( "rpv_mass.max" )))return true;
-        if(!(gen_coupling > config_.GetItem< double >( "rpv_coupling.min" ) && gen_coupling < config_.GetItem< double >( "rpv_coupling.max" )))return true;
-    }
-
-    return false;
 }
 
 void specialAna::FillSystematics(const pxl::Event* event, std::string const particleName){
@@ -1134,7 +1144,12 @@ bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
 bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
     bool passed = false;
     bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? passed = true : passed = false;
-    bool muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
+    bool muon_ISO = false;
+    if(b_8TeV) {
+        muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
+    }else if(b_13TeV) {
+        muon_ISO = muon -> getUserRecord("IsoR3SumPt").asFloat() / muon -> getPt() < 0.1 ? true : false;
+    }
     bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
     bool muon_pt = muon -> getPt() > 45. ? true : false;
     if (muon_ID && muon_ISO && muon_eta && muon_pt) return true;
@@ -1333,25 +1348,31 @@ bool specialAna::pT_muele_ratio_cut(Cuts& cuts) {
 bool specialAna::TriggerSelector(const pxl::Event* event){
     bool triggered=false;
 
-    pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
-    for( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
-        if (
-            string::npos != (*us).first.find( "HLT_HLT_Ele90_CaloIdVT_GsfTrkIdT") or
-            string::npos != (*us).first.find( "HLT_Ele80_CaloIdVT_GsfTrkIdT") or
-            string::npos != (*us).first.find( "HLT_Ele80_CaloIdVT_TrkIdT") or
-            //string::npos != (*us).first.find( "HLT_HLT_Ele27_WP80_v") or
-            string::npos != (*us).first.find( "HLT_HLT_Mu40_v") or
-            string::npos != (*us).first.find( "HLT_HLT_Mu40_eta2p1_v") or
-            //string::npos != (*us).first.find( "HLT_HLT_IsoMu30_v") or
-            string::npos != (*us).first.find( "HLT_MonoCentralPFJet80")
-        ){
-            triggered=(*us).second;
-            if(triggered){
-                break;
+    if(b_8TeV) {
+        pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
+        for( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
+            for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+                if (string::npos != (*us).first.find( *it)){
+                    triggered=(*us).second;
+                    triggers.insert(us->first);
+                }
+            }
+        }
+    }else if(b_13TeV) {
+        for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+            try{
+                triggered = m_TrigEvtView->getUserRecord(*it);
+            } catch( std::runtime_error &exc ) {
+                continue;
+            }
+            pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
+            for( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
+                if ( string::npos != (*us).first.find( *it )){
+                    triggers.insert(us->first);
+                }
             }
         }
     }
-
      return (triggered);
 }
 
@@ -1485,6 +1506,11 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
 }
 
 void specialAna::endJob( const Serializable* ) {
+
+    std::cout << "Triggers that fired in this sample:" << std::endl;
+    for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
+        std::cout << *itr << std::endl;
+    }
 
     file1->cd();
     HistClass::WriteAll("counters");

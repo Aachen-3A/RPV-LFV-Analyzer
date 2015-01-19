@@ -195,9 +195,7 @@ public:
 
     unordered_set< string > triggers;
 
-
     map< string,float > mLeptonTree;
-
 
 };
 
