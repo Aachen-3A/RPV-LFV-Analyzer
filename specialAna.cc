@@ -1132,18 +1132,18 @@ bool specialAna::Check_Par_ID(pxl::Particle* part) {
 }
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
-    bool passed = false;
+    // bool passed = false;
     bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asFloat() >= 1 ? true : false;
     bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asFloat() >= 1 ? true : false;
     bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asFloat() >= 1 ? true : false;
     bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asFloat() >= 1 ? true : false;
-    if (tau_ID && tau_ISO && tau_ELE && tau_MUO) passed = true;
-    return passed;
+    if (tau_ID && tau_ISO && tau_ELE && tau_MUO) return true;
+    return false;
 }
 
 bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
-    bool passed = false;
-    bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? passed = true : passed = false;
+    // bool passed = false;
+    bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? true : false;
     bool muon_ISO = false;
     if(b_8TeV) {
         muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
@@ -1153,11 +1153,13 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
     bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
     bool muon_pt = muon -> getPt() > 45. ? true : false;
     if (muon_ID && muon_ISO && muon_eta && muon_pt) return true;
-    return passed;
+    return false;
 }
 
 bool specialAna::Check_Ele_ID(pxl::Particle* ele) {
-    return true;
+    // bool passed = false;
+    bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
+    return ele_ID;
 }
 
 vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
@@ -1522,19 +1524,23 @@ void specialAna::endJob( const Serializable* ) {
     file1->cd();
     file1->mkdir("Taus");
     file1->cd("Taus/");
-    HistClass::WriteAll("_Tau_");
+    // HistClass::WriteAll("_Tau_");
+    HistClass::WriteAll("_Tau_","_Tau_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     file1->mkdir("Muons");
     file1->cd("Muons/");
-    HistClass::WriteAll("_Muon_");
+    // HistClass::WriteAll("_Muon_");
+    HistClass::WriteAll("_Muon_","_Muon_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     file1->mkdir("METs");
     file1->cd("METs/");
-    HistClass::WriteAll("_MET_");
+    // HistClass::WriteAll("_MET_");
+    HistClass::WriteAll("_MET_","_MET_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     file1->mkdir("Eles");
     file1->cd("Eles/");
-    HistClass::WriteAll("_Ele_");
+    // HistClass::WriteAll("_Ele_");
+    HistClass::WriteAll("_Ele_","_Ele_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     
     channel_writer(file1, "emu");
@@ -1554,9 +1560,6 @@ void specialAna::initEvent( const pxl::Event* event ){
     HistClass::Fill("h_counters", 1, 1); // increment number of events
     events_++;
 
-    //no pu weight at the moment!!
-
-    weight = 1;
     m_RecEvtView = event->getObjectOwner().findObject< pxl::EventView >( "Rec" );
     m_GenEvtView = event->getObjectOwner().findObject< pxl::EventView >( "Gen" );
     if(event->getObjectOwner().findObject< pxl::EventView >( "Trig" )){
@@ -1631,8 +1634,9 @@ void specialAna::initEvent( const pxl::Event* event ){
     TauListGen     = new vector< pxl::Particle* >;
     S3ListGen      = new vector< pxl::Particle* >;
 
-    if( not runOnData ){
+    weight = 1.;
 
+    if( not runOnData ){
         double event_weight = m_GenEvtView->getUserRecord( "Weight" );
         //double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
         double pileup_weight = m_GenEvtView->getUserRecord_def( "PUWeight",1.);
