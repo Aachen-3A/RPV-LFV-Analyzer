@@ -75,6 +75,9 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     HistClass::CreateHisto("Ctr_Vtx_unweighted",100,0,100,"N_{vtx}");
     HistClass::CreateHisto("Ctr_Vtx_weighted",100,0,100,"N_{vtx}");
 
+    HistClass::CreateHisto("Ctr_Vtx_emu_unweighted",100,0,100,"N_{vtx}");
+    HistClass::CreateHisto("Ctr_Vtx_emu_weighted",100,0,100,"N_{vtx}");
+
     if(not runOnData) {
         Create_Gen_histograms("emu", "ele", "muo");
         Create_Gen_histograms("etau", "ele", "tau");
@@ -558,8 +561,12 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_emu_success = true;
             emu_cut_cfgs["kinematics"].SetPassed(true);
             emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
-            keep_data_event = true;
-            mkeep_resonance_mass["emu"]=resonance_mass;
+            if(endung == "") {
+                keep_data_event = true;
+                mkeep_resonance_mass["emu"]=resonance_mass;
+                HistClass::Fill("Ctr_Vtx_emu_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
+                HistClass::Fill("Ctr_Vtx_emu_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
+            }
         }else{
             b_emu_success = false;
             emu_cut_cfgs["kinematics"].SetPassed(false);
@@ -1549,7 +1556,7 @@ void specialAna::endJob( const Serializable* ) {
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
-    HistClass::WriteAll("_Ctr_","_Ctr_","N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
+    HistClass::WriteAll("_Ctr_");
     file1->cd();
     file1->mkdir("Taus");
     file1->cd("Taus/");
@@ -1749,11 +1756,7 @@ void specialAna::endEvent( const pxl::Event* event ){
         TauListGen = 0;
     }
     
-    if( keep_data_event ){
-        for( std::map< std::string , float >::iterator it=mkeep_resonance_mass.begin(); it!=mkeep_resonance_mass.end();it++){
-            std::cerr << it->first.c_str() << "\t" << it->second << std::endl;
-        }
-        std::cerr << "--------------" << std::endl;
+    if( runOnData and keep_data_event ){
         HistClass::FillTree( "data_events" );
     }
 }
