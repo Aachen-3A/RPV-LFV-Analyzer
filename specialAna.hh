@@ -195,9 +195,13 @@ public:
 
     unordered_set< string > triggers;
 
-
     map< string,float > mLeptonTree;
 
+    bool keep_data_event;
+    map< string,float > mkeep_resonance_mass;
+
+    double event_weight;
+    double pileup_weight;
 
 };
 
