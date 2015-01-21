@@ -40,6 +40,19 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
 
+    mkeep_resonance_mass["emu"] = 0;
+    mkeep_resonance_mass["etau"] = 0;
+    mkeep_resonance_mass["mutau"] = 0;
+    mkeep_resonance_mass["etaue"] = 0;
+    mkeep_resonance_mass["etaumu"] = 0;
+    mkeep_resonance_mass["mutaue"] = 0;
+    mkeep_resonance_mass["mutaumu"] = 0;
+    mkeep_resonance_mass["run"] = 0;
+    mkeep_resonance_mass["ls"] = 0;
+    mkeep_resonance_mass["event"] = 0;
+
+    HistClass::CreateTree( mkeep_resonance_mass, "data_events");
+
     for(unsigned int i=0;i<4;i++){
         //str(boost::format("N_{%s}")%particleLatex[i] )
         HistClass::CreateHisto("num",particles[i].c_str(), 40, 0, 39,            TString::Format("N_{%s}", particleSymbols[i].c_str()) );
@@ -58,6 +71,9 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     HistClass::CreateHisto("LLE_Gen",100,0,1,"LLE");
     HistClass::CreateHisto("LQD_Gen",100,0,0.001,"LQD");
     HistClass::CreateHisto("MSnl_Gen",4000,0,4000,"MSnl");
+
+    HistClass::CreateHisto("Ctr_Vtx_unweighted",100,0,100,"N_{vtx}");
+    HistClass::CreateHisto("Ctr_Vtx_weighted",100,0,100,"N_{vtx}");
 
     if(not runOnData) {
         Create_Gen_histograms("emu", "ele", "muo");
@@ -268,6 +284,9 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     HistClass::Fill("MET_num",METList->size(),weight);
 
     if (!TriggerSelector(event)) return;
+
+    HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
+    HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
 
     for(uint i = 0; i < MuonList->size(); i++){
         if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
@@ -539,6 +558,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_emu_success = true;
             emu_cut_cfgs["kinematics"].SetPassed(true);
             emu_cut_cfgs["kinematics"].SetVars(resonance_mass);
+            keep_data_event = true;
+            mkeep_resonance_mass["emu"]=resonance_mass;
         }else{
             b_emu_success = false;
             emu_cut_cfgs["kinematics"].SetPassed(false);
@@ -670,6 +691,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(6, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
+                keep_data_event = true;
+                mkeep_resonance_mass["mutau"]=resonance_mass;
             }
             mutau_cut_cfgs["MT_cut"].SetPassed(true);
         }else{
@@ -775,6 +798,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             if(b_mutaue_success) {
                 Fill_Resonance_histograms(5, "mutaue", "muo", "tau_ele", endung);
                 b_mutaue_success = true;
+                keep_data_event = true;
+                mkeep_resonance_mass["mutaue"]=resonance_mass;
             }
             mutaue_cut_cfgs["pT_elemu_ratio"].SetPassed(true);
         }else{
@@ -1522,27 +1547,27 @@ void specialAna::endJob( const Serializable* ) {
         HistClass::WriteAll("_Gen");
     }
     file1->cd();
+    file1->mkdir("Ctr");
+    file1->cd("Ctr/");
+    HistClass::WriteAll("_Ctr_","_Ctr_","N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
+    file1->cd();
     file1->mkdir("Taus");
     file1->cd("Taus/");
-    // HistClass::WriteAll("_Tau_");
     HistClass::WriteAll("_Tau_","_Tau_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     file1->mkdir("Muons");
     file1->cd("Muons/");
-    // HistClass::WriteAll("_Muon_");
     HistClass::WriteAll("_Muon_","_Muon_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     file1->mkdir("METs");
     file1->cd("METs/");
-    // HistClass::WriteAll("_MET_");
     HistClass::WriteAll("_MET_","_MET_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
     file1->mkdir("Eles");
     file1->cd("Eles/");
-    // HistClass::WriteAll("_Ele_");
     HistClass::WriteAll("_Ele_","_Ele_","sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
     file1->cd();
-    
+    HistClass::WriteAllTrees( "data_events" );
     channel_writer(file1, "emu");
     channel_writer(file1, "etau");
     channel_writer(file1, "mutau");
@@ -1560,6 +1585,15 @@ void specialAna::initEvent( const pxl::Event* event ){
     HistClass::Fill("h_counters", 1, 1); // increment number of events
     events_++;
 
+    keep_data_event = false;
+    mkeep_resonance_mass["emu"] = 0;
+    mkeep_resonance_mass["etau"] = 0;
+    mkeep_resonance_mass["mutau"] = 0;
+    mkeep_resonance_mass["etaue"] = 0;
+    mkeep_resonance_mass["etaumu"] = 0;
+    mkeep_resonance_mass["mutaue"] = 0;
+    mkeep_resonance_mass["mutaumu"] = 0;
+
     m_RecEvtView = event->getObjectOwner().findObject< pxl::EventView >( "Rec" );
     m_GenEvtView = event->getObjectOwner().findObject< pxl::EventView >( "Gen" );
     if(event->getObjectOwner().findObject< pxl::EventView >( "Trig" )){
@@ -1571,6 +1605,10 @@ void specialAna::initEvent( const pxl::Event* event ){
     temp_run = event->getUserRecord( "Run" );
     temp_ls = event->getUserRecord( "LumiSection" );
     temp_event = event->getUserRecord( "EventNum" );
+
+    mkeep_resonance_mass["run"] = temp_run;
+    mkeep_resonance_mass["ls"] = temp_ls;
+    mkeep_resonance_mass["event"] = temp_event;
 
     numMuon  = m_RecEvtView->getUserRecord( "NumMuon" );
     numEle   = m_RecEvtView->getUserRecord( "NumEle" );
@@ -1636,15 +1674,19 @@ void specialAna::initEvent( const pxl::Event* event ){
 
     weight = 1.;
 
+    event_weight = 1;
+    pileup_weight = 1;
+
     if( not runOnData ){
-        double event_weight = m_GenEvtView->getUserRecord( "Weight" );
+        event_weight = m_GenEvtView->getUserRecord( "Weight" );
+        event_weight = 1;
         //double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
-        double pileup_weight = m_GenEvtView->getUserRecord_def( "PUWeight",1.);
+        pileup_weight = m_GenEvtView->getUserRecord_def( "PUWeight",1.);
 
         if(b_13TeV){
             weight = event_weight ;
         }else if(b_8TeV){
-            weight = event_weight  * pileup_weight;
+            weight = event_weight * pileup_weight;
         }else{
             stringstream error;
             error << "The data period "<<m_dataPeriod<<" is not supported by this analysis!\n";
@@ -1705,5 +1747,13 @@ void specialAna::endEvent( const pxl::Event* event ){
         METListGen = 0;
         JetListGen = 0;
         TauListGen = 0;
+    }
+    
+    if( keep_data_event ){
+        for( std::map< std::string , float >::iterator it=mkeep_resonance_mass.begin(); it!=mkeep_resonance_mass.end();it++){
+            std::cerr << it->first.c_str() << "\t" << it->second << std::endl;
+        }
+        std::cerr << "--------------" << std::endl;
+        HistClass::FillTree( "data_events" );
     }
 }
