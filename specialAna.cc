@@ -352,10 +352,19 @@ bool specialAna::tail_selector(const pxl::Event* event) {
     std::string datastream = event->getUserRecord("Dataset").asString();
     TString Datastream = datastream;
 
-    if(b_8TeV) {
-        double cut_w_mass = 0;
-        double cut_w_pt = 0;
-        if(Datastream.Contains("WJetsToLNu") || Datastream.Contains("WTo")){
+    double cut_w_mass = 0;
+    double cut_w_pt = 0;
+    if(Datastream.Contains("WJetsToLNu") || Datastream.Contains("WTo")){
+        if(b_8TeV) {
+            for(uint i = 0; i < S3ListGen->size(); i++){
+                if(TMath::Abs(S3ListGen->at(i) -> getUserRecord("id").asInt32()) == 24){
+                    if(S3ListGen->at(i)->getMass() > cut_w_mass){
+                        cut_w_mass = S3ListGen->at(i)->getMass();
+                        cut_w_pt = S3ListGen->at(i)->getPt();
+                    }
+                }
+            }
+        }else if(b_13TeV) {
             for(uint i = 0; i < S3ListGen->size(); i++){
                 if(TMath::Abs(S3ListGen->at(i) -> getPdgNumber()) == 24){
                     if(S3ListGen->at(i)->getMass() > cut_w_mass){
@@ -365,35 +374,56 @@ bool specialAna::tail_selector(const pxl::Event* event) {
                 }
             }
         }
-    
-        if(Datastream.Contains("WJetsToLNu_TuneZ2Star_8TeV")) {
-            if(cut_w_pt > 55)return true;
-        }
-    
-        if(Datastream.Contains("WJetsToLNu_PtW")) {
-            if(cut_w_pt <= 55)return true;
-        }
-    
-        if(Datastream.Contains("WJetsToLNu")) {
-            if(cut_w_mass > 300)return true;
-        }
-    
-        if(Datastream.Contains("WTo")) {
-            if(cut_w_mass <= 300)return true;
-        }
-    
-        /// Diboson tail fitting
-        if(Datastream.Contains("WW_") || Datastream.Contains("WZ_") || Datastream.Contains("ZZ_")) {
-            for(uint i = 0; i < S3ListGen->size(); i++){
-                int part_id = TMath::Abs(S3ListGen->at(i) -> getPdgNumber());
-                if(part_id == 23 || part_id == 22){
-                    if(S3ListGen->at(i)->getPt() > 500)return true;
-                }
+    }
+
+    if(Datastream.Contains("WJetsToLNu_TuneZ2Star_8TeV")) {
+        if(cut_w_pt > 55)return true;
+    }
+
+    if(Datastream.Contains("WJetsToLNu_PtW")) {
+        if(cut_w_pt <= 55)return true;
+    }
+
+    if(Datastream.Contains("WJetsToLNu")) {
+        if(cut_w_mass > 300)return true;
+    }
+
+    if(Datastream.Contains("WTo")) {
+        if(cut_w_mass <= 300)return true;
+    }
+
+    /// Diboson tail fitting
+    if(Datastream.Contains("WW_") || Datastream.Contains("WZ_") || Datastream.Contains("ZZ_")) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            int part_id = 0;
+            if(b_8TeV) {
+                part_id = TMath::Abs(S3ListGen->at(i) -> getUserRecord("id").asInt32());
+            }else if(b_13TeV) {
+                part_id = TMath::Abs(S3ListGen->at(i) -> getPdgNumber());
+            }
+            if(part_id == 23 || part_id == 22){
+                if(S3ListGen->at(i)->getPt() > 500)return true;
             }
         }
-    
-        /// ttbar tail fitting
-        if(Datastream.Contains("TT_CT10_powheg") && !Datastream.Contains("Mtt")) {
+    }
+
+    /// ttbar tail fitting
+    if(Datastream.Contains("TT_CT10_TuneZ2star_8TeV-powheg") && !Datastream.Contains("Mtt")) {
+        if(b_8TeV) {
+            for(uint i = 0; i < S3ListGen->size(); i++){
+                if(S3ListGen->at(i) -> getUserRecord("id").asInt32() == 6){
+                    for(uint j = 0; j < S3ListGen->size(); j++){
+                        if(S3ListGen->at(j) -> getUserRecord("id").asInt32() == -6){
+                            double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
+                                                        - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                                        - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                                        - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                            if(sqrt(mass) > 700)return true;
+                        }
+                    }
+                }
+            }
+        }else if(b_13TeV) {
             for(uint i = 0; i < S3ListGen->size(); i++){
                 if(S3ListGen->at(i) -> getPdgNumber() == 6){
                     for(uint j = 0; j < S3ListGen->size(); j++){
@@ -402,28 +432,26 @@ bool specialAna::tail_selector(const pxl::Event* event) {
                                                         - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
                                                         - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
                                                         - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                            if(mass > 700)return true;
+                            if(sqrt(mass) > 700)return true;
                         }
                     }
                 }
             }
         }
-    
-        /// Signal parameter selection
-        if(Datastream.Contains("RPVresonantToMuTau")){
-            HistClass::Fill("LLE_Gen",m_GenEvtView->getUserRecord( "MC_LLE" ).asDouble(),weight);
-            HistClass::Fill("LQD_Gen",m_GenEvtView->getUserRecord( "MC_LQD" ).asDouble(),weight);
-            HistClass::Fill("MSnl_Gen",m_GenEvtView->getUserRecord( "MC_MSnl" ).asDouble(),weight);
-            double gen_mass = m_GenEvtView->getUserRecord( "MC_MSnl").asDouble();
-            double gen_coupling = m_GenEvtView->getUserRecord( "MC_LLE").asDouble();
-            if(!(gen_mass > config_.GetItem< double >( "rpv_mass.min" ) && gen_mass < config_.GetItem< double >( "rpv_mass.max" )))return true;
-            if(!(gen_coupling > config_.GetItem< double >( "rpv_coupling.min" ) && gen_coupling < config_.GetItem< double >( "rpv_coupling.max" )))return true;
-        }
-    
-        return false;
-    }else{
-        return false;
     }
+
+    /// Signal parameter selection
+    if(Datastream.Contains("RPVresonantToMuTau")){
+        HistClass::Fill("LLE_Gen",m_GenEvtView->getUserRecord( "MC_LLE" ).asDouble(),weight);
+        HistClass::Fill("LQD_Gen",m_GenEvtView->getUserRecord( "MC_LQD" ).asDouble(),weight);
+        HistClass::Fill("MSnl_Gen",m_GenEvtView->getUserRecord( "MC_MSnl" ).asDouble(),weight);
+        double gen_mass = m_GenEvtView->getUserRecord( "MC_MSnl").asDouble();
+        double gen_coupling = m_GenEvtView->getUserRecord( "MC_LLE").asDouble();
+        if(!(gen_mass > config_.GetItem< double >( "rpv_mass.min" ) && gen_mass < config_.GetItem< double >( "rpv_mass.max" )))return true;
+        if(!(gen_coupling > config_.GetItem< double >( "rpv_coupling.min" ) && gen_coupling < config_.GetItem< double >( "rpv_coupling.max" )))return true;
+    }
+
+    return false;
 }
 
 void specialAna::FillSystematics(const pxl::Event* event, std::string const particleName){
