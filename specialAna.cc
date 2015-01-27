@@ -407,32 +407,41 @@ bool specialAna::tail_selector(const pxl::Event* event) {
         }
     }
 
-    /// ttbar tail fitting
-    if(Datastream.Contains("TT_CT10_TuneZ2star_8TeV-powheg") && !Datastream.Contains("Mtt")) {
-        if(b_8TeV) {
-            for(uint i = 0; i < S3ListGen->size(); i++){
-                if(S3ListGen->at(i) -> getUserRecord("id").asInt32() == 6){
-                    for(uint j = 0; j < S3ListGen->size(); j++){
-                        if(S3ListGen->at(j) -> getUserRecord("id").asInt32() == -6){
-                            double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
-                                                        - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
-                                                        - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
-                                                        - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                            if(sqrt(mass) > 700)return true;
+    /// ttbar 8TeV tail fitting
+    if(b_8TeV and Datastream.Contains("TT_CT10_TuneZ2star_8TeV-powheg")) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            if(S3ListGen->at(i) -> getUserRecord("id").asInt32() == 6){
+                for(uint j = 0; j < S3ListGen->size(); j++){
+                    if(S3ListGen->at(j) -> getUserRecord("id").asInt32() == -6){
+                        double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
+                                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                        if(!Datastream.Contains("Mtt") and sqrt(mass) > 700){
+                            return true;
+                        }else if(Datastream.Contains("Mtt") and sqrt(mass) <= 700){
+                            return true;
                         }
                     }
                 }
             }
-        }else if(b_13TeV) {
-            for(uint i = 0; i < S3ListGen->size(); i++){
-                if(S3ListGen->at(i) -> getPdgNumber() == 6){
-                    for(uint j = 0; j < S3ListGen->size(); j++){
-                        if(S3ListGen->at(j) -> getPdgNumber() == -6){
-                            double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
-                                                        - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
-                                                        - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
-                                                        - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                            if(sqrt(mass) > 700)return true;
+        }
+    }
+
+    /// ttbar 13TeV tail fitting
+    if(b_13TeV and Datastream.Contains("TT_CT10_TuneZ2star_8TeV-powheg")) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            if(S3ListGen->at(i) -> getPdgNumber() == 6){
+                for(uint j = 0; j < S3ListGen->size(); j++){
+                    if(S3ListGen->at(j) -> getPdgNumber() == -6){
+                        double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
+                                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                        if(!Datastream.Contains("Mtt") and sqrt(mass) > 700){
+                            return true;
+                        }else if(Datastream.Contains("Mtt") and sqrt(mass) <= 700){
+                            return true;
                         }
                     }
                 }
@@ -1193,11 +1202,19 @@ bool specialAna::Check_Par_ID(pxl::Particle* part) {
 
 bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     // bool passed = false;
-    bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asFloat() >= 1 ? true : false;
-    bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asFloat() >= 1 ? true : false;
-    bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5"/*"againstElectronTightMVA5"*/).asFloat() >= 1 ? true : false;
-    bool tau_MUO = tau->getUserRecord("againstMuonTight3"/*"againstMuonTightMVA"*/).asFloat() >= 1 ? true : false;
-    if (tau_ID && tau_ISO && tau_ELE && tau_MUO) return true;
+    if(b_8TeV) {
+        bool tau_ID = tau->getUserRecord("decayModeFindingOldDMs").asFloat() >= 1 ? true : false;
+        bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asFloat() >= 1 ? true : false;
+        bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5").asFloat() >= 1 ? true : false;
+        bool tau_MUO = tau->getUserRecord("againstMuonTight3").asFloat() >= 1 ? true : false;
+        if (tau_ID && tau_ISO && tau_ELE && tau_MUO) return true;
+    }else if(b_13TeV) {
+        bool tau_ID = tau->getUserRecord("decayModeFinding").asFloat() >= 1 ? true : false;
+        bool tau_ISO = tau->getUserRecord("byLooseIsolationMVA3oldDMwLT").asFloat() >= 1 ? true : false;
+        bool tau_ELE = tau->getUserRecord("againstElectronLooseMVA5").asFloat() >= 1 ? true : false;
+        bool tau_MUO = tau->getUserRecord("againstMuonTight3").asFloat() >= 1 ? true : false;
+        if (tau_ID && tau_ISO && tau_ELE && tau_MUO) return true;
+    }
     return false;
 }
 
