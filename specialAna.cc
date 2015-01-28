@@ -1025,6 +1025,8 @@ void specialAna::Fill_Gen_histograms(const char* channel, const char* part1, con
 }
 
 void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
+    /// Cutflow histogram
+    HistClass::CreateHisto(TString::Format("%s_Cutflow",                 channel) + endung,           n_histos, 0, n_histos, "Cut stage");
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos,TString::Format("%s_Mass",                 channel) + endung,             5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
     /// Resonant mass resolution histogram
@@ -1064,6 +1066,8 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
 }
 
 void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
+    /// Cutflow histogram
+    HistClass::Fill(TString::Format("%s_Cutflow",                       channel) + endung,             n_histos,                                                          weight);
     /// Resonant mass histogram
     HistClass::Fill(n_histos,TString::Format("%s_Mass",                 channel) + endung,             resonance_mass[channel],                                           weight );
     /// Resonant mass resolution histogram
@@ -1650,6 +1654,12 @@ double specialAna::getHT(){
 void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
     file1->mkdir(channel);
+    file1->cd(TString::Format("%s/", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("%s:_Cutflow", channel),TString::Format("sys:N-1"));
+    file1->mkdir(TString::Format("%s/sys", channel));
+    file1->cd(TString::Format("%s/sys/", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel),TString::Format("%s:_Cutflow:sys", channel));
+    file1->cd();
     for ( int i = 0; i < channel_stages[channel]; i++) {
         char n_satge = (char)(((int)'0')+i);
         file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
