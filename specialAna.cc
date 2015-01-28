@@ -555,7 +555,7 @@ void specialAna::FillControllHistos(){
 
     if(not runOnData) {
         HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
-        // HistClass::Fill("Ctr_HT", , weight);
+        HistClass::Fill("Ctr_HT", getHT(), weight);
     }
 }
 
@@ -1603,6 +1603,17 @@ double specialAna::getPtHat(){
     return pthat;
 }
 
+double specialAna::getHT(){
+    double ht_val = 0;
+    for(uint i = 0; i < JetList->size(); i++) {
+        ht_val += JetList->at(i)->getPt();
+    }
+    for(uint i = 0; i < BJetList->size(); i++) {
+        ht_val += BJetList->at(i)->getPt();
+    }
+    return ht_val;
+}
+
 void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
     file1->mkdir(channel);
@@ -1741,7 +1752,7 @@ void specialAna::initEvent( const pxl::Event* event ){
         else if( Name == m_TauType   ) TauList->push_back( part );
         else if( Name == m_METType ) METList->push_back( part );
         else if( Name == m_JetAlgo ){
-            if( part->getUserRecord( "combinedSecondaryVertexBJetTags" ).toDouble() > 0.679 ){
+            if( part->getUserRecord( m_BJets_algo ).toDouble() > 0.679 ){
                 BJetList->push_back( part );
                 numBJet++;
             }

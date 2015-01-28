@@ -102,6 +102,7 @@ public:
     double DeltaPhi(pxl::Particle* lepton, pxl::Particle* met);
     double MT(pxl::Particle* lepton, pxl::Particle* met);
     double getPtHat();
+    double getHT();
 
 
     pxl::EventView *m_RecEvtView;
