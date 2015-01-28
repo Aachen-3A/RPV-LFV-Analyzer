@@ -78,6 +78,9 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     HistClass::CreateHisto("Ctr_Vtx_emu_unweighted",100,0,100,"N_{vtx}");
     HistClass::CreateHisto("Ctr_Vtx_emu_weighted",100,0,100,"N_{vtx}");
 
+    HistClass::CreateHisto("Ctr_pT_hat",5000,0,5000,"#hat{p_{T}} (GeV)");
+    HistClass::CreateHisto("Ctr_HT",5000,0,5000,"H_{T} (GeV)");
+
     if(not runOnData) {
         Create_Gen_histograms("emu", "ele", "muo");
         Create_Gen_histograms("etau", "ele", "tau");
@@ -288,8 +291,7 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
 
     if (!TriggerSelector(event)) return;
 
-    HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
-    HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
+    FillControllHistos();
 
     for(uint i = 0; i < MuonList->size(); i++){
         if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
@@ -545,6 +547,14 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
         TauList = RememberPart;
     }//else if(particleName=="JET"){
     //}else if(particleName==m_METType){}
+}
+
+void specialAna::FillControllHistos(){
+    HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
+    HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
+
+    HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
+    // HistClass::Fill("Ctr_HT", , weight);
 }
 
 void specialAna::Init_emu_cuts() {
@@ -1074,18 +1084,37 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > gen
     }
 
     resonance_mass_gen = 0;
-    for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
-        pxl::Particle *part_i = *part_it;
-        if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
-            for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
-                pxl::Particle *part_j = *part_jt;
-                if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
-                pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
-                part_sum -> addP4(part_j);
-                if(part_sum -> getMass() > resonance_mass_gen) {
-                    resonance_mass_gen = part_sum -> getMass();
-                    sel_part1_gen = (pxl::Particle*) part_i->clone();
-                    sel_part2_gen = (pxl::Particle*) part_j->clone();
+    if(b_13TeV) {
+        for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
+            pxl::Particle *part_i = *part_it;
+            if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
+                for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
+                    pxl::Particle *part_j = *part_jt;
+                    if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
+                    pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                    part_sum -> addP4(part_j);
+                    if(part_sum -> getMass() > resonance_mass_gen) {
+                        resonance_mass_gen = part_sum -> getMass();
+                        sel_part1_gen = (pxl::Particle*) part_i->clone();
+                        sel_part2_gen = (pxl::Particle*) part_j->clone();
+                    }
+                }
+            }
+        }
+    }else if(b_8TeV) {
+        for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
+            pxl::Particle *part_i = *part_it;
+            if(TMath::Abs(part_i -> getUserRecord("id").asInt32()) == id_1) {
+                for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
+                    pxl::Particle *part_j = *part_jt;
+                    if (TMath::Abs(part_j -> getUserRecord("id").asInt32()) != id_2) continue;
+                    pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                    part_sum -> addP4(part_j);
+                    if(part_sum -> getMass() > resonance_mass_gen) {
+                        resonance_mass_gen = part_sum -> getMass();
+                        sel_part1_gen = (pxl::Particle*) part_i->clone();
+                        sel_part2_gen = (pxl::Particle*) part_j->clone();
+                    }
                 }
             }
         }
@@ -1533,16 +1562,32 @@ double specialAna::getPtHat(){
     double pthat=0;
     pxl::Particle* w=0;
     pxl::Particle* lepton=0;
-    for(uint i = 0; i < S3ListGen->size(); i++){
-        if(TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 24){
-            w=S3ListGen->at(i);
+
+    if(b_13TeV) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            if(TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 24){
+                w=S3ListGen->at(i);
+            }
+            //take the neutrio to avoid showering and so on!!
+            if((TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 12 || TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 14 || TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 16) && lepton==0){
+                lepton=S3ListGen->at(i);
+            }
+            if(w!=0 && lepton!=0){
+                break;
+            }
         }
-        //take the neutrio to avoid showering and so on!!
-        if((TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 12 || TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 14 || TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 16) && lepton==0){
-            lepton=S3ListGen->at(i);
-        }
-        if(w!=0 && lepton!=0){
-            break;
+    }else if(b_8TeV) {
+        for(uint i = 0; i < S3ListGen->size(); i++){
+            if(TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 24){
+                w=S3ListGen->at(i);
+            }
+            //take the neutrio to avoid showering and so on!!
+            if((TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 12 || TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 14 || TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 16) && lepton==0){
+                lepton=S3ListGen->at(i);
+            }
+            if(w!=0 && lepton!=0){
+                break;
+            }
         }
     }
 

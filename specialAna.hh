@@ -51,6 +51,8 @@ public:
     void Init_mutaue_cuts();
     void Init_mutaumu_cuts();
 
+    void FillControllHistos();
+
     void Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
     void Fill_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
 
