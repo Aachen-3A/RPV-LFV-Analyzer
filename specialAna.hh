@@ -62,8 +62,8 @@ public:
     void KinematicsSelector(std::string const endung = "");
 
     bool FindResonance(const char* channel, vector< pxl::Particle* > gen_list);
-    bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
-    bool FindResonance(vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
+    bool FindResonance(const char* channel, vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list);
+    bool FindResonance(const char* channel, vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list);
 
     void GenSelector();
 
@@ -193,8 +193,8 @@ public:
     pxl::Particle* sel_met;
     pxl::Particle* sel_lepton_nprompt_corr;
 
-    double resonance_mass;
-    double resonance_mass_gen;
+    map< string, double > resonance_mass;
+    map< string, double > resonance_mass_gen;
 
     unordered_set< string > triggers;
 
