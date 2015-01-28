@@ -1027,6 +1027,8 @@ void specialAna::Fill_Gen_histograms(const char* channel, const char* part1, con
 void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos,TString::Format("%s_Mass",                 channel) + endung,             5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
+    /// Resonant mass resolution histogram
+    HistClass::CreateHisto(n_histos,TString::Format("%s_Mass_resolution",      channel) + endung,             1000, -10, 10, TString::Format("M-M_{gen}/M_{gen}(%s,%s)",                part1, part2) );
     /// First particle histograms
     HistClass::CreateHisto(n_histos,TString::Format("%s_pT_%s",                channel,part1) + endung,       5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part1) );
     HistClass::CreateHisto(n_histos,TString::Format("%s_eta_%s",               channel,part1) + endung,       80, -4, 4,     TString::Format("#eta^{%s}",                               part1) );
@@ -1064,6 +1066,9 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
 void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
     /// Resonant mass histogram
     HistClass::Fill(n_histos,TString::Format("%s_Mass",                 channel) + endung,             resonance_mass[channel],                                           weight );
+    /// Resonant mass resolution histogram
+    double dummy_resolution = (resonance_mass[channel] - resonance_mass_gen[channel])/resonance_mass_gen[channel];
+    HistClass::Fill(n_histos,TString::Format("%s_Mass_resolution",      channel) + endung,             dummy_resolution,                                                  weight );
     /// First particle histograms
     HistClass::Fill(n_histos,TString::Format("%s_pT_%s",                channel,part1) + endung,       sel_lepton_prompt -> getPt(),                                      weight );
     HistClass::Fill(n_histos,TString::Format("%s_eta_%s",               channel,part1) + endung,       sel_lepton_prompt -> getEta(),                                     weight );
