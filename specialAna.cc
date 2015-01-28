@@ -553,8 +553,10 @@ void specialAna::FillControllHistos(){
     HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
     HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
 
-    HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
-    // HistClass::Fill("Ctr_HT", , weight);
+    if(not runOnData) {
+        HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
+        // HistClass::Fill("Ctr_HT", , weight);
+    }
 }
 
 void specialAna::Init_emu_cuts() {
