@@ -70,10 +70,15 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
 
     for(unsigned int i=0;i<4;i++){
         //str(boost::format("N_{%s}")%particleLatex[i] )
-        HistClass::CreateHisto("num",particles[i].c_str(), 40, 0, 39,            TString::Format("N_{%s}", particleSymbols[i].c_str()) );
-        HistClass::CreateHisto(3,"pt",particles[i].c_str(), 5000, 0, 5000,       TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()) );
-        HistClass::CreateHisto(3,"eta",particles[i].c_str(), 80, -4, 4,          TString::Format("#eta_{%s}", particleSymbols[i].c_str()) );
-        HistClass::CreateHisto(3,"phi",particles[i].c_str(), 40, -3.2, 3.2,      TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto("num",particles[i].c_str(), 40, 0, 39,                         TString::Format("N_{%s}", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto(3,"pt",particles[i].c_str(), 5000, 0, 5000,                    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto("pt_resolution_0_500",particles[i].c_str(), 1000, -10, 10,     TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto("pt_resolution_500_1000",particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto("pt_resolution_1000_1500",particles[i].c_str(), 1000, -10, 10, TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto("pt_resolution_1500_2000",particles[i].c_str(), 1000, -10, 10, TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto("pt_resolution_2000",particles[i].c_str(), 1000, -10, 10,      TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto(3,"eta",particles[i].c_str(), 80, -4, 4,                       TString::Format("#eta_{%s}", particleSymbols[i].c_str()) );
+        HistClass::CreateHisto(3,"phi",particles[i].c_str(), 40, -3.2, 3.2,                   TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()) );
 
         if(not runOnData){
             HistClass::CreateHisto(1,"num_Gen",particles[i].c_str(), 40, 0, 39,        TString::Format("N_{%s}", particleSymbols[i].c_str()) );
@@ -1030,6 +1035,7 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos,TString::Format("%s_Mass",                 channel) + endung,             5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
     /// Resonant mass resolution histogram
+    HistClass::CreateHisto(n_histos,TString::Format("%s_Mass_resolution",      channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                 part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
     HistClass::CreateHisto(n_histos,TString::Format("%s_Mass_resolution",      channel) + endung,             1000, -10, 10, TString::Format("M-M_{gen}/M_{gen}(%s,%s)",                part1, part2) );
     /// First particle histograms
     HistClass::CreateHisto(n_histos,TString::Format("%s_pT_%s",                channel,part1) + endung,       5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part1) );
@@ -1073,6 +1079,7 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     /// Resonant mass resolution histogram
     double dummy_resolution = (resonance_mass[channel] - resonance_mass_gen[channel])/resonance_mass_gen[channel];
     HistClass::Fill(n_histos,TString::Format("%s_Mass_resolution",      channel) + endung,             dummy_resolution,                                                  weight );
+    HistClass::Fill(n_histos,TString::Format("%s_Mass_resolution",      channel) + endung,             resonance_mass_gen[channel],  dummy_resolution,                    weight );
     /// First particle histograms
     HistClass::Fill(n_histos,TString::Format("%s_pT_%s",                channel,part1) + endung,       sel_lepton_prompt -> getPt(),                                      weight );
     HistClass::Fill(n_histos,TString::Format("%s_eta_%s",               channel,part1) + endung,       sel_lepton_prompt -> getEta(),                                     weight );
@@ -1570,6 +1577,55 @@ void specialAna::Fill_Particle_histos(int hist_number, pxl::Particle* lepton){
     HistClass::Fill(hist_number,str(boost::format("%s_pt")%name ),lepton->getPt(),weight);
     HistClass::Fill(hist_number,str(boost::format("%s_eta")%name ),lepton->getEta(),weight);
     HistClass::Fill(hist_number,str(boost::format("%s_phi")%name ),lepton->getPhi(),weight);
+    if(hist_number == 2){
+        pxl::Particle* match = Get_Truth_match(name, lepton);
+        if(match != 0){
+            if(match->getPt() < 500){
+                HistClass::Fill(name + TString::Format("_pt_resolution_0_500"),(lepton->getPt() - match->getPt())/match->getPt(),weight);
+            }else if(match->getPt() < 1000){
+                HistClass::Fill(name + TString::Format("_pt_resolution_500_1000"),(lepton->getPt() - match->getPt())/match->getPt(),weight);
+            }else if(match->getPt() < 1500){
+                HistClass::Fill(name + TString::Format("_pt_resolution_1000_1500"),(lepton->getPt() - match->getPt())/match->getPt(),weight);
+            }else if(match->getPt() < 2000){
+                HistClass::Fill(name + TString::Format("_pt_resolution_1500_2000"),(lepton->getPt() - match->getPt())/match->getPt(),weight);
+            }else{
+                HistClass::Fill(name + TString::Format("_pt_resolution_2000"),(lepton->getPt() - match->getPt())/match->getPt(),weight);
+            }
+        }
+    }
+}
+
+pxl::Particle* specialAna::Get_Truth_match(string name, pxl::Particle* lepton){
+    double part_temp_eta = lepton->getEta();
+    double part_temp_phi = lepton->getPhi();
+    int part_temp_id = 0;
+    if(name == "Tau"){
+        part_temp_id = 15;
+    }else if(name == "MET"){
+        part_temp_id = 12;
+    }else if(name == "Muon"){
+        part_temp_id = 13;
+    }else if(name == "Ele"){
+        part_temp_id = 11;
+    }
+    double temp_delta_r = 10;
+    pxl::Particle* gen_match = 0;
+    for( vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it ) {
+        pxl::Particle *part_i = *part_it;
+        int part_temp_truth_id = 0;
+        if(b_8TeV) {
+            part_temp_truth_id = TMath::Abs(part_i->getUserRecord("id").asInt32());
+        }else if(b_13TeV) {
+            part_temp_truth_id = TMath::Abs(part_i->getPdgNumber());
+        }
+        if(part_temp_id != part_temp_truth_id) continue;
+        double test_delta_r = sqrt(pow(part_temp_eta - part_i->getEta(),2) + pow(part_temp_phi - part_i->getPhi(),2));
+        if(test_delta_r < temp_delta_r){
+            temp_delta_r = test_delta_r;
+            gen_match = part_i;
+        }
+    }
+    return gen_match;
 }
 
 double specialAna::DeltaPhi(double a, double b) {
