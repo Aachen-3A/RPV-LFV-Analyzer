@@ -16,6 +16,7 @@
 #include "TH2F.h"
 #include "TString.h"
 #include "TLorentzVector.h"
+#include "TEfficiency.h"
 #include <TFile.h>
 
 #include "Main/Systematics.hh"
@@ -71,6 +72,8 @@ public:
 
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);
     void Fill_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2);
+
+    pxl::Particle* Get_Truth_match(string name, pxl::Particle* lepton);
 
     void FillSystematics(const pxl::Event* event, std::string const particleName);
     void FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType);
@@ -205,7 +208,7 @@ public:
 
     double event_weight;
     double pileup_weight;
-
+    TEfficiency* pEff;
 };
 
 #endif
