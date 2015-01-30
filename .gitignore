@@ -6,3 +6,4 @@
 *.tar.gz
 *Dict.cc
 *Dict.h
+hooks/

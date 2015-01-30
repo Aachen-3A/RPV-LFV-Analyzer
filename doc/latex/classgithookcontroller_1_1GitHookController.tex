@@ -1,0 +1,496 @@
+\section{githookcontroller.\-Git\-Hook\-Controller Class Reference}
+\label{classgithookcontroller_1_1GitHookController}\index{githookcontroller.\-Git\-Hook\-Controller@{githookcontroller.\-Git\-Hook\-Controller}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a3f9a0075420262ba2568316c76061966}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a584fe8bed0edc20058e18467a6e6906c}{root\-\_\-name}
+\begin{DoxyCompactList}\small\item\em git helper functions \#\#\# \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a3324d38801396b1269a97890798103d5}{remote\-\_\-root\-\_\-name}
+\begin{DoxyCompactList}\small\item\em Get root name of remote (the original repo name) \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a4cf33d4adccdb044fa9514a49849e797}{remote\-\_\-url}
+\begin{DoxyCompactList}\small\item\em Get url from remote. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a7a4041c01fb80bffb487936866f62f98}{current\-\_\-branch}
+\begin{DoxyCompactList}\small\item\em Get currently chosen branch. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a39661900fa09468fa6f1cb97ba859e80}{remote\-\_\-branches}
+\begin{DoxyCompactList}\small\item\em Get list of remote branches. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_aba5b2ce717c869648bc8804c9ba96b3b}{checkout\-\_\-branch}
+\begin{DoxyCompactList}\small\item\em Checkout another branch. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_aafe2c7cbed97963e0295cfbae0136058}{post\-\_\-commit}
+\begin{DoxyCompactList}\small\item\em functions for hooks \#\#\# \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a99438b6d511dfb4a3d98624318f2b8dd}{parse\-\_\-pre\-\_\-commit}
+\begin{DoxyCompactList}\small\item\em Get list of chagend files in commit. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_afc24ced7e8d3a9a5a605b0de22e949a8}{parse\-\_\-pre\-\_\-push}
+\begin{DoxyCompactList}\small\item\em Parse message from pre-\/push. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a67a1f8d4dd8d4941c4b7409d972c7766}{check\-\_\-cpplint}
+\begin{DoxyCompactList}\small\item\em functions for code style enforcment \#\#\# \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_afa6bd69c6d0a9e9654cec6e3aeab34a8}{prepare\-\_\-doxygen\-\_\-cfg}
+\begin{DoxyCompactList}\small\item\em functions for doxygen integration \#\#\# \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_abd2d8e22fd8772e5c586748a0605cbe3}{publish\-\_\-doxygen}
+\begin{DoxyCompactList}\small\item\em Checkout all doygen folders in gh-\/pages branch and commit changes. \end{DoxyCompactList}\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_a256c5c260e76ab6da328a334af64e13e}{update\-\_\-doxygen}
+\begin{DoxyCompactList}\small\item\em Update the doxygen documentation for this folder repo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_a86262238108e9a37e5b3ca47e4f9b94e}{args}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_a2979702282896092040b9e3adff073e5}{stdin}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_abb66a7d13f82d794351fc72184c92aa6}{parser}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_a0600f5f58184170fa103c486691cde5e}{organisation}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_a8ba9332f051b62f8be656967a1607b16}{tempdir}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_aef6dc3b539aa239e80317038abe866aa}{vetobranches}
+\item 
+\hyperlink{classgithookcontroller_1_1GitHookController_aa8e96fe61c7a24a30c5d4a2abcbd49dc}{doxy\-\_\-enforce\-\_\-repos}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classgithookcontroller_1_1GitHookController_ad141395de7add5599a17feef12309ef3}{\-\_\-get\-\_\-doxygen\-\_\-warnings}
+\begin{DoxyCompactList}\small\item\em Get all doxygen warnings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 47 of file githookcontroller.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{tempdir = {\ttfamily '/tmp/'}}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a3f9a0075420262ba2568316c76061966}
+
+
+The constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em tempdir} & Directory where files are stored temporarily outside the repo default\-: /tmp/ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 53 of file githookcontroller.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!\-\_\-get\-\_\-doxygen\-\_\-warnings@{\-\_\-get\-\_\-doxygen\-\_\-warnings}}
+\index{\-\_\-get\-\_\-doxygen\-\_\-warnings@{\-\_\-get\-\_\-doxygen\-\_\-warnings}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{\-\_\-get\-\_\-doxygen\-\_\-warnings}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-\_\-get\-\_\-doxygen\-\_\-warnings (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\label{classgithookcontroller_1_1GitHookController_ad141395de7add5599a17feef12309ef3}
+
+
+Get all doxygen warnings. 
+
+
+
+Definition at line 436 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-update\-\_\-doxygen().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!check\-\_\-cpplint@{check\-\_\-cpplint}}
+\index{check\-\_\-cpplint@{check\-\_\-cpplint}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{check\-\_\-cpplint}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-check\-\_\-cpplint (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filepath}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a67a1f8d4dd8d4941c4b7409d972c7766}
+
+
+functions for code style enforcment \#\#\# 
+
+Check if file fullfills cpplint check
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em filepath} & path to the file where lint check should be performed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 244 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!checkout\-\_\-branch@{checkout\-\_\-branch}}
+\index{checkout\-\_\-branch@{checkout\-\_\-branch}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{checkout\-\_\-branch}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-checkout\-\_\-branch (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{branchname, }
+\item[{}]{forced = {\ttfamily False}}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_aba5b2ce717c869648bc8804c9ba96b3b}
+
+
+Checkout another branch. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em branchname} & name of branch which is checked out \\
+\hline
+{\em forced} & boolean for forced checkout \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 159 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-publish\-\_\-doxygen().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!current\-\_\-branch@{current\-\_\-branch}}
+\index{current\-\_\-branch@{current\-\_\-branch}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{current\-\_\-branch}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-current\-\_\-branch (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a7a4041c01fb80bffb487936866f62f98}
+
+
+Get currently chosen branch. 
+
+
+
+Definition at line 136 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg(), githookcontroller.\-Git\-Hook\-Controller.\-publish\-\_\-doxygen(), and githookcontroller.\-Git\-Hook\-Controller.\-update\-\_\-doxygen().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!parse\-\_\-pre\-\_\-commit@{parse\-\_\-pre\-\_\-commit}}
+\index{parse\-\_\-pre\-\_\-commit@{parse\-\_\-pre\-\_\-commit}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{parse\-\_\-pre\-\_\-commit}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-parse\-\_\-pre\-\_\-commit (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a99438b6d511dfb4a3d98624318f2b8dd}
+
+
+Get list of chagend files in commit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 180 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!parse\-\_\-pre\-\_\-push@{parse\-\_\-pre\-\_\-push}}
+\index{parse\-\_\-pre\-\_\-push@{parse\-\_\-pre\-\_\-push}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{parse\-\_\-pre\-\_\-push}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-parse\-\_\-pre\-\_\-push (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_afc24ced7e8d3a9a5a605b0de22e949a8}
+
+
+Parse message from pre-\/push. 
+
+Based on example in\-: \href{http://axialcorps.com/2014/06/03/preventing-errant-git-pushes-with-a-pre-push-hook/}{\tt http\-://axialcorps.\-com/2014/06/03/preventing-\/errant-\/git-\/pushes-\/with-\/a-\/pre-\/push-\/hook/}
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+namedtupe of type Push fields\-: \mbox{[}'commits', 'remote\-\_\-name', 'remote\-\_\-url','current\-\_\-branch', 'removing\-\_\-remote', 'forcing'\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line 198 of file githookcontroller.\-py.
+
+
+
+References githookcontroller.\-Commit, and githookcontroller.\-Push.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!post\-\_\-commit@{post\-\_\-commit}}
+\index{post\-\_\-commit@{post\-\_\-commit}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{post\-\_\-commit}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-post\-\_\-commit (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_aafe2c7cbed97963e0295cfbae0136058}
+
+
+functions for hooks \#\#\# 
+
+Parse message from post commit
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 174 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!prepare\-\_\-doxygen\-\_\-cfg@{prepare\-\_\-doxygen\-\_\-cfg}}
+\index{prepare\-\_\-doxygen\-\_\-cfg@{prepare\-\_\-doxygen\-\_\-cfg}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{prepare\-\_\-doxygen\-\_\-cfg}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_afa6bd69c6d0a9e9654cec6e3aeab34a8}
+
+
+functions for doxygen integration \#\#\# 
+
+Prepare doxygen config file from template
+
+The function replaces Tokens for files in ./doc/\-:
+\begin{DoxyItemize}
+\item template\-\_\-cfg available Tokens\-: branchname\% current branch name remote\-\_\-root\-\_\-name\% html\-\_\-header\% path to html header file html\-\_\-footer\% path to html header file
+\item header\-\_\-template.\-html
+\item footer\-\_\-template.\-html available Tokens\-: +++optionsline+++ a fixed url path ++branch\-\_\-name++ current branch name ++remote\-\_\-url++ see object property ++remote\-\_\-root\-\_\-name++ see object property
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 269 of file githookcontroller.\-py.
+
+
+
+References githookcontroller.\-Git\-Hook\-Controller.\-current\-\_\-branch(), githookcontroller.\-Git\-Hook\-Controller.\-organisation, githookcontroller.\-Git\-Hook\-Controller.\-remote\-\_\-branches(), githookcontroller.\-Git\-Hook\-Controller.\-remote\-\_\-root\-\_\-name(), githookcontroller.\-Git\-Hook\-Controller.\-remote\-\_\-url(), and githookcontroller.\-Git\-Hook\-Controller.\-vetobranches.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!publish\-\_\-doxygen@{publish\-\_\-doxygen}}
+\index{publish\-\_\-doxygen@{publish\-\_\-doxygen}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{publish\-\_\-doxygen}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-publish\-\_\-doxygen (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{branchnames}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_abd2d8e22fd8772e5c586748a0605cbe3}
+
+
+Checkout all doygen folders in gh-\/pages branch and commit changes. 
+
+
+
+Definition at line 335 of file githookcontroller.\-py.
+
+
+
+References githookcontroller.\-Git\-Hook\-Controller.\-checkout\-\_\-branch(), and githookcontroller.\-Git\-Hook\-Controller.\-current\-\_\-branch().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!remote\-\_\-branches@{remote\-\_\-branches}}
+\index{remote\-\_\-branches@{remote\-\_\-branches}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{remote\-\_\-branches}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-remote\-\_\-branches (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a39661900fa09468fa6f1cb97ba859e80}
+
+
+Get list of remote branches. 
+
+\begin{DoxyReturn}{Returns}
+A list of strings containing all remot branch names 
+\end{DoxyReturn}
+
+
+Definition at line 146 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!remote\-\_\-root\-\_\-name@{remote\-\_\-root\-\_\-name}}
+\index{remote\-\_\-root\-\_\-name@{remote\-\_\-root\-\_\-name}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{remote\-\_\-root\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-remote\-\_\-root\-\_\-name (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a3324d38801396b1269a97890798103d5}
+
+
+Get root name of remote (the original repo name) 
+
+\begin{DoxyReturn}{Returns}
+string containing the name of the remote root name 
+\end{DoxyReturn}
+
+
+Definition at line 86 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!remote\-\_\-url@{remote\-\_\-url}}
+\index{remote\-\_\-url@{remote\-\_\-url}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{remote\-\_\-url}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-remote\-\_\-url (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a4cf33d4adccdb044fa9514a49849e797}
+
+
+Get url from remote. 
+
+\begin{DoxyReturn}{Returns}
+string containing the name of the remote root name 
+\end{DoxyReturn}
+
+
+Definition at line 103 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!root\-\_\-name@{root\-\_\-name}}
+\index{root\-\_\-name@{root\-\_\-name}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{root\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-root\-\_\-name (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a584fe8bed0edc20058e18467a6e6906c}
+
+
+git helper functions \#\#\# 
+
+Get root name of repo
+
+\begin{DoxyReturn}{Returns}
+string containing the name of the root name 
+\end{DoxyReturn}
+
+
+Definition at line 76 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-update\-\_\-doxygen().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!update\-\_\-doxygen@{update\-\_\-doxygen}}
+\index{update\-\_\-doxygen@{update\-\_\-doxygen}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{update\-\_\-doxygen}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-Git\-Hook\-Controller.\-update\-\_\-doxygen (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{configpath = {\ttfamily './doc/doxy\-\_\-cfg'}}
+\end{DoxyParamCaption}
+)}\label{classgithookcontroller_1_1GitHookController_a256c5c260e76ab6da328a334af64e13e}
+
+
+Update the doxygen documentation for this folder repo. 
+
+Based on example in\-: \href{http://axialcorps.com/2014/06/03/preventing-errant-git-pushes-with-a-pre-push-hook/}{\tt http\-://axialcorps.\-com/2014/06/03/preventing-\/errant-\/git-\/pushes-\/with-\/a-\/pre-\/push-\/hook/}
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em configpath} & Path to the doxygen confi file \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 402 of file githookcontroller.\-py.
+
+
+
+References githookcontroller.\-Git\-Hook\-Controller.\-\_\-get\-\_\-doxygen\-\_\-warnings(), githookcontroller.\-Git\-Hook\-Controller.\-current\-\_\-branch(), githookcontroller.\-Git\-Hook\-Controller.\-doxy\-\_\-enforce\-\_\-repos, githookcontroller.\-Git\-Hook\-Controller.\-root\-\_\-name(), and githookcontroller.\-Git\-Hook\-Controller.\-vetobranches.
+
+
+
+\subsection{Member Data Documentation}
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!args@{args}}
+\index{args@{args}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{args}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-args}\label{classgithookcontroller_1_1GitHookController_a86262238108e9a37e5b3ca47e4f9b94e}
+
+
+Definition at line 54 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!doxy\-\_\-enforce\-\_\-repos@{doxy\-\_\-enforce\-\_\-repos}}
+\index{doxy\-\_\-enforce\-\_\-repos@{doxy\-\_\-enforce\-\_\-repos}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{doxy\-\_\-enforce\-\_\-repos}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-doxy\-\_\-enforce\-\_\-repos}\label{classgithookcontroller_1_1GitHookController_aa8e96fe61c7a24a30c5d4a2abcbd49dc}
+
+
+Definition at line 65 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-update\-\_\-doxygen().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!organisation@{organisation}}
+\index{organisation@{organisation}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{organisation}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-organisation}\label{classgithookcontroller_1_1GitHookController_a0600f5f58184170fa103c486691cde5e}
+
+
+Definition at line 59 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg().
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!parser@{parser}}
+\index{parser@{parser}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{parser}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-parser}\label{classgithookcontroller_1_1GitHookController_abb66a7d13f82d794351fc72184c92aa6}
+
+
+Definition at line 57 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!stdin@{stdin}}
+\index{stdin@{stdin}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{stdin}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-stdin}\label{classgithookcontroller_1_1GitHookController_a2979702282896092040b9e3adff073e5}
+
+
+Definition at line 55 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!tempdir@{tempdir}}
+\index{tempdir@{tempdir}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{tempdir}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-tempdir}\label{classgithookcontroller_1_1GitHookController_a8ba9332f051b62f8be656967a1607b16}
+
+
+Definition at line 60 of file githookcontroller.\-py.
+
+\index{githookcontroller\-::\-Git\-Hook\-Controller@{githookcontroller\-::\-Git\-Hook\-Controller}!vetobranches@{vetobranches}}
+\index{vetobranches@{vetobranches}!githookcontroller::GitHookController@{githookcontroller\-::\-Git\-Hook\-Controller}}
+\subsubsection[{vetobranches}]{\setlength{\rightskip}{0pt plus 5cm}githookcontroller.\-Git\-Hook\-Controller.\-vetobranches}\label{classgithookcontroller_1_1GitHookController_aef6dc3b539aa239e80317038abe866aa}
+
+
+Definition at line 62 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-prepare\-\_\-doxygen\-\_\-cfg(), and githookcontroller.\-Git\-Hook\-Controller.\-update\-\_\-doxygen().
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+hooks/\hyperlink{githookcontroller_8py}{githookcontroller.\-py}\end{DoxyCompactItemize}
