@@ -1,0 +1,95 @@
+\section{githookcontroller Namespace Reference}
+\label{namespacegithookcontroller}\index{githookcontroller@{githookcontroller}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classgithookcontroller_1_1GitHookController}{Git\-Hook\-Controller}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacegithookcontroller_a5c0a2facfdd7509f64df2aa6aefecf17}{main}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple \hyperlink{namespacegithookcontroller_a3bbdf7a562461bd3baca4ef635d6dd50}{log} = logging.\-get\-Logger( 'githookcontroller' )
+\item 
+tuple \hyperlink{namespacegithookcontroller_a13f0aa9843a2a5b05ba2e12f5ed3c903}{ch} = logging.\-Stream\-Handler( sys.\-stdout )
+\item 
+tuple \hyperlink{namespacegithookcontroller_a8672f684f117c8c4733546a0bc9e9616}{formatter} = logging.\-Formatter( '\%(levelname)s (\%(name)s)\-: \%(message)s' )
+\item 
+tuple \hyperlink{namespacegithookcontroller_ae617d8e0c886ed4e082bd11f1f33bd0d}{Push}
+\item 
+tuple \hyperlink{namespacegithookcontroller_af0d83e4b5f26b63a7ee452f3eb566ef4}{Commit}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{githookcontroller@{githookcontroller}!main@{main}}
+\index{main@{main}!githookcontroller@{githookcontroller}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}def githookcontroller.\-main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{namespacegithookcontroller_a5c0a2facfdd7509f64df2aa6aefecf17}
+
+
+Definition at line 450 of file githookcontroller.\-py.
+
+
+
+\subsection{Variable Documentation}
+\index{githookcontroller@{githookcontroller}!ch@{ch}}
+\index{ch@{ch}!githookcontroller@{githookcontroller}}
+\subsubsection[{ch}]{\setlength{\rightskip}{0pt plus 5cm}tuple githookcontroller.\-ch = logging.\-Stream\-Handler( sys.\-stdout )}\label{namespacegithookcontroller_a13f0aa9843a2a5b05ba2e12f5ed3c903}
+
+
+Definition at line 37 of file githookcontroller.\-py.
+
+\index{githookcontroller@{githookcontroller}!Commit@{Commit}}
+\index{Commit@{Commit}!githookcontroller@{githookcontroller}}
+\subsubsection[{Commit}]{\setlength{\rightskip}{0pt plus 5cm}tuple githookcontroller.\-Commit}\label{namespacegithookcontroller_af0d83e4b5f26b63a7ee452f3eb566ef4}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = namedtuple(\textcolor{stringliteral}{'Commit'}, [\textcolor{stringliteral}{'local\_ref'}, \textcolor{stringliteral}{'local\_sha1'}, \textcolor{stringliteral}{'remote\_ref'}, \textcolor{stringliteral}{'remote\_sha1'},
+2                                \textcolor{stringliteral}{'local\_branch'}, \textcolor{stringliteral}{'remote\_branch'}])
+\end{DoxyCode}
+
+
+Definition at line 45 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-parse\-\_\-pre\-\_\-push().
+
+\index{githookcontroller@{githookcontroller}!formatter@{formatter}}
+\index{formatter@{formatter}!githookcontroller@{githookcontroller}}
+\subsubsection[{formatter}]{\setlength{\rightskip}{0pt plus 5cm}tuple githookcontroller.\-formatter = logging.\-Formatter( '\%(levelname)s (\%(name)s)\-: \%(message)s' )}\label{namespacegithookcontroller_a8672f684f117c8c4733546a0bc9e9616}
+
+
+Definition at line 39 of file githookcontroller.\-py.
+
+\index{githookcontroller@{githookcontroller}!log@{log}}
+\index{log@{log}!githookcontroller@{githookcontroller}}
+\subsubsection[{log}]{\setlength{\rightskip}{0pt plus 5cm}tuple githookcontroller.\-log = logging.\-get\-Logger( 'githookcontroller' )}\label{namespacegithookcontroller_a3bbdf7a562461bd3baca4ef635d6dd50}
+
+
+Definition at line 35 of file githookcontroller.\-py.
+
+\index{githookcontroller@{githookcontroller}!Push@{Push}}
+\index{Push@{Push}!githookcontroller@{githookcontroller}}
+\subsubsection[{Push}]{\setlength{\rightskip}{0pt plus 5cm}tuple githookcontroller.\-Push}\label{namespacegithookcontroller_ae617d8e0c886ed4e082bd11f1f33bd0d}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = namedtuple(\textcolor{stringliteral}{'Push'}, [\textcolor{stringliteral}{'commits'}, \textcolor{stringliteral}{'remote\_name'}, \textcolor{stringliteral}{'remote\_url'},
+2                            \textcolor{stringliteral}{'current\_branch'}, \textcolor{stringliteral}{'removing\_remote'}, \textcolor{stringliteral}{'forcing'}])
+\end{DoxyCode}
+
+
+Definition at line 43 of file githookcontroller.\-py.
+
+
+
+Referenced by githookcontroller.\-Git\-Hook\-Controller.\-parse\-\_\-pre\-\_\-push().
+
