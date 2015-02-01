@@ -207,7 +207,6 @@ public:
 
     double event_weight;
     double pileup_weight;
-
 };
 
 #endif

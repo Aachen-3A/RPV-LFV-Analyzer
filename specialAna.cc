@@ -40,6 +40,8 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
 
+    HistClass::CreateEff("HLT_HLT_Mu40_eta2p1_v9",20,0,200, "p_{T}^{#mu} (GeV)");
+
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
     mkeep_resonance_mass["mutau"] = 0;
@@ -309,64 +311,67 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     }
     HistClass::Fill("MET_num",METList->size(),weight);
 
-    if (!TriggerSelector(event)) return;
-
-    FillControllHistos();
-
-    for(uint i = 0; i < MuonList->size(); i++){
-        if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
-        Fill_Particle_histos(1, MuonList->at(i));
-    }
-
-    for(uint i = 0; i < EleList->size(); i++){
-        if(EleList->at(i)->getPt() < 25 or TMath::Abs(EleList->at(i)->getEta()) > 2.5 or (TMath::Abs(EleList->at(i)->getEta()) > 1.442 and TMath::Abs(EleList->at(i)->getEta()) < 1.56))continue;
-        Fill_Particle_histos(1, EleList->at(i));
-    }
-
-    for(uint i = 0; i < TauList->size(); i++){
-        Fill_Particle_histos(1, TauList->at(i));
-    }
-
-    for(uint i = 0; i < METList->size(); i++){
-        Fill_Particle_histos(1, METList->at(i));
-    }
-
-    for(uint i = 0; i < MuonList->size(); i++){
-        if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
-        if(Check_Muo_ID(MuonList->at(i))){
-            Fill_Particle_histos(2, MuonList->at(i));
-        }
-    }
-
-    for(uint i = 0; i < EleList->size(); i++){
-        if(EleList->at(i)->getPt() < 25 or TMath::Abs(EleList->at(i)->getEta()) > 2.5 or (TMath::Abs(EleList->at(i)->getEta()) > 1.442 and TMath::Abs(EleList->at(i)->getEta()) < 1.56))continue;
-        if(EleList->at(i)->getUserRecord("IDpassed").asBool()){
-            Fill_Particle_histos(2, EleList->at(i));
-        }
-    }
-
-    for(uint i = 0; i < TauList->size(); i++){
-        if(Check_Tau_ID(TauList->at(i))){
-            Fill_Particle_histos(2, TauList->at(i));
-        }
-    }
-
-    for(uint i = 0; i < METList->size(); i++){
-        Fill_Particle_histos(2, METList->at(i));
-    }
-
-    KinematicsSelector();
-
-    if(not runOnData) {
-        FillSystematics(event, "Ele");
+    if (!TriggerSelector(event)){
+        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),false);
+        return;
+    }else{
+        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),true);
+        FillControllHistos();
     
-        FillSystematics(event, "Muon");
-        FillSystematicsUpDown(event, "Muon", "Up", "Resolution");
-        FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
+        for(uint i = 0; i < MuonList->size(); i++){
+            if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
+            Fill_Particle_histos(1, MuonList->at(i));
+        }
     
-        FillSystematics(event, "Tau");
+        for(uint i = 0; i < EleList->size(); i++){
+            if(EleList->at(i)->getPt() < 25 or TMath::Abs(EleList->at(i)->getEta()) > 2.5 or (TMath::Abs(EleList->at(i)->getEta()) > 1.442 and TMath::Abs(EleList->at(i)->getEta()) < 1.56))continue;
+            Fill_Particle_histos(1, EleList->at(i));
+        }
+    
+        for(uint i = 0; i < TauList->size(); i++){
+            Fill_Particle_histos(1, TauList->at(i));
+        }
+    
+        for(uint i = 0; i < METList->size(); i++){
+            Fill_Particle_histos(1, METList->at(i));
+        }
+    
+        for(uint i = 0; i < MuonList->size(); i++){
+            if(MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1)continue;
+            if(Check_Muo_ID(MuonList->at(i))){
+                Fill_Particle_histos(2, MuonList->at(i));
+            }
+        }
+    
+        for(uint i = 0; i < EleList->size(); i++){
+            if(EleList->at(i)->getPt() < 25 or TMath::Abs(EleList->at(i)->getEta()) > 2.5 or (TMath::Abs(EleList->at(i)->getEta()) > 1.442 and TMath::Abs(EleList->at(i)->getEta()) < 1.56))continue;
+            if(EleList->at(i)->getUserRecord("IDpassed").asBool()){
+                Fill_Particle_histos(2, EleList->at(i));
+            }
+        }
+    
+        for(uint i = 0; i < TauList->size(); i++){
+            if(Check_Tau_ID(TauList->at(i))){
+                Fill_Particle_histos(2, TauList->at(i));
+            }
+        }
+    
+        for(uint i = 0; i < METList->size(); i++){
+            Fill_Particle_histos(2, METList->at(i));
+        }
+    
+        KinematicsSelector();
+    
+        if(not runOnData) {
+            FillSystematics(event, "Ele");
+        
+            FillSystematics(event, "Muon");
+            FillSystematicsUpDown(event, "Muon", "Up", "Resolution");
+            FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
+        
+            FillSystematics(event, "Tau");
+        }
     }
-
     endEvent( event );
 }
 
@@ -1755,6 +1760,10 @@ void specialAna::endJob( const Serializable* ) {
         file1->cd("MC/");
         HistClass::WriteAll("_Gen");
     }
+    file1->cd();
+    file1->mkdir("Effs");
+    file1->cd("Effs/");
+    HistClass::WriteAllEff();
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
