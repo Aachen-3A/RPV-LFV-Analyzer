@@ -16,7 +16,6 @@
 #include "TH2F.h"
 #include "TString.h"
 #include "TLorentzVector.h"
-#include "TEfficiency.h"
 #include <TFile.h>
 
 #include "Main/Systematics.hh"
@@ -208,7 +207,6 @@ public:
 
     double event_weight;
     double pileup_weight;
-    TEfficiency* pEff;
 };
 
 #endif

@@ -40,7 +40,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
 
-    pEff = new TEfficiency("eff","HLT_HLT_Mu40_eta2p1_v9;p_{T}^{#mu} (GeV);#epsilon",20,0,200);
+    HistClass::CreateEff("HLT_HLT_Mu40_eta2p1_v9",20,0,200, "p_{T}^{#mu} (GeV)");
 
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
@@ -312,10 +312,10 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     HistClass::Fill("MET_num",METList->size(),weight);
 
     if (!TriggerSelector(event)){
-        if(MuonList->size() > 0)pEff->Fill(false,MuonList->at(0)->getPt());
+        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),false);
         return;
     }else{
-        if(MuonList->size() > 0)pEff->Fill(true,MuonList->at(0)->getPt());
+        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),true);
         FillControllHistos();
     
         for(uint i = 0; i < MuonList->size(); i++){
@@ -1755,12 +1755,15 @@ void specialAna::endJob( const Serializable* ) {
 
     file1->cd();
     HistClass::WriteAll("counters");
-    pEff->Write();
     if(not runOnData){
         file1->mkdir("MC");
         file1->cd("MC/");
         HistClass::WriteAll("_Gen");
     }
+    file1->cd();
+    file1->mkdir("Effs");
+    file1->cd("Effs/");
+    HistClass::WriteAllEff();
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
