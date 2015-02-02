@@ -926,18 +926,18 @@ void specialAna::KinematicsSelector(std::string const endung) {
 void specialAna::Create_trigger_effs() {
     for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
         const char* temp_trigger_name = (*it).c_str();
-        HistClass::CreateEff(temp_trigger_name,20,0,200, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateEff(temp_trigger_name, 20, 0, 200, "p_{T}^{#mu} (GeV)");
     }
 }
 
 void specialAna::Fill_trigger_effs() {
-    if (true){
-        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),false);
-        return;
-    }else{
-        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),true);
+    for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+        const char* temp_trigger_name = (*it).c_str();
+        bool trigger_decision = false;
+        double trigger_pt_val = 0;
+        HistClass::FillEff(temp_trigger_name, trigger_pt_val, trigger_decision);
     }
-    return;
+
 }
 
 pxl::Particle* specialAna::Get_Trigger_match(string name, pxl::Particle* lepton){
