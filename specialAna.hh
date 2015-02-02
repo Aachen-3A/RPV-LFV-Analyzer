@@ -113,6 +113,7 @@ public:
 
     bool runOnData;
     string const m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
+    bool doTriggerStudies;
 
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};

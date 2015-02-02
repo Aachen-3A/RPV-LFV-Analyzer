@@ -71,6 +71,7 @@ var classspecialAna =
     [ "config_", "classspecialAna.html#a1e76bd61bb4a97d99729f398674e14e2", null ],
     [ "d_mydisc", "classspecialAna.html#a6b83298c41f32cdbd7979ec8033eefd6", null ],
     [ "d_mydiscmu", "classspecialAna.html#a8bd00db3975c79baf92da5f720cca2fc", null ],
+    [ "doTriggerStudies", "classspecialAna.html#a7a1bf23bc717ba56e9491d5135ac0270", null ],
     [ "EleList", "classspecialAna.html#a20428604e5f83134e03ded624a4f4c6a", null ],
     [ "EleListGen", "classspecialAna.html#a8bfd838b3d91f8a0721b22b75c4078a9", null ],
     [ "emu_cut_cfgs", "classspecialAna.html#a15d1b215f95e104a1728a3e090ef76df", null ],
