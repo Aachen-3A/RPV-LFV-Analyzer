@@ -922,7 +922,11 @@ void specialAna::KinematicsSelector(std::string const endung) {
 }
 
 void specialAna::Create_trigger_effs() {
-    
+    return;
+}
+
+void specialAna::Fill_trigger_effs() {
+    return;
 }
 
 void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {

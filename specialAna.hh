@@ -53,6 +53,9 @@ public:
 
     void FillControllHistos();
 
+    void Create_trigger_effs();
+    void Fill_trigger_effs();
+
     void Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
     void Fill_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
 
@@ -112,8 +115,8 @@ public:
     pxl::EventView *m_TrigEvtView;
 
     bool runOnData;
-    string const m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
     bool doTriggerStudies;
+    string const m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
 
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
