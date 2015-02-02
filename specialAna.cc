@@ -924,8 +924,10 @@ void specialAna::KinematicsSelector(std::string const endung) {
 }
 
 void specialAna::Create_trigger_effs() {
-    HistClass::CreateEff("HLT_HLT_Mu40_eta2p1_v9",20,0,200, "p_{T}^{#mu} (GeV)");
-    return;
+    for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+        const char* temp_trigger_name = (*it).c_str();
+        HistClass::CreateEff(temp_trigger_name,20,0,200, "p_{T}^{#mu} (GeV)");
+    }
 }
 
 void specialAna::Fill_trigger_effs() {
