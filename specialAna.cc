@@ -41,7 +41,9 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
 
-    HistClass::CreateEff("HLT_HLT_Mu40_eta2p1_v9",20,0,200, "p_{T}^{#mu} (GeV)");
+    if(doTriggerStudies) {
+        Create_trigger_effs();
+    }
 
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
@@ -312,11 +314,11 @@ void specialAna::analyseEvent( const pxl::Event* event ) {
     }
     HistClass::Fill("MET_num",METList->size(),weight);
 
-    if (!TriggerSelector(event)){
-        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),false);
-        return;
-    }else{
-        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),true);
+    if(doTriggerStudies) {
+        Fill_trigger_effs();
+    }
+
+    if (TriggerSelector(event)) {
         FillControllHistos();
     
         for(uint i = 0; i < MuonList->size(); i++){
@@ -922,10 +924,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
 }
 
 void specialAna::Create_trigger_effs() {
+    HistClass::CreateEff("HLT_HLT_Mu40_eta2p1_v9",20,0,200, "p_{T}^{#mu} (GeV)");
     return;
 }
 
 void specialAna::Fill_trigger_effs() {
+    if (true){
+        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),false);
+        return;
+    }else{
+        if(MuonList->size() > 0)HistClass::FillEff("HLT_HLT_Mu40_eta2p1_v9",MuonList->at(0)->getPt(),true);
+    }
     return;
 }
 
@@ -1802,10 +1811,12 @@ void specialAna::endJob( const Serializable* ) {
         file1->cd("MC/");
         HistClass::WriteAll("_Gen");
     }
-    file1->cd();
-    file1->mkdir("Effs");
-    file1->cd("Effs/");
-    HistClass::WriteAllEff();
+    if(doTriggerStudies) {
+        file1->cd();
+        file1->mkdir("Effs");
+        file1->cd("Effs/");
+        HistClass::WriteAllEff();
+    }
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
