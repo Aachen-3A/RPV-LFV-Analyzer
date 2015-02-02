@@ -9,6 +9,7 @@
 
 specialAna::specialAna( const Tools::MConfig &cfg ) :
     runOnData(       cfg.GetItem< bool >( "General.RunOnData" ) ),
+    doTriggerStudies(cfg.GetItem< bool >( "General.DoTriggerStudies" ) ),
     m_JetAlgo(       cfg.GetItem< string >( "Jet.Type.Rec" ) ),
     m_BJets_algo(    cfg.GetItem< string >( "Jet.BJets.Algo" ) ),
     m_METType(       cfg.GetItem< string >( "MET.Type.Rec" ) ),
@@ -918,6 +919,10 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }
         Fill_N1_histos("mutaumu", mutaumu_cut_cfgs, endung);
     }
+}
+
+void specialAna::Create_trigger_effs() {
+    
 }
 
 void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
