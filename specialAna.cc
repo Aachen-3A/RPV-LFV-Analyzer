@@ -10,15 +10,15 @@
 specialAna::specialAna( const Tools::MConfig &cfg ) :
     runOnData(       cfg.GetItem< bool >( "General.RunOnData" ) ),
     doTriggerStudies(cfg.GetItem< bool >( "General.DoTriggerStudies" ) ),
-    m_JetAlgo(       cfg.GetItem< string >( "Jet.Type.Rec" ) ),
-    m_BJets_algo(    cfg.GetItem< string >( "Jet.BJets.Algo" ) ),
-    m_METType(       cfg.GetItem< string >( "MET.Type.Rec" ) ),
-    m_TauType(       cfg.GetItem< string >( "Tau.Type.Rec" ) ),
+    m_JetAlgo(       cfg.GetItem< std::string >( "Jet.Type.Rec" ) ),
+    m_BJets_algo(    cfg.GetItem< std::string >( "Jet.BJets.Algo" ) ),
+    m_METType(       cfg.GetItem< std::string >( "MET.Type.Rec" ) ),
+    m_TauType(       cfg.GetItem< std::string >( "Tau.Type.Rec" ) ),
 
-    m_trigger_string( Tools::splitString< string >( cfg.GetItem< string >( "RPV.trigger_list" ), true  ) ),
+    m_trigger_string( Tools::splitString< std::string >( cfg.GetItem< std::string >( "RPV.trigger_list" ), true  ) ),
     d_mydiscmu(  {"isPFMuon","isGlobalMuon","isTrackerMuon","isStandAloneMuon","isTightMuon","isHighPtMuon"} ),
-    m_dataPeriod(    cfg.GetItem< string >( "General.DataPeriod" )),
-    m_channel(       cfg.GetItem< string >( "RPV.channel" )),
+    m_dataPeriod(    cfg.GetItem< std::string >( "General.DataPeriod" )),
+    m_channel(       cfg.GetItem< std::string >( "RPV.channel" )),
     config_(cfg)
 {
 
@@ -34,7 +34,7 @@ specialAna::specialAna( const Tools::MConfig &cfg ) :
     b_mutaue = m_channel.find("mutaue") != std::string::npos ? true : false;
     b_mutaumu = m_channel.find("mutaumu") != std::string::npos ? true : false;
 
-    string safeFileName = "SpecialHistos.root";
+    std::string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
     events_ = 0;
 
@@ -516,31 +516,31 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     /// backup OldList
     RememberMET=METList;
-    METList = new vector< pxl::Particle* >;
+    METList = new std::vector< pxl::Particle* >;
     if(particleName=="Muon"){
         RememberPart=MuonList;
-        MuonList = new vector< pxl::Particle* >;
-        for( vector< pxl::Particle* >::const_iterator part_it = shiftedParticles.begin(); part_it != shiftedParticles.end(); ++part_it ) {
+        MuonList = new std::vector< pxl::Particle* >;
+        for( std::vector< pxl::Particle* >::const_iterator part_it = shiftedParticles.begin(); part_it != shiftedParticles.end(); ++part_it ) {
             pxl::Particle *part = *part_it;
-            string Name = part->getName();
+            std::string Name = part->getName();
             if(      Name == "Muon"    ) MuonList->push_back( part );
             else if( Name == m_METType ) METList->push_back( part );
         }
     }else if(particleName=="Ele"){
         RememberPart=EleList;
-        EleList = new vector< pxl::Particle* >;
-        for( vector< pxl::Particle* >::const_iterator part_it = shiftedParticles.begin(); part_it != shiftedParticles.end(); ++part_it ) {
+        EleList = new std::vector< pxl::Particle* >;
+        for( std::vector< pxl::Particle* >::const_iterator part_it = shiftedParticles.begin(); part_it != shiftedParticles.end(); ++part_it ) {
             pxl::Particle *part = *part_it;
-            string Name = part->getName();
+            std::string Name = part->getName();
             if(      Name == "Ele"     ) EleList->push_back( part );
             else if( Name == m_METType ) METList->push_back( part );
         }
     }else if(particleName=="Tau"){
         RememberPart=TauList;
-        TauList = new vector< pxl::Particle* >;
-        for( vector< pxl::Particle* >::const_iterator part_it = shiftedParticles.begin(); part_it != shiftedParticles.end(); ++part_it ) {
+        TauList = new std::vector< pxl::Particle* >;
+        for( std::vector< pxl::Particle* >::const_iterator part_it = shiftedParticles.begin(); part_it != shiftedParticles.end(); ++part_it ) {
             pxl::Particle *part = *part_it;
-            string Name = part->getName();
+            std::string Name = part->getName();
             if(      Name == m_TauType ) TauList->push_back( part );
             else if( Name == m_METType ) METList->push_back( part );
         }
@@ -663,7 +663,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             emu_cut_cfgs["kinematics"].SetVars(resonance_mass["emu"]);
         }
         /// Make the same-sign charge cut
-        if(OppSign_charge(emu_cut_cfgs["OppSign_charge"])) {
+        if(OppSign_charge(&emu_cut_cfgs["OppSign_charge"])) {
             if(b_emu_success) {
                 Fill_Resonance_histograms(1, "emu", "ele", "muo", endung);
                 b_emu_success = true;
@@ -674,7 +674,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             emu_cut_cfgs["OppSign_charge"].SetPassed(false);
         }
         /// Make the b-jet veto
-        if(Bjet_veto(emu_cut_cfgs["BJet_veto"])) {
+        if(Bjet_veto(&emu_cut_cfgs["BJet_veto"])) {
             if(b_emu_success) {
                 Fill_Resonance_histograms(2, "emu", "ele", "muo", endung);
                 b_emu_success = true;
@@ -685,7 +685,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             emu_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         /// Make the cut on DeltaPhi(e,mu)
-        if(Make_DeltaPhi_emu(emu_cut_cfgs["DeltaPhi_emu"])) {
+        if(Make_DeltaPhi_emu(&emu_cut_cfgs["DeltaPhi_emu"])) {
             if(b_emu_success) {
                 Fill_Resonance_histograms(3, "emu", "ele", "muo", endung);
                 b_emu_success = true;
@@ -729,7 +729,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["kinematics"].SetVars(resonance_mass["mutau"]);
         }
         /// Make the cut on zeta
-        if(Make_zeta_cut(mutau_cut_cfgs["zeta"])) {
+        if(Make_zeta_cut(&mutau_cut_cfgs["zeta"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(1, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -740,7 +740,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["zeta"].SetPassed(false);
         }
         /// Make the cut on DeltaPhi(tau,MET)
-        if(Make_DeltaPhi_tauMET(mutau_cut_cfgs["DeltaPhi_tauMET"])) {
+        if(Make_DeltaPhi_tauMET(&mutau_cut_cfgs["DeltaPhi_tauMET"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(2, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -751,7 +751,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["DeltaPhi_tauMET"].SetPassed(false);
         }
         /// Make the cut on DeltaPhi(mu,tau)
-        if(Make_DeltaPhi_mutau(mutau_cut_cfgs["DeltaPhi_mutau"])) {
+        if(Make_DeltaPhi_mutau(&mutau_cut_cfgs["DeltaPhi_mutau"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(3, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -762,7 +762,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["DeltaPhi_mutau"].SetPassed(false);
         }
         /// Make the b-jet veto
-        if(Bjet_veto(mutau_cut_cfgs["BJet_veto"])) {
+        if(Bjet_veto(&mutau_cut_cfgs["BJet_veto"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(4, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -773,7 +773,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         /// Make the same-sign charge cut
-        if(OppSign_charge(mutau_cut_cfgs["OppSign_charge"])) {
+        if(OppSign_charge(&mutau_cut_cfgs["OppSign_charge"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(5, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -784,7 +784,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["OppSign_charge"].SetPassed(false);
         }
         /// Make the M_T cut
-        if(MT_cut(mutau_cut_cfgs["MT_cut"])) {
+        if(MT_cut(&mutau_cut_cfgs["MT_cut"])) {
             if(b_mutau_success) {
                 Fill_Resonance_histograms(6, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -847,7 +847,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaue_cut_cfgs["kinematics"].SetVars(resonance_mass["mutaue"]);
         }
         /// Make the b-jet veto
-        if(Bjet_veto(mutaue_cut_cfgs["BJet_veto"])) {
+        if(Bjet_veto(&mutaue_cut_cfgs["BJet_veto"])) {
             if(b_mutaue_success) {
                 Fill_Resonance_histograms(1, "mutaue", "muo", "tau_ele", endung);
                 b_mutaue_success = true;
@@ -858,7 +858,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaue_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         /// Make the cut on DeltaPhi(e,mu)
-        if(Make_DeltaPhi_tauemu(mutaue_cut_cfgs["DeltaPhi_emu"])) {
+        if(Make_DeltaPhi_tauemu(&mutaue_cut_cfgs["DeltaPhi_emu"])) {
             if(b_mutaue_success) {
                 Fill_Resonance_histograms(2, "mutaue", "muo", "tau_ele", endung);
                 b_mutaue_success = true;
@@ -869,7 +869,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaue_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
         }
         /// Make the cut on the leptonic pT fraction
-        if(Leptonic_fraction_cut(mutaue_cut_cfgs["lep_fraction"])) {
+        if(Leptonic_fraction_cut(&mutaue_cut_cfgs["lep_fraction"])) {
             if(b_mutaue_success) {
                 Fill_Resonance_histograms(3, "mutaue", "muo", "tau_ele", endung);
                 b_mutaue_success = true;
@@ -880,7 +880,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaue_cut_cfgs["lep_fraction"].SetPassed(false);
         }
         /// Make the cut on the pT ratio of mu and tau
-        if(pT_mutau_ratio_cut(mutaue_cut_cfgs["pT_taumu_ratio"])) {
+        if(pT_mutau_ratio_cut(&mutaue_cut_cfgs["pT_taumu_ratio"])) {
             if(b_mutaue_success) {
                 Fill_Resonance_histograms(4, "mutaue", "muo", "tau_ele", endung);
                 b_mutaue_success = true;
@@ -891,7 +891,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaue_cut_cfgs["pT_taumu_ratio"].SetPassed(false);
         }
         /// Make the cut on the pT ratio of mu and ele
-        if(pT_muele_ratio_cut(mutaue_cut_cfgs["pT_elemu_ratio"])) {
+        if(pT_muele_ratio_cut(&mutaue_cut_cfgs["pT_elemu_ratio"])) {
             if(b_mutaue_success) {
                 Fill_Resonance_histograms(5, "mutaue", "muo", "tau_ele", endung);
                 b_mutaue_success = true;
@@ -924,14 +924,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
 }
 
 void specialAna::Create_trigger_effs() {
-    for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+    for( std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
         const char* temp_trigger_name = (*it).c_str();
         HistClass::CreateEff(temp_trigger_name, 20, 0, 200, "p_{T}^{#mu} (GeV)");
     }
 }
 
 void specialAna::Fill_trigger_effs() {
-    for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+    for( std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
         const char* temp_trigger_name = (*it).c_str();
         bool trigger_decision = false;
         double trigger_pt_val = 0;
@@ -940,7 +940,7 @@ void specialAna::Fill_trigger_effs() {
 
 }
 
-pxl::Particle* specialAna::Get_Trigger_match(string name, pxl::Particle* lepton){
+pxl::Particle* specialAna::Get_Trigger_match(std::string name, pxl::Particle* lepton){
     // double part_temp_eta = lepton->getEta();
     // double part_temp_phi = lepton->getPhi();
     // int part_temp_id = 0;
@@ -973,40 +973,40 @@ pxl::Particle* specialAna::Get_Trigger_match(string name, pxl::Particle* lepton)
     return gen_match;
 }
 
-void specialAna::Create_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
+void specialAna::Create_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung) {
     for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
         std::string dummy_key = iterator->first;
-        if (m_cfg[dummy_key].dim() == 1) {
-            HistClass::CreateHisto(2,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].xt() );
-        }else if(m_cfg[dummy_key].dim() == 2) {
-            HistClass::CreateHisto(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), m_cfg[dummy_key].xt(), m_cfg[dummy_key].yt() );
-            HistClass::CreateHisto(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].bx(), m_cfg[dummy_key].xmi(), m_cfg[dummy_key].xma(), m_cfg[dummy_key].by(), m_cfg[dummy_key].ymi(), m_cfg[dummy_key].yma(), m_cfg[dummy_key].xt(), m_cfg[dummy_key].yt() );
+        if (iterator->second.dim() == 1) {
+            HistClass::CreateHisto(2,TString::Format("N-1_%s_", channel) + dummy_key + endung, iterator->second.bx(), iterator->second.xmi(), iterator->second.xma(), iterator->second.xt() );
+        }else if(iterator->second.dim() == 2) {
+            HistClass::CreateHisto(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, iterator->second.bx(), iterator->second.xmi(), iterator->second.xma(), iterator->second.by(), iterator->second.ymi(), iterator->second.yma(), iterator->second.xt(), iterator->second.yt() );
+            HistClass::CreateHisto(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, iterator->second.bx(), iterator->second.xmi(), iterator->second.xma(), iterator->second.by(), iterator->second.ymi(), iterator->second.yma(), iterator->second.xt(), iterator->second.yt() );
         }else{
             std::cerr << "At the moment only one and two dimensional N-1 distributions are supported!" << std::endl;
         }
     }
 }
 
-void specialAna::Fill_N1_histos(const char* channel, std::map< std::string, Cuts > &m_cfg, std::string const endung) {
+void specialAna::Fill_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung) {
     for(auto iterator = m_cfg.begin(); iterator != m_cfg.end(); iterator++) {
         std::string dummy_key = iterator->first;
         bool do_n_plot = true;
         for(auto jterator = m_cfg.begin(); jterator != m_cfg.end(); jterator++) {
             if(dummy_key == jterator->first) continue;
-            if(not m_cfg[jterator->first].pass()){
+            if(not jterator->second.pass()){
                 do_n_plot = false;
                 break;
             }
         }
-        if (m_cfg[dummy_key].dim() == 1) {
-            HistClass::Fill(0,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), weight );
+        if (iterator->second.dim() == 1) {
+            HistClass::Fill(0,TString::Format("N-1_%s_", channel) + dummy_key + endung, iterator->second.v1(), weight );
             if(do_n_plot){
-                HistClass::Fill(1,TString::Format("N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), weight );
+                HistClass::Fill(1,TString::Format("N-1_%s_", channel) + dummy_key + endung, iterator->second.v1(), weight );
             }
-        }else if(m_cfg[dummy_key].dim() == 2) {
-            HistClass::Fill(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), m_cfg[dummy_key].v2(), weight );
+        }else if(iterator->second.dim() == 2) {
+            HistClass::Fill(TString::Format("0_N-1_%s_", channel) + dummy_key + endung, iterator->second.v1(), iterator->second.v2(), weight );
             if(do_n_plot){
-                HistClass::Fill(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, m_cfg[dummy_key].v1(), m_cfg[dummy_key].v2(), weight );
+                HistClass::Fill(TString::Format("1_N-1_%s_", channel) + dummy_key + endung, iterator->second.v1(), iterator->second.v2(), weight );
             }
         }else{
             std::cerr << "At the moment only one and two dimensional N-1 distributions are supported!" << std::endl;
@@ -1172,7 +1172,7 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     }
 }
 
-bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > gen_list) {
+bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > gen_list) {
     int id_1, id_2;
     if(channel == (char*)"emu") {
         id_1 = 11;
@@ -1189,10 +1189,10 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > gen
 
     resonance_mass_gen[channel] = 0;
     if(b_13TeV) {
-        for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
+        for( std::vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
             pxl::Particle *part_i = *part_it;
             if(TMath::Abs(part_i -> getPdgNumber()) == id_1) {
-                for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
+                for( std::vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
                     pxl::Particle *part_j = *part_jt;
                     if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
                     pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
@@ -1206,10 +1206,10 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > gen
             }
         }
     }else if(b_8TeV) {
-        for( vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
+        for( std::vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it ) {
             pxl::Particle *part_i = *part_it;
             if(TMath::Abs(part_i -> getUserRecord("id").asInt32()) == id_1) {
-                for( vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
+                for( std::vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt ) {
                     pxl::Particle *part_j = *part_jt;
                     if (TMath::Abs(part_j -> getUserRecord("id").asInt32()) != id_2) continue;
                     pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
@@ -1230,12 +1230,12 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > gen
     }
 }
 
-bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list) {
+bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list) {
     resonance_mass[channel] = 0;
-    for( vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
+    for( std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
         pxl::Particle *part_i = *part_it;
         if(Check_Par_ID(part_i)) {
-            for( vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
+            for( std::vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
                 pxl::Particle *part_j = *part_jt;
                 if (not Check_Par_ID(part_j)) continue;
                 pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
@@ -1255,13 +1255,13 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > par
     }
 }
 
-bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > part1_list, vector< pxl::Particle* > part2_list, vector< pxl::Particle* > met_list) {
+bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list, std::vector< pxl::Particle* > met_list) {
     resonance_mass[channel] = 0;
     if( not sel_met ) return false;
-    for( vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
+    for( std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it ) {
         pxl::Particle *part_i = *part_it;
         if(Check_Par_ID(part_i)) {
-            for( vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
+            for( std::vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt ) {
                 pxl::Particle *part_j = *part_jt;
                 if (not Check_Par_ID(part_j)) continue;
                 pxl::Particle* dummy_taumu = ( pxl::Particle* ) part_i->clone();
@@ -1318,7 +1318,7 @@ bool specialAna::FindResonance(const char* channel, vector< pxl::Particle* > par
 }
 
 bool specialAna::Check_Par_ID(pxl::Particle* part) {
-    string name = part -> getName();
+    std::string name = part -> getName();
     if(name == m_TauType){
         bool tau_id = Check_Tau_ID(part);
         return tau_id;
@@ -1372,7 +1372,7 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele) {
     return ele_ID;
 }
 
-vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
+std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
     double p_zeta_vis = 0;
     double p_zeta = 0;
 
@@ -1392,18 +1392,18 @@ vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* t
         delete vec_tau;
     }
 
-    vector<double> out;
+    std::vector<double> out;
     out.push_back(p_zeta_vis);
     out.push_back(p_zeta);
 
     return out;
 }
 
-bool specialAna::Make_zeta_cut(Cuts& cuts) {
-    vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt, sel_lepton_nprompt, sel_met);
+bool specialAna::Make_zeta_cut(Cuts* cuts) {
+    std::vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt, sel_lepton_nprompt, sel_met);
     double zeta_steepnes_cut_value = -1.21;
     double zeta_offset_cut_value   = -24.1;
-    cuts.SetVars(zeta_vals[0],zeta_vals[1]);
+    cuts->SetVars(zeta_vals[0],zeta_vals[1]);
     if ((zeta_vals[0] + zeta_steepnes_cut_value * zeta_vals[1]) > zeta_offset_cut_value) {
         return true;
     }else{
@@ -1411,13 +1411,13 @@ bool specialAna::Make_zeta_cut(Cuts& cuts) {
     }
 }
 
-bool specialAna::Make_DeltaPhi_tauMET(Cuts& cuts) {
+bool specialAna::Make_DeltaPhi_tauMET(Cuts* cuts) {
     double delta_phi = 10.;
     if(sel_met and sel_lepton_nprompt) {
         delta_phi = DeltaPhi(sel_lepton_nprompt,sel_met);
     }
     double delta_phi_tau_met_cut_value = 1.3;
-    cuts.SetVars(delta_phi);
+    cuts->SetVars(delta_phi);
     if(delta_phi < delta_phi_tau_met_cut_value) {
         return true;
     }else{
@@ -1425,13 +1425,13 @@ bool specialAna::Make_DeltaPhi_tauMET(Cuts& cuts) {
     }
 }
 
-bool specialAna::Make_DeltaPhi_mutau(Cuts& cuts) {
+bool specialAna::Make_DeltaPhi_mutau(Cuts* cuts) {
     double delta_phi = 0.;
     if(sel_lepton_prompt and sel_lepton_nprompt) {
         delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
     }
     double delta_phi_mu_tau_cut_value = 2.3;
-    cuts.SetVars(delta_phi);
+    cuts->SetVars(delta_phi);
     if(delta_phi > delta_phi_mu_tau_cut_value) {
         return true;
     }else{
@@ -1439,13 +1439,13 @@ bool specialAna::Make_DeltaPhi_mutau(Cuts& cuts) {
     }
 }
 
-bool specialAna::Make_DeltaPhi_tauemu(Cuts& cuts) {
+bool specialAna::Make_DeltaPhi_tauemu(Cuts* cuts) {
     double delta_phi = 0.;
     if(sel_lepton_prompt and sel_lepton_nprompt) {
         delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
     }
     double delta_phi_mu_tau_cut_value = 2.7;
-    cuts.SetVars(delta_phi);
+    cuts->SetVars(delta_phi);
     if(delta_phi > delta_phi_mu_tau_cut_value) {
         return true;
     }else{
@@ -1453,13 +1453,13 @@ bool specialAna::Make_DeltaPhi_tauemu(Cuts& cuts) {
     }
 }
 
-bool specialAna::Make_DeltaPhi_emu(Cuts& cuts) {
+bool specialAna::Make_DeltaPhi_emu(Cuts* cuts) {
     double delta_phi = 0.;
     if(sel_lepton_prompt and sel_lepton_nprompt) {
         delta_phi = DeltaPhi(sel_lepton_nprompt,sel_lepton_prompt);
     }
     double delta_phi_e_mu_cut_value = 2.7;
-    cuts.SetVars(delta_phi);
+    cuts->SetVars(delta_phi);
     if(delta_phi > delta_phi_e_mu_cut_value) {
         return true;
     }else{
@@ -1467,8 +1467,8 @@ bool specialAna::Make_DeltaPhi_emu(Cuts& cuts) {
     }
 }
 
-bool specialAna::Bjet_veto(Cuts& cuts) {
-    cuts.SetVars(numBJet);
+bool specialAna::Bjet_veto(Cuts* cuts) {
+    cuts->SetVars(numBJet);
     if(numBJet < 1) {
         return true;
     }else{
@@ -1476,12 +1476,12 @@ bool specialAna::Bjet_veto(Cuts& cuts) {
     }
 }
 
-bool specialAna::OppSign_charge(Cuts& cuts) {
+bool specialAna::OppSign_charge(Cuts* cuts) {
     double charge_product = 0;
     if(sel_lepton_prompt and sel_lepton_nprompt) {
         charge_product = sel_lepton_prompt->getCharge() * sel_lepton_nprompt->getCharge();
     }
-    cuts.SetVars(charge_product);
+    cuts->SetVars(charge_product);
     if(charge_product < 0) {
         return true;
     }else{
@@ -1489,12 +1489,12 @@ bool specialAna::OppSign_charge(Cuts& cuts) {
     }
 }
 
-bool specialAna::MT_cut(Cuts& cuts) {
+bool specialAna::MT_cut(Cuts* cuts) {
     double mt = 0;
     if(sel_lepton_prompt and sel_met) {
         mt = MT(sel_lepton_prompt,sel_met);
     }
-    cuts.SetVars(mt);
+    cuts->SetVars(mt);
     double mt_min_cut_value = 180;
     if(mt > mt_min_cut_value) {
         return true;
@@ -1506,7 +1506,7 @@ bool specialAna::MT_cut(Cuts& cuts) {
 double specialAna::calc_lep_fraction() {
     double pT_sum_lep = sel_lepton_prompt->getPt() + sel_lepton_nprompt->getPt();
     double pT_sum_had = 0;
-    for( vector< pxl::Particle* >::const_iterator part_it = JetList->begin(); part_it != JetList->end(); ++part_it ) {
+    for( std::vector< pxl::Particle* >::const_iterator part_it = JetList->begin(); part_it != JetList->end(); ++part_it ) {
         pxl::Particle *part_i = *part_it;
         pT_sum_had += part_i->getPt();
     }
@@ -1514,12 +1514,12 @@ double specialAna::calc_lep_fraction() {
     return pT_sum_lep / pT_sum_all;
 }
 
-bool specialAna::Leptonic_fraction_cut(Cuts& cuts) {
+bool specialAna::Leptonic_fraction_cut(Cuts* cuts) {
     double lep_fraction = 0;
     if(sel_lepton_nprompt and sel_lepton_prompt) {
         lep_fraction = calc_lep_fraction();
     }
-    cuts.SetVars(lep_fraction);
+    cuts->SetVars(lep_fraction);
     double lep_fraction_cut_value = 0.8;
     if(lep_fraction > lep_fraction_cut_value) {
         return true;
@@ -1528,12 +1528,12 @@ bool specialAna::Leptonic_fraction_cut(Cuts& cuts) {
     }
 }
 
-bool specialAna::pT_mutau_ratio_cut(Cuts& cuts) {
+bool specialAna::pT_mutau_ratio_cut(Cuts* cuts) {
     double pT_ratio = 0;
     if(sel_lepton_nprompt_corr and sel_lepton_prompt) {
         pT_ratio = sel_lepton_nprompt_corr->getPt() / sel_lepton_prompt->getPt();
     }
-    cuts.SetVars(pT_ratio);
+    cuts->SetVars(pT_ratio);
     double pT_mutau_ratio_cut_min_val = 0.6;
     double pT_mutau_ratio_cut_max_val = 1.4;
     if(pT_ratio > pT_mutau_ratio_cut_min_val and pT_ratio < pT_mutau_ratio_cut_max_val) {
@@ -1543,12 +1543,12 @@ bool specialAna::pT_mutau_ratio_cut(Cuts& cuts) {
     }
 }
 
-bool specialAna::pT_muele_ratio_cut(Cuts& cuts) {
+bool specialAna::pT_muele_ratio_cut(Cuts* cuts) {
     double pT_ratio = 0;
     if(sel_lepton_nprompt and sel_lepton_prompt) {
         pT_ratio = sel_lepton_prompt->getPt() / sel_lepton_nprompt->getEt();
     }
-    cuts.SetVars(pT_ratio);
+    cuts->SetVars(pT_ratio);
     double pT_muele_ratio_cut_min_val = 1;
     if(pT_ratio > pT_muele_ratio_cut_min_val) {
         return true;
@@ -1563,15 +1563,15 @@ bool specialAna::TriggerSelector(const pxl::Event* event){
     if(b_8TeV) {
         pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
         for( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
-            for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
-                if (string::npos != (*us).first.find( *it)){
+            for( std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+                if (std::string::npos != (*us).first.find( *it)){
                     triggered=(*us).second;
                     triggers.insert(us->first);
                 }
             }
         }
     }else if(b_13TeV) {
-        for( vector< string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
+        for( std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end();it++){
             try{
                 triggered = m_TrigEvtView->getUserRecord(*it);
             } catch( std::runtime_error &exc ) {
@@ -1579,7 +1579,7 @@ bool specialAna::TriggerSelector(const pxl::Event* event){
             }
             pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
             for( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
-                if ( string::npos != (*us).first.find( *it )){
+                if ( std::string::npos != (*us).first.find( *it )){
                     triggers.insert(us->first);
                 }
             }
@@ -1625,7 +1625,7 @@ void specialAna::Fill_Gen_Controll_histo() {
 }
 
 void specialAna::Fill_Particle_histos(int hist_number, pxl::Particle* lepton){
-    string name=lepton->getName();
+    std::string name=lepton->getName();
     if(lepton->getName()==m_TauType){
         name="Tau";
     }
@@ -1653,7 +1653,7 @@ void specialAna::Fill_Particle_histos(int hist_number, pxl::Particle* lepton){
     }
 }
 
-pxl::Particle* specialAna::Get_Truth_match(string name, pxl::Particle* lepton){
+pxl::Particle* specialAna::Get_Truth_match(std::string name, pxl::Particle* lepton){
     double part_temp_eta = lepton->getEta();
     double part_temp_phi = lepton->getPhi();
     int part_temp_id = 0;
@@ -1668,7 +1668,7 @@ pxl::Particle* specialAna::Get_Truth_match(string name, pxl::Particle* lepton){
     }
     double temp_delta_r = 10;
     pxl::Particle* gen_match = 0;
-    for( vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it ) {
+    for( std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it ) {
         pxl::Particle *part_i = *part_it;
         int part_temp_truth_id = 0;
         if(b_8TeV) {
@@ -1890,23 +1890,23 @@ void specialAna::initEvent( const pxl::Event* event ){
     numMET   = m_RecEvtView->getUserRecord( "Num" + m_METType );
     numJet   = m_RecEvtView->getUserRecord( "Num" + m_JetAlgo );
 
-    EleList   = new vector< pxl::Particle* >;
-    MuonList  = new vector< pxl::Particle* >;
-    GammaList = new vector< pxl::Particle* >;
-    METList   = new vector< pxl::Particle* >;
-    JetList   = new vector< pxl::Particle* >;
-    BJetList  = new vector< pxl::Particle* >;
-    TauList   = new vector< pxl::Particle* >;
+    EleList   = new std::vector< pxl::Particle* >;
+    MuonList  = new std::vector< pxl::Particle* >;
+    GammaList = new std::vector< pxl::Particle* >;
+    METList   = new std::vector< pxl::Particle* >;
+    JetList   = new std::vector< pxl::Particle* >;
+    BJetList  = new std::vector< pxl::Particle* >;
+    TauList   = new std::vector< pxl::Particle* >;
 
     // get all particles
-    vector< pxl::Particle* > AllParticles;
+    std::vector< pxl::Particle* > AllParticles;
     m_RecEvtView->getObjectsOfType< pxl::Particle >( AllParticles );
     pxl::sortParticles( AllParticles );
     numBJet = 0;
     // push them into the corresponding vectors
-    for( vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it ) {
+    for( std::vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it ) {
         pxl::Particle *part = *part_it;
-        string Name = part->getName();
+        std::string Name = part->getName();
         part->setP4(part->getPx() * 1.05,part->getPy() * 1.05, part->getPz(),part->getE() * 0.95);
         // Only fill the collection if we want to use the particle!
         if(      Name == "Muon"    ) MuonList->push_back( part );
@@ -1949,13 +1949,13 @@ void specialAna::initEvent( const pxl::Event* event ){
     resonance_mass["mutaumu"] = 0;
     resonance_mass_gen["mutaumu"] = 0;
 
-    EleListGen     = new vector< pxl::Particle* >;
-    MuonListGen    = new vector< pxl::Particle* >;
-    GammaListGen   = new vector< pxl::Particle* >;
-    METListGen     = new vector< pxl::Particle* >;
-    JetListGen     = new vector< pxl::Particle* >;
-    TauListGen     = new vector< pxl::Particle* >;
-    S3ListGen      = new vector< pxl::Particle* >;
+    EleListGen     = new std::vector< pxl::Particle* >;
+    MuonListGen    = new std::vector< pxl::Particle* >;
+    GammaListGen   = new std::vector< pxl::Particle* >;
+    METListGen     = new std::vector< pxl::Particle* >;
+    JetListGen     = new std::vector< pxl::Particle* >;
+    TauListGen     = new std::vector< pxl::Particle* >;
+    S3ListGen      = new std::vector< pxl::Particle* >;
 
     weight = 1.;
 
@@ -1973,23 +1973,23 @@ void specialAna::initEvent( const pxl::Event* event ){
         }else if(b_8TeV){
             weight = event_weight * pileup_weight;
         }else{
-            stringstream error;
+            std::stringstream error;
             error << "The data period "<<m_dataPeriod<<" is not supported by this analysis!\n";
             throw Tools::config_error( error.str() );
         }
 
         // get all particles
-        vector< pxl::Particle* > AllParticlesGen;
+        std::vector< pxl::Particle* > AllParticlesGen;
         m_GenEvtView->getObjectsOfType< pxl::Particle >( AllParticlesGen );
         pxl::sortParticles( AllParticlesGen );
         // push them into the corresponding vectors
-        string genCollection="gen";
+        std::string genCollection="gen";
         if(b_8TeV){
             genCollection="S3";
         }
-        for( vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); ++part_it ) {
+        for( std::vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); ++part_it ) {
             pxl::Particle *part = *part_it;
-            string Name = part->getName();
+            std::string Name = part->getName();
             // Only fill the collection if we want to use the particle!
             if(      Name == "Muon"    ) MuonListGen->push_back( part );
             else if( Name == "Ele"     ) EleListGen->push_back( part );
