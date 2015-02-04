@@ -21,11 +21,43 @@ specialAna.cc \-
 .ti -1c
 .RI "\fBm_dataPeriod\fP (cfg\&.GetItem< std::string >('General\&.DataPeriod'))"
 .br
+.ti -1c
+.RI "\fBm_channel\fP (cfg\&.GetItem< std::string >('RPV\&.channel'))"
+.br
+.ti -1c
+.RI "\fBconfig_\fP (cfg)"
+.br
 .in -1c
 .SH "Function Documentation"
 .PP 
+.SS "config_ (cfg)"
+
+.PP
+ Init for the e-mu channel 
+.PP
+ Init for the e-tau_h channel 
+.PP
+ Init for the mu-tau_h channel 
+.PP
+ Init for the e-tau_e channel 
+.PP
+ Init for the e-tau_mu channel 
+.PP
+ Init for the mu-tau_e channel 
+.PP
+ Init for the mu-tau_mu channel 
+.PP
+Definition at line 22 of file specialAna\&.cc\&.
+.PP
+References m_channel(), and m_dataPeriod()\&.
+.SS "m_channel (cfg\&.GetItem< std::string >'RPV\&.channel')"
+
+.PP
+Referenced by config_()\&.
 .SS "m_dataPeriod (cfg\&.GetItem< std::string >'General\&.DataPeriod')"
 
+.PP
+Referenced by config_()\&.
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for RPV-LFV-Analyzer from the source code\&.
