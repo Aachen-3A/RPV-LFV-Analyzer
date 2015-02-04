@@ -33,7 +33,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "CutClass_8hh.html",
-"specialAna_8hh.html"
+"specialAna_8cc.html#afd5c58022c53285421d7299683d5d720"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

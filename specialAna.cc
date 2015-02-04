@@ -15,11 +15,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     m_METType(cfg.GetItem< std::string >("MET.Type.Rec")),
     m_TauType(cfg.GetItem< std::string >("Tau.Type.Rec")),
 
-    m_trigger_string(Tools::splitString< std::string >(cfg.GetItem< std::string >("RPV.trigger_list" , true)),
+    m_trigger_string(Tools::splitString< std::string >(cfg.GetItem< std::string >("RPV.trigger_list"))),
     d_mydiscmu({"isPFMuon", "isGlobalMuon", "isTrackerMuon", "isStandAloneMuon", "isTightMuon", "isHighPtMuon"}),
     m_dataPeriod(cfg.GetItem< std::string >("General.DataPeriod")),
-    m_channel(cfg.GetItem< std::string >("RPV.channel"),
-    config_(cfg) {
+    m_channel(cfg.GetItem< std::string >("RPV.channel")),
+    config_(cfg)
+{
     b_14TeV = m_dataPeriod == "14TeV" ? true : false;
     b_13TeV = m_dataPeriod == "13TeV" ? true : false;
     b_8TeV = m_dataPeriod == "8TeV" ? true : false;
@@ -69,7 +70,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     resonance_mass["mutaumu"] = 0;
     resonance_mass_gen["mutaumu"] = 0;
 
-    HistClass::CreateTree(mkeep_resonance_mass, "data_events");
+    HistClass::CreateTree(&mkeep_resonance_mass, "data_events");
 
     for (unsigned int i = 0; i < 4; i++) {
         // str(boost::format("N_{%s}")%particleLatex[i] )
@@ -290,7 +291,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
 
     GenSelector();
 
-    fo r(uint i = 0; i < MuonList->size(); i++) {
+    for (uint i = 0; i < MuonList->size(); i++) {
         if (MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1) continue;
         Fill_Particle_histos(0, MuonList->at(i));
     }
@@ -806,7 +807,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_etaue_success = true;
             etaue_cut_cfgs["kinematics"].SetPassed(true);
             etaue_cut_cfgs["kinematics"].SetVars(resonance_mass["etaue"]);
-        }e lse {
+        } else {
             b_etaue_success = false;
             etaue_cut_cfgs["kinematics"].SetPassed(false);
             etaue_cut_cfgs["kinematics"].SetVars(resonance_mass["etaue"]);
