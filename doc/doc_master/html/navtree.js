@@ -2,6 +2,7 @@ var NAVTREE =
 [
   [ "RPV-LFV-Analyzer", "index.html", [
     [ "githookcontroller", "md_hooks_README.html", null ],
+    [ "RPV-LFV-Analyzer", "md_README.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -33,7 +34,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "CutClass_8hh.html",
-"specialAna_8hh_source.html"
+"specialAna_8cc.html#a75c321b798a5cf7a725d55349286451c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
