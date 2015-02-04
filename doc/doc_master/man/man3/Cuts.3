@@ -1,4 +1,4 @@
-.TH "Cuts" 3 "Fri Jan 30 2015" "RPV-LFV-Analyzer" \" -*- nroff -*-
+.TH "Cuts" 3 "Wed Feb 4 2015" "RPV-LFV-Analyzer" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -45,40 +45,40 @@ Cuts \-
 .RI "void \fBSetVars\fP (double i_var_1, double i_var_2)"
 .br
 .ti -1c
-.RI "int \fBdim\fP ()"
+.RI "int \fBdim\fP () const "
 .br
 .ti -1c
-.RI "int \fBbx\fP ()"
+.RI "int \fBbx\fP () const "
 .br
 .ti -1c
-.RI "int \fBby\fP ()"
+.RI "int \fBby\fP () const "
 .br
 .ti -1c
-.RI "double \fBxmi\fP ()"
+.RI "double \fBxmi\fP () const "
 .br
 .ti -1c
-.RI "double \fBxma\fP ()"
+.RI "double \fBxma\fP () const "
 .br
 .ti -1c
-.RI "double \fBymi\fP ()"
+.RI "double \fBymi\fP () const "
 .br
 .ti -1c
-.RI "double \fByma\fP ()"
+.RI "double \fByma\fP () const "
 .br
 .ti -1c
-.RI "double \fBv1\fP ()"
+.RI "double \fBv1\fP () const "
 .br
 .ti -1c
-.RI "double \fBv2\fP ()"
+.RI "double \fBv2\fP () const "
 .br
 .ti -1c
-.RI "bool \fBpass\fP ()"
+.RI "bool \fBpass\fP () const "
 .br
 .ti -1c
-.RI "std::string \fBxt\fP ()"
+.RI "std::string \fBxt\fP () const "
 .br
 .ti -1c
-.RI "std::string \fByt\fP ()"
+.RI "std::string \fByt\fP () const "
 .br
 .in -1c
 .SS "Private Attributes"
@@ -126,77 +126,77 @@ Cuts \-
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line 4 of file CutClass\&.hh\&.
+Definition at line 6 of file CutClass\&.hh\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "Cuts::Cuts ()\fC [inline]\fP"
 
 .PP
-Definition at line 7 of file CutClass\&.hh\&.
-.SS "Cuts::Cuts (const std::stringname)\fC [inline]\fP"
+Definition at line 8 of file CutClass\&.hh\&.
+.SS "Cuts::Cuts (const std::stringname)\fC [inline]\fP, \fC [explicit]\fP"
 
 .PP
-Definition at line 22 of file CutClass\&.hh\&.
+Definition at line 24 of file CutClass\&.hh\&.
 .SS "Cuts::Cuts (const std::stringname, inti_n_bins_x, doublei_x_min, doublei_x_max)\fC [inline]\fP"
 
 .PP
-Definition at line 37 of file CutClass\&.hh\&.
+Definition at line 40 of file CutClass\&.hh\&.
 .SS "Cuts::Cuts (const std::stringname, inti_n_bins_x, doublei_x_min, doublei_x_max, std::stringi_x_title)\fC [inline]\fP"
 
 .PP
-Definition at line 52 of file CutClass\&.hh\&.
+Definition at line 56 of file CutClass\&.hh\&.
 .SS "Cuts::Cuts (const std::stringname, inti_n_bins_x, doublei_x_min, doublei_x_max, inti_n_bins_y, doublei_y_min, doublei_y_max)\fC [inline]\fP"
 
 .PP
-Definition at line 67 of file CutClass\&.hh\&.
+Definition at line 72 of file CutClass\&.hh\&.
 .SS "Cuts::Cuts (const std::stringname, inti_n_bins_x, doublei_x_min, doublei_x_max, inti_n_bins_y, doublei_y_min, doublei_y_max, std::stringi_x_title, std::stringi_y_title)\fC [inline]\fP"
 
 .PP
-Definition at line 82 of file CutClass\&.hh\&.
+Definition at line 88 of file CutClass\&.hh\&.
 .SS "Cuts::Cuts (const \fBCuts\fP &a)\fC [inline]\fP"
 
 .PP
-Definition at line 97 of file CutClass\&.hh\&.
+Definition at line 104 of file CutClass\&.hh\&.
 .SS "Cuts::~Cuts ()\fC [inline]\fP"
 
 .PP
-Definition at line 99 of file CutClass\&.hh\&.
+Definition at line 107 of file CutClass\&.hh\&.
 .SH "Member Function Documentation"
 .PP 
-.SS "int Cuts::bx ()\fC [inline]\fP"
+.SS "int Cuts::bx () const\fC [inline]\fP"
 
 .PP
-Definition at line 118 of file CutClass\&.hh\&.
+Definition at line 127 of file CutClass\&.hh\&.
 .PP
 References n_bins_x\&.
-.SS "int Cuts::by ()\fC [inline]\fP"
+.SS "int Cuts::by () const\fC [inline]\fP"
 
 .PP
-Definition at line 122 of file CutClass\&.hh\&.
+Definition at line 131 of file CutClass\&.hh\&.
 .PP
 References n_bins_y\&.
-.SS "int Cuts::dim ()\fC [inline]\fP"
+.SS "int Cuts::dim () const\fC [inline]\fP"
 
 .PP
-Definition at line 114 of file CutClass\&.hh\&.
+Definition at line 123 of file CutClass\&.hh\&.
 .PP
 References dimensions\&.
-.SS "bool Cuts::pass ()\fC [inline]\fP"
+.SS "bool Cuts::pass () const\fC [inline]\fP"
 
 .PP
-Definition at line 150 of file CutClass\&.hh\&.
+Definition at line 159 of file CutClass\&.hh\&.
 .PP
 References cut_passed\&.
 .SS "void Cuts::SetPassed (boolpassed)\fC [inline]\fP"
 
 .PP
-Definition at line 101 of file CutClass\&.hh\&.
+Definition at line 110 of file CutClass\&.hh\&.
 .PP
 References cut_passed\&.
 .SS "void Cuts::SetVars (doublei_var_1)\fC [inline]\fP"
 
 .PP
-Definition at line 105 of file CutClass\&.hh\&.
+Definition at line 114 of file CutClass\&.hh\&.
 .PP
 References var_1\&.
 .PP
@@ -204,55 +204,55 @@ Referenced by specialAna::Bjet_veto(), specialAna::Leptonic_fraction_cut(), spec
 .SS "void Cuts::SetVars (doublei_var_1, doublei_var_2)\fC [inline]\fP"
 
 .PP
-Definition at line 109 of file CutClass\&.hh\&.
+Definition at line 118 of file CutClass\&.hh\&.
 .PP
 References var_1, and var_2\&.
-.SS "double Cuts::v1 ()\fC [inline]\fP"
+.SS "double Cuts::v1 () const\fC [inline]\fP"
 
 .PP
-Definition at line 142 of file CutClass\&.hh\&.
+Definition at line 151 of file CutClass\&.hh\&.
 .PP
 References var_1\&.
-.SS "double Cuts::v2 ()\fC [inline]\fP"
+.SS "double Cuts::v2 () const\fC [inline]\fP"
 
 .PP
-Definition at line 146 of file CutClass\&.hh\&.
+Definition at line 155 of file CutClass\&.hh\&.
 .PP
 References var_2\&.
-.SS "double Cuts::xma ()\fC [inline]\fP"
+.SS "double Cuts::xma () const\fC [inline]\fP"
 
 .PP
-Definition at line 130 of file CutClass\&.hh\&.
+Definition at line 139 of file CutClass\&.hh\&.
 .PP
 References x_max\&.
-.SS "double Cuts::xmi ()\fC [inline]\fP"
+.SS "double Cuts::xmi () const\fC [inline]\fP"
 
 .PP
-Definition at line 126 of file CutClass\&.hh\&.
+Definition at line 135 of file CutClass\&.hh\&.
 .PP
 References x_min\&.
-.SS "std::string Cuts::xt ()\fC [inline]\fP"
+.SS "std::string Cuts::xt () const\fC [inline]\fP"
 
 .PP
-Definition at line 154 of file CutClass\&.hh\&.
+Definition at line 163 of file CutClass\&.hh\&.
 .PP
 References x_title\&.
-.SS "double Cuts::yma ()\fC [inline]\fP"
+.SS "double Cuts::yma () const\fC [inline]\fP"
 
 .PP
-Definition at line 138 of file CutClass\&.hh\&.
+Definition at line 147 of file CutClass\&.hh\&.
 .PP
 References y_max\&.
-.SS "double Cuts::ymi ()\fC [inline]\fP"
+.SS "double Cuts::ymi () const\fC [inline]\fP"
 
 .PP
-Definition at line 134 of file CutClass\&.hh\&.
+Definition at line 143 of file CutClass\&.hh\&.
 .PP
 References y_min\&.
-.SS "std::string Cuts::yt ()\fC [inline]\fP"
+.SS "std::string Cuts::yt () const\fC [inline]\fP"
 
 .PP
-Definition at line 158 of file CutClass\&.hh\&.
+Definition at line 167 of file CutClass\&.hh\&.
 .PP
 References y_title\&.
 .SH "Member Data Documentation"
@@ -260,77 +260,77 @@ References y_title\&.
 .SS "std::string Cuts::cut_name\fC [private]\fP"
 
 .PP
-Definition at line 164 of file CutClass\&.hh\&.
+Definition at line 172 of file CutClass\&.hh\&.
 .SS "bool Cuts::cut_passed\fC [private]\fP"
 
 .PP
-Definition at line 165 of file CutClass\&.hh\&.
+Definition at line 173 of file CutClass\&.hh\&.
 .PP
 Referenced by pass(), and SetPassed()\&.
 .SS "int Cuts::dimensions\fC [private]\fP"
 
 .PP
-Definition at line 166 of file CutClass\&.hh\&.
+Definition at line 174 of file CutClass\&.hh\&.
 .PP
 Referenced by dim()\&.
 .SS "int Cuts::n_bins_x\fC [private]\fP"
 
 .PP
-Definition at line 167 of file CutClass\&.hh\&.
+Definition at line 175 of file CutClass\&.hh\&.
 .PP
 Referenced by bx()\&.
 .SS "int Cuts::n_bins_y\fC [private]\fP"
 
 .PP
-Definition at line 170 of file CutClass\&.hh\&.
+Definition at line 178 of file CutClass\&.hh\&.
 .PP
 Referenced by by()\&.
 .SS "double Cuts::var_1\fC [private]\fP"
 
 .PP
-Definition at line 173 of file CutClass\&.hh\&.
+Definition at line 181 of file CutClass\&.hh\&.
 .PP
 Referenced by SetVars(), and v1()\&.
 .SS "double Cuts::var_2\fC [private]\fP"
 
 .PP
-Definition at line 174 of file CutClass\&.hh\&.
+Definition at line 182 of file CutClass\&.hh\&.
 .PP
 Referenced by SetVars(), and v2()\&.
 .SS "double Cuts::x_max\fC [private]\fP"
 
 .PP
-Definition at line 169 of file CutClass\&.hh\&.
+Definition at line 177 of file CutClass\&.hh\&.
 .PP
 Referenced by xma()\&.
 .SS "double Cuts::x_min\fC [private]\fP"
 
 .PP
-Definition at line 168 of file CutClass\&.hh\&.
+Definition at line 176 of file CutClass\&.hh\&.
 .PP
 Referenced by xmi()\&.
 .SS "std::string Cuts::x_title\fC [private]\fP"
 
 .PP
-Definition at line 175 of file CutClass\&.hh\&.
+Definition at line 183 of file CutClass\&.hh\&.
 .PP
 Referenced by xt()\&.
 .SS "double Cuts::y_max\fC [private]\fP"
 
 .PP
-Definition at line 172 of file CutClass\&.hh\&.
+Definition at line 180 of file CutClass\&.hh\&.
 .PP
 Referenced by yma()\&.
 .SS "double Cuts::y_min\fC [private]\fP"
 
 .PP
-Definition at line 171 of file CutClass\&.hh\&.
+Definition at line 179 of file CutClass\&.hh\&.
 .PP
 Referenced by ymi()\&.
 .SS "std::string Cuts::y_title\fC [private]\fP"
 
 .PP
-Definition at line 176 of file CutClass\&.hh\&.
+Definition at line 184 of file CutClass\&.hh\&.
 .PP
 Referenced by yt()\&.
 
