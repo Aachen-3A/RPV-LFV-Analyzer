@@ -111,51 +111,51 @@ class Cuts
             var_1 = i_var_1;
             var_2 = i_var_2;
         }
-        int dim()
+        int dim() const
         {
             return dimensions;
         }
-        int bx()
+        int bx() const
         {
             return n_bins_x;
         }
-        int by()
+        int by() const
         {
             return n_bins_y;
         }
-        double xmi()
+        double xmi() const
         {
             return x_min;
         }
-        double xma()
+        double xma() const
         {
             return x_max;
         }
-        double ymi()
+        double ymi() const
         {
             return y_min;
         }
-        double yma()
+        double yma() const
         {
             return y_max;
         }
-        double v1()
+        double v1() const
         {
             return var_1;
         }
-        double v2()
+        double v2() const
         {
             return var_2;
         }
-        bool pass()
+        bool pass() const
         {
             return cut_passed;
         }
-        std::string xt()
+        std::string xt() const
         {
             return x_title;
         }
-        std::string yt()
+        std::string yt() const
         {
             return y_title;
         }
