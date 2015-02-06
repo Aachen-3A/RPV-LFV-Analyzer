@@ -938,36 +938,39 @@ void specialAna::Fill_trigger_effs() {
     }
 }
 
-pxl::Particle* specialAna::Get_Trigger_match(std::string name, pxl::Particle* lepton) {
-    // double part_temp_eta = lepton->getEta();
-    // double part_temp_phi = lepton->getPhi();
-    // int part_temp_id = 0;
-    // if(name == "Tau"){
-        // part_temp_id = 15;
-    // }else if(name == "MET"){
-        // part_temp_id = 12;
-    // }else if(name == "Muon"){
-        // part_temp_id = 13;
-    // }else if(name == "Ele"){
-        // part_temp_id = 11;
-    // }
-    // double temp_delta_r = 10;
-    pxl::Particle* gen_match = 0;
-    // for( vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it ) {
-        // pxl::Particle *part_i = *part_it;
-        // int part_temp_truth_id = 0;
-        // if(b_8TeV) {
-            // part_temp_truth_id = TMath::Abs(part_i->getUserRecord("id").asInt32());
-        // }else if(b_13TeV) {
-            // part_temp_truth_id = TMath::Abs(part_i->getPdgNumber());
-        // }
-        // if(part_temp_id != part_temp_truth_id) continue;
-        // double test_delta_r = sqrt(pow(part_temp_eta - part_i->getEta(),2) + pow(part_temp_phi - part_i->getPhi(),2));
-        // if(test_delta_r < temp_delta_r){
-            // temp_delta_r = test_delta_r;
-            // gen_match = part_i;
-        // }
-    // }
+std::vector< pxl::Particle* > specialAna::Get_Trigger_match(TString trigger_name) {
+    std::vector< pxl::Particle* > * particles;
+    if (trigger_name.Contains("Mu")) {
+        particles = MuonList;
+    } else if (trigger_name.Contains("Ele")) {
+        particles = EleList;
+    }
+
+    std::vector< pxl::Particle* > gen_match;
+
+    std::vector< pxl::Particle* > AllTriggers;
+    m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
+    for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
+        pxl::Particle *trig = *part_it;
+        if (trig->getName() == trigger_name) {
+            double trig_match_dr = 0.5;
+            pxl::Particle *keep_part;
+            bool match_found = false;
+            for (std::vector< pxl::Particle* >::const_iterator part_jt = particles->begin(); part_jt != particles->end(); ++part_jt) {
+                pxl::Particle *part = *part_jt;
+                double dummy_dr = DeltaR(trig, part);
+                if (dummy_dr < trig_match_dr) {
+                    trig_match_dr = dummy_dr;
+                    keep_part = (pxl::Particle*) part->clone();
+                    match_found = true;
+                }
+            }
+            if (match_found) {
+                gen_match.push_back(keep_part);
+            }
+        }
+    }
+
     return gen_match;
 }
 
@@ -1702,6 +1705,12 @@ double specialAna::DeltaPhi(pxl::Particle* lepton, pxl::Particle* met) {
     } else {
         return  2.*TMath::Pi() - temp;
     }
+}
+
+double specialAna::DeltaR(pxl::Particle* lepton, pxl::Particle* met) {
+    double d_eta = TMath::Abs(lepton->getEta() - met->getPhi());
+    double d_phi = DeltaPhi(lepton, met);
+    return sqrt(pow(d_eta, 2) + pow(d_phi, 2));
 }
 
 double specialAna::MT(pxl::Particle* lepton, pxl::Particle* met) {
