@@ -927,10 +927,7 @@ void specialAna::Create_trigger_effs() {
         const char* temp_trigger_name = (*it).c_str();
         HistClass::CreateEff(TString::Format("%s_vs_pT", temp_trigger_name), 50, 0, 500, "p_{T}^{#mu} (GeV)");
         HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
-        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_pT", temp_trigger_name), 50, 0, 500, "p_{T}^{#mu} (GeV)");
-        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_eta", temp_trigger_name), 50, -5, 5, "p_{T}^{#mu} (GeV)");
-        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_phi", temp_trigger_name), 35, 0, 3.5, "p_{T}^{#mu} (GeV)");
-        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_dr", temp_trigger_name), 350, 0, 3.5, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi", temp_trigger_name), 150, -3, 3, 100, 0, 3.5, "#eta(#mu)", "#phi(#mu) (rad)");
     }
 }
 
@@ -996,15 +993,13 @@ void specialAna::Get_Trigger_match(std::string trigger_name) {
         }
 
         if (match_found) {
-            HistClass::Fill(TString::Format("Ctr_%s_vs_dr", trigger_name.c_str()), trig_match_dr, weight);
             HistClass::FillEff(TString::Format("%s_vs_pT", trigger_name.c_str()), part->getPt(), true);
             HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
-            HistClass::Fill(TString::Format("Ctr_%s_vs_pT", trigger_name.c_str()), trig_cand->getPt(), weight);
-            HistClass::Fill(TString::Format("Ctr_%s_vs_eta", trigger_name.c_str()), trig_cand->getEta(), weight);
-            HistClass::Fill(TString::Format("Ctr_%s_vs_phi", trigger_name.c_str()), trig_cand->getPhi(), weight);
+            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi", trigger_name.c_str()), part->getEta(), part->getPhi(), true);
         } else {
             HistClass::FillEff(TString::Format("%s_vs_pT", trigger_name.c_str()), part->getPt(), false);
             HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi", trigger_name.c_str()), part->getEta(), part->getPhi(), false);
         }
     }
 }
@@ -1353,7 +1348,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
     }
 }
 
-bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut) {
+bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_trigger_cut) {
     std::string name = part -> getName();
     if (name == m_TauType) {
         bool tau_id = Check_Tau_ID(part);
@@ -1362,7 +1357,7 @@ bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut) {
         bool ele_id = Check_Ele_ID(part);
         return ele_id;
     } else if (name == "Muon") {
-        bool muo_id = Check_Muo_ID(part, do_pt_cut);
+        bool muo_id = Check_Muo_ID(part, do_trigger_cut);
         return muo_id;
     } else {
         return false;
@@ -1387,7 +1382,7 @@ bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     return false;
 }
 
-bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut) {
+bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_trigger_cut) {
     bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? true : false;
     bool muon_ISO = false;
     if (b_8TeV) {
@@ -1397,8 +1392,9 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut) {
     }
     bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
     bool muon_pt = muon -> getPt() > 45. ? true : false;
-    if (not do_pt_cut) {
+    if (not do_trigger_cut) {
         muon_pt = true;
+        muon_eta = true;
     }
     if (muon_ID && muon_ISO && muon_eta && muon_pt) return true;
     return false;
