@@ -925,7 +925,12 @@ void specialAna::KinematicsSelector(std::string const endung) {
 void specialAna::Create_trigger_effs() {
     for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
         const char* temp_trigger_name = (*it).c_str();
-        HistClass::CreateEff(temp_trigger_name, 50, 0, 500, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateEff(TString::Format("%s_vs_pT", temp_trigger_name), 50, 0, 500, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
+        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_pT", temp_trigger_name), 50, 0, 500, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_eta", temp_trigger_name), 50, -5, 5, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_phi", temp_trigger_name), 35, 0, 3.5, "p_{T}^{#mu} (GeV)");
+        HistClass::CreateHisto(TString::Format("Ctr_%s_vs_dr", temp_trigger_name), 350, 0, 3.5, "p_{T}^{#mu} (GeV)");
     }
 }
 
@@ -942,48 +947,64 @@ void specialAna::Get_Trigger_match(std::string trigger_name) {
     bool cross__obj_trigger = false;
     if (trigger_name == "HLT_HLT_Mu40_v1") {
         particles = MuonList;
+        single_obj_trigger = true;
+    } else if (trigger_name == "HLT_HLT_Mu17_Mu8_v1" or
+               trigger_name == "HLT_HLT_Mu30_TkMu11_v1" or
+               trigger_name == "HLT_HLT_Mu17_TkMu8_v1") {
+        particles = MuonList;
+        double_obj_trigger = true;
+    } else if (trigger_name == "HLT_HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1") {
+        particles = MuonList;
+        cross__obj_trigger = true;
+    } else if(trigger_name == "HLT_HLT_Mu23_TrkIsoVVL_Ele12_Gsf_CaloId_TrackId_Iso_MediumWP_v1") {
+        particles = MuonList;
+        cross__obj_trigger = true;
     } else if (trigger_name == "HLT_HLT_Ele95_CaloIdVT_GsfTrkIdT_v1") {
         particles = EleList;
+        single_obj_trigger = true;
+    } else if (trigger_name == "HLT_HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1") {
+        particles = EleList;
+        double_obj_trigger = true;
+    } else if (trigger_name == "HLT_HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1") {
+        particles = EleList;
+        cross__obj_trigger = true;
     } else {
         return;
     }
-
-// HLT_HLT_Mu40_v1
-// HLT_HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1
-// HLT_HLT_Ele95_CaloIdVT_GsfTrkIdT_v1
-// HLT_HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1
-// HLT_HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1
-// HLT_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1
-// HLT_HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1
-// HLT_HLT_Mu17_Mu8_v1
-// HLT_HLT_Mu30_TkMu11_v1
-// HLT_HLT_Mu17_TkMu8_v1
-// HLT_HLT_Mu23_TrkIsoVVL_Ele12_Gsf_CaloId_TrackId_Iso_MediumWP_v1
 
     std::vector< pxl::Particle* > AllTriggers;
     m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
 
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles->begin(); part_jt != particles->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
-        if (not Check_Par_ID(part)) continue;
+        if (not Check_Par_ID(part, false)) continue;
 
         bool match_found = false;
         double trig_match_dr = 10;
+        pxl::Particle *trig_cand;
         for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
             pxl::Particle *trig = *part_it;
             if (trigger_name.find(trig->getName()) != std::string::npos) {
+                if (match_found and trig_cand->getE() == trig->getE()) continue;
                 double dummy_dr = DeltaR(trig, part);
                 if (dummy_dr < trig_match_dr) {
                     trig_match_dr = dummy_dr;
                     match_found = true;
+                    trig_cand = (pxl::Particle*)trig->clone();
                 }
             }
         }
 
         if (match_found) {
-            HistClass::FillEff(trigger_name.c_str(), part->getPt(), true);
+            HistClass::Fill(TString::Format("Ctr_%s_vs_dr", trigger_name.c_str()), trig_match_dr, weight);
+            HistClass::FillEff(TString::Format("%s_vs_pT", trigger_name.c_str()), part->getPt(), true);
+            HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+            HistClass::Fill(TString::Format("Ctr_%s_vs_pT", trigger_name.c_str()), trig_cand->getPt(), weight);
+            HistClass::Fill(TString::Format("Ctr_%s_vs_eta", trigger_name.c_str()), trig_cand->getEta(), weight);
+            HistClass::Fill(TString::Format("Ctr_%s_vs_phi", trigger_name.c_str()), trig_cand->getPhi(), weight);
         } else {
-            HistClass::FillEff(trigger_name.c_str(), part->getPt(), false);
+            HistClass::FillEff(TString::Format("%s_vs_pT", trigger_name.c_str()), part->getPt(), false);
+            HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
         }
     }
 }
@@ -1332,7 +1353,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
     }
 }
 
-bool specialAna::Check_Par_ID(pxl::Particle* part) {
+bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut) {
     std::string name = part -> getName();
     if (name == m_TauType) {
         bool tau_id = Check_Tau_ID(part);
@@ -1341,7 +1362,7 @@ bool specialAna::Check_Par_ID(pxl::Particle* part) {
         bool ele_id = Check_Ele_ID(part);
         return ele_id;
     } else if (name == "Muon") {
-        bool muo_id = Check_Muo_ID(part);
+        bool muo_id = Check_Muo_ID(part, do_pt_cut);
         return muo_id;
     } else {
         return false;
@@ -1366,8 +1387,7 @@ bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     return false;
 }
 
-bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
-    // bool passed = false;
+bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut) {
     bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? true : false;
     bool muon_ISO = false;
     if (b_8TeV) {
@@ -1377,7 +1397,9 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon) {
     }
     bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
     bool muon_pt = muon -> getPt() > 45. ? true : false;
-    muon_pt = true;
+    if (not do_pt_cut) {
+        muon_pt = true;
+    }
     if (muon_ID && muon_ISO && muon_eta && muon_pt) return true;
     return false;
 }
