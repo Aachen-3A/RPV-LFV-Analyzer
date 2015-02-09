@@ -73,7 +73,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);
     void Fill_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2);
 
-    std::vector< pxl::Particle* > Get_Trigger_match(TString trigger_name);
+    void Get_Trigger_match(std::string trigger_name);
     pxl::Particle* Get_Truth_match(std::string name, pxl::Particle* lepton);
 
     void FillSystematics(const pxl::Event* event, std::string const particleName);
