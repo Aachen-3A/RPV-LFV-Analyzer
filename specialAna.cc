@@ -954,40 +954,21 @@ void specialAna::Create_trigger_effs() {
 
 void specialAna::Fill_trigger_effs() {
     for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
-        Get_Trigger_match(*it);
+        if (not trigger_defs[(*it).c_str()]->GetDimension()) {
+            Get_Trigger_match(*it);
+        }
     }
 }
 
 void specialAna::Get_Trigger_match(std::string trigger_name) {
     std::vector< pxl::Particle* > * particles;
-    bool single_obj_trigger = false;
-    bool double_obj_trigger = false;
-    bool cross__obj_trigger = false;
-    if (trigger_name == "HLT_HLT_Mu40_v1") {
+
+    if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Mu"){
         particles = MuonList;
-        single_obj_trigger = true;
-    } else if (trigger_name == "HLT_HLT_Mu17_Mu8_v1" or
-               trigger_name == "HLT_HLT_Mu30_TkMu11_v1" or
-               trigger_name == "HLT_HLT_Mu17_TkMu8_v1") {
-        particles = MuonList;
-        double_obj_trigger = true;
-    } else if (trigger_name == "HLT_HLT_IsoMu17_eta2p1_LooseIsoPFTau20_v1") {
-        particles = MuonList;
-        cross__obj_trigger = true;
-    } else if(trigger_name == "HLT_HLT_Mu23_TrkIsoVVL_Ele12_Gsf_CaloId_TrackId_Iso_MediumWP_v1") {
-        particles = MuonList;
-        cross__obj_trigger = true;
-    } else if (trigger_name == "HLT_HLT_Ele95_CaloIdVT_GsfTrkIdT_v1") {
+    } else if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Ele") {
         particles = EleList;
-        single_obj_trigger = true;
-    } else if (trigger_name == "HLT_HLT_Ele23_Ele12_CaloId_TrackId_Iso_v1") {
-        particles = EleList;
-        double_obj_trigger = true;
-    } else if (trigger_name == "HLT_HLT_Ele22_eta2p1_WP85_Gsf_LooseIsoPFTau20_v1") {
-        particles = EleList;
-        cross__obj_trigger = true;
-    } else {
-        return;
+    } else if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Tau") {
+        particles = TauList;
     }
 
     std::vector< pxl::Particle* > AllTriggers;
@@ -1014,13 +995,21 @@ void specialAna::Get_Trigger_match(std::string trigger_name) {
         }
 
         if (match_found) {
-            HistClass::FillEff(TString::Format("%s_vs_pT", trigger_name.c_str()), part->getPt(), true);
-            HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
-            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi", trigger_name.c_str()), part->getEta(), part->getPhi(), true);
+            HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                               part->getPt(), true);
+            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                               part->getEta(), part->getPhi(), true);
+            if (Check_Par_ID(part)) {
+                HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+            }
         } else {
-            HistClass::FillEff(TString::Format("%s_vs_pT", trigger_name.c_str()), part->getPt(), false);
-            HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
-            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi", trigger_name.c_str()), part->getEta(), part->getPhi(), false);
+            HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                               part->getPt(), false);
+            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                               part->getEta(), part->getPhi(), false);
+            if (Check_Par_ID(part)) {
+                HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+            }
         }
     }
 }
