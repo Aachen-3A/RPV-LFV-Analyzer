@@ -21,6 +21,7 @@
 
 #include "Main/Systematics.hh"
 #include "CutClass.hh"
+#include "TriggerClass.hh"
 
 //----------------------------------------------------------------------
 
@@ -186,6 +187,8 @@ class specialAna : public pxl::AnalysisProcess  {
     std::map< std::string, Cuts > etaumu_cut_cfgs;
     std::map< std::string, Cuts > mutaue_cut_cfgs;
     std::map< std::string, Cuts > mutaumu_cut_cfgs;
+
+    std::map< std::string, Trigger * > trigger_defs;
 
     std::map< std::string, int > channel_stages;
 

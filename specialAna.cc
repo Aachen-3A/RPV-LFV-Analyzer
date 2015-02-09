@@ -925,9 +925,30 @@ void specialAna::KinematicsSelector(std::string const endung) {
 void specialAna::Create_trigger_effs() {
     for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
         const char* temp_trigger_name = (*it).c_str();
-        HistClass::CreateEff(TString::Format("%s_vs_pT", temp_trigger_name), 50, 0, 500, "p_{T}^{#mu} (GeV)");
-        HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
-        HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi", temp_trigger_name), 150, -3, 3, 100, 0, 3.5, "#eta(#mu)", "#phi(#mu) (rad)");
+        trigger_defs[temp_trigger_name] = new Trigger(*it);
+        if (trigger_defs[temp_trigger_name]->GetDimension()) {
+            HistClass::CreateEff(TString::Format("%s_vs_pT(%s,%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
+                                 50, 0, 500, 50, 0, 500,
+                                 TString::Format("p_{T}^{%s,%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
+            HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
+            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()), 
+                                 150, -3, 3, 100, 0, 3.5,
+                                 TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
+                                 TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
+            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart2Name().c_str()), 
+                                 150, -3, 3, 100, 0, 3.5,
+                                 TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
+                                 TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
+        } else {
+            HistClass::CreateEff(TString::Format("%s_vs_pT(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
+                                 50, 0, 500,
+                                 TString::Format("p_{T}^{%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
+            HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
+            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()), 
+                                 150, -3, 3, 100, 0, 3.5,
+                                 TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
+                                 TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
+        }
     }
 }
 

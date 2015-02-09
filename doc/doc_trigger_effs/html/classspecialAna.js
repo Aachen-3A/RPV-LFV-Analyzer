@@ -139,6 +139,7 @@ var classspecialAna =
     [ "temp_event", "classspecialAna.html#a70360bfdefab8b0cdfd126e40d109c34", null ],
     [ "temp_ls", "classspecialAna.html#ad1c4dd4e6eb56e86c4ad24b8f942ebef", null ],
     [ "temp_run", "classspecialAna.html#a739ec443ba622f962854c133080624db", null ],
+    [ "trigger_defs", "classspecialAna.html#a8e196118fcaed45af5460c2407b578fb", null ],
     [ "triggers", "classspecialAna.html#a67896fd68c4b22a7a877ea55aa29d2ff", null ],
     [ "weight", "classspecialAna.html#a093be544141cb52a9b5a1f5ef3bb7e32", null ]
 ];
