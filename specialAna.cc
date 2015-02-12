@@ -1033,7 +1033,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part_2->getEta(), part_2->getPhi(), true);
             }
-        } else {
+        } else if (second_match_found) {
             if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), false);
