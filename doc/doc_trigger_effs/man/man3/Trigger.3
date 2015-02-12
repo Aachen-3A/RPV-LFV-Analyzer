@@ -1,4 +1,4 @@
-.TH "Trigger" 3 "Mon Feb 9 2015" "RPV-LFV-Analyzer" \" -*- nroff -*-
+.TH "Trigger" 3 "Thu Feb 12 2015" "RPV-LFV-Analyzer" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -73,7 +73,7 @@ Trigger \-
 Definition at line 7 of file TriggerClass\&.hh\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
-.SS "Trigger::Trigger (std::stringinput_trigger_name)\fC [inline]\fP"
+.SS "Trigger::Trigger (std::stringinput_trigger_name)\fC [inline]\fP, \fC [explicit]\fP"
 
 .PP
 Definition at line 9 of file TriggerClass\&.hh\&.
@@ -84,13 +84,13 @@ References Get_trigger_seeds(), part_1_name, part_2_name, trigger_name, and two_
 .SS "void Trigger::DoAcceptCuts (boolaccep_cuts = \fCtrue\fP)\fC [inline]\fP"
 
 .PP
-Definition at line 18 of file TriggerClass\&.hh\&.
+Definition at line 17 of file TriggerClass\&.hh\&.
 .PP
 References do_accept_cuts\&.
 .SS "std::vector< std::string > Trigger::Get_trigger_seeds (const std::stringinput_trigger_name)\fC [inline]\fP, \fC [private]\fP"
 
 .PP
-Definition at line 54 of file TriggerClass\&.hh\&.
+Definition at line 52 of file TriggerClass\&.hh\&.
 .PP
 References part_1_name, part_2_name, split(), and two_dimensions\&.
 .PP
@@ -98,37 +98,37 @@ Referenced by Trigger()\&.
 .SS "bool Trigger::GetAcceptCuts () const\fC [inline]\fP"
 
 .PP
-Definition at line 26 of file TriggerClass\&.hh\&.
+Definition at line 25 of file TriggerClass\&.hh\&.
 .PP
 References do_accept_cuts\&.
 .SS "bool Trigger::GetDimension () const\fC [inline]\fP"
 
 .PP
-Definition at line 22 of file TriggerClass\&.hh\&.
+Definition at line 21 of file TriggerClass\&.hh\&.
 .PP
 References two_dimensions\&.
 .SS "std::string Trigger::GetPart1Name () const\fC [inline]\fP"
 
 .PP
-Definition at line 30 of file TriggerClass\&.hh\&.
+Definition at line 29 of file TriggerClass\&.hh\&.
 .PP
 References part_1_name\&.
 .SS "std::string Trigger::GetPart2Name () const\fC [inline]\fP"
 
 .PP
-Definition at line 34 of file TriggerClass\&.hh\&.
+Definition at line 33 of file TriggerClass\&.hh\&.
 .PP
 References part_2_name\&.
 .SS "void Trigger::split (const std::string &s, chardelim, std::vector< std::string > *elems)\fC [inline]\fP, \fC [private]\fP"
 
 .PP
-Definition at line 40 of file TriggerClass\&.hh\&.
+Definition at line 38 of file TriggerClass\&.hh\&.
 .PP
 Referenced by Get_trigger_seeds(), and split()\&.
 .SS "std::vector<std::string> Trigger::split (const std::string &s, chardelim)\fC [inline]\fP, \fC [private]\fP"
 
 .PP
-Definition at line 48 of file TriggerClass\&.hh\&.
+Definition at line 46 of file TriggerClass\&.hh\&.
 .PP
 References split()\&.
 .SH "Member Data Documentation"
@@ -136,39 +136,39 @@ References split()\&.
 .SS "bool Trigger::do_accept_cuts\fC [private]\fP"
 
 .PP
-Definition at line 99 of file TriggerClass\&.hh\&.
+Definition at line 97 of file TriggerClass\&.hh\&.
 .PP
 Referenced by DoAcceptCuts(), and GetAcceptCuts()\&.
 .SS "std::string Trigger::part_1_name\fC [private]\fP"
 
 .PP
-Definition at line 96 of file TriggerClass\&.hh\&.
+Definition at line 94 of file TriggerClass\&.hh\&.
 .PP
 Referenced by Get_trigger_seeds(), GetPart1Name(), and Trigger()\&.
 .SS "std::string Trigger::part_2_name\fC [private]\fP"
 
 .PP
-Definition at line 97 of file TriggerClass\&.hh\&.
+Definition at line 95 of file TriggerClass\&.hh\&.
 .PP
 Referenced by Get_trigger_seeds(), GetPart2Name(), and Trigger()\&.
 .SS "std::vector< pxl::Particle* >* Trigger::particles_1\fC [private]\fP"
 
 .PP
-Definition at line 100 of file TriggerClass\&.hh\&.
+Definition at line 98 of file TriggerClass\&.hh\&.
 .SS "std::vector< pxl::Particle* >* Trigger::particles_2\fC [private]\fP"
 
 .PP
-Definition at line 101 of file TriggerClass\&.hh\&.
+Definition at line 99 of file TriggerClass\&.hh\&.
 .SS "std::string Trigger::trigger_name\fC [private]\fP"
 
 .PP
-Definition at line 95 of file TriggerClass\&.hh\&.
+Definition at line 93 of file TriggerClass\&.hh\&.
 .PP
 Referenced by Trigger()\&.
 .SS "bool Trigger::two_dimensions\fC [private]\fP"
 
 .PP
-Definition at line 98 of file TriggerClass\&.hh\&.
+Definition at line 96 of file TriggerClass\&.hh\&.
 .PP
 Referenced by Get_trigger_seeds(), GetDimension(), and Trigger()\&.
 

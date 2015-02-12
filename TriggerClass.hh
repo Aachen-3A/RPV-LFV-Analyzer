@@ -6,9 +6,8 @@
 
 class Trigger {
  public:
-    Trigger(std::string input_trigger_name) :
-        trigger_name(input_trigger_name)
-    {
+    explicit Trigger(std::string input_trigger_name) :
+        trigger_name(input_trigger_name) {
         part_1_name = "";
         part_2_name = "";
         two_dimensions = false;
@@ -36,7 +35,6 @@ class Trigger {
     }
 
  private:
-
     void split(const std::string &s, char delim, std::vector<std::string> *elems) {
         std::stringstream ss(s);
         std::string item;

@@ -928,23 +928,23 @@ void specialAna::Create_trigger_effs() {
         trigger_defs[temp_trigger_name] = new Trigger(*it);
         if (trigger_defs[temp_trigger_name]->GetDimension()) {
             HistClass::CreateEff(TString::Format("%s_vs_pT(%s,%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
-                                 50, 0, 500, 50, 0, 500,
+                                 100, 0, 1000, 100, 0, 1000,
                                  TString::Format("p_{T}^{%s,%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
-            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()), 
+            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  150, -3, 3, 100, 0, 3.5,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
-            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart2Name().c_str()), 
+            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
                                  150, -3, 3, 100, 0, 3.5,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
         } else {
             HistClass::CreateEff(TString::Format("%s_vs_pT(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 50, 0, 500,
+                                 100, 0, 1000,
                                  TString::Format("p_{T}^{%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
-            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()), 
+            HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  150, -3, 3, 100, 0, 3.5,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
@@ -955,15 +955,105 @@ void specialAna::Create_trigger_effs() {
 void specialAna::Fill_trigger_effs() {
     for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
         if (not trigger_defs[(*it).c_str()]->GetDimension()) {
-            Get_Trigger_match(*it);
+            Get_Trigger_match_1(*it);
+        } else {
+            Get_Trigger_match_2(*it);
         }
     }
 }
 
-void specialAna::Get_Trigger_match(std::string trigger_name) {
+void specialAna::Get_Trigger_match_2(std::string trigger_name) {
+    std::vector< pxl::Particle* > * particles_1;
+    std::vector< pxl::Particle* > * particles_2;
+
+    if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Mu") {
+        particles_1 = MuonList;
+    } else if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Ele") {
+        particles_1 = EleList;
+    } else if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Tau") {
+        particles_1 = TauList;
+    }
+
+    if (trigger_defs[trigger_name.c_str()]->GetPart2Name() == "Mu") {
+        particles_2 = MuonList;
+    } else if (trigger_defs[trigger_name.c_str()]->GetPart2Name() == "Ele") {
+        particles_2 = EleList;
+    } else if (trigger_defs[trigger_name.c_str()]->GetPart2Name() == "Tau") {
+        particles_2 = TauList;
+    }
+
+    std::vector< pxl::Particle* > AllTriggers;
+    m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
+
+    for (std::vector< pxl::Particle* >::const_iterator part_jt = particles_1->begin(); part_jt != particles_1->end(); ++part_jt) {
+        pxl::Particle *part = *part_jt;
+        if (not Check_Par_ID(part, false, false)) continue;
+
+        bool match_found = false;
+        double trig_match_dr = 10;
+        pxl::Particle* trig_cand;
+        for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
+            pxl::Particle *trig = *part_it;
+            if (trigger_name.find(trig->getName()) != std::string::npos) {
+                if (match_found and trig_cand->getE() == trig->getE()) continue;
+                double dummy_dr = DeltaR(trig, part);
+                if (dummy_dr < trig_match_dr) {
+                    trig_match_dr = dummy_dr;
+                    match_found = true;
+                    trig_cand = (pxl::Particle*)trig->clone();
+                }
+            }
+        }
+
+        pxl::Particle* part_2;
+        bool second_match_found = false;
+        for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
+            pxl::Particle *part_k = *part_kt;
+            if (not Check_Par_ID(part_k, false, false)) continue;
+            part_2 = (pxl::Particle*)part_k->clone();
+            second_match_found = true;
+        }
+
+        if (match_found and second_match_found) {
+            if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
+                                   part->getPt(), part_2->getPt(), true);
+            }
+            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+            }
+            if (Check_Par_ID(part, true, false) and Check_Par_ID(part_2, true, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                                   part->getEta(), part->getPhi(), true);
+            }
+            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, false)) {
+                HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
+                                   part_2->getEta(), part_2->getPhi(), true);
+            }
+        } else {
+            if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
+                                   part->getPt(), part_2->getPt(), false);
+            }
+            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+            }
+            if (Check_Par_ID(part, true, false) and Check_Par_ID(part_2, true, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                                   part->getEta(), part->getPhi(), false);
+            }
+            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, false)) {
+                HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
+                                   part_2->getEta(), part_2->getPhi(), false);
+            }
+        }
+    }
+}
+
+void specialAna::Get_Trigger_match_1(std::string trigger_name) {
     std::vector< pxl::Particle* > * particles;
 
-    if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Mu"){
+    if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Mu") {
         particles = MuonList;
     } else if (trigger_defs[trigger_name.c_str()]->GetPart1Name() == "Ele") {
         particles = EleList;
@@ -976,11 +1066,11 @@ void specialAna::Get_Trigger_match(std::string trigger_name) {
 
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles->begin(); part_jt != particles->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
-        if (not Check_Par_ID(part, false)) continue;
+        if (not Check_Par_ID(part, false, false)) continue;
 
         bool match_found = false;
         double trig_match_dr = 10;
-        pxl::Particle *trig_cand;
+        pxl::Particle* trig_cand;       
         for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
             pxl::Particle *trig = *part_it;
             if (trigger_name.find(trig->getName()) != std::string::npos) {
@@ -995,18 +1085,26 @@ void specialAna::Get_Trigger_match(std::string trigger_name) {
         }
 
         if (match_found) {
-            HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
-                               part->getPt(), true);
-            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
-                               part->getEta(), part->getPhi(), true);
+            if (Check_Par_ID(part, false, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                                   part->getPt(), true);
+            }
+            if (Check_Par_ID(part, true, false)) {
+                HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                                   part->getEta(), part->getPhi(), true);
+            }
             if (Check_Par_ID(part)) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
             }
         } else {
-            HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
-                               part->getPt(), false);
-            HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
-                               part->getEta(), part->getPhi(), false);
+            if (Check_Par_ID(part, false, true)) {
+                HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                                   part->getPt(), false);
+            }
+            if (Check_Par_ID(part, true, false)) {
+                HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
+                                   part->getEta(), part->getPhi(), false);
+            }
             if (Check_Par_ID(part)) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
@@ -1358,7 +1456,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
     }
 }
 
-bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_trigger_cut) {
+bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut) {
     std::string name = part -> getName();
     if (name == m_TauType) {
         bool tau_id = Check_Tau_ID(part);
@@ -1367,7 +1465,7 @@ bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_trigger_cut) {
         bool ele_id = Check_Ele_ID(part);
         return ele_id;
     } else if (name == "Muon") {
-        bool muo_id = Check_Muo_ID(part, do_trigger_cut);
+        bool muo_id = Check_Muo_ID(part, do_pt_cut, do_eta_cut);
         return muo_id;
     } else {
         return false;
@@ -1392,7 +1490,7 @@ bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
     return false;
 }
 
-bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_trigger_cut) {
+bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut, bool do_eta_cut) {
     bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? true : false;
     bool muon_ISO = false;
     if (b_8TeV) {
@@ -1402,8 +1500,10 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_trigger_cut) {
     }
     bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
     bool muon_pt = muon -> getPt() > 45. ? true : false;
-    if (not do_trigger_cut) {
+    if (not do_pt_cut) {
         muon_pt = true;
+    }
+    if (not do_eta_cut) {
         muon_eta = true;
     }
     if (muon_ID && muon_ISO && muon_eta && muon_pt) return true;

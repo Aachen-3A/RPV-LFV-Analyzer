@@ -74,7 +74,8 @@ class specialAna : public pxl::AnalysisProcess  {
     void Fill_Particle_histos(int hist_number, pxl::Particle* lepton);
     void Fill_Gen_histograms(int n_histos, const char* channel, const char* part1, const char* part2);
 
-    void Get_Trigger_match(std::string trigger_name);
+    void Get_Trigger_match_1(std::string trigger_name);
+    void Get_Trigger_match_2(std::string trigger_name);
     pxl::Particle* Get_Truth_match(std::string name, pxl::Particle* lepton);
 
     void FillSystematics(const pxl::Event* event, std::string const particleName);
@@ -83,8 +84,8 @@ class specialAna : public pxl::AnalysisProcess  {
     void initEvent(const pxl::Event* event);
     void endEvent(const pxl::Event* event);
 
-    bool Check_Par_ID(pxl::Particle* part, bool do_trigger_cut = true);
-    bool Check_Muo_ID(pxl::Particle* muon, bool do_trigger_cut = true);
+    bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
+    bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele);
 
