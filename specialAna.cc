@@ -76,7 +76,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         // str(boost::format("N_{%s}")%particleLatex[i] )
         HistClass::CreateHisto("num", particles[i].c_str(), 40, 0, 39,                          TString::Format("N_{%s}", particleSymbols[i].c_str()));
         HistClass::CreateHisto(3, "pt", particles[i].c_str(), 5000, 0, 5000,                    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()));
-        if (particles[i].c_str() == "Muon") {
+        if (particles[i] == "Muon") {
             HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 1000, -10, 10,      TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
             HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 1000, -10, 10,   TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
             HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 1000, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
