@@ -1011,7 +1011,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
             for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
                 pxl::Particle *part_k = *part_kt;
                 if (not Check_Par_ID(part_k, false, false)) continue;
-                if (part->getE() == part_k->getE()) continue;
+                if (part->getId() == part_k->getId()) continue;
                 part_2 = (pxl::Particle*)part_k->clone();
                 second_match_found = true;
             }
@@ -1465,7 +1465,7 @@ bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut, bool do_eta_c
         bool tau_id = Check_Tau_ID(part);
         return tau_id;
     } else if (name == "Ele") {
-        bool ele_id = Check_Ele_ID(part);
+        bool ele_id = Check_Ele_ID(part, do_pt_cut, do_eta_cut);
         return ele_id;
     } else if (name == "Muon") {
         bool muo_id = Check_Muo_ID(part, do_pt_cut, do_eta_cut);
@@ -1513,10 +1513,18 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut, bool do_eta_c
     return false;
 }
 
-bool specialAna::Check_Ele_ID(pxl::Particle* ele) {
-    // bool passed = false;
+bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cut) {
     bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
-    return ele_ID;
+    bool ele_eta = TMath::Abs(ele -> getEta()) < 2.5 ? true : false;
+    bool ele_pt = ele -> getPt() > 110. ? true : false;
+    if (not do_pt_cut) {
+        ele_pt = true;
+    }
+    if (not do_eta_cut) {
+        ele_eta = true;
+    }
+    if (ele_ID && ele_eta && ele_pt) return true;
+    return false;
 }
 
 std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {

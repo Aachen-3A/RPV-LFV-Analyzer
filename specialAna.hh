@@ -87,7 +87,7 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
-    bool Check_Ele_ID(pxl::Particle* ele);
+    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
