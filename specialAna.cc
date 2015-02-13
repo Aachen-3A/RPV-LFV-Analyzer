@@ -76,11 +76,19 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         // str(boost::format("N_{%s}")%particleLatex[i] )
         HistClass::CreateHisto("num", particles[i].c_str(), 40, 0, 39,                          TString::Format("N_{%s}", particleSymbols[i].c_str()));
         HistClass::CreateHisto(3, "pt", particles[i].c_str(), 5000, 0, 5000,                    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()));
-        HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 1000, -10, 10,      TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-        HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 1000, -10, 10,   TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-        HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-        HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-        HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 1000, -10, 10,       TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+        if (particles[i] == "Muon") {
+            HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 1000, -10, 10,      TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 1000, -10, 10,   TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 1000, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 1000, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 1000, -10, 10,       TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+        } else {
+            HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 1000, -10, 10,      TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 1000, -10, 10,   TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 1000, -10, 10,       TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+        }
         HistClass::CreateHisto(3, "eta", particles[i].c_str(), 80, -4, 4,                       TString::Format("#eta_{%s}", particleSymbols[i].c_str()));
         HistClass::CreateHisto(3, "phi", particles[i].c_str(), 40, -3.2, 3.2,                   TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()));
 
@@ -1793,16 +1801,30 @@ void specialAna::Fill_Particle_histos(int hist_number, pxl::Particle* lepton) {
     if (hist_number == 2) {
         pxl::Particle* match = Get_Truth_match(name, lepton);
         if (match != 0) {
-            if (match->getPt() < 500) {
-                HistClass::Fill(name + TString::Format("_pt_resolution_0_500"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
-            } else if (match->getPt() < 1000) {
-                HistClass::Fill(name + TString::Format("_pt_resolution_500_1000"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
-            } else if (match->getPt() < 1500) {
-                HistClass::Fill(name + TString::Format("_pt_resolution_1000_1500"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
-            } else if (match->getPt() < 2000) {
-                HistClass::Fill(name + TString::Format("_pt_resolution_1500_2000"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+            if (name == "Muon") {
+                if (match->getPt() < 500) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_0_500"), ((1./lepton->getPt()) - (1./match->getPt()))/(1./match->getPt()), weight);
+                } else if (match->getPt() < 1000) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_500_1000"), ((1./lepton->getPt()) - (1./match->getPt()))/(1./match->getPt()), weight);
+                } else if (match->getPt() < 1500) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_1000_1500"), ((1./lepton->getPt()) - (1./match->getPt()))/(1./match->getPt()), weight);
+                } else if (match->getPt() < 2000) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_1500_2000"), ((1./lepton->getPt()) - (1./match->getPt()))/(1./match->getPt()), weight);
+                } else {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_2000"), ((1./lepton->getPt()) - (1./match->getPt()))/(1./match->getPt()), weight);
+                }
             } else {
-                HistClass::Fill(name + TString::Format("_pt_resolution_2000"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+                if (match->getPt() < 500) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_0_500"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+                } else if (match->getPt() < 1000) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_500_1000"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+                } else if (match->getPt() < 1500) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_1000_1500"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+                } else if (match->getPt() < 2000) {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_1500_2000"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+                } else {
+                    HistClass::Fill(name + TString::Format("_pt_resolution_2000"), (lepton->getPt() - match->getPt())/match->getPt(), weight);
+                }
             }
         }
     }
