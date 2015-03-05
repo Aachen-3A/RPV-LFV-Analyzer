@@ -719,6 +719,9 @@ void specialAna::KinematicsSelector(std::string const endung) {
             etau_cut_cfgs["kinematics"].SetVars(resonance_mass["etau"]);
         }
         Fill_N1_histos("etau", etau_cut_cfgs, endung);
+        if (b_etau_success) {
+            std::cout << "found etau resonance" << std::endl;
+        }
     }
     ///-----------------------------------------------------------------
     /// Selection for the muo-tau_h channel
@@ -821,6 +824,9 @@ void specialAna::KinematicsSelector(std::string const endung) {
             etaue_cut_cfgs["kinematics"].SetVars(resonance_mass["etaue"]);
         }
         Fill_N1_histos("etaue", etaue_cut_cfgs, endung);
+        if (b_etaue_success) {
+            std::cout << "found etaue resonance" << std::endl;
+        }
     }
     ///-----------------------------------------------------------------
     /// Selection for the e-tau_muo channel
@@ -837,6 +843,9 @@ void specialAna::KinematicsSelector(std::string const endung) {
             etaumu_cut_cfgs["kinematics"].SetVars(resonance_mass["etaumu"]);
         }
         Fill_N1_histos("etaumu", etaumu_cut_cfgs, endung);
+        if (b_etaumu_success) {
+            std::cout << "found etaumu resonance" << std::endl;
+        }
     }
     ///-----------------------------------------------------------------
     /// Selection for the muo-tau_e channel
@@ -927,6 +936,9 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutaumu_cut_cfgs["kinematics"].SetVars(resonance_mass["mutaumu"]);
         }
         Fill_N1_histos("mutaumu", mutaumu_cut_cfgs, endung);
+        if (b_mutaumu_success) {
+            std::cout << "found mutaumu resonance" << std::endl;
+        }
     }
 }
 
