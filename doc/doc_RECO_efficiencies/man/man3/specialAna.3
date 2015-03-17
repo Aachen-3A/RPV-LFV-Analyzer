@@ -484,11 +484,11 @@ Definition at line 290 of file specialAna\&.cc\&.
 .PP
 Definition at line 293 of file specialAna\&.cc\&.
 .PP
-References Check_Muo_ID(), Check_Tau_ID(), doTriggerStudies, EleList, endEvent(), Fill_Gen_Controll_histo(), Fill_Particle_histos(), Fill_trigger_effs(), FillControllHistos(), FillSystematics(), FillSystematicsUpDown(), GenSelector(), initEvent(), KinematicsSelector(), METList, MuonList, runOnData, tail_selector(), TauList, TriggerSelector(), and weight\&.
+References Check_Muo_ID(), Check_Tau_ID(), doTriggerStudies, EleList, endEvent(), Fill_Gen_Controll_histo(), Fill_Particle_histos(), Fill_RECO_effs(), Fill_trigger_effs(), FillControllHistos(), FillSystematics(), FillSystematicsUpDown(), GenSelector(), initEvent(), KinematicsSelector(), METList, MuonList, runOnData, tail_selector(), TauList, TriggerSelector(), and weight\&.
 .SS "bool specialAna::Bjet_veto (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1662 of file specialAna\&.cc\&.
+Definition at line 1692 of file specialAna\&.cc\&.
 .PP
 References numBJet, and Cuts::SetVars()\&.
 .PP
@@ -496,7 +496,7 @@ Referenced by KinematicsSelector()\&.
 .SS "double specialAna::calc_lep_fraction ()"
 
 .PP
-Definition at line 1698 of file specialAna\&.cc\&.
+Definition at line 1728 of file specialAna\&.cc\&.
 .PP
 References JetList, sel_lepton_nprompt, and sel_lepton_prompt\&.
 .PP
@@ -504,7 +504,7 @@ Referenced by Leptonic_fraction_cut()\&.
 .SS "void specialAna::channel_writer (TFile *file, const char *channel)"
 
 .PP
-Definition at line 1986 of file specialAna\&.cc\&.
+Definition at line 2016 of file specialAna\&.cc\&.
 .PP
 References channel_stages, and file1\&.
 .PP
@@ -512,13 +512,13 @@ Referenced by endJob()\&.
 .SS "bool specialAna::Check_Ele_ID (pxl::Particle *ele, booldo_pt_cut = \fCtrue\fP, booldo_eta_cut = \fCtrue\fP)"
 
 .PP
-Definition at line 1553 of file specialAna\&.cc\&.
+Definition at line 1583 of file specialAna\&.cc\&.
 .PP
 Referenced by Check_Par_ID()\&.
 .SS "bool specialAna::Check_Muo_ID (pxl::Particle *muon, booldo_pt_cut = \fCtrue\fP, booldo_eta_cut = \fCtrue\fP)"
 
 .PP
-Definition at line 1533 of file specialAna\&.cc\&.
+Definition at line 1563 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, and b_8TeV\&.
 .PP
@@ -526,7 +526,7 @@ Referenced by analyseEvent(), and Check_Par_ID()\&.
 .SS "bool specialAna::Check_Par_ID (pxl::Particle *part, booldo_pt_cut = \fCtrue\fP, booldo_eta_cut = \fCtrue\fP)"
 
 .PP
-Definition at line 1499 of file specialAna\&.cc\&.
+Definition at line 1529 of file specialAna\&.cc\&.
 .PP
 References Check_Ele_ID(), Check_Muo_ID(), Check_Tau_ID(), and m_TauType\&.
 .PP
@@ -534,7 +534,7 @@ Referenced by FindResonance(), Get_Trigger_match_1(), and Get_Trigger_match_2()\
 .SS "bool specialAna::Check_Tau_ID (pxl::Particle *tau)"
 
 .PP
-Definition at line 1515 of file specialAna\&.cc\&.
+Definition at line 1545 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, and b_8TeV\&.
 .PP
@@ -550,21 +550,21 @@ Delta phi between the two particles
 .PP
 pT ratio of the two particles 
 .PP
-Definition at line 1235 of file specialAna\&.cc\&.
+Definition at line 1265 of file specialAna\&.cc\&.
 .SS "void specialAna::Create_N1_histos (const char *channel, const std::map< std::string, \fBCuts\fP > &m_cfg, std::string constendung = \fC''\fP)"
 
 .PP
-Definition at line 1155 of file specialAna\&.cc\&.
+Definition at line 1185 of file specialAna\&.cc\&.
 .SS "void specialAna::Create_RECO_effs ()"
 
 .PP
-Definition at line 947 of file specialAna\&.cc\&.
+Definition at line 949 of file specialAna\&.cc\&.
 .PP
 References Create_RECO_object_effs()\&.
 .SS "void specialAna::Create_RECO_object_effs (std::stringobject)"
 
 .PP
-Definition at line 954 of file specialAna\&.cc\&.
+Definition at line 956 of file specialAna\&.cc\&.
 .PP
 Referenced by Create_RECO_effs()\&.
 .SS "void specialAna::Create_Resonance_histograms (intn_histos, const char *channel, const char *part1, const char *part2, std::string constendung = \fC''\fP)"
@@ -592,35 +592,35 @@ Delta phi between the other particles
 .PP
 pT ratio of the other particles 
 .PP
-Definition at line 1269 of file specialAna\&.cc\&.
+Definition at line 1299 of file specialAna\&.cc\&.
 .SS "void specialAna::Create_trigger_effs ()"
 
 .PP
-Definition at line 971 of file specialAna\&.cc\&.
+Definition at line 1001 of file specialAna\&.cc\&.
 .PP
 References m_trigger_string, and trigger_defs\&.
 .SS "double specialAna::DeltaPhi (doublea, doubleb)"
 
 .PP
-Definition at line 1895 of file specialAna\&.cc\&.
+Definition at line 1925 of file specialAna\&.cc\&.
 .PP
 Referenced by DeltaR(), Fill_Gen_histograms(), Fill_Resonance_histograms(), Make_DeltaPhi_emu(), Make_DeltaPhi_mutau(), Make_DeltaPhi_tauemu(), and Make_DeltaPhi_tauMET()\&.
 .SS "double specialAna::DeltaPhi (pxl::Particle *lepton, pxl::Particle *met)"
 
 .PP
-Definition at line 1904 of file specialAna\&.cc\&.
+Definition at line 1934 of file specialAna\&.cc\&.
 .SS "double specialAna::DeltaR (pxl::Particle *lepton, pxl::Particle *met)"
 
 .PP
-Definition at line 1915 of file specialAna\&.cc\&.
+Definition at line 1945 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi()\&.
 .PP
-Referenced by Get_Trigger_match_1()\&.
+Referenced by Fill_RECO_object_effs(), and Get_Trigger_match_1()\&.
 .SS "void specialAna::endEvent (const pxl::Event *event)"
 
 .PP
-Definition at line 2230 of file specialAna\&.cc\&.
+Definition at line 2260 of file specialAna\&.cc\&.
 .PP
 References EleList, EleListGen, GammaList, GammaListGen, JetList, JetListGen, keep_data_event, METList, METListGen, MuonList, MuonListGen, runOnData, TauList, and TauListGen\&.
 .PP
@@ -628,13 +628,13 @@ Referenced by analyseEvent()\&.
 .SS "void specialAna::endJob (const Serializable *)\fC [virtual]\fP"
 
 .PP
-Definition at line 2020 of file specialAna\&.cc\&.
+Definition at line 2050 of file specialAna\&.cc\&.
 .PP
 References channel_writer(), doTriggerStudies, file1, runOnData, and triggers\&.
 .SS "void specialAna::Fill_Gen_Controll_histo ()"
 
 .PP
-Definition at line 1783 of file specialAna\&.cc\&.
+Definition at line 1813 of file specialAna\&.cc\&.
 .PP
 References m_GenEvtView, and S3ListGen\&.
 .PP
@@ -650,7 +650,7 @@ Delta phi between the two particles
 .PP
 pT ratio of the two particles 
 .PP
-Definition at line 1252 of file specialAna\&.cc\&.
+Definition at line 1282 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi(), resonance_mass_gen, sel_part1_gen, sel_part2_gen, and weight\&.
 .PP
@@ -660,7 +660,7 @@ Referenced by GenSelector()\&.
 .SS "void specialAna::Fill_N1_histos (const char *channel, const std::map< std::string, \fBCuts\fP > &m_cfg, std::string constendung = \fC''\fP)"
 
 .PP
-Definition at line 1169 of file specialAna\&.cc\&.
+Definition at line 1199 of file specialAna\&.cc\&.
 .PP
 References weight\&.
 .PP
@@ -668,7 +668,7 @@ Referenced by KinematicsSelector()\&.
 .SS "void specialAna::Fill_Particle_histos (inthist_number, pxl::Particle *lepton)"
 
 .PP
-Definition at line 1819 of file specialAna\&.cc\&.
+Definition at line 1849 of file specialAna\&.cc\&.
 .PP
 References Get_Truth_match(), m_METType, m_TauType, and weight\&.
 .PP
@@ -676,11 +676,19 @@ Referenced by analyseEvent()\&.
 .SS "void specialAna::Fill_RECO_effs ()"
 
 .PP
-Definition at line 963 of file specialAna\&.cc\&.
+Definition at line 965 of file specialAna\&.cc\&.
+.PP
+References EleList, Fill_RECO_object_effs(), MuonList, and TauList\&.
+.PP
+Referenced by analyseEvent()\&.
 .SS "void specialAna::Fill_RECO_object_effs (std::stringobject, intid, std::vector< pxl::Particle * >part_list)"
 
 .PP
-Definition at line 967 of file specialAna\&.cc\&.
+Definition at line 972 of file specialAna\&.cc\&.
+.PP
+References DeltaR(), m_RecEvtView, and S3ListGen\&.
+.PP
+Referenced by Fill_RECO_effs()\&.
 .SS "void specialAna::Fill_Resonance_histograms (intn_histos, const char *channel, const char *part1, const char *part2, std::string constendung = \fC''\fP)"
 Cutflow histogram
 .PP
@@ -706,7 +714,7 @@ Delta phi between the other particles
 .PP
 pT ratio of the other particles 
 .PP
-Definition at line 1311 of file specialAna\&.cc\&.
+Definition at line 1341 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi(), resonance_mass, resonance_mass_gen, sel_lepton_nprompt, sel_lepton_nprompt_corr, sel_lepton_prompt, sel_met, and weight\&.
 .PP
@@ -714,7 +722,7 @@ Referenced by KinematicsSelector()\&.
 .SS "void specialAna::Fill_trigger_effs ()"
 
 .PP
-Definition at line 1001 of file specialAna\&.cc\&.
+Definition at line 1031 of file specialAna\&.cc\&.
 .PP
 References Get_Trigger_match_1(), Get_Trigger_match_2(), m_trigger_string, and trigger_defs\&.
 .PP
@@ -722,7 +730,7 @@ Referenced by analyseEvent()\&.
 .SS "void specialAna::FillControllHistos ()"
 
 .PP
-Definition at line 602 of file specialAna\&.cc\&.
+Definition at line 604 of file specialAna\&.cc\&.
 .PP
 References event_weight, getHT(), getPtHat(), m_RecEvtView, pileup_weight, runOnData, and weight\&.
 .PP
@@ -730,7 +738,7 @@ Referenced by analyseEvent()\&.
 .SS "void specialAna::FillSystematics (const pxl::Event *event, std::string constparticleName)"
 
 .PP
-Definition at line 505 of file specialAna\&.cc\&.
+Definition at line 507 of file specialAna\&.cc\&.
 .PP
 References FillSystematicsUpDown()\&.
 .PP
@@ -746,7 +754,7 @@ reset the chosen MET and lepton
 .PP
 return to backup 
 .PP
-Definition at line 512 of file specialAna\&.cc\&.
+Definition at line 514 of file specialAna\&.cc\&.
 .PP
 References EleList, KinematicsSelector(), m_METType, m_TauType, METList, MuonList, RememberMET, RememberPart, resonance_mass, resonance_mass_gen, sel_lepton_nprompt, sel_lepton_nprompt_corr, sel_lepton_prompt, sel_met, and TauList\&.
 .PP
@@ -754,7 +762,7 @@ Referenced by analyseEvent(), and FillSystematics()\&.
 .SS "bool specialAna::FindResonance (const char *channel, std::vector< pxl::Particle * >gen_list)"
 
 .PP
-Definition at line 1354 of file specialAna\&.cc\&.
+Definition at line 1384 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, b_8TeV, resonance_mass_gen, sel_part1_gen, and sel_part2_gen\&.
 .PP
@@ -762,7 +770,7 @@ Referenced by GenSelector(), and KinematicsSelector()\&.
 .SS "bool specialAna::FindResonance (const char *channel, std::vector< pxl::Particle * >part1_list, std::vector< pxl::Particle * >part2_list)"
 
 .PP
-Definition at line 1412 of file specialAna\&.cc\&.
+Definition at line 1442 of file specialAna\&.cc\&.
 .PP
 References Check_Par_ID(), resonance_mass, sel_lepton_nprompt, and sel_lepton_prompt\&.
 .SS "bool specialAna::FindResonance (const char *channel, std::vector< pxl::Particle * >part1_list, std::vector< pxl::Particle * >part2_list, std::vector< pxl::Particle * >met_list)"
@@ -774,13 +782,13 @@ project MET to tau direction
 .PP
 project MET parallel to tau direction 
 .PP
-Definition at line 1437 of file specialAna\&.cc\&.
+Definition at line 1467 of file specialAna\&.cc\&.
 .PP
 References Check_Par_ID(), resonance_mass, sel_lepton_nprompt, sel_lepton_nprompt_corr, sel_lepton_prompt, and sel_met\&.
 .SS "void specialAna::GenSelector ()"
 
 .PP
-Definition at line 1197 of file specialAna\&.cc\&.
+Definition at line 1227 of file specialAna\&.cc\&.
 .PP
 References b_emu, b_etau, b_etaue, b_etaumu, b_mutau, b_mutaue, b_mutaumu, Fill_Gen_histograms(), FindResonance(), and S3ListGen\&.
 .PP
@@ -788,7 +796,7 @@ Referenced by analyseEvent()\&.
 .SS "void specialAna::Get_Trigger_match_1 (std::stringtrigger_name)"
 
 .PP
-Definition at line 1093 of file specialAna\&.cc\&.
+Definition at line 1123 of file specialAna\&.cc\&.
 .PP
 References Check_Par_ID(), DeltaR(), EleList, m_RecEvtView, m_TrigEvtView, MuonList, particles, TauList, and trigger_defs\&.
 .PP
@@ -796,7 +804,7 @@ Referenced by Fill_trigger_effs()\&.
 .SS "void specialAna::Get_Trigger_match_2 (std::stringtrigger_name)"
 
 .PP
-Definition at line 1011 of file specialAna\&.cc\&.
+Definition at line 1041 of file specialAna\&.cc\&.
 .PP
 References Check_Par_ID(), EleList, m_RecEvtView, m_TrigEvtView, MuonList, TauList, and trigger_defs\&.
 .PP
@@ -804,7 +812,7 @@ Referenced by Fill_trigger_effs()\&.
 .SS "pxl::Particle * specialAna::Get_Truth_match (std::stringname, pxl::Particle *lepton)"
 
 .PP
-Definition at line 1862 of file specialAna\&.cc\&.
+Definition at line 1892 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, b_8TeV, and S3ListGen\&.
 .PP
@@ -812,7 +820,7 @@ Referenced by Fill_Particle_histos()\&.
 .SS "double specialAna::getHT ()"
 
 .PP
-Definition at line 1975 of file specialAna\&.cc\&.
+Definition at line 2005 of file specialAna\&.cc\&.
 .PP
 References BJetList, and JetList\&.
 .PP
@@ -820,7 +828,7 @@ Referenced by FillControllHistos()\&.
 .SS "double specialAna::getPtHat ()"
 
 .PP
-Definition at line 1926 of file specialAna\&.cc\&.
+Definition at line 1956 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, b_8TeV, and S3ListGen\&.
 .PP
@@ -828,49 +836,49 @@ Referenced by FillControllHistos()\&.
 .SS "void specialAna::Init_emu_cuts ()"
 
 .PP
-Definition at line 612 of file specialAna\&.cc\&.
+Definition at line 614 of file specialAna\&.cc\&.
 .PP
 References emu_cut_cfgs\&.
 .SS "void specialAna::Init_etau_cuts ()"
 
 .PP
-Definition at line 619 of file specialAna\&.cc\&.
+Definition at line 621 of file specialAna\&.cc\&.
 .PP
 References etau_cut_cfgs\&.
 .SS "void specialAna::Init_etaue_cuts ()"
 
 .PP
-Definition at line 633 of file specialAna\&.cc\&.
+Definition at line 635 of file specialAna\&.cc\&.
 .PP
 References etaue_cut_cfgs\&.
 .SS "void specialAna::Init_etaumu_cuts ()"
 
 .PP
-Definition at line 637 of file specialAna\&.cc\&.
+Definition at line 639 of file specialAna\&.cc\&.
 .PP
 References etaumu_cut_cfgs\&.
 .SS "void specialAna::Init_mutau_cuts ()"
 
 .PP
-Definition at line 623 of file specialAna\&.cc\&.
+Definition at line 625 of file specialAna\&.cc\&.
 .PP
 References mutau_cut_cfgs\&.
 .SS "void specialAna::Init_mutaue_cuts ()"
 
 .PP
-Definition at line 641 of file specialAna\&.cc\&.
+Definition at line 643 of file specialAna\&.cc\&.
 .PP
 References mutaue_cut_cfgs\&.
 .SS "void specialAna::Init_mutaumu_cuts ()"
 
 .PP
-Definition at line 650 of file specialAna\&.cc\&.
+Definition at line 652 of file specialAna\&.cc\&.
 .PP
 References mutaumu_cut_cfgs\&.
 .SS "void specialAna::initEvent (const pxl::Event *event)"
 
 .PP
-Definition at line 2078 of file specialAna\&.cc\&.
+Definition at line 2108 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, b_8TeV, BJetList, EleList, EleListGen, event_weight, events_, GammaList, GammaListGen, JetList, JetListGen, keep_data_event, m_BJets_algo, m_dataPeriod, m_GenEvtView, m_JetAlgo, m_METType, m_RecEvtView, m_TauType, m_TrigEvtView, METList, METListGen, mkeep_resonance_mass, MuonList, MuonListGen, numBJet, numEle, numGamma, numJet, numMET, numMuon, numTau, pileup_weight, resonance_mass, resonance_mass_gen, runOnData, S3ListGen, sel_lepton_nprompt, sel_lepton_nprompt_corr, sel_lepton_prompt, sel_met, TauList, TauListGen, temp_event, temp_ls, temp_run, and weight\&.
 .PP
@@ -924,7 +932,7 @@ Make the cut on the pT ratio of mu and ele
 .PP
  Selection for the muo-tau_muo channel 
 .PP
-Definition at line 654 of file specialAna\&.cc\&.
+Definition at line 656 of file specialAna\&.cc\&.
 .PP
 References b_emu, b_etau, b_etaue, b_etaumu, b_mutau, b_mutaue, b_mutaumu, Bjet_veto(), EleList, emu_cut_cfgs, etau_cut_cfgs, etaue_cut_cfgs, etaumu_cut_cfgs, event_weight, Fill_N1_histos(), Fill_Resonance_histograms(), FindResonance(), keep_data_event, Leptonic_fraction_cut(), m_RecEvtView, Make_DeltaPhi_emu(), Make_DeltaPhi_mutau(), Make_DeltaPhi_tauemu(), Make_DeltaPhi_tauMET(), Make_zeta_cut(), METList, mkeep_resonance_mass, MT_cut(), MuonList, mutau_cut_cfgs, mutaue_cut_cfgs, mutaumu_cut_cfgs, OppSign_charge(), pileup_weight, pT_muele_ratio_cut(), pT_mutau_ratio_cut(), resonance_mass, and TauList\&.
 .PP
@@ -932,7 +940,7 @@ Referenced by analyseEvent(), and FillSystematicsUpDown()\&.
 .SS "bool specialAna::Leptonic_fraction_cut (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1709 of file specialAna\&.cc\&.
+Definition at line 1739 of file specialAna\&.cc\&.
 .PP
 References calc_lep_fraction(), sel_lepton_nprompt, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -940,7 +948,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::Make_DeltaPhi_emu (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1648 of file specialAna\&.cc\&.
+Definition at line 1678 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi(), sel_lepton_nprompt, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -948,7 +956,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::Make_DeltaPhi_mutau (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1620 of file specialAna\&.cc\&.
+Definition at line 1650 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi(), sel_lepton_nprompt, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -956,7 +964,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::Make_DeltaPhi_tauemu (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1634 of file specialAna\&.cc\&.
+Definition at line 1664 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi(), sel_lepton_nprompt, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -964,7 +972,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::Make_DeltaPhi_tauMET (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1606 of file specialAna\&.cc\&.
+Definition at line 1636 of file specialAna\&.cc\&.
 .PP
 References DeltaPhi(), sel_lepton_nprompt, sel_met, and Cuts::SetVars()\&.
 .PP
@@ -972,7 +980,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::Make_zeta_cut (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1594 of file specialAna\&.cc\&.
+Definition at line 1624 of file specialAna\&.cc\&.
 .PP
 References Make_zeta_stuff(), sel_lepton_nprompt, sel_lepton_prompt, sel_met, and Cuts::SetVars()\&.
 .PP
@@ -980,19 +988,19 @@ Referenced by KinematicsSelector()\&.
 .SS "std::vector< double > specialAna::Make_zeta_stuff (pxl::Particle *muon, pxl::Particle *tau, pxl::Particle *met)"
 
 .PP
-Definition at line 1567 of file specialAna\&.cc\&.
+Definition at line 1597 of file specialAna\&.cc\&.
 .PP
 Referenced by Make_zeta_cut()\&.
 .SS "double specialAna::MT (pxl::Particle *lepton, pxl::Particle *met)"
 
 .PP
-Definition at line 1921 of file specialAna\&.cc\&.
+Definition at line 1951 of file specialAna\&.cc\&.
 .PP
 Referenced by MT_cut()\&.
 .SS "bool specialAna::MT_cut (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1684 of file specialAna\&.cc\&.
+Definition at line 1714 of file specialAna\&.cc\&.
 .PP
 References MT(), sel_lepton_prompt, sel_met, and Cuts::SetVars()\&.
 .PP
@@ -1000,7 +1008,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::OppSign_charge (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1671 of file specialAna\&.cc\&.
+Definition at line 1701 of file specialAna\&.cc\&.
 .PP
 References sel_lepton_nprompt, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -1008,7 +1016,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::pT_muele_ratio_cut (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1738 of file specialAna\&.cc\&.
+Definition at line 1768 of file specialAna\&.cc\&.
 .PP
 References sel_lepton_nprompt, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -1016,7 +1024,7 @@ Referenced by KinematicsSelector()\&.
 .SS "bool specialAna::pT_mutau_ratio_cut (\fBCuts\fP *cuts)"
 
 .PP
-Definition at line 1723 of file specialAna\&.cc\&.
+Definition at line 1753 of file specialAna\&.cc\&.
 .PP
 References sel_lepton_nprompt_corr, sel_lepton_prompt, and Cuts::SetVars()\&.
 .PP
@@ -1030,7 +1038,7 @@ ttbar 13TeV tail fitting
 .PP
 Signal parameter selection 
 .PP
-Definition at line 390 of file specialAna\&.cc\&.
+Definition at line 392 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, b_8TeV, config_, m_GenEvtView, S3ListGen, and weight\&.
 .PP
@@ -1038,7 +1046,7 @@ Referenced by analyseEvent()\&.
 .SS "bool specialAna::TriggerSelector (const pxl::Event *event)"
 
 .PP
-Definition at line 1752 of file specialAna\&.cc\&.
+Definition at line 1782 of file specialAna\&.cc\&.
 .PP
 References b_13TeV, b_8TeV, m_TrigEvtView, m_trigger_string, and triggers\&.
 .PP
@@ -1140,7 +1148,7 @@ Referenced by analyseEvent(), and endJob()\&.
 .PP
 Definition at line 158 of file specialAna\&.hh\&.
 .PP
-Referenced by analyseEvent(), endEvent(), FillSystematicsUpDown(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
+Referenced by analyseEvent(), endEvent(), Fill_RECO_effs(), FillSystematicsUpDown(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
 .SS "std::vector< pxl::Particle* >* specialAna::EleListGen"
 
 .PP
@@ -1266,7 +1274,7 @@ Referenced by Fill_Particle_histos(), FillSystematicsUpDown(), and initEvent()\&
 .PP
 Definition at line 119 of file specialAna\&.hh\&.
 .PP
-Referenced by FillControllHistos(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
+Referenced by Fill_RECO_object_effs(), FillControllHistos(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
 .SS "const std::string specialAna::m_TauType"
 
 .PP
@@ -1312,7 +1320,7 @@ Definition at line 214 of file specialAna\&.hh\&.
 .PP
 Definition at line 159 of file specialAna\&.hh\&.
 .PP
-Referenced by analyseEvent(), endEvent(), FillSystematicsUpDown(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
+Referenced by analyseEvent(), endEvent(), Fill_RECO_effs(), FillSystematicsUpDown(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
 .SS "std::vector< pxl::Particle* >* specialAna::MuonListGen"
 
 .PP
@@ -1434,7 +1442,7 @@ Referenced by analyseEvent(), endEvent(), endJob(), FillControllHistos(), and in
 .PP
 Definition at line 175 of file specialAna\&.hh\&.
 .PP
-Referenced by Fill_Gen_Controll_histo(), GenSelector(), Get_Truth_match(), getPtHat(), initEvent(), and tail_selector()\&.
+Referenced by Fill_Gen_Controll_histo(), Fill_RECO_object_effs(), GenSelector(), Get_Truth_match(), getPtHat(), initEvent(), and tail_selector()\&.
 .SS "pxl::Particle* specialAna::sel_lepton_nprompt"
 
 .PP
@@ -1476,7 +1484,7 @@ Referenced by Fill_Gen_histograms(), and FindResonance()\&.
 .PP
 Definition at line 160 of file specialAna\&.hh\&.
 .PP
-Referenced by analyseEvent(), endEvent(), FillSystematicsUpDown(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
+Referenced by analyseEvent(), endEvent(), Fill_RECO_effs(), FillSystematicsUpDown(), Get_Trigger_match_1(), Get_Trigger_match_2(), initEvent(), and KinematicsSelector()\&.
 .SS "std::vector< pxl::Particle* >* specialAna::TauListGen"
 
 .PP

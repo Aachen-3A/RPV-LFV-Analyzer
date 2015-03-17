@@ -327,6 +327,8 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         Fill_trigger_effs();
     }
 
+    Fill_RECO_effs();
+
     if (TriggerSelector(event)) {
         FillControllHistos();
 
@@ -953,19 +955,47 @@ void specialAna::Create_RECO_effs() {
 
 void specialAna::Create_RECO_object_effs(std::string object) {
     HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         100, 0, 1000,
-                         TString::Format("p_{T}^{%s} (GeV)", object.c_str()));
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
-                         TString::Format("#eta(%s)", object.c_str()), TString::Format("#phi(%s) (rad)", object.c_str()));
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
 }
 
 void specialAna::Fill_RECO_effs() {
-    
+    Fill_RECO_object_effs("Muon", 13, *MuonList);
+    Fill_RECO_object_effs("Ele", 11, *EleList);
+    Fill_RECO_object_effs("Tau", 15, *TauList);
+    // Fill_RECO_object_effs("MET", 12, *METList);
 }
 
 void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
-    
+    if (object == "MET") {
+        
+    } else {
+        pxl::Particle* matched_reco_particle = 0;
+        for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
+            pxl::Particle *part_i = *part_it;
+            if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
+            double delta_r_max = 0.5;
+            for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
+                pxl::Particle *part_j = *part_jt;
+                if (DeltaR(part_j, part_i) < delta_r_max) {
+                    delta_r_max = DeltaR(part_j, part_i);
+                    matched_reco_particle = (pxl::Particle*) part_j->clone();
+                }
+            }
+            if (matched_reco_particle != 0) {
+                HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+            } else {
+                HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+            }
+        }
+    }
 }
 
 void specialAna::Create_trigger_effs() {
@@ -1110,7 +1140,7 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
 
         bool match_found = false;
         double trig_match_dr = 10;
-        pxl::Particle* trig_cand;       
+        pxl::Particle* trig_cand;
         for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
             pxl::Particle *trig = *part_it;
             if (trigger_name.find(trig->getName()) != std::string::npos) {
@@ -1913,7 +1943,7 @@ double specialAna::DeltaPhi(pxl::Particle* lepton, pxl::Particle* met) {
 }
 
 double specialAna::DeltaR(pxl::Particle* lepton, pxl::Particle* met) {
-    double d_eta = TMath::Abs(lepton->getEta() - met->getPhi());
+    double d_eta = TMath::Abs(lepton->getEta() - met->getEta());
     double d_phi = DeltaPhi(lepton, met);
     return sqrt(pow(d_eta, 2) + pow(d_phi, 2));
 }
