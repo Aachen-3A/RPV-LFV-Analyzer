@@ -44,6 +44,8 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         Create_trigger_effs();
     }
 
+    Create_RECO_effs();
+
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
     mkeep_resonance_mass["mutau"] = 0;
@@ -943,10 +945,26 @@ void specialAna::KinematicsSelector(std::string const endung) {
 }
 
 void specialAna::Create_RECO_effs() {
-    
+    Create_RECO_object_effs("Muon");
+    Create_RECO_object_effs("Ele");
+    Create_RECO_object_effs("Tau");
+    Create_RECO_object_effs("MET");
+}
+
+void specialAna::Create_RECO_object_effs(std::string object) {
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         100, 0, 1000,
+                         TString::Format("p_{T}^{%s} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
+                         "n_{vtx}");
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                         TString::Format("#eta(%s)", object.c_str()), TString::Format("#phi(%s) (rad)", object.c_str()));
 }
 
 void specialAna::Fill_RECO_effs() {
+    
+}
+
+void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
     
 }
 
@@ -2018,6 +2036,10 @@ void specialAna::endJob(const Serializable*) {
         file1->cd("Effs/");
         HistClass::WriteAllEff("HLT");
     }
+    file1->cd();
+    file1->mkdir("RECO_Effs");
+    file1->cd("RECO_Effs/");
+    HistClass::WriteAllEff("RECO");
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");

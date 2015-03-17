@@ -79,7 +79,9 @@ class specialAna : public pxl::AnalysisProcess  {
     pxl::Particle* Get_Truth_match(std::string name, pxl::Particle* lepton);
 
     void Create_RECO_effs();
+    void Create_RECO_object_effs(std::string object);
     void Fill_RECO_effs();
+    void Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list);
 
     void FillSystematics(const pxl::Event* event, std::string const particleName);
     void FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType);

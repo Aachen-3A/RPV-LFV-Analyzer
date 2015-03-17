@@ -112,15 +112,11 @@ $(document).ready(function(){initNavTree('classspecialAna.html','');});
 Inheritance diagram for specialAna:</div>
 <div class="dyncontent">
 <div class="center"><img src="classspecialAna__inherit__graph.png" border="0" usemap="#specialAna_inherit__map" alt="Inheritance graph"/></div>
-<map name="specialAna_inherit__map" id="specialAna_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for specialAna:</div>
 <div class="dyncontent">
 <div class="center"><img src="classspecialAna__coll__graph.png" border="0" usemap="#specialAna_coll__map" alt="Collaboration graph"/></div>
-<map name="specialAna_coll__map" id="specialAna_coll__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -193,8 +189,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a555985858637a86037bac80ec093215b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea7e8f9188016ee5e1ef05dd5681f66a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspecialAna.html#aea7e8f9188016ee5e1ef05dd5681f66a">Create_RECO_effs</a> ()</td></tr>
 <tr class="separator:aea7e8f9188016ee5e1ef05dd5681f66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1efbb29fd66324d6a23dc695606582f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspecialAna.html#ab1efbb29fd66324d6a23dc695606582f">Create_RECO_object_effs</a> (std::string object)</td></tr>
+<tr class="separator:ab1efbb29fd66324d6a23dc695606582f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a574195bb12de08e07efb5d18800bc72c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspecialAna.html#a574195bb12de08e07efb5d18800bc72c">Fill_RECO_effs</a> ()</td></tr>
 <tr class="separator:a574195bb12de08e07efb5d18800bc72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf6c2b006dace5fe679c35f809705448"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspecialAna.html#abf6c2b006dace5fe679c35f809705448">Fill_RECO_object_effs</a> (std::string object, int id, std::vector&lt; pxl::Particle * &gt; part_list)</td></tr>
+<tr class="separator:abf6c2b006dace5fe679c35f809705448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0c365edd2b99787852a8ca21b612672"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspecialAna.html#ab0c365edd2b99787852a8ca21b612672">FillSystematics</a> (const pxl::Event *event, std::string const particleName)</td></tr>
 <tr class="separator:ab0c365edd2b99787852a8ca21b612672"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2233cf73756ab1135592eda1daeb45e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classspecialAna.html#a2233cf73756ab1135592eda1daeb45e5">FillSystematicsUpDown</a> (const pxl::Event *event, std::string const particleName, std::string const updown, std::string const shiftType)</td></tr>
@@ -471,7 +471,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00288">288</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00290">290</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
 </div>
 </div>
@@ -498,9 +498,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00291">291</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00293">293</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01515">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01497">Check_Tau_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00122">doTriggerStudies</a>, <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01765">Fill_Gen_Controll_histo()</a>, <a class="el" href="specialAna_8cc_source.html#l01801">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l00983">Fill_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l00503">FillSystematics()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>, <a class="el" href="specialAna_8hh_source.html#l00160">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00121">runOnData</a>, <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>, <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>, <a class="el" href="specialAna_8cc_source.html#l01734">TriggerSelector()</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01533">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01515">Check_Tau_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00124">doTriggerStudies</a>, <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01783">Fill_Gen_Controll_histo()</a>, <a class="el" href="specialAna_8cc_source.html#l01819">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01001">Fill_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l00505">FillSystematics()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>, <a class="el" href="specialAna_8hh_source.html#l00162">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00123">runOnData</a>, <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>, <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>, <a class="el" href="specialAna_8cc_source.html#l01752">TriggerSelector()</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
 </div>
 </div>
@@ -518,11 +518,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01644">1644</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01662">1662</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00151">numBJet</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00153">numBJet</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -539,11 +539,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01680">1680</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01698">1698</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00161">JetList</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, and <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00163">JetList</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, and <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01691">Leptonic_fraction_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01709">Leptonic_fraction_cut()</a>.</p>
 
 </div>
 </div>
@@ -571,11 +571,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01968">1968</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01986">1986</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00197">channel_stages</a>, and <a class="el" href="specialAna_8hh_source.html#l00038">file1</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00199">channel_stages</a>, and <a class="el" href="specialAna_8hh_source.html#l00038">file1</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02002">endJob()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02020">endJob()</a>.</p>
 
 </div>
 </div>
@@ -609,9 +609,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01535">1535</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01553">1553</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>.</p>
 
 </div>
 </div>
@@ -645,11 +645,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01515">1515</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01533">1533</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>.</p>
 
 </div>
 </div>
@@ -683,11 +683,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01481">1481</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01499">1499</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01535">Check_Ele_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01515">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01497">Check_Tau_ID()</a>, and <a class="el" href="specialAna_8hh_source.html#l00123">m_TauType</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01553">Check_Ele_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01533">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01515">Check_Tau_ID()</a>, and <a class="el" href="specialAna_8hh_source.html#l00125">m_TauType</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01394">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, and <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01412">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, and <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>.</p>
 
 </div>
 </div>
@@ -705,11 +705,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01497">1497</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01515">1515</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>.</p>
 
 </div>
 </div>
@@ -748,7 +748,7 @@ Public Attributes</h2></td></tr>
 <p>Delta phi between the two particles</p>
 <p>pT ratio of the two particles </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01217">1217</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01235">1235</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
 </div>
 </div>
@@ -782,7 +782,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01137">1137</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01155">1155</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
 </div>
 </div>
@@ -799,7 +799,29 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00945">945</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00947">947</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+
+<p>References <a class="el" href="specialAna_8cc_source.html#l00954">Create_RECO_object_effs()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab1efbb29fd66324d6a23dc695606582f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void specialAna::Create_RECO_object_effs </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00954">954</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00947">Create_RECO_effs()</a>.</p>
 
 </div>
 </div>
@@ -857,7 +879,7 @@ Public Attributes</h2></td></tr>
 <p>Delta phi between the other particles</p>
 <p>pT ratio of the other particles </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01251">1251</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01269">1269</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
 </div>
 </div>
@@ -874,9 +896,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00953">953</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00971">971</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00133">m_trigger_string</a>, and <a class="el" href="specialAna_8hh_source.html#l00195">trigger_defs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00135">m_trigger_string</a>, and <a class="el" href="specialAna_8hh_source.html#l00197">trigger_defs</a>.</p>
 
 </div>
 </div>
@@ -904,9 +926,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01877">1877</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01895">1895</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01897">DeltaR()</a>, <a class="el" href="specialAna_8cc_source.html#l01234">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01630">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01602">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01616">Make_DeltaPhi_tauemu()</a>, and <a class="el" href="specialAna_8cc_source.html#l01588">Make_DeltaPhi_tauMET()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01915">DeltaR()</a>, <a class="el" href="specialAna_8cc_source.html#l01252">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01648">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01620">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01634">Make_DeltaPhi_tauemu()</a>, and <a class="el" href="specialAna_8cc_source.html#l01606">Make_DeltaPhi_tauMET()</a>.</p>
 
 </div>
 </div>
@@ -934,7 +956,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01886">1886</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01904">1904</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
 </div>
 </div>
@@ -962,11 +984,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01897">1897</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01915">1915</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>.</p>
 
 </div>
 </div>
@@ -984,11 +1006,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l02208">2208</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l02230">2230</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00167">EleListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00159">GammaList</a>, <a class="el" href="specialAna_8hh_source.html#l00170">GammaListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00161">JetList</a>, <a class="el" href="specialAna_8hh_source.html#l00172">JetListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00214">keep_data_event</a>, <a class="el" href="specialAna_8hh_source.html#l00160">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00171">METListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00168">MuonListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00121">runOnData</a>, <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>, and <a class="el" href="specialAna_8hh_source.html#l00169">TauListGen</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00169">EleListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00161">GammaList</a>, <a class="el" href="specialAna_8hh_source.html#l00172">GammaListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00163">JetList</a>, <a class="el" href="specialAna_8hh_source.html#l00174">JetListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00216">keep_data_event</a>, <a class="el" href="specialAna_8hh_source.html#l00162">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00173">METListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00170">MuonListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00123">runOnData</a>, <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>, and <a class="el" href="specialAna_8hh_source.html#l00171">TauListGen</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1014,9 +1036,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l02002">2002</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l02020">2020</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01968">channel_writer()</a>, <a class="el" href="specialAna_8hh_source.html#l00122">doTriggerStudies</a>, <a class="el" href="specialAna_8hh_source.html#l00038">file1</a>, <a class="el" href="specialAna_8hh_source.html#l00121">runOnData</a>, and <a class="el" href="specialAna_8hh_source.html#l00210">triggers</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01986">channel_writer()</a>, <a class="el" href="specialAna_8hh_source.html#l00124">doTriggerStudies</a>, <a class="el" href="specialAna_8hh_source.html#l00038">file1</a>, <a class="el" href="specialAna_8hh_source.html#l00123">runOnData</a>, and <a class="el" href="specialAna_8hh_source.html#l00212">triggers</a>.</p>
 
 </div>
 </div>
@@ -1033,11 +1055,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01765">1765</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01783">1783</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00118">m_GenEvtView</a>, and <a class="el" href="specialAna_8hh_source.html#l00173">S3ListGen</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00120">m_GenEvtView</a>, and <a class="el" href="specialAna_8hh_source.html#l00175">S3ListGen</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1076,11 +1098,11 @@ Public Attributes</h2></td></tr>
 <p>Delta phi between the two particles</p>
 <p>pT ratio of the two particles </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01234">1234</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01252">1252</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00208">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00199">sel_part1_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00200">sel_part2_gen</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00210">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00201">sel_part1_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_part2_gen</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>.</p>
 
 </div>
 </div>
@@ -1152,11 +1174,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01151">1151</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01169">1169</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1184,11 +1206,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01801">1801</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01819">1819</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01844">Get_Truth_match()</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_METType</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_TauType</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01862">Get_Truth_match()</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_METType</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_TauType</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1205,7 +1227,41 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00949">949</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00963">963</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf6c2b006dace5fe679c35f809705448"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void specialAna::Fill_RECO_object_effs </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; pxl::Particle * &gt;&#160;</td>
+          <td class="paramname"><em>part_list</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00967">967</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
 </div>
 </div>
@@ -1263,11 +1319,11 @@ Public Attributes</h2></td></tr>
 <p>Delta phi between the other particles</p>
 <p>pT ratio of the other particles </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01293">1293</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01311">1311</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00207">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00208">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00209">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00210">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00207">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1284,11 +1340,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00983">983</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01001">1001</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8hh_source.html#l00133">m_trigger_string</a>, and <a class="el" href="specialAna_8hh_source.html#l00195">trigger_defs</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8hh_source.html#l00135">m_trigger_string</a>, and <a class="el" href="specialAna_8hh_source.html#l00197">trigger_defs</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1305,11 +1361,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00600">600</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00602">602</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00217">event_weight</a>, <a class="el" href="specialAna_8cc_source.html#l01957">getHT()</a>, <a class="el" href="specialAna_8cc_source.html#l01908">getPtHat()</a>, <a class="el" href="specialAna_8hh_source.html#l00117">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00218">pileup_weight</a>, <a class="el" href="specialAna_8hh_source.html#l00121">runOnData</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00219">event_weight</a>, <a class="el" href="specialAna_8cc_source.html#l01975">getHT()</a>, <a class="el" href="specialAna_8cc_source.html#l01926">getPtHat()</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00220">pileup_weight</a>, <a class="el" href="specialAna_8hh_source.html#l00123">runOnData</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1337,11 +1393,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00503">503</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00505">505</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1386,11 +1442,11 @@ Public Attributes</h2></td></tr>
 <p>reset the chosen MET and lepton</p>
 <p>return to backup </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00510">510</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00512">512</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_METType</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_TauType</a>, <a class="el" href="specialAna_8hh_source.html#l00160">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00165">RememberMET</a>, <a class="el" href="specialAna_8hh_source.html#l00164">RememberPart</a>, <a class="el" href="specialAna_8hh_source.html#l00207">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00208">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>, and <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_METType</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_TauType</a>, <a class="el" href="specialAna_8hh_source.html#l00162">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00167">RememberMET</a>, <a class="el" href="specialAna_8hh_source.html#l00166">RememberPart</a>, <a class="el" href="specialAna_8hh_source.html#l00209">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00210">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00207">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>, and <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00503">FillSystematics()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00505">FillSystematics()</a>.</p>
 
 </div>
 </div>
@@ -1418,11 +1474,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01336">1336</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01354">1354</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00208">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00199">sel_part1_gen</a>, and <a class="el" href="specialAna_8hh_source.html#l00200">sel_part2_gen</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00210">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00201">sel_part1_gen</a>, and <a class="el" href="specialAna_8hh_source.html#l00202">sel_part2_gen</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1456,9 +1512,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01394">1394</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01412">1412</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00207">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, and <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00209">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, and <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>.</p>
 
 </div>
 </div>
@@ -1502,9 +1558,9 @@ Public Attributes</h2></td></tr>
 <p>project MET to tau direction</p>
 <p>project MET parallel to tau direction </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01419">1419</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01437">1437</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00207">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00209">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00207">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>.</p>
 
 </div>
 </div>
@@ -1521,11 +1577,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01179">1179</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01197">1197</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00179">b_emu</a>, <a class="el" href="specialAna_8hh_source.html#l00180">b_etau</a>, <a class="el" href="specialAna_8hh_source.html#l00182">b_etaue</a>, <a class="el" href="specialAna_8hh_source.html#l00183">b_etaumu</a>, <a class="el" href="specialAna_8hh_source.html#l00181">b_mutau</a>, <a class="el" href="specialAna_8hh_source.html#l00184">b_mutaue</a>, <a class="el" href="specialAna_8hh_source.html#l00185">b_mutaumu</a>, <a class="el" href="specialAna_8cc_source.html#l01234">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>, and <a class="el" href="specialAna_8hh_source.html#l00173">S3ListGen</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00181">b_emu</a>, <a class="el" href="specialAna_8hh_source.html#l00182">b_etau</a>, <a class="el" href="specialAna_8hh_source.html#l00184">b_etaue</a>, <a class="el" href="specialAna_8hh_source.html#l00185">b_etaumu</a>, <a class="el" href="specialAna_8hh_source.html#l00183">b_mutau</a>, <a class="el" href="specialAna_8hh_source.html#l00186">b_mutaue</a>, <a class="el" href="specialAna_8hh_source.html#l00187">b_mutaumu</a>, <a class="el" href="specialAna_8cc_source.html#l01252">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>, and <a class="el" href="specialAna_8hh_source.html#l00175">S3ListGen</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1543,11 +1599,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01075">1075</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01093">1093</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01897">DeltaR()</a>, <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00117">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00125">particles</a>, <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>, and <a class="el" href="specialAna_8hh_source.html#l00195">trigger_defs</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01915">DeltaR()</a>, <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00121">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00127">particles</a>, <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>, and <a class="el" href="specialAna_8hh_source.html#l00197">trigger_defs</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00983">Fill_trigger_effs()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01001">Fill_trigger_effs()</a>.</p>
 
 </div>
 </div>
@@ -1565,11 +1621,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00993">993</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01011">1011</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00117">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>, and <a class="el" href="specialAna_8hh_source.html#l00195">trigger_defs</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>, <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00121">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>, and <a class="el" href="specialAna_8hh_source.html#l00197">trigger_defs</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00983">Fill_trigger_effs()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01001">Fill_trigger_effs()</a>.</p>
 
 </div>
 </div>
@@ -1597,11 +1653,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01844">1844</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01862">1862</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00173">S3ListGen</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00175">S3ListGen</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01801">Fill_Particle_histos()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01819">Fill_Particle_histos()</a>.</p>
 
 </div>
 </div>
@@ -1618,11 +1674,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01957">1957</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01975">1975</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00162">BJetList</a>, and <a class="el" href="specialAna_8hh_source.html#l00161">JetList</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00164">BJetList</a>, and <a class="el" href="specialAna_8hh_source.html#l00163">JetList</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>.</p>
 
 </div>
 </div>
@@ -1639,11 +1695,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01908">1908</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01926">1926</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00173">S3ListGen</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>, and <a class="el" href="specialAna_8hh_source.html#l00175">S3ListGen</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>.</p>
 
 </div>
 </div>
@@ -1660,9 +1716,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00610">610</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00612">612</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00187">emu_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00189">emu_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1679,9 +1735,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00617">617</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00619">619</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00188">etau_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00190">etau_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1698,9 +1754,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00631">631</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00633">633</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00190">etaue_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00192">etaue_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1717,9 +1773,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00635">635</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00637">637</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00191">etaumu_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00193">etaumu_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1736,9 +1792,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00621">621</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00623">623</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00189">mutau_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00191">mutau_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1755,9 +1811,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00639">639</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00641">641</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00192">mutaue_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00194">mutaue_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1774,9 +1830,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00648">648</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00650">650</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00193">mutaumu_cut_cfgs</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00195">mutaumu_cut_cfgs</a>.</p>
 
 </div>
 </div>
@@ -1794,11 +1850,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l02056">2056</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l02078">2078</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00162">BJetList</a>, <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00167">EleListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00217">event_weight</a>, <a class="el" href="specialAna_8hh_source.html#l00153">events_</a>, <a class="el" href="specialAna_8hh_source.html#l00159">GammaList</a>, <a class="el" href="specialAna_8hh_source.html#l00170">GammaListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00161">JetList</a>, <a class="el" href="specialAna_8hh_source.html#l00172">JetListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00214">keep_data_event</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_BJets_algo</a>, <a class="el" href="specialAna_8hh_source.html#l00135">m_dataPeriod</a>, <a class="el" href="specialAna_8hh_source.html#l00118">m_GenEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_JetAlgo</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_METType</a>, <a class="el" href="specialAna_8hh_source.html#l00117">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00123">m_TauType</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00160">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00171">METListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00215">mkeep_resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00168">MuonListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00151">numBJet</a>, <a class="el" href="specialAna_8hh_source.html#l00146">numEle</a>, <a class="el" href="specialAna_8hh_source.html#l00148">numGamma</a>, <a class="el" href="specialAna_8hh_source.html#l00150">numJet</a>, <a class="el" href="specialAna_8hh_source.html#l00149">numMET</a>, <a class="el" href="specialAna_8hh_source.html#l00145">numMuon</a>, <a class="el" href="specialAna_8hh_source.html#l00147">numTau</a>, <a class="el" href="specialAna_8hh_source.html#l00218">pileup_weight</a>, <a class="el" href="specialAna_8hh_source.html#l00207">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00208">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00121">runOnData</a>, <a class="el" href="specialAna_8hh_source.html#l00173">S3ListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>, <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>, <a class="el" href="specialAna_8hh_source.html#l00169">TauListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00141">temp_event</a>, <a class="el" href="specialAna_8hh_source.html#l00140">temp_ls</a>, <a class="el" href="specialAna_8hh_source.html#l00139">temp_run</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00164">BJetList</a>, <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00169">EleListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00219">event_weight</a>, <a class="el" href="specialAna_8hh_source.html#l00155">events_</a>, <a class="el" href="specialAna_8hh_source.html#l00161">GammaList</a>, <a class="el" href="specialAna_8hh_source.html#l00172">GammaListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00163">JetList</a>, <a class="el" href="specialAna_8hh_source.html#l00174">JetListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00216">keep_data_event</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_BJets_algo</a>, <a class="el" href="specialAna_8hh_source.html#l00137">m_dataPeriod</a>, <a class="el" href="specialAna_8hh_source.html#l00120">m_GenEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_JetAlgo</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_METType</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_RecEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00125">m_TauType</a>, <a class="el" href="specialAna_8hh_source.html#l00121">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00162">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00173">METListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00217">mkeep_resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00170">MuonListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00153">numBJet</a>, <a class="el" href="specialAna_8hh_source.html#l00148">numEle</a>, <a class="el" href="specialAna_8hh_source.html#l00150">numGamma</a>, <a class="el" href="specialAna_8hh_source.html#l00152">numJet</a>, <a class="el" href="specialAna_8hh_source.html#l00151">numMET</a>, <a class="el" href="specialAna_8hh_source.html#l00147">numMuon</a>, <a class="el" href="specialAna_8hh_source.html#l00149">numTau</a>, <a class="el" href="specialAna_8hh_source.html#l00220">pileup_weight</a>, <a class="el" href="specialAna_8hh_source.html#l00209">resonance_mass</a>, <a class="el" href="specialAna_8hh_source.html#l00210">resonance_mass_gen</a>, <a class="el" href="specialAna_8hh_source.html#l00123">runOnData</a>, <a class="el" href="specialAna_8hh_source.html#l00175">S3ListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00207">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>, <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>, <a class="el" href="specialAna_8hh_source.html#l00171">TauListGen</a>, <a class="el" href="specialAna_8hh_source.html#l00143">temp_event</a>, <a class="el" href="specialAna_8hh_source.html#l00142">temp_ls</a>, <a class="el" href="specialAna_8hh_source.html#l00141">temp_run</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -1846,11 +1902,11 @@ Public Attributes</h2></td></tr>
 <hr/>
 <p> Selection for the muo-tau_muo channel </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00652">652</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00654">654</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00179">b_emu</a>, <a class="el" href="specialAna_8hh_source.html#l00180">b_etau</a>, <a class="el" href="specialAna_8hh_source.html#l00182">b_etaue</a>, <a class="el" href="specialAna_8hh_source.html#l00183">b_etaumu</a>, <a class="el" href="specialAna_8hh_source.html#l00181">b_mutau</a>, <a class="el" href="specialAna_8hh_source.html#l00184">b_mutaue</a>, <a class="el" href="specialAna_8hh_source.html#l00185">b_mutaumu</a>, <a class="el" href="specialAna_8cc_source.html#l01644">Bjet_veto()</a>, <a class="el" href="specialAna_8hh_source.html#l00156">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00187">emu_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00188">etau_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00190">etaue_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00191">etaumu_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00217">event_weight</a>, <a class="el" href="specialAna_8cc_source.html#l01151">Fill_N1_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>, <a class="el" href="specialAna_8hh_source.html#l00214">keep_data_event</a>, <a class="el" href="specialAna_8cc_source.html#l01691">Leptonic_fraction_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00117">m_RecEvtView</a>, <a class="el" href="specialAna_8cc_source.html#l01630">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01602">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01616">Make_DeltaPhi_tauemu()</a>, <a class="el" href="specialAna_8cc_source.html#l01588">Make_DeltaPhi_tauMET()</a>, <a class="el" href="specialAna_8cc_source.html#l01576">Make_zeta_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00160">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00215">mkeep_resonance_mass</a>, <a class="el" href="specialAna_8cc_source.html#l01666">MT_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00157">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00189">mutau_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00192">mutaue_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00193">mutaumu_cut_cfgs</a>, <a class="el" href="specialAna_8cc_source.html#l01653">OppSign_charge()</a>, <a class="el" href="specialAna_8hh_source.html#l00218">pileup_weight</a>, <a class="el" href="specialAna_8cc_source.html#l01720">pT_muele_ratio_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01705">pT_mutau_ratio_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00207">resonance_mass</a>, and <a class="el" href="specialAna_8hh_source.html#l00158">TauList</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00181">b_emu</a>, <a class="el" href="specialAna_8hh_source.html#l00182">b_etau</a>, <a class="el" href="specialAna_8hh_source.html#l00184">b_etaue</a>, <a class="el" href="specialAna_8hh_source.html#l00185">b_etaumu</a>, <a class="el" href="specialAna_8hh_source.html#l00183">b_mutau</a>, <a class="el" href="specialAna_8hh_source.html#l00186">b_mutaue</a>, <a class="el" href="specialAna_8hh_source.html#l00187">b_mutaumu</a>, <a class="el" href="specialAna_8cc_source.html#l01662">Bjet_veto()</a>, <a class="el" href="specialAna_8hh_source.html#l00158">EleList</a>, <a class="el" href="specialAna_8hh_source.html#l00189">emu_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00190">etau_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00192">etaue_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00193">etaumu_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00219">event_weight</a>, <a class="el" href="specialAna_8cc_source.html#l01169">Fill_N1_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>, <a class="el" href="specialAna_8hh_source.html#l00216">keep_data_event</a>, <a class="el" href="specialAna_8cc_source.html#l01709">Leptonic_fraction_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_RecEvtView</a>, <a class="el" href="specialAna_8cc_source.html#l01648">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01620">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01634">Make_DeltaPhi_tauemu()</a>, <a class="el" href="specialAna_8cc_source.html#l01606">Make_DeltaPhi_tauMET()</a>, <a class="el" href="specialAna_8cc_source.html#l01594">Make_zeta_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00162">METList</a>, <a class="el" href="specialAna_8hh_source.html#l00217">mkeep_resonance_mass</a>, <a class="el" href="specialAna_8cc_source.html#l01684">MT_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00159">MuonList</a>, <a class="el" href="specialAna_8hh_source.html#l00191">mutau_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00194">mutaue_cut_cfgs</a>, <a class="el" href="specialAna_8hh_source.html#l00195">mutaumu_cut_cfgs</a>, <a class="el" href="specialAna_8cc_source.html#l01671">OppSign_charge()</a>, <a class="el" href="specialAna_8hh_source.html#l00220">pileup_weight</a>, <a class="el" href="specialAna_8cc_source.html#l01738">pT_muele_ratio_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01723">pT_mutau_ratio_cut()</a>, <a class="el" href="specialAna_8hh_source.html#l00209">resonance_mass</a>, and <a class="el" href="specialAna_8hh_source.html#l00160">TauList</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>.</p>
 
 </div>
 </div>
@@ -1868,11 +1924,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01691">1691</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01709">1709</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01680">calc_lep_fraction()</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01698">calc_lep_fraction()</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1890,11 +1946,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01630">1630</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01648">1648</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1912,11 +1968,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01602">1602</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01620">1620</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1934,11 +1990,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01616">1616</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01634">1634</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1956,11 +2012,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01588">1588</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01606">1606</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01877">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01895">DeltaPhi()</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -1978,11 +2034,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01576">1576</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01594">1594</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01549">Make_zeta_stuff()</a>, <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01567">Make_zeta_stuff()</a>, <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2016,9 +2072,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01549">1549</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01567">1567</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01576">Make_zeta_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01594">Make_zeta_cut()</a>.</p>
 
 </div>
 </div>
@@ -2046,9 +2102,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01903">1903</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01921">1921</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01666">MT_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01684">MT_cut()</a>.</p>
 
 </div>
 </div>
@@ -2066,11 +2122,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01666">1666</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01684">1684</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8cc_source.html#l01903">MT()</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_met</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8cc_source.html#l01921">MT()</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, <a class="el" href="specialAna_8hh_source.html#l00206">sel_met</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2088,11 +2144,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01653">1653</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01671">1671</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2110,11 +2166,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01720">1720</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01738">1738</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00203">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2132,11 +2188,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01705">1705</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01723">1723</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00205">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00202">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00207">sel_lepton_nprompt_corr</a>, <a class="el" href="specialAna_8hh_source.html#l00204">sel_lepton_prompt</a>, and <a class="el" href="CutClass_8hh_source.html#l00114">Cuts::SetVars()</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2158,11 +2214,11 @@ Public Attributes</h2></td></tr>
 <p>ttbar 13TeV tail fitting</p>
 <p>Signal parameter selection </p>
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00388">388</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l00390">390</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00137">config_</a>, <a class="el" href="specialAna_8hh_source.html#l00118">m_GenEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00173">S3ListGen</a>, and <a class="el" href="specialAna_8hh_source.html#l00143">weight</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00139">config_</a>, <a class="el" href="specialAna_8hh_source.html#l00120">m_GenEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00175">S3ListGen</a>, and <a class="el" href="specialAna_8hh_source.html#l00145">weight</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -2180,11 +2236,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01734">1734</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8cc_source.html#l01752">1752</a> of file <a class="el" href="specialAna_8cc_source.html">specialAna.cc</a>.</p>
 
-<p>References <a class="el" href="specialAna_8hh_source.html#l00176">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00177">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00119">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00133">m_trigger_string</a>, and <a class="el" href="specialAna_8hh_source.html#l00210">triggers</a>.</p>
+<p>References <a class="el" href="specialAna_8hh_source.html#l00178">b_13TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00179">b_8TeV</a>, <a class="el" href="specialAna_8hh_source.html#l00121">m_TrigEvtView</a>, <a class="el" href="specialAna_8hh_source.html#l00135">m_trigger_string</a>, and <a class="el" href="specialAna_8hh_source.html#l00212">triggers</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>.</p>
 
 </div>
 </div>
@@ -2199,9 +2255,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00176">176</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00178">178</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01515">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01497">Check_Tau_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l01844">Get_Truth_match()</a>, <a class="el" href="specialAna_8cc_source.html#l01908">getPtHat()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>, and <a class="el" href="specialAna_8cc_source.html#l01734">TriggerSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01533">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01515">Check_Tau_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l01862">Get_Truth_match()</a>, <a class="el" href="specialAna_8cc_source.html#l01926">getPtHat()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>, and <a class="el" href="specialAna_8cc_source.html#l01752">TriggerSelector()</a>.</p>
 
 </div>
 </div>
@@ -2215,7 +2271,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00175">175</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00177">177</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2229,9 +2285,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00177">177</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00179">179</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01515">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01497">Check_Tau_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l01844">Get_Truth_match()</a>, <a class="el" href="specialAna_8cc_source.html#l01908">getPtHat()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>, and <a class="el" href="specialAna_8cc_source.html#l01734">TriggerSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01533">Check_Muo_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01515">Check_Tau_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l01862">Get_Truth_match()</a>, <a class="el" href="specialAna_8cc_source.html#l01926">getPtHat()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>, and <a class="el" href="specialAna_8cc_source.html#l01752">TriggerSelector()</a>.</p>
 
 </div>
 </div>
@@ -2245,9 +2301,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00179">179</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00181">181</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2261,9 +2317,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00180">180</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00182">182</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2277,9 +2333,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00182">182</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00184">184</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2293,9 +2349,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00183">183</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00185">185</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2309,9 +2365,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00181">181</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00183">183</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2325,9 +2381,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00184">184</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00186">186</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2341,9 +2397,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00185">185</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00187">187</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2357,9 +2413,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00162">162</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00164">164</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01957">getHT()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01975">getHT()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2373,9 +2429,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00197">197</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00199">199</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01968">channel_writer()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01986">channel_writer()</a>.</p>
 
 </div>
 </div>
@@ -2389,9 +2445,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00137">137</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00139">139</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>.</p>
 
 </div>
 </div>
@@ -2405,7 +2461,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00128">128</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00130">130</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2419,7 +2475,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00134">134</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00136">136</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2433,9 +2489,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00122">122</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00124">124</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02002">endJob()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02020">endJob()</a>.</p>
 
 </div>
 </div>
@@ -2449,9 +2505,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00156">156</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00158">158</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2465,9 +2521,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00167">167</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00169">169</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2481,9 +2537,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00187">187</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00189">189</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00610">Init_emu_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00612">Init_emu_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2497,9 +2553,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00188">188</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00190">190</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00617">Init_etau_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00619">Init_etau_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2513,9 +2569,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00190">190</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00192">192</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00631">Init_etaue_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00633">Init_etaue_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2529,9 +2585,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00191">191</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00193">193</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00635">Init_etaumu_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00637">Init_etaumu_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2545,9 +2601,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00217">217</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00219">219</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2561,9 +2617,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00153">153</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00155">155</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2579,7 +2635,7 @@ Public Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00038">38</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01968">channel_writer()</a>, and <a class="el" href="specialAna_8cc_source.html#l02002">endJob()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01986">channel_writer()</a>, and <a class="el" href="specialAna_8cc_source.html#l02020">endJob()</a>.</p>
 
 </div>
 </div>
@@ -2593,9 +2649,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00159">159</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00161">161</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2609,9 +2665,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00170">170</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00172">172</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2625,7 +2681,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00130">130</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00132">132</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2639,9 +2695,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00161">161</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00163">163</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01680">calc_lep_fraction()</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01957">getHT()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01698">calc_lep_fraction()</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01975">getHT()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2655,9 +2711,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00172">172</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00174">174</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2671,9 +2727,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00214">214</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00216">216</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2687,9 +2743,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00123">123</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00125">125</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2703,7 +2759,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00136">136</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00138">138</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2717,7 +2773,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00132">132</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00134">134</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2731,9 +2787,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00135">135</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00137">137</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2747,9 +2803,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00118">118</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00120">120</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01765">Fill_Gen_Controll_histo()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01783">Fill_Gen_Controll_histo()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>.</p>
 
 </div>
 </div>
@@ -2763,9 +2819,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00123">123</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00125">125</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2779,9 +2835,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00123">123</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00125">125</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01801">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01819">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2795,9 +2851,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00117">117</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00119">119</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2811,9 +2867,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00123">123</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00125">125</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01481">Check_Par_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01801">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01499">Check_Par_ID()</a>, <a class="el" href="specialAna_8cc_source.html#l01819">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2827,9 +2883,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00119">119</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00121">121</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01734">TriggerSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01752">TriggerSelector()</a>.</p>
 
 </div>
 </div>
@@ -2843,9 +2899,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00133">133</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00135">135</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00953">Create_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l00983">Fill_trigger_effs()</a>, and <a class="el" href="specialAna_8cc_source.html#l01734">TriggerSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00971">Create_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l01001">Fill_trigger_effs()</a>, and <a class="el" href="specialAna_8cc_source.html#l01752">TriggerSelector()</a>.</p>
 
 </div>
 </div>
@@ -2859,9 +2915,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00160">160</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00162">162</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2875,9 +2931,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00171">171</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00173">173</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2891,9 +2947,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00215">215</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00217">217</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2907,7 +2963,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00212">212</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00214">214</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -2921,9 +2977,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00157">157</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00159">159</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2937,9 +2993,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00168">168</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00170">170</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -2953,9 +3009,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00189">189</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00191">191</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00621">Init_mutau_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00623">Init_mutau_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2969,9 +3025,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00192">192</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00194">194</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00639">Init_mutaue_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00641">Init_mutaue_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -2985,9 +3041,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00193">193</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00195">195</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00648">Init_mutaumu_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00650">Init_mutaumu_cuts()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -3001,7 +3057,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00154">154</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00156">156</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -3015,9 +3071,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00151">151</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00153">153</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01644">Bjet_veto()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01662">Bjet_veto()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3031,9 +3087,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00146">146</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00148">148</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3047,9 +3103,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00148">148</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00150">150</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3063,9 +3119,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00150">150</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00152">152</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3079,9 +3135,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00149">149</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00151">151</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3095,9 +3151,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00145">145</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00147">147</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3111,9 +3167,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00147">147</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00149">149</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3127,9 +3183,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00125">125</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00127">127</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>.</p>
 
 </div>
 </div>
@@ -3143,7 +3199,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00126">126</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00128">128</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
 </div>
 </div>
@@ -3157,9 +3213,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00218">218</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00220">220</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -3173,9 +3229,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00165">165</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00167">167</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>.</p>
 
 </div>
 </div>
@@ -3189,9 +3245,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00164">164</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00166">166</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>.</p>
 
 </div>
 </div>
@@ -3205,9 +3261,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00207">207</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00209">209</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01394">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01412">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -3221,9 +3277,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00208">208</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00210">210</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01234">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01252">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3237,9 +3293,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00121">121</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00123">123</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02002">endJob()</a>, <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02020">endJob()</a>, <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3253,9 +3309,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00173">173</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00175">175</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01765">Fill_Gen_Controll_histo()</a>, <a class="el" href="specialAna_8cc_source.html#l01179">GenSelector()</a>, <a class="el" href="specialAna_8cc_source.html#l01844">Get_Truth_match()</a>, <a class="el" href="specialAna_8cc_source.html#l01908">getPtHat()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01783">Fill_Gen_Controll_histo()</a>, <a class="el" href="specialAna_8cc_source.html#l01197">GenSelector()</a>, <a class="el" href="specialAna_8cc_source.html#l01862">Get_Truth_match()</a>, <a class="el" href="specialAna_8cc_source.html#l01926">getPtHat()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>.</p>
 
 </div>
 </div>
@@ -3269,9 +3325,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00203">203</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00205">205</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01680">calc_lep_fraction()</a>, <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01394">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01691">Leptonic_fraction_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01630">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01602">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01616">Make_DeltaPhi_tauemu()</a>, <a class="el" href="specialAna_8cc_source.html#l01588">Make_DeltaPhi_tauMET()</a>, <a class="el" href="specialAna_8cc_source.html#l01576">Make_zeta_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01653">OppSign_charge()</a>, and <a class="el" href="specialAna_8cc_source.html#l01720">pT_muele_ratio_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01698">calc_lep_fraction()</a>, <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01412">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01709">Leptonic_fraction_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01648">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01620">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01634">Make_DeltaPhi_tauemu()</a>, <a class="el" href="specialAna_8cc_source.html#l01606">Make_DeltaPhi_tauMET()</a>, <a class="el" href="specialAna_8cc_source.html#l01594">Make_zeta_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01671">OppSign_charge()</a>, and <a class="el" href="specialAna_8cc_source.html#l01738">pT_muele_ratio_cut()</a>.</p>
 
 </div>
 </div>
@@ -3285,9 +3341,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00205">205</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00207">207</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01419">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01705">pT_mutau_ratio_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01437">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l01723">pT_mutau_ratio_cut()</a>.</p>
 
 </div>
 </div>
@@ -3301,9 +3357,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00202">202</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00204">204</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01680">calc_lep_fraction()</a>, <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01394">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01691">Leptonic_fraction_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01630">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01602">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01616">Make_DeltaPhi_tauemu()</a>, <a class="el" href="specialAna_8cc_source.html#l01576">Make_zeta_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01666">MT_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01653">OppSign_charge()</a>, <a class="el" href="specialAna_8cc_source.html#l01720">pT_muele_ratio_cut()</a>, and <a class="el" href="specialAna_8cc_source.html#l01705">pT_mutau_ratio_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01698">calc_lep_fraction()</a>, <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01412">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01709">Leptonic_fraction_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01648">Make_DeltaPhi_emu()</a>, <a class="el" href="specialAna_8cc_source.html#l01620">Make_DeltaPhi_mutau()</a>, <a class="el" href="specialAna_8cc_source.html#l01634">Make_DeltaPhi_tauemu()</a>, <a class="el" href="specialAna_8cc_source.html#l01594">Make_zeta_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01684">MT_cut()</a>, <a class="el" href="specialAna_8cc_source.html#l01671">OppSign_charge()</a>, <a class="el" href="specialAna_8cc_source.html#l01738">pT_muele_ratio_cut()</a>, and <a class="el" href="specialAna_8cc_source.html#l01723">pT_mutau_ratio_cut()</a>.</p>
 
 </div>
 </div>
@@ -3317,9 +3373,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00204">204</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00206">206</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01419">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01588">Make_DeltaPhi_tauMET()</a>, <a class="el" href="specialAna_8cc_source.html#l01576">Make_zeta_cut()</a>, and <a class="el" href="specialAna_8cc_source.html#l01666">MT_cut()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01437">FindResonance()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01606">Make_DeltaPhi_tauMET()</a>, <a class="el" href="specialAna_8cc_source.html#l01594">Make_zeta_cut()</a>, and <a class="el" href="specialAna_8cc_source.html#l01684">MT_cut()</a>.</p>
 
 </div>
 </div>
@@ -3333,9 +3389,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00199">199</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00201">201</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01234">Fill_Gen_histograms()</a>, and <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01252">Fill_Gen_histograms()</a>, and <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>.</p>
 
 </div>
 </div>
@@ -3349,9 +3405,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00200">200</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00202">202</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01234">Fill_Gen_histograms()</a>, and <a class="el" href="specialAna_8cc_source.html#l01336">FindResonance()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l01252">Fill_Gen_histograms()</a>, and <a class="el" href="specialAna_8cc_source.html#l01354">FindResonance()</a>.</p>
 
 </div>
 </div>
@@ -3365,9 +3421,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00158">158</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00160">160</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00510">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00652">KinematicsSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l00512">FillSystematicsUpDown()</a>, <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00654">KinematicsSelector()</a>.</p>
 
 </div>
 </div>
@@ -3381,9 +3437,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00169">169</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00171">171</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02208">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02230">endEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3397,9 +3453,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00141">141</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00143">143</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3413,9 +3469,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00140">140</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00142">142</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3429,9 +3485,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00139">139</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00141">141</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>.</p>
 
 </div>
 </div>
@@ -3445,9 +3501,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00195">195</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00197">197</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00953">Create_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l00983">Fill_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l01075">Get_Trigger_match_1()</a>, and <a class="el" href="specialAna_8cc_source.html#l00993">Get_Trigger_match_2()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00971">Create_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l01001">Fill_trigger_effs()</a>, <a class="el" href="specialAna_8cc_source.html#l01093">Get_Trigger_match_1()</a>, and <a class="el" href="specialAna_8cc_source.html#l01011">Get_Trigger_match_2()</a>.</p>
 
 </div>
 </div>
@@ -3461,9 +3517,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00210">210</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00212">212</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02002">endJob()</a>, and <a class="el" href="specialAna_8cc_source.html#l01734">TriggerSelector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l02020">endJob()</a>, and <a class="el" href="specialAna_8cc_source.html#l01752">TriggerSelector()</a>.</p>
 
 </div>
 </div>
@@ -3477,9 +3533,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00143">143</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
+<p>Definition at line <a class="el" href="specialAna_8hh_source.html#l00145">145</a> of file <a class="el" href="specialAna_8hh_source.html">specialAna.hh</a>.</p>
 
-<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00291">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01234">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01151">Fill_N1_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01801">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01293">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00600">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l02056">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00388">tail_selector()</a>.</p>
+<p>Referenced by <a class="el" href="specialAna_8cc_source.html#l00293">analyseEvent()</a>, <a class="el" href="specialAna_8cc_source.html#l01252">Fill_Gen_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l01169">Fill_N1_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01819">Fill_Particle_histos()</a>, <a class="el" href="specialAna_8cc_source.html#l01311">Fill_Resonance_histograms()</a>, <a class="el" href="specialAna_8cc_source.html#l00602">FillControllHistos()</a>, <a class="el" href="specialAna_8cc_source.html#l02078">initEvent()</a>, and <a class="el" href="specialAna_8cc_source.html#l00390">tail_selector()</a>.</p>
 
 </div>
 </div>
