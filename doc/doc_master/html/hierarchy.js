@@ -4,5 +4,6 @@ var hierarchy =
       [ "specialAna", "classspecialAna.html", null ]
     ] ],
     [ "Cuts", "classCuts.html", null ],
-    [ "githookcontroller.GitHookController", "classgithookcontroller_1_1GitHookController.html", null ]
+    [ "githookcontroller.GitHookController", "classgithookcontroller_1_1GitHookController.html", null ],
+    [ "Trigger", "classTrigger.html", null ]
 ];
