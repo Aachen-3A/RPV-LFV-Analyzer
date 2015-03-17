@@ -942,6 +942,14 @@ void specialAna::KinematicsSelector(std::string const endung) {
     }
 }
 
+void specialAna::Create_RECO_effs() {
+    
+}
+
+void specialAna::Fill_RECO_effs() {
+    
+}
+
 void specialAna::Create_trigger_effs() {
     for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
         const char* temp_trigger_name = (*it).c_str();
@@ -2008,7 +2016,7 @@ void specialAna::endJob(const Serializable*) {
         file1->cd();
         file1->mkdir("Effs");
         file1->cd("Effs/");
-        HistClass::WriteAllEff();
+        HistClass::WriteAllEff("HLT");
     }
     file1->cd();
     file1->mkdir("Ctr");
