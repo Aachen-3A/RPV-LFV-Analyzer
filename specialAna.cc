@@ -1010,31 +1010,22 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
         if (not Check_Par_ID(part, false, false)) continue;
 
         bool match_found = false;
-        double trig_match_dr = 10;
-        pxl::Particle* trig_cand;
         for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
             pxl::Particle *trig = *part_it;
             if (trigger_name.find(trig->getName()) != std::string::npos) {
-                if (match_found and trig_cand->getE() == trig->getE()) continue;
-                double dummy_dr = DeltaR(trig, part);
-                if (dummy_dr < trig_match_dr) {
-                    trig_match_dr = dummy_dr;
-                    match_found = true;
-                    trig_cand = (pxl::Particle*)trig->clone();
-                }
+                match_found = true;
+                break;
             }
         }
 
         pxl::Particle* part_2;
         bool second_match_found = false;
-        if (match_found) {
-            for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
-                pxl::Particle *part_k = *part_kt;
-                if (not Check_Par_ID(part_k, false, false)) continue;
-                if (part->getId() == part_k->getId()) continue;
-                part_2 = (pxl::Particle*)part_k->clone();
-                second_match_found = true;
-            }
+        for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
+            pxl::Particle *part_k = *part_kt;
+            if (not Check_Par_ID(part_k, false, false)) continue;
+            if (part->getId() == part_k->getId()) continue;
+            part_2 = (pxl::Particle*)part_k->clone();
+            second_match_found = true;
         }
 
         if (match_found and second_match_found) {
