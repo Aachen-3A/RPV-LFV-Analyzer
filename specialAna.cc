@@ -1435,6 +1435,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                         sel_part1_gen = (pxl::Particle*) part_i->clone();
                         sel_part2_gen = (pxl::Particle*) part_j->clone();
                     }
+                    delete part_sum;
                 }
             }
         }
@@ -1452,6 +1453,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                         sel_part1_gen = (pxl::Particle*) part_i->clone();
                         sel_part2_gen = (pxl::Particle*) part_j->clone();
                     }
+                    delete part_sum;
                 }
             }
         }
@@ -1478,6 +1480,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                     sel_lepton_prompt = (pxl::Particle*) part_i->clone();
                     sel_lepton_nprompt = (pxl::Particle*) part_j->clone();
                 }
+                delete part_sum;
             }
         }
     }
@@ -1540,6 +1543,9 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                     sel_lepton_nprompt_corr = (pxl::Particle*) part_j -> clone();
                     sel_lepton_nprompt_corr -> addP4(dummy_met);
                 }
+                delete dummy_taumu;
+                delete dummy_taumu_uncorr;
+                delete dummy_met;
             }
         }
     }
