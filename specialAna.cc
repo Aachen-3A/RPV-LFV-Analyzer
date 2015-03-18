@@ -966,12 +966,32 @@ void specialAna::Fill_RECO_effs() {
     Fill_RECO_object_effs("Muon", 13, *MuonList);
     Fill_RECO_object_effs("Ele", 11, *EleList);
     Fill_RECO_object_effs("Tau", 15, *TauList);
-    // Fill_RECO_object_effs("MET", 12, *METList);
+    Fill_RECO_object_effs("MET", 12, *METList);
 }
 
 void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
     if (object == "MET") {
-        
+        pxl::Particle* gen_met = 0;
+        for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
+            pxl::Particle *part_i = *part_it;
+            if (TMath::Abs(part_i->getPdgNumber()) != 12 and TMath::Abs(part_i->getPdgNumber()) != 14 and TMath::Abs(part_i->getPdgNumber()) != 16 ) continue;
+            if (gen_met == 0) {
+                gen_met = (pxl::Particle*) part_i->clone();
+            } else {
+                gen_met->addP4(part_i);
+            }
+        }
+        if (gen_met != 0) {
+            if (part_list.size() > 0 and DeltaPhi(part_list[0], gen_met) < 0.5) {
+                HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), gen_met->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), gen_met->getEta(), gen_met->getPhi(), true);
+            } else {
+                HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), gen_met->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), gen_met->getEta(), gen_met->getPhi(), false);
+            }
+        }
     } else {
         pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
