@@ -992,6 +992,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), gen_met->getEta(), gen_met->getPhi(), false);
             }
         }
+        delete gen_met;
     } else {
         pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
@@ -1015,6 +1016,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
         }
+        delete matched_reco_particle;
     }
 }
 
@@ -1137,6 +1139,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                                    part_2->getEta(), part_2->getPhi(), false);
             }
         }
+        if (second_match_found) delete part_2;
     }
 }
 
@@ -1199,6 +1202,7 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
         }
+        if (match_found) delete trig_cand;
     }
 }
 
@@ -1431,6 +1435,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                         sel_part1_gen = (pxl::Particle*) part_i->clone();
                         sel_part2_gen = (pxl::Particle*) part_j->clone();
                     }
+                    delete part_sum;
                 }
             }
         }
@@ -1448,6 +1453,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                         sel_part1_gen = (pxl::Particle*) part_i->clone();
                         sel_part2_gen = (pxl::Particle*) part_j->clone();
                     }
+                    delete part_sum;
                 }
             }
         }
@@ -1474,6 +1480,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                     sel_lepton_prompt = (pxl::Particle*) part_i->clone();
                     sel_lepton_nprompt = (pxl::Particle*) part_j->clone();
                 }
+                delete part_sum;
             }
         }
     }
@@ -1536,6 +1543,9 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                     sel_lepton_nprompt_corr = (pxl::Particle*) part_j -> clone();
                     sel_lepton_nprompt_corr -> addP4(dummy_met);
                 }
+                delete dummy_taumu;
+                delete dummy_taumu_uncorr;
+                delete dummy_met;
             }
         }
     }
