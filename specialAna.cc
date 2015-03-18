@@ -1202,6 +1202,7 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
         }
+        if (match_found) delete trig_cand;
     }
 }
 
