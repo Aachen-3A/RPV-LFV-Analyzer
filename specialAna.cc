@@ -1139,6 +1139,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                                    part_2->getEta(), part_2->getPhi(), false);
             }
         }
+        if (second_match_found) delete part_2;
     }
 }
 
