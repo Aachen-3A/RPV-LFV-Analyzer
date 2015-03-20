@@ -7,5 +7,8 @@ var files =
     [ "specialAna.cc", "specialAna_8cc.html", "specialAna_8cc" ],
     [ "specialAna.hh", "specialAna_8hh.html", [
       [ "specialAna", "classspecialAna.html", "classspecialAna" ]
+    ] ],
+    [ "TriggerClass.hh", "TriggerClass_8hh.html", [
+      [ "Trigger", "classTrigger.html", "classTrigger" ]
     ] ]
 ];

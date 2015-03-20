@@ -44,6 +44,8 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         Create_trigger_effs();
     }
 
+    HistClass::CreateHisto("n_prongs", 6, 0, 6, "N_{prongs}");
+
     Create_RECO_effs();
 
     mkeep_resonance_mass["emu"] = 0;
@@ -1952,6 +1954,109 @@ pxl::Particle* specialAna::Get_Truth_match(std::string name, pxl::Particle* lept
     return gen_match;
 }
 
+pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau) {
+    int n_prong = 0;
+    std::vector<pxl::Particle*> final_state_part_list;
+    std::vector<pxl::Particle*> temp_part;
+    temp_part.push_back(truth_tau);
+    std::vector<pxl::Particle*> new_temp_part;
+    pxl::Particle* vis_tau_decay = eventview.create< pxl::Particle >();
+    vis_tau_decay->setName("Tau_visible_decay");
+    vis_tau_decay->setP4(0,0,0,0);
+    while (true) {
+        bool continue_loop = false;
+        for (int i = 0; i < temp_part.size(); i++) {
+            pxl::Particle* temp_part_dummy = temp_part[i];
+            if (temp_part_dummy->getDaughters().size() == 0) {
+                if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) { // electrons
+                    final_state_part_list.push_back(temp_part_dummy);
+                    n_prong++;
+                    vis_tau_decay->addP4(temp_part_dummy);
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 13) { // muons
+                    final_state_part_list.push_back(temp_part_dummy);
+                    n_prong++;
+                    vis_tau_decay->addP4(temp_part_dummy);
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 111) { // pi 0
+                    final_state_part_list.push_back(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 211) { // pi +
+                    final_state_part_list.push_back(temp_part_dummy);
+                    n_prong++;
+                    vis_tau_decay->addP4(temp_part_dummy);
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 130 or
+                    TMath::Abs(temp_part_dummy->getPdgNumber()) == 310 or
+                    TMath::Abs(temp_part_dummy->getPdgNumber()) == 311) { // K 0
+                    final_state_part_list.push_back(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 321) { // K +
+                    final_state_part_list.push_back(temp_part_dummy);
+                    n_prong++;
+                    vis_tau_decay->addP4(temp_part_dummy);
+                }
+            } else {
+                for (std::set< pxl::Relative* >::const_iterator part_it = temp_part_dummy->getDaughters().begin(); part_it != temp_part_dummy->getDaughters().end(); ++part_it) {
+                    pxl::Relative *part_i = *part_it;
+                    pxl::Particle* part = (pxl::Particle*)part_i;
+                    if (TMath::Abs(part->getPdgNumber()) == 16) { // tau neutrino
+                        continue;
+                    } else if (TMath::Abs(part->getPdgNumber()) == 14) { // muon neutrino
+                        continue;
+                    } else if (TMath::Abs(part->getPdgNumber()) == 12) { // electron neutrino
+                        continue;
+                    } else if (TMath::Abs(part->getPdgNumber()) == 22) { // photon
+                        vis_tau_decay->addP4(part);
+                        continue;
+                    } else if (TMath::Abs(part->getPdgNumber()) == 11) { // electrons
+                        final_state_part_list.push_back(part);
+                        n_prong++;
+                        vis_tau_decay->addP4(part);
+                    } else if (TMath::Abs(part->getPdgNumber()) == 13) { // muons
+                        final_state_part_list.push_back(part);
+                        n_prong++;
+                        vis_tau_decay->addP4(part);
+                    } else if (TMath::Abs(part->getPdgNumber()) == 111) { // pi 0
+                        final_state_part_list.push_back(part);
+                        vis_tau_decay->addP4(part);
+                    } else if (TMath::Abs(part->getPdgNumber()) == 211) { // pi +
+                        final_state_part_list.push_back(part);
+                        n_prong++;
+                        vis_tau_decay->addP4(part);
+                    } else if (TMath::Abs(part->getPdgNumber()) == 130 or
+                        TMath::Abs(part->getPdgNumber()) == 310 or
+                        TMath::Abs(part->getPdgNumber()) == 311) { // K 0
+                        final_state_part_list.push_back(part);
+                        vis_tau_decay->addP4(part);
+                    } else if (TMath::Abs(part->getPdgNumber()) == 321) { // K +
+                        final_state_part_list.push_back(part);
+                        n_prong++;
+                        vis_tau_decay->addP4(part);
+                    } else { // others like W +
+                        continue_loop = true;
+                        new_temp_part.push_back(part);
+                    }
+                }
+            }
+        }
+        if (not continue_loop) {
+            break;
+        } else {
+            temp_part.clear();
+            temp_part = new_temp_part;
+        }
+    }
+    // std::cerr << "---------" << std::endl;
+    // std::cerr << "  " << n_prong << "  " << vis_tau_decay->getPt() << "  " << truth_tau->getPt() << "  ";
+    // for (std::vector< pxl::Particle* >::const_iterator part_it = final_state_part_list.begin(); part_it != final_state_part_list.end(); ++part_it) {
+        // pxl::Particle *part_i = *part_it;
+        // std::cerr << part_i->getPdgNumber() << "  ";
+    // }
+    // std::cerr << std::endl;
+
+    HistClass::Fill("n_prongs", n_prong, 1);
+
+    return vis_tau_decay;
+}
+
 double specialAna::DeltaPhi(double a, double b) {
     double temp = fabs(a-b);
     if (temp <= TMath::Pi()) {
@@ -2085,6 +2190,7 @@ void specialAna::endJob(const Serializable*) {
 
     file1->cd();
     HistClass::WriteAll("counters");
+    HistClass::Write("n_prongs");
     if (not runOnData) {
         file1->mkdir("MC");
         file1->cd("MC/");
@@ -2240,6 +2346,7 @@ void specialAna::initEvent(const pxl::Event* event) {
     METListGen     = new std::vector< pxl::Particle* >;
     JetListGen     = new std::vector< pxl::Particle* >;
     TauListGen     = new std::vector< pxl::Particle* >;
+    TauVisListGen  = new std::vector< pxl::Particle* >;
     S3ListGen      = new std::vector< pxl::Particle* >;
 
     weight = 1.;
@@ -2282,7 +2389,12 @@ void specialAna::initEvent(const pxl::Event* event) {
             else if (Name == "Tau"     ) TauListGen->push_back( part );
             else if (Name == (m_METType+"_gen") ) METListGen->push_back( part );
             else if (Name == m_JetAlgo ) JetListGen->push_back( part );
-            else if (Name == genCollection) S3ListGen->push_back( part );
+            else if (Name == genCollection) {
+                S3ListGen->push_back( part );
+                // if(part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
+                    // TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
+                // }
+            }
         }
     }
 }
@@ -2309,6 +2421,8 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete METListGen;
         delete JetListGen;
         delete TauListGen;
+
+        delete TauVisListGen;
 
         EleListGen = 0;
         MuonListGen = 0;
