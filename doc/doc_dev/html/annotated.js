@@ -5,5 +5,6 @@ var annotated =
     [ "pre-commit", "namespacepre-commit.html", null ],
     [ "pre-push", "namespacepre-push.html", null ],
     [ "Cuts", "classCuts.html", "classCuts" ],
-    [ "specialAna", "classspecialAna.html", "classspecialAna" ]
+    [ "specialAna", "classspecialAna.html", "classspecialAna" ],
+    [ "Trigger", "classTrigger.html", "classTrigger" ]
 ];
