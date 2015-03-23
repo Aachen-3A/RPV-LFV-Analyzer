@@ -1954,7 +1954,7 @@ pxl::Particle* specialAna::Get_Truth_match(std::string name, pxl::Particle* lept
     return gen_match;
 }
 
-void specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau) {
+pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau) {
     int n_prong = 0;
     std::vector<pxl::Particle*>* final_state_part_list = new std::vector< pxl::Particle* >;
     std::vector<pxl::Particle*>* temp_part = new std::vector< pxl::Particle* >;
@@ -2061,9 +2061,7 @@ void specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Partic
     delete new_temp_part;
     delete temp_part;
 
-    delete vis_tau_decay;
-
-    // return truth_tau;
+    return vis_tau_decay;
 }
 
 double specialAna::DeltaPhi(double a, double b) {
@@ -2407,8 +2405,7 @@ void specialAna::initEvent(const pxl::Event* event) {
             else if (Name == genCollection) {
                 S3ListGen->push_back( part );
                 if(part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
-                    // TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
-                    Get_tau_truth_decay_mode(*m_GenEvtView, part);
+                    TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
                 }
             }
         }

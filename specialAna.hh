@@ -78,7 +78,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void Get_Trigger_match_2(std::string trigger_name);
     pxl::Particle* Get_Truth_match(std::string name, pxl::Particle* lepton);
 
-    void Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau);
+    pxl::Particle* Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau);
 
     void Create_RECO_effs();
     void Create_RECO_object_effs(std::string object);

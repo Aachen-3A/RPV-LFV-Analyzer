@@ -37,7 +37,7 @@ var classspecialAna =
     [ "FindResonance", "classspecialAna.html#ab30a3580de97d7a955fbcbf6a9f16584", null ],
     [ "FindResonance", "classspecialAna.html#aaaea312976854e8488b3195e5918fca1", null ],
     [ "GenSelector", "classspecialAna.html#a1910a5c4831d81dd596b192231579994", null ],
-    [ "Get_tau_truth_decay_mode", "classspecialAna.html#af4b07d856875d9748be767b12d1236e6", null ],
+    [ "Get_tau_truth_decay_mode", "classspecialAna.html#a3de5da76fe51409accbfe3953ce51755", null ],
     [ "Get_Trigger_match_1", "classspecialAna.html#ad9f6d4173b0fb5831cfdad394fa8e76d", null ],
     [ "Get_Trigger_match_2", "classspecialAna.html#a303b3170312373fbf9cb27aa9047555d", null ],
     [ "Get_Truth_match", "classspecialAna.html#a555985858637a86037bac80ec093215b", null ],
