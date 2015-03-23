@@ -1971,27 +1971,27 @@ void specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Partic
                 if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) { // electrons
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
-                    // vis_tau_decay->addP4(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 13) { // muons
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
-                    // vis_tau_decay->addP4(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 111) { // pi 0
                     final_state_part_list->push_back(temp_part_dummy);
-                    // vis_tau_decay->addP4(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 211) { // pi +
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
-                    // vis_tau_decay->addP4(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 130 or
                     TMath::Abs(temp_part_dummy->getPdgNumber()) == 310 or
                     TMath::Abs(temp_part_dummy->getPdgNumber()) == 311) { // K 0
                     final_state_part_list->push_back(temp_part_dummy);
-                    // vis_tau_decay->addP4(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 321) { // K +
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
-                    // vis_tau_decay->addP4(temp_part_dummy);
+                    vis_tau_decay->addP4(temp_part_dummy);
                 }
             } else {
                 for (std::set< pxl::Relative* >::const_iterator part_it = temp_part_dummy->getDaughters().begin(); part_it != temp_part_dummy->getDaughters().end(); ++part_it) {
@@ -2004,32 +2004,32 @@ void specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Partic
                     } else if (TMath::Abs(part->getPdgNumber()) == 12) { // electron neutrino
                         continue;
                     } else if (TMath::Abs(part->getPdgNumber()) == 22) { // photon
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                         continue;
                     } else if (TMath::Abs(part->getPdgNumber()) == 11) { // electrons
                         final_state_part_list->push_back(part);
                         n_prong++;
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 13) { // muons
                         final_state_part_list->push_back(part);
                         n_prong++;
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 111) { // pi 0
                         final_state_part_list->push_back(part);
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 211) { // pi +
                         final_state_part_list->push_back(part);
                         n_prong++;
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 130 or
                         TMath::Abs(part->getPdgNumber()) == 310 or
                         TMath::Abs(part->getPdgNumber()) == 311) { // K 0
                         final_state_part_list->push_back(part);
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 321) { // K +
                         final_state_part_list->push_back(part);
                         n_prong++;
-                        // vis_tau_decay->addP4(part);
+                        vis_tau_decay->addP4(part);
                     } else { // others like W +
                         continue_loop = true;
                         new_temp_part->push_back(part);
