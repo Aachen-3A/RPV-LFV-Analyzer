@@ -44,8 +44,6 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         Create_trigger_effs();
     }
 
-    HistClass::CreateHisto("n_prongs", 6, 0, 6, "N_{prongs}");
-
     Create_RECO_effs();
 
     mkeep_resonance_mass["emu"] = 0;
@@ -2055,8 +2053,6 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     // }
     // std::cerr << std::endl;
 
-    HistClass::Fill("n_prongs", n_prong, 1);
-
     delete final_state_part_list;
     delete new_temp_part;
     delete temp_part;
@@ -2203,7 +2199,6 @@ void specialAna::endJob(const Serializable*) {
 
     file1->cd();
     HistClass::WriteAll("counters");
-    HistClass::Write("n_prongs");
     if (not runOnData) {
         file1->mkdir("MC");
         file1->cd("MC/");
