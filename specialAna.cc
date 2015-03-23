@@ -2045,19 +2045,137 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
             new_temp_part = new std::vector< pxl::Particle* >;
         }
     }
-    // std::cerr << "---------" << std::endl;
-    // std::cerr << "  " << n_prong << "  " << vis_tau_decay->getPt() << "  " << truth_tau->getPt() << "  ";
-    // for (std::vector< pxl::Particle* >::const_iterator part_it = final_state_part_list.begin(); part_it != final_state_part_list.end(); ++part_it) {
-        // pxl::Particle *part_i = *part_it;
-        // std::cerr << part_i->getPdgNumber() << "  ";
-    // }
-    // std::cerr << std::endl;
+
+    int n_piplus = 0;
+    int n_pizero = 0;
+    int n_Kplus = 0;
+    int n_Kzero = 0;
+    int n_ele = 0;
+    int n_muo = 0;
+    int charge = 0;
+    for (std::vector< pxl::Particle* >::const_iterator part_it = final_state_part_list->begin(); part_it != final_state_part_list->end(); ++part_it) {
+        pxl::Particle *part_i = *part_it;
+        if (part_i->getPdgNumber() == 211) {
+            n_piplus++;
+            charge++;
+        } else if (part_i->getPdgNumber() == -211) {
+            n_piplus++;
+            charge -= 1;
+        } else if (part_i->getPdgNumber() == 111) {
+            n_pizero++;
+        } else if (part_i->getPdgNumber() == 130 or
+                   part_i->getPdgNumber() == 310 or
+                   part_i->getPdgNumber() == 311) {
+            n_Kzero++;
+        } else if (part_i->getPdgNumber() == 321) {
+            n_Kplus++;
+            charge++;
+        } else if (part_i->getPdgNumber() == -321) {
+            n_Kplus++;
+            charge -= 1;
+        } else if (part_i->getPdgNumber() == 11) {
+            n_ele++;
+            charge -= 1;
+        } else if (part_i->getPdgNumber() == -11) {
+            n_ele++;
+            charge++;
+        } else if (part_i->getPdgNumber() == 13) {
+            n_muo++;
+            charge -= 1;
+        } else if (part_i->getPdgNumber() == -13) {
+            n_muo++;
+            charge++;
+        } else {
+            std::cerr << "Found a particle that should not be here" << std::endl;
+            std::cerr << "ID: " << part_i->getPdgNumber() << std::endl;
+        }
+    }
+
+    TString decay_mode = "";
+    int decay_mode_id = -1;
+
+    if (n_ele > 0 and (n_piplus > 0 or n_Kplus > 0)) {
+        std::cerr << "Sanity check failed!" << std::endl;
+        std::cerr << "Found electron and hadrons as tau decay products" << std::endl;
+    } else if (n_ele > 0 and n_muo == 0) {
+        decay_mode = TString::Format("%iEle", n_ele);
+        decay_mode_id = 0;
+    } else if (n_muo > 0 and (n_piplus > 0 or n_Kplus > 0)) {
+        std::cerr << "Sanity check failed!" << std::endl;
+        std::cerr << "Found muon and hadrons as tau decay products" << std::endl;
+    } else if (n_muo > 0 and n_ele == 0) {
+        decay_mode = TString::Format("%iMuo", n_muo);
+        decay_mode_id = 1;
+    } else if (n_muo > 0 and n_ele > 0) {
+        decay_mode = TString::Format("%iEle%iMuo", n_ele, n_muo);
+        decay_mode_id = 14;
+    } else {
+        TString pi_zero_part = "";
+        if (n_pizero > 0) {
+            pi_zero_part = TString::Format("%iPi0", n_pizero);
+        }
+        TString pi_plus_part = "";
+        if (n_piplus > 0) {
+            pi_plus_part = TString::Format("%iPi", n_piplus);
+        }
+    
+        TString K_zero_part = "";
+        if (n_Kzero > 0) {
+            K_zero_part = TString::Format("%iK0", n_Kzero);
+        }
+        TString K_plus_part = "";
+        if (n_Kplus > 0) {
+            K_plus_part = TString::Format("%iK", n_Kplus);
+        }
+        decay_mode = pi_plus_part + pi_zero_part + K_zero_part + K_plus_part;
+        if (n_piplus + n_Kplus == 1) {
+            switch(n_pizero + n_Kzero){
+                case 0: decay_mode_id = 2;
+                case 1: decay_mode_id = 3;
+                case 2: decay_mode_id = 4;
+                default: decay_mode_id = 5;
+            }
+        } else if (n_piplus + n_Kplus == 3) {
+            switch(n_pizero + n_Kzero){
+                case 0: decay_mode_id = 6;
+                case 1: decay_mode_id = 7;
+                case 2: decay_mode_id = 8;
+                default: decay_mode_id = 9;
+            } 
+        } else {
+            switch(n_pizero + n_Kzero){
+                case 0: decay_mode_id = 10;
+                case 1: decay_mode_id = 11;
+                case 2: decay_mode_id = 12;
+                default: decay_mode_id = 13;
+            }
+        }
+    }
+
+    /// decay mode ids:
+    /// 0 xEle
+    /// 1 xMuo
+    /// 2 1Pi0Pi0
+    /// 3 1Pi1Pi0
+    /// 4 1Pi2Pi0
+    /// 5 1Pi>2Pi0
+    /// 6 3Pi0Pi0
+    /// 7 3Pi1Pi0
+    /// 8 3Pi2Pi0
+    /// 9 3Pi>2Pi0
+    /// 10 >3Pi0Pi0
+    /// 11 >3Pi1Pi0
+    /// 12 >3Pi2Pi0
+    /// 13 >3Pi>2Pi0
+    /// else
 
     delete final_state_part_list;
     delete new_temp_part;
     delete temp_part;
 
     vis_tau_decay->setUserRecord("n_prong",  n_prong);
+    vis_tau_decay->setUserRecord("decay_mode",  (std::string)decay_mode);
+    vis_tau_decay->setUserRecord("decay_mode_id",  decay_mode_id);
 
     return vis_tau_decay;
 }
