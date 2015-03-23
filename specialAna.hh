@@ -78,7 +78,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void Get_Trigger_match_2(std::string trigger_name);
     pxl::Particle* Get_Truth_match(std::string name, pxl::Particle* lepton);
 
-    pxl::Particle* Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau);
+    void Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau);
 
     void Create_RECO_effs();
     void Create_RECO_object_effs(std::string object);
@@ -117,6 +117,8 @@ class specialAna : public pxl::AnalysisProcess  {
     double MT(pxl::Particle* lepton, pxl::Particle* met);
     double getPtHat();
     double getHT();
+
+    void raw_input(TString question);
 
     pxl::EventView *m_RecEvtView;
     pxl::EventView *m_GenEvtView;
