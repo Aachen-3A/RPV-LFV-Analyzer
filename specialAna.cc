@@ -993,6 +993,30 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             }
         }
         delete gen_met;
+    } else if (object == "Tau") {
+        pxl::Particle* matched_reco_particle = 0;
+        for (std::vector< pxl::Particle* >::const_iterator part_it = TauVisListGen->begin(); part_it != TauVisListGen->end(); ++part_it) {
+            pxl::Particle *part_i = *part_it;
+            if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
+            double delta_r_max = 0.5;
+            for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
+                pxl::Particle *part_j = *part_jt;
+                if (DeltaR(part_j, part_i) < delta_r_max) {
+                    delta_r_max = DeltaR(part_j, part_i);
+                    matched_reco_particle = (pxl::Particle*) part_j->clone();
+                }
+            }
+            if (matched_reco_particle != 0) {
+                HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+            } else {
+                HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+            }
+        }
+        delete matched_reco_particle;
     } else {
         pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
@@ -2065,7 +2089,8 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
             n_pizero++;
         } else if (part_i->getPdgNumber() == 130 or
                    part_i->getPdgNumber() == 310 or
-                   part_i->getPdgNumber() == 311) {
+                   part_i->getPdgNumber() == 311 or
+                   part_i->getPdgNumber() == -311) {
             n_Kzero++;
         } else if (part_i->getPdgNumber() == 321) {
             n_Kplus++;
@@ -2094,15 +2119,9 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     TString decay_mode = "";
     int decay_mode_id = -1;
 
-    if (n_ele > 0 and (n_piplus > 0 or n_Kplus > 0)) {
-        std::cerr << "Sanity check failed!" << std::endl;
-        std::cerr << "Found electron and hadrons as tau decay products" << std::endl;
-    } else if (n_ele > 0 and n_muo == 0) {
+    if (n_ele > 0 and n_muo == 0) {
         decay_mode = TString::Format("%iEle", n_ele);
         decay_mode_id = 0;
-    } else if (n_muo > 0 and (n_piplus > 0 or n_Kplus > 0)) {
-        std::cerr << "Sanity check failed!" << std::endl;
-        std::cerr << "Found muon and hadrons as tau decay products" << std::endl;
     } else if (n_muo > 0 and n_ele == 0) {
         decay_mode = TString::Format("%iMuo", n_muo);
         decay_mode_id = 1;
@@ -2127,7 +2146,7 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
         if (n_Kplus > 0) {
             K_plus_part = TString::Format("%iK", n_Kplus);
         }
-        decay_mode = pi_plus_part + pi_zero_part + K_zero_part + K_plus_part;
+        decay_mode += (pi_plus_part + pi_zero_part + K_zero_part + K_plus_part);
         if (n_piplus + n_Kplus == 1) {
             switch(n_pizero + n_Kzero){
                 case 0: decay_mode_id = 2;
