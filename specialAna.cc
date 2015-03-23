@@ -2057,6 +2057,8 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     delete new_temp_part;
     delete temp_part;
 
+    vis_tau_decay->setUserRecord("n_prong",  n_prong);
+
     return vis_tau_decay;
 }
 
