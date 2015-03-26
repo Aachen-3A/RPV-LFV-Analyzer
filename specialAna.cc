@@ -1030,7 +1030,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             }
         }
         if (gen_met != 0) {
-            if (part_list.size() > 0 and DeltaPhi(part_list[0], gen_met) < 0.5) {
+            if (part_list.size() > 0 and DeltaPhi(part_list[0], gen_met) < 0.25) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), gen_met->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), gen_met->getEta(), gen_met->getPhi(), true);
@@ -1046,7 +1046,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
         for (std::vector< pxl::Particle* >::const_iterator part_it = TauVisListGen->begin(); part_it != TauVisListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
-            double delta_r_max = 0.5;
+            double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (DeltaR(part_j, part_i) < delta_r_max) {
@@ -1137,7 +1137,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
-            double delta_r_max = 0.5;
+            double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (DeltaR(part_j, part_i) < delta_r_max) {
