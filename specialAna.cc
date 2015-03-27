@@ -2512,6 +2512,8 @@ void specialAna::endJob(const Serializable*) {
     channel_writer(file1, "mutaue");
     channel_writer(file1, "mutaumu");
 
+    HistClass::CleanUp();
+
     file1->Close();
 
     delete file1;
