@@ -2753,11 +2753,12 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete TauListGen;
         delete S3ListGen;
 
-        // for (int i = 0; i < TauVisListGen->size(); i++) {
-            // delete TauVisListGen->at(i);
-        // }
+        for (int i = 0; i < TauVisListGen->size(); i++) {
+            delete TauVisListGen->at(i);
+        }
         delete TauVisListGen;
 
+        TauVisListGen = 0;
         EleListGen = 0;
         MuonListGen = 0;
         GammaListGen = 0;

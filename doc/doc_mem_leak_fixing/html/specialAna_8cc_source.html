@@ -2760,23 +2760,24 @@ $(document).ready(function(){initNavTree('specialAna_8cc_source.html','');});
 <div class="line"><a name="l02753"></a><span class="lineno"> 2753</span>&#160;        <span class="keyword">delete</span> <a class="code" href="classspecialAna.html#af58ebaa56b261b71c2be4bae96fe84a2">TauListGen</a>;</div>
 <div class="line"><a name="l02754"></a><span class="lineno"> 2754</span>&#160;        <span class="keyword">delete</span> <a class="code" href="classspecialAna.html#a9b22d243660c98a6f345b61067da970f">S3ListGen</a>;</div>
 <div class="line"><a name="l02755"></a><span class="lineno"> 2755</span>&#160;</div>
-<div class="line"><a name="l02756"></a><span class="lineno"> 2756</span>&#160;        <span class="comment">// for (int i = 0; i &lt; TauVisListGen-&gt;size(); i++) {</span></div>
-<div class="line"><a name="l02757"></a><span class="lineno"> 2757</span>&#160;            <span class="comment">// delete TauVisListGen-&gt;at(i);</span></div>
-<div class="line"><a name="l02758"></a><span class="lineno"> 2758</span>&#160;        <span class="comment">// }</span></div>
+<div class="line"><a name="l02756"></a><span class="lineno"> 2756</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classspecialAna.html#aaf33a5668a3b18b55d963168e4bb6915">TauVisListGen</a>-&gt;size(); i++) {</div>
+<div class="line"><a name="l02757"></a><span class="lineno"> 2757</span>&#160;            <span class="keyword">delete</span> <a class="code" href="classspecialAna.html#aaf33a5668a3b18b55d963168e4bb6915">TauVisListGen</a>-&gt;at(i);</div>
+<div class="line"><a name="l02758"></a><span class="lineno"> 2758</span>&#160;        }</div>
 <div class="line"><a name="l02759"></a><span class="lineno"> 2759</span>&#160;        <span class="keyword">delete</span> <a class="code" href="classspecialAna.html#aaf33a5668a3b18b55d963168e4bb6915">TauVisListGen</a>;</div>
 <div class="line"><a name="l02760"></a><span class="lineno"> 2760</span>&#160;</div>
-<div class="line"><a name="l02761"></a><span class="lineno"> 2761</span>&#160;        <a class="code" href="classspecialAna.html#ad4f4a2c13523321e656810b00221e4f8">EleListGen</a> = 0;</div>
-<div class="line"><a name="l02762"></a><span class="lineno"> 2762</span>&#160;        <a class="code" href="classspecialAna.html#ac72368113a6b9372e88a881bd632513b">MuonListGen</a> = 0;</div>
-<div class="line"><a name="l02763"></a><span class="lineno"> 2763</span>&#160;        <a class="code" href="classspecialAna.html#a7ff70fd30047dee74133980b96f3ee0b">GammaListGen</a> = 0;</div>
-<div class="line"><a name="l02764"></a><span class="lineno"> 2764</span>&#160;        <a class="code" href="classspecialAna.html#a141ed8794c2d5c24d4ac6e2536f103ae">METListGen</a> = 0;</div>
-<div class="line"><a name="l02765"></a><span class="lineno"> 2765</span>&#160;        <a class="code" href="classspecialAna.html#a75abba56d35a3419715a7af46a0fb4e5">JetListGen</a> = 0;</div>
-<div class="line"><a name="l02766"></a><span class="lineno"> 2766</span>&#160;        <a class="code" href="classspecialAna.html#af58ebaa56b261b71c2be4bae96fe84a2">TauListGen</a> = 0;</div>
-<div class="line"><a name="l02767"></a><span class="lineno"> 2767</span>&#160;    }</div>
-<div class="line"><a name="l02768"></a><span class="lineno"> 2768</span>&#160;</div>
-<div class="line"><a name="l02769"></a><span class="lineno"> 2769</span>&#160;    <span class="keywordflow">if</span> (runOnData and <a class="code" href="classspecialAna.html#affbbcba600d494b2dbb3397bea059672">keep_data_event</a>) {</div>
-<div class="line"><a name="l02770"></a><span class="lineno"> 2770</span>&#160;        HistClass::FillTree(<span class="stringliteral">&quot;data_events&quot;</span>);</div>
-<div class="line"><a name="l02771"></a><span class="lineno"> 2771</span>&#160;    }</div>
-<div class="line"><a name="l02772"></a><span class="lineno"> 2772</span>&#160;}</div>
+<div class="line"><a name="l02761"></a><span class="lineno"> 2761</span>&#160;        <a class="code" href="classspecialAna.html#aaf33a5668a3b18b55d963168e4bb6915">TauVisListGen</a> = 0;</div>
+<div class="line"><a name="l02762"></a><span class="lineno"> 2762</span>&#160;        <a class="code" href="classspecialAna.html#ad4f4a2c13523321e656810b00221e4f8">EleListGen</a> = 0;</div>
+<div class="line"><a name="l02763"></a><span class="lineno"> 2763</span>&#160;        <a class="code" href="classspecialAna.html#ac72368113a6b9372e88a881bd632513b">MuonListGen</a> = 0;</div>
+<div class="line"><a name="l02764"></a><span class="lineno"> 2764</span>&#160;        <a class="code" href="classspecialAna.html#a7ff70fd30047dee74133980b96f3ee0b">GammaListGen</a> = 0;</div>
+<div class="line"><a name="l02765"></a><span class="lineno"> 2765</span>&#160;        <a class="code" href="classspecialAna.html#a141ed8794c2d5c24d4ac6e2536f103ae">METListGen</a> = 0;</div>
+<div class="line"><a name="l02766"></a><span class="lineno"> 2766</span>&#160;        <a class="code" href="classspecialAna.html#a75abba56d35a3419715a7af46a0fb4e5">JetListGen</a> = 0;</div>
+<div class="line"><a name="l02767"></a><span class="lineno"> 2767</span>&#160;        <a class="code" href="classspecialAna.html#af58ebaa56b261b71c2be4bae96fe84a2">TauListGen</a> = 0;</div>
+<div class="line"><a name="l02768"></a><span class="lineno"> 2768</span>&#160;    }</div>
+<div class="line"><a name="l02769"></a><span class="lineno"> 2769</span>&#160;</div>
+<div class="line"><a name="l02770"></a><span class="lineno"> 2770</span>&#160;    <span class="keywordflow">if</span> (runOnData and <a class="code" href="classspecialAna.html#affbbcba600d494b2dbb3397bea059672">keep_data_event</a>) {</div>
+<div class="line"><a name="l02771"></a><span class="lineno"> 2771</span>&#160;        HistClass::FillTree(<span class="stringliteral">&quot;data_events&quot;</span>);</div>
+<div class="line"><a name="l02772"></a><span class="lineno"> 2772</span>&#160;    }</div>
+<div class="line"><a name="l02773"></a><span class="lineno"> 2773</span>&#160;}</div>
 <div class="ttc" id="classspecialAna_html_a141ed8794c2d5c24d4ac6e2536f103ae"><div class="ttname"><a href="classspecialAna.html#a141ed8794c2d5c24d4ac6e2536f103ae">specialAna::METListGen</a></div><div class="ttdeci">std::vector&lt; pxl::Particle * &gt; * METListGen</div><div class="ttdef"><b>Definition:</b> <a href="specialAna_8hh_source.html#l00178">specialAna.hh:178</a></div></div>
 <div class="ttc" id="classspecialAna_html_a1e76bd61bb4a97d99729f398674e14e2"><div class="ttname"><a href="classspecialAna.html#a1e76bd61bb4a97d99729f398674e14e2">specialAna::config_</a></div><div class="ttdeci">const Tools::MConfig config_</div><div class="ttdef"><b>Definition:</b> <a href="specialAna_8hh_source.html#l00143">specialAna.hh:143</a></div></div>
 <div class="ttc" id="specialAna_8cc_html_afd5c58022c53285421d7299683d5d720"><div class="ttname"><a href="specialAna_8cc.html#afd5c58022c53285421d7299683d5d720">m_channel</a></div><div class="ttdeci">m_channel(cfg.GetItem&lt; std::string &gt;(&quot;RPV.channel&quot;))</div></div>
