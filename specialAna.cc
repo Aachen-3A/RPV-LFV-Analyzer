@@ -585,6 +585,32 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     KinematicsSelector("_" + particleName + "_syst_" + shiftType + updown);
 
+    if (sel_lepton_prompt != 0) {
+        delete sel_lepton_prompt;
+        sel_lepton_prompt = 0;
+    }
+    if (sel_lepton_nprompt != 0) {
+        delete sel_lepton_nprompt;
+        sel_lepton_nprompt = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+
+    if (sel_part1_gen != 0) {
+        delete sel_part1_gen;
+        sel_part1_gen = 0;
+    }
+    if (sel_part2_gen != 0) {
+        delete sel_part2_gen;
+        sel_part2_gen = 0;
+    }
+
     /// return to backup
     delete METList;
     METList = RememberMET;
@@ -1042,9 +1068,9 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
         }
         delete gen_met;
     } else if (object == "Tau") {
-        pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = TauVisListGen->begin(); part_it != TauVisListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
+            pxl::Particle* matched_reco_particle = 0;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
             double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
@@ -1130,12 +1156,12 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                     HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
                 }
             }
+            delete matched_reco_particle;
         }
-        delete matched_reco_particle;
     } else {
-        pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
+            pxl::Particle* matched_reco_particle = 0;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
             double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
@@ -1165,8 +1191,8 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                     HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
                 }
             }
+            delete matched_reco_particle;
         }
-        delete matched_reco_particle;
     }
 }
 
@@ -2512,6 +2538,8 @@ void specialAna::endJob(const Serializable*) {
     channel_writer(file1, "mutaue");
     channel_writer(file1, "mutaumu");
 
+    HistClass::CleanUp();
+
     file1->Close();
 
     delete file1;
@@ -2676,6 +2704,32 @@ void specialAna::initEvent(const pxl::Event* event) {
 }
 
 void specialAna::endEvent(const pxl::Event* event) {
+    if (sel_lepton_prompt != 0) {
+        delete sel_lepton_prompt;
+        sel_lepton_prompt = 0;
+    }
+    if (sel_lepton_nprompt != 0) {
+        delete sel_lepton_nprompt;
+        sel_lepton_nprompt = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+
+    if (sel_part1_gen != 0) {
+        delete sel_part1_gen;
+        sel_part1_gen = 0;
+    }
+    if (sel_part2_gen != 0) {
+        delete sel_part2_gen;
+        sel_part2_gen = 0;
+    }
+
     delete EleList;
     delete MuonList;
     delete GammaList;
@@ -2699,11 +2753,12 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete TauListGen;
         delete S3ListGen;
 
-        // for (int i = 0; i < TauVisListGen->size(); i++) {
-            // delete TauVisListGen->at(i);
-        // }
+        for (int i = 0; i < TauVisListGen->size(); i++) {
+            delete TauVisListGen->at(i);
+        }
         delete TauVisListGen;
 
+        TauVisListGen = 0;
         EleListGen = 0;
         MuonListGen = 0;
         GammaListGen = 0;
