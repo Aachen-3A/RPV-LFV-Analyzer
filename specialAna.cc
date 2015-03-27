@@ -1042,9 +1042,9 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
         }
         delete gen_met;
     } else if (object == "Tau") {
-        pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = TauVisListGen->begin(); part_it != TauVisListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
+            pxl::Particle* matched_reco_particle = 0;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
             double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
@@ -1130,12 +1130,12 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                     HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
                 }
             }
+            delete matched_reco_particle;
         }
-        delete matched_reco_particle;
     } else {
-        pxl::Particle* matched_reco_particle = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
+            pxl::Particle* matched_reco_particle = 0;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
             double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
@@ -1165,8 +1165,8 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                     HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
                 }
             }
+            delete matched_reco_particle;
         }
-        delete matched_reco_particle;
     }
 }
 
