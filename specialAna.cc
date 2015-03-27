@@ -950,6 +950,46 @@ void specialAna::Create_RECO_effs() {
     Create_RECO_object_effs("Muon");
     Create_RECO_object_effs("Ele");
     Create_RECO_object_effs("Tau");
+    TString x_bins_names[13] = {"1Pi0Pi0",
+                                "1Pi1Pi0",
+                                "1Pi2Pi0",
+                                "1Pi>2Pi0",
+                                "3Pi0Pi0",
+                                "3Pi1Pi0",
+                                "3Pi2Pi0",
+                                "3Pi>2Pi0",
+                                ">3Pi0Pi0",
+                                ">3Pi1Pi0",
+                                ">3Pi2Pi0",
+                                ">3Pi>2Pi0",
+                                "else"};
+    TString y_bins_names[16] = {"tauDecay1ChargedPion0PiZero",
+                                "tauDecay1ChargedPion1PiZero",
+                                "tauDecay1ChargedPion2PiZero",
+                                "tauDecay1ChargedPion3PiZero",
+                                "tauDecay1ChargedPion4PiZero",
+                                "tauDecay2ChargedPion0PiZero",
+                                "tauDecay2ChargedPion1PiZero",
+                                "tauDecay2ChargedPion2PiZero",
+                                "tauDecay2ChargedPion3PiZero",
+                                "tauDecay2ChargedPion4PiZero",
+                                "tauDecay3ChargedPion0PiZero",
+                                "tauDecay3ChargedPion1PiZero",
+                                "tauDecay3ChargedPion2PiZero",
+                                "tauDecay3ChargedPion3PiZero",
+                                "tauDecay3ChargedPion4PiZero",
+                                "tauDecayOther"};
+
+    HistClass::CreateHisto("Tau_RECO_vs_gendm_vs_recodm_0_500", 13, 0, 13, 16, 0, 16, "DM(gen)", "DM(reco)");
+    HistClass::NameBins("Tau_RECO_vs_gendm_vs_recodm_0_500", 13, x_bins_names, 16, y_bins_names);
+    HistClass::CreateHisto("Tau_RECO_vs_gendm_vs_recodm_500_1000", 13, 0, 13, 16, 0, 16, "DM(gen)", "DM(reco)");
+    HistClass::NameBins("Tau_RECO_vs_gendm_vs_recodm_500_1000", 13, x_bins_names, 16, y_bins_names);
+    HistClass::CreateHisto("Tau_RECO_vs_gendm_vs_recodm_1000_1500", 13, 0, 13, 16, 0, 16, "DM(gen)", "DM(reco)");
+    HistClass::NameBins("Tau_RECO_vs_gendm_vs_recodm_1000_1500", 13, x_bins_names, 16, y_bins_names);
+    HistClass::CreateHisto("Tau_RECO_vs_gendm_vs_recodm_1500_2000", 13, 0, 13, 16, 0, 16, "DM(gen)", "DM(reco)");
+    HistClass::NameBins("Tau_RECO_vs_gendm_vs_recodm_1500_2000", 13, x_bins_names, 16, y_bins_names);
+    HistClass::CreateHisto("Tau_RECO_vs_gendm_vs_recodm_2000", 13, 0, 13, 16, 0, 16, "DM(gen)", "DM(reco)");
+    HistClass::NameBins("Tau_RECO_vs_gendm_vs_recodm_2000", 13, x_bins_names, 16, y_bins_names);
     Create_RECO_object_effs("MET");
 }
 
@@ -960,6 +1000,14 @@ void specialAna::Create_RECO_object_effs(std::string object) {
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+    if (object != "MET") {
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         100, 0, 1000,
+                             TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
+                             "n_{vtx}");
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                             TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+    }
 }
 
 void specialAna::Fill_RECO_effs() {
@@ -982,7 +1030,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             }
         }
         if (gen_met != 0) {
-            if (part_list.size() > 0 and DeltaPhi(part_list[0], gen_met) < 0.5) {
+            if (part_list.size() > 0 and DeltaPhi(part_list[0], gen_met) < 0.25) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), gen_met->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), gen_met->getEta(), gen_met->getPhi(), true);
@@ -998,7 +1046,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
         for (std::vector< pxl::Particle* >::const_iterator part_it = TauVisListGen->begin(); part_it != TauVisListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
-            double delta_r_max = 0.5;
+            double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (DeltaR(part_j, part_i) < delta_r_max) {
@@ -1010,10 +1058,77 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+
+                if (matched_reco_particle->getUserRecord("decayMode") == 17) {
+                    if (part_i->getPt() < 500) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_0_500",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         15.5,
+                                         1.);
+                    } else if (part_i->getPt() > 500 and part_i->getPt() < 1000) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_500_1000",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         15.5,
+                                         1.);
+                    } else if (part_i->getPt() > 1000 and part_i->getPt() < 1500) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1000_1500",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         15.5,
+                                         1.);
+                    } else if (part_i->getPt() > 1500 and part_i->getPt() < 2000) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1500_2000",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         15.5,
+                                         1.);
+                    } else if (part_i->getPt() > 2000) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_2000",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         15.5,
+                                         1.);
+                    }
+                } else {
+                    if (part_i->getPt() < 500) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_0_500",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         1.);
+                    } else if (part_i->getPt() > 500 and part_i->getPt() < 1000) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_500_1000",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         1.);
+                    } else if (part_i->getPt() > 1000 and part_i->getPt() < 1500) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1000_1500",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         1.);
+                    } else if (part_i->getPt() > 1500 and part_i->getPt() < 2000) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1500_2000",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         1.);
+                    } else if (part_i->getPt() > 2000) {
+                        HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_2000",
+                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         1.);
+                    }
+                }
             } else {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+            }
+            if (TMath::Abs(part_i -> getEta()) < 2.5) {
+                if (matched_reco_particle != 0) {
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), true);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+                } else {
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), false);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+                }
             }
         }
         delete matched_reco_particle;
@@ -1022,7 +1137,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
         for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
             pxl::Particle *part_i = *part_it;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
-            double delta_r_max = 0.5;
+            double delta_r_max = 0.25;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (DeltaR(part_j, part_i) < delta_r_max) {
@@ -1038,6 +1153,17 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+            }
+            if (TMath::Abs(part_i -> getEta()) < 2.5) {
+                if (matched_reco_particle != 0) {
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), true);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+                } else {
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), false);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                    HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+                }
             }
         }
         delete matched_reco_particle;
@@ -2118,10 +2244,20 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
 
     TString decay_mode = "";
     int decay_mode_id = -1;
-
-    if (n_ele > 0 and n_muo == 0) {
+    if (n_ele > 0 and (n_piplus > 0 or n_Kplus > 0)) {
+        if (n_ele == 2) {
+            n_pizero++;
+            n_ele=0;
+        } else {
+            decay_mode = TString::Format("%iEleX", n_ele);
+            decay_mode_id = 14;
+        }
+    } else if (n_ele > 0 and n_muo == 0) {
         decay_mode = TString::Format("%iEle", n_ele);
         decay_mode_id = 0;
+    } else if (n_muo > 0 and (n_piplus > 0 or n_Kplus > 0)) {
+        decay_mode = TString::Format("%iMuoX", n_muo);
+        decay_mode_id = 14;
     } else if (n_muo > 0 and n_ele == 0) {
         decay_mode = TString::Format("%iMuo", n_muo);
         decay_mode_id = 1;
@@ -2146,47 +2282,39 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
         if (n_Kplus > 0) {
             K_plus_part = TString::Format("%iK", n_Kplus);
         }
-        decay_mode += (pi_plus_part + pi_zero_part + K_zero_part + K_plus_part);
+        decay_mode = (pi_plus_part + pi_zero_part + K_zero_part + K_plus_part);
         if (n_piplus + n_Kplus == 1) {
-            switch(n_pizero + n_Kzero){
-                case 0: decay_mode_id = 2;
-                case 1: decay_mode_id = 3;
-                case 2: decay_mode_id = 4;
-                default: decay_mode_id = 5;
+            if (n_pizero + n_Kzero == 0) {
+                decay_mode_id = 2;
+            } else if (n_pizero + n_Kzero == 1) {
+                decay_mode_id = 3;
+            } else if (n_pizero + n_Kzero == 2) {
+                decay_mode_id = 4;
+            } else {
+                decay_mode_id = 5;
             }
         } else if (n_piplus + n_Kplus == 3) {
-            switch(n_pizero + n_Kzero){
-                case 0: decay_mode_id = 6;
-                case 1: decay_mode_id = 7;
-                case 2: decay_mode_id = 8;
-                default: decay_mode_id = 9;
-            } 
+            if (n_pizero + n_Kzero == 0) {
+                decay_mode_id = 6;
+            } else if (n_pizero + n_Kzero == 1) {
+                decay_mode_id = 7;
+            } else if (n_pizero + n_Kzero == 2) {
+                decay_mode_id = 8;
+            } else {
+                decay_mode_id = 9;
+            }
         } else {
-            switch(n_pizero + n_Kzero){
-                case 0: decay_mode_id = 10;
-                case 1: decay_mode_id = 11;
-                case 2: decay_mode_id = 12;
-                default: decay_mode_id = 13;
+            if (n_pizero + n_Kzero == 0) {
+                decay_mode_id = 10;
+            } else if (n_pizero + n_Kzero == 1) {
+                decay_mode_id = 11;
+            } else if (n_pizero + n_Kzero == 2) {
+                decay_mode_id = 12;
+            } else {
+                decay_mode_id = 13;
             }
         }
     }
-
-    /// decay mode ids:
-    /// 0 xEle
-    /// 1 xMuo
-    /// 2 1Pi0Pi0
-    /// 3 1Pi1Pi0
-    /// 4 1Pi2Pi0
-    /// 5 1Pi>2Pi0
-    /// 6 3Pi0Pi0
-    /// 7 3Pi1Pi0
-    /// 8 3Pi2Pi0
-    /// 9 3Pi>2Pi0
-    /// 10 >3Pi0Pi0
-    /// 11 >3Pi1Pi0
-    /// 12 >3Pi2Pi0
-    /// 13 >3Pi>2Pi0
-    /// else
 
     delete final_state_part_list;
     delete new_temp_part;
@@ -2345,14 +2473,15 @@ void specialAna::endJob(const Serializable*) {
     }
     if (doTriggerStudies) {
         file1->cd();
-        file1->mkdir("Effs");
-        file1->cd("Effs/");
+        file1->mkdir("HLT_Effs");
+        file1->cd("HLT_Effs/");
         HistClass::WriteAllEff("HLT");
     }
     file1->cd();
     file1->mkdir("RECO_Effs");
     file1->cd("RECO_Effs/");
     HistClass::WriteAllEff("RECO");
+    HistClass::WriteAll2("RECO");
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
