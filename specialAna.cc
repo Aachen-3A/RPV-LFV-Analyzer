@@ -585,6 +585,32 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     KinematicsSelector("_" + particleName + "_syst_" + shiftType + updown);
 
+    if (sel_lepton_prompt != 0) {
+        delete sel_lepton_prompt;
+        sel_lepton_prompt = 0;
+    }
+    if (sel_lepton_nprompt != 0) {
+        delete sel_lepton_nprompt;
+        sel_lepton_nprompt = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+
+    if (sel_part1_gen != 0) {
+        delete sel_part1_gen;
+        sel_part1_gen = 0;
+    }
+    if (sel_part2_gen != 0) {
+        delete sel_part2_gen;
+        sel_part2_gen = 0;
+    }
+
     /// return to backup
     delete METList;
     METList = RememberMET;
@@ -2678,6 +2704,32 @@ void specialAna::initEvent(const pxl::Event* event) {
 }
 
 void specialAna::endEvent(const pxl::Event* event) {
+    if (sel_lepton_prompt != 0) {
+        delete sel_lepton_prompt;
+        sel_lepton_prompt = 0;
+    }
+    if (sel_lepton_nprompt != 0) {
+        delete sel_lepton_nprompt;
+        sel_lepton_nprompt = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+    if (sel_lepton_nprompt_corr != 0) {
+        delete sel_lepton_nprompt_corr;
+        sel_lepton_nprompt_corr = 0;
+    }
+
+    if (sel_part1_gen != 0) {
+        delete sel_part1_gen;
+        sel_part1_gen = 0;
+    }
+    if (sel_part2_gen != 0) {
+        delete sel_part2_gen;
+        sel_part2_gen = 0;
+    }
+
     delete EleList;
     delete MuonList;
     delete GammaList;
