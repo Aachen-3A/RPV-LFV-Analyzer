@@ -2244,10 +2244,20 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
 
     TString decay_mode = "";
     int decay_mode_id = -1;
-
-    if (n_ele > 0 and n_muo == 0) {
+    if (n_ele > 0 and (n_piplus > 0 or n_Kplus > 0)) {
+        if (n_ele == 2) {
+            n_pizero++;
+            n_ele=0;
+        } else {
+            decay_mode = TString::Format("%iEleX", n_ele);
+            decay_mode_id = 14;
+        }
+    } else if (n_ele > 0 and n_muo == 0) {
         decay_mode = TString::Format("%iEle", n_ele);
         decay_mode_id = 0;
+    } else if (n_muo > 0 and (n_piplus > 0 or n_Kplus > 0)) {
+        decay_mode = TString::Format("%iMuoX", n_muo);
+        decay_mode_id = 14;
     } else if (n_muo > 0 and n_ele == 0) {
         decay_mode = TString::Format("%iMuo", n_muo);
         decay_mode_id = 1;
@@ -2272,7 +2282,7 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
         if (n_Kplus > 0) {
             K_plus_part = TString::Format("%iK", n_Kplus);
         }
-        decay_mode += (pi_plus_part + pi_zero_part + K_zero_part + K_plus_part);
+        decay_mode = (pi_plus_part + pi_zero_part + K_zero_part + K_plus_part);
         if (n_piplus + n_Kplus == 1) {
             if (n_pizero + n_Kzero == 0) {
                 decay_mode_id = 2;
@@ -2301,7 +2311,7 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
             } else if (n_pizero + n_Kzero == 2) {
                 decay_mode_id = 12;
             } else {
-                decay_mode_id = 1113;
+                decay_mode_id = 13;
             }
         }
     }
