@@ -29,7 +29,7 @@ Generator.pt.IDs =
 Generator.pt.mothers =
 
 # Comma separated list of files with events to be skipped:
-SkipEvents.FileList = "$MUSIC_BASE/ConfigFiles/AllBadHCALLaser.txt"
+SkipEvents.FileList =
 
 EventClass.GenOnly = 0
 EventClass.RecOnly = 1
@@ -96,7 +96,7 @@ Ele.pt.min = 25
 Ele.eta.Barrel.max = 1.442
 Ele.eta.Endcap.min = 1.56
 Ele.eta.Endcap.max = 2.5
-Ele.DeltaR.max = 0.01
+Ele.DeltaR.max = 0.4
 Ele.InvertIsolation = 0
 Ele.Rho.Label = "fixedGridRhoFastjetAll"
 
@@ -110,6 +110,9 @@ Ele.IdTag = 1
 # See also:
 # https://twiki.cern.ch/twiki/bin/view/CMS/EgammaCutBasedIdentification?rev=30
 # CBID = Cut Based IDentification
+##next option new in miniAOD
+Ele.CBID.usebool = 1
+Ele.CBID.boolname = cutBasedElectronID-PHYS14-PU20bx25-V0-miniAOD-standalone-loose
 Ele.CBID.fBrem.min = 0.15           # Only for 2011!
 # lowEta: |eta|<1.0                 # Only for 2011!
 Ele.CBID.lowEta.fBrem.min = 0.0     # Only for 2011!
@@ -141,6 +144,8 @@ Ele.CBID.Endcap.Conversion.reject = 1
 # HEEP v4.1:
 # See also:
 # https://twiki.cern.ch/twiki/bin/view/CMS/HEEPElectronID?rev=65
+Ele.HEEPID.usebool = 1
+Ele.HEEPID.boolname = heepElectronID-HEEPV50-prePHYS14-25ns-miniAOD
 # HEEPID = High Energy Electron Pairs IDentification
 Ele.HEEPID.RequireEcalDriven = 1
 Ele.HEEPID.RejectOutOfTime = 1
