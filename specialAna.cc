@@ -2139,7 +2139,7 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     vis_tau_decay->setP4(0,0,0,0);
     while (true) {
         bool continue_loop = false;
-        for (int i = 0; i < temp_part->size(); i++) {
+        for (uint i = 0; i < temp_part->size(); i++) {
             pxl::Particle* temp_part_dummy = temp_part->at(i);
             if (temp_part_dummy->getDaughters().size() == 0) {
                 if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) { // electrons
@@ -2753,7 +2753,7 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete TauListGen;
         delete S3ListGen;
 
-        for (int i = 0; i < TauVisListGen->size(); i++) {
+        for (uint i = 0; i < TauVisListGen->size(); i++) {
             delete TauVisListGen->at(i);
         }
         delete TauVisListGen;
