@@ -31,40 +31,10 @@ Generator.pt.mothers =
 # Comma separated list of files with events to be skipped:
 SkipEvents.FileList =
 
-EventClass.GenOnly = 0
-EventClass.RecOnly = 1
-# Generate lepton charge aware event classes
-EventClass.charge.use = 0
-# Artificial cut on the kinematic variables.
-# If any of these fail, the event is not filled at all.
-EventClass.SumPt.min = 0
-EventClass.Minv.min = 0
-EventClass.MET.min = 0
-# Store only ~100 events per class and distribution.
-# Should make about ~MB for all classes.
-EventClass.num.ListedEvents.max = 100
-
-PDF.Prod.Name = "cteq6l1"
-PDF.CTEQ.Names  = "CT10,CT10as"
-PDF.MSTW.Names  = "MSTW2008nlo68cl,MSTW2008nlo68cl_asmz+68cl,MSTW2008nlo68cl_asmz-68cl"
-PDF.NNPDF.Names = "NNPDF23_nlo_as_0116,NNPDF23_nlo_as_0117,NNPDF23_nlo_as_0118,NNPDF23_nlo_as_0119,NNPDF23_nlo_as_0120,NNPDF23_nlo_as_0121,NNPDF23_nlo_as_0122"
-# The order of NNPDF.Nums must correspond to the order of NNPDF.Names!
-PDF.NNPDF.Nums = 1,4,12,16,12,4,1
-
-# Artificial fudge factors to be applied on the calculated resolution of the
-# different kinematic variables.
-Resolution.fudge.sumpt = 1
-Resolution.fudge.minv = 1
-Resolution.fudge.met = 1
-# Minimal bin width in GeV.
-Resolution.Bin.size.min = 10
-
 PV.N.min = 1
 PV.Z.max = 24
 PV.Rho.max = 2
 PV.NDOF.min = 5
-
-Rho.Label = "fixedGridRhoFastjetAll"
 
 FilterSet.Name = AllFilters
 FilterSet.GenList =
