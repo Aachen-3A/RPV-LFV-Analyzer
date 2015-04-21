@@ -989,18 +989,25 @@ void specialAna::KinematicsSelector(std::string const endung) {
 void specialAna::Create_ID_effs() {
 	Create_ID_object_effs("Muon");
 	Create_ID_object_effs("Ele");
-	Create_ID_object_effs("Tau");
+	//~ Create_ID_object_effs("Tau");
 }
 
 void specialAna::Create_ID_object_effs(std::string object) {								
-	HistClass::CreateHisto(TString::Format("ID_eff", object.c_str()), TString::Format("%s", object.c_str()),
+	HistClass::CreateHisto(TString::Format("ID", object.c_str()), TString::Format("%s", object.c_str()),
 							3, 0, 3, TString::Format("%s_ID_check_eff", object.c_str())); 
+	HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         100, 0, 1000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()),       70, 0, 70,
+                         "n_{vtx}");
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+						
 }
 
 void specialAna::Fill_ID_effs() {
 	Fill_ID_object_effs("Muon", 13, *MuonList);
     Fill_ID_object_effs("Ele", 11, *EleList);
-    Fill_ID_object_effs("Tau", 15, *TauList);
+    //~ Fill_ID_object_effs("Tau", 15, *TauList);
     //~ Fill_ID_object_effs("MET", 12, *METList);
 }
 
@@ -1011,23 +1018,37 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
 		if(name == "Ele") {
 			bool ele_eta = TMath::Abs(part_i -> getEta()) < 2.5 ? true : false;
 			bool ele_pt = part_i -> getPt() > 110. ? true : false;
-			if(ele_eta == true && ele_pt == true) {
-			HistClass::Fill(TString::Format("%s_ID_eff", object.c_str()), 0, 1);
-				if(Check_Ele_ID(part_i)) {
-					HistClass::Fill(TString::Format("%s_ID_eff", object.c_str()), 1, 1);
+				if(ele_eta == true && ele_pt == true) {
+				HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
+					if(Check_Ele_ID(part_i)) {
+						HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+					} else {
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+					}
+				}
+			} else if(name == "Muon") {
+				bool muon_eta = TMath::Abs(part_i -> getEta()) < 2.1 ? true : false;
+				bool muon_pt = part_i -> getPt() > 45. ? true : false;
+				if(muon_eta == true && muon_pt == true) {
+					HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
+					if(Check_Muo_ID(part_i)) {
+						HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+					} else {
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+					}
 				}
 			}
-		} else if(name == "Muon") {
-			bool muon_eta = TMath::Abs(part_i -> getEta()) < 2.1 ? true : false;
-			bool muon_pt = part_i -> getPt() > 45. ? true : false;
-			if(muon_eta == true && muon_pt == true) {
-				HistClass::Fill(TString::Format("%s_ID_eff", object.c_str()), 0, 1);
-				if(Check_Muo_ID(part_i)) {
-					HistClass::Fill(TString::Format("%s_ID_eff", object.c_str()), 1, 1);
-				}
-			}
-		} 
-	}
+    }
 }
 
 
@@ -2617,6 +2638,11 @@ void specialAna::endJob(const Serializable*) {
         file1->cd("HLT_Effs/");
         HistClass::WriteAllEff("HLT");
     }
+    file1->cd();
+    file1->mkdir("ID_Effs");
+    file1->cd("ID_Effs/");
+    HistClass::WriteAllEff("ID");
+    HistClass::WriteAll2("ID");
     file1->cd();
     file1->mkdir("RECO_Effs");
     file1->cd("RECO_Effs/");
