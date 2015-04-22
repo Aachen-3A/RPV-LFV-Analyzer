@@ -46,7 +46,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     Create_RECO_effs();
     Create_ID_effs();
-    
+
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
     mkeep_resonance_mass["mutau"] = 0;
@@ -138,7 +138,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionDown");
-    Init_emu_cuts();    
+    Init_emu_cuts();
     Create_N1_histos("emu", emu_cut_cfgs);
     Create_N1_histos("emu", emu_cut_cfgs, "_Ele_syst_ScaleUp");
     Create_N1_histos("emu", emu_cut_cfgs, "_Ele_syst_ScaleDown");
@@ -644,7 +644,7 @@ void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",     4, -2, 2);
     emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",               10, 0, 10);
     emu_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",         100, 0, 3.2);
-    emu_cut_cfgs["DeltaR_emu"] = Cuts("DeltaR_emu",				100, 0, 10);
+    emu_cut_cfgs["DeltaR_emu"] = Cuts("DeltaR_emu",             100, 0, 10);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -735,17 +735,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_emu_success = false;
             emu_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
         }
-        /// Make the DeltaR Cut 
+        /// Make the DeltaR Cut
         if (Make_DeltaR_emu(&emu_cut_cfgs["DeltaR_emu"])) {
-			if (b_emu_success) {
-				Fill_Resonance_histograms(4, "emu", "ele", "muo", endung);
-				b_emu_success = true;
-			}
-			emu_cut_cfgs["DeltaR_emu"].SetPassed(true);
-		} else {
-			b_emu_success = false;
-			emu_cut_cfgs["DeltaR_emu"].SetPassed(false);
-		}
+            if (b_emu_success) {
+                Fill_Resonance_histograms(4, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["DeltaR_emu"].SetPassed(true);
+        } else {
+            b_emu_success = false;
+            emu_cut_cfgs["DeltaR_emu"].SetPassed(false);
+        }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
@@ -987,67 +987,66 @@ void specialAna::KinematicsSelector(std::string const endung) {
 }
 
 void specialAna::Create_ID_effs() {
-	Create_ID_object_effs("Muon");
-	Create_ID_object_effs("Ele");
-	//~ Create_ID_object_effs("Tau");
+    Create_ID_object_effs("Muon");
+    Create_ID_object_effs("Ele");
+    //~ Create_ID_object_effs("Tau");
 }
 
-void specialAna::Create_ID_object_effs(std::string object) {								
-	HistClass::CreateHisto(TString::Format("ID", object.c_str()), TString::Format("%s", object.c_str()),
-							3, 0, 3, TString::Format("%s_ID_check_eff", object.c_str())); 
-	HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         100, 0, 1000,
+void specialAna::Create_ID_object_effs(std::string object) {
+    HistClass::CreateHisto(TString::Format("ID", object.c_str()), TString::Format("%s", object.c_str()),
+                            3, 0, 3, TString::Format("%s_ID_check_eff", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         100, 0, 1000,
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
-						
 }
 
 void specialAna::Fill_ID_effs() {
-	Fill_ID_object_effs("Muon", 13, *MuonList);
+    Fill_ID_object_effs("Muon", 13, *MuonList);
     Fill_ID_object_effs("Ele", 11, *EleList);
     //~ Fill_ID_object_effs("Tau", 15, *TauList);
     //~ Fill_ID_object_effs("MET", 12, *METList);
 }
 
 void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
-	for(std::vector< pxl::Particle* >::const_iterator part_it = part_list.begin(); part_it != part_list.end(); ++part_it) {
-		pxl::Particle *part_i = *part_it;
-		std::string name = part_i -> getName();
-		if(name == "Ele") {
-			bool ele_eta = TMath::Abs(part_i -> getEta()) < 2.5 ? true : false;
-			bool ele_pt = part_i -> getPt() > 110. ? true : false;
-				if(ele_eta == true && ele_pt == true) {
-				HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
-					if(Check_Ele_ID(part_i)) {
-						HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
-						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
-						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
-						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
-					} else {
-						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
-						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
-						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
-					}
-				}
-			} else if(name == "Muon") {
-				bool muon_eta = TMath::Abs(part_i -> getEta()) < 2.1 ? true : false;
-				bool muon_pt = part_i -> getPt() > 45. ? true : false;
-				if(muon_eta == true && muon_pt == true) {
-					HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
-					if(Check_Muo_ID(part_i)) {
-						HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
-						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
-						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
-						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
-					} else {
-						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
-						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
-						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
-					}
-				}
-			}
+    for (std::vector< pxl::Particle* >::const_iterator part_it = part_list.begin(); part_it != part_list.end(); ++part_it) {
+        pxl::Particle *part_i = *part_it;
+        std::string name = part_i -> getName();
+        if (name == "Ele") {
+            bool ele_eta = TMath::Abs(part_i -> getEta()) < 2.5 ? true : false;
+            bool ele_pt = part_i -> getPt() > 110. ? true : false;
+                if (ele_eta == true && ele_pt == true) {
+                HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
+                    if (Check_Ele_ID(part_i)) {
+                        HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+                    } else {
+                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+                    }
+                }
+            } else if (name == "Muon") {
+                bool muon_eta = TMath::Abs(part_i -> getEta()) < 2.1 ? true : false;
+                bool muon_pt = part_i -> getPt() > 45. ? true : false;
+                if (muon_eta == true && muon_pt == true) {
+                    HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
+                    if (Check_Muo_ID(part_i)) {
+                        HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+                    } else {
+                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+                    }
+                }
+            }
     }
 }
 
@@ -1168,55 +1167,55 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 if (matched_reco_particle->getUserRecord("decayMode") == 17) {
                     if (part_i->getPt() < 500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_0_500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 500 and part_i->getPt() < 1000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_500_1000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 1000 and part_i->getPt() < 1500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1000_1500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 1500 and part_i->getPt() < 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1500_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     }
                 } else {
                     if (part_i->getPt() < 500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_0_500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 500 and part_i->getPt() < 1000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_500_1000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 1000 and part_i->getPt() < 1500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1000_1500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 1500 and part_i->getPt() < 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1500_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     }
                 }
@@ -1874,7 +1873,7 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
     bool ele_eta = TMath::Abs(ele -> getEta()) < 2.5 ? true : false;
     bool ele_pt = ele -> getPt() > 110. ? true : false;
-    	
+
     if (not do_pt_cut) {
         ele_pt = true;
     }
@@ -1884,42 +1883,6 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     if (ele_ID && ele_eta && ele_pt) return true;
     return false;
 }
-
-//~ void specialAna::Check_Ele_ID_Eff(std::vector< pxl::Particle* > part1_list, bool do_pt_cut, bool do_eta_cut) {
-	//~ int counter=0.;
-    //~ int counter_ele=0.;
-    //~ for(std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
-		//~ pxl::Particle *part_i = *part_it;
-		//~ if(TMath::Abs(part_i -> getPdgNumber()) == 11) {
-			//~ counter++;
-			//~ if(Check_Ele_ID(part_i)) {
-				//~ counter_ele++;
-			//~ }
-		//~ }
-	//~ }
-	//~ double ele_eff=counter_ele/counter;
-	//~ HistClass::CreateHisto("electron ID check efficiency", 5, 0, 1.3);
-	//~ HistClass::Fill("electron ID check efficiency", ele_eff, true);
-//~ }
-		
-//~ void specialAna::ID_Eff_Hist(std::vector< pxl::Particle* > part1_list) {
-	//~ HistClass::CreateHisto("Ele_Eff", 10, 0, 10, "eff");
-	//~ int counter=0;
-	//~ int counter2=0;
-	//~ for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
-		//~ pxl::Particle *part_i = *part_it;
-		//~ if(TMath::Abs(part_i -> getPdgNumber()) == 11) {
-			//~ counter++;
-			//~ if(Check_Ele_ID(part_i)) {
-				//~ counter2++;
-			//~ }
-		//~ }
-	//~ }
-	//~ double eff=counter2/counter;
-	//~ HistClass::Fill("Ele_Eff", eff, weight);	
-//~ }
-    
-	
 
 std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
     double p_zeta_vis = 0;
@@ -2017,17 +1980,17 @@ bool specialAna::Make_DeltaPhi_emu(Cuts* cuts) {
 }
 
 bool specialAna::Make_DeltaR_emu(Cuts* cuts) {
-	double delta_R = 0.;
-	if (sel_lepton_prompt and sel_lepton_nprompt) {
-		delta_R = DeltaR(sel_lepton_prompt, sel_lepton_nprompt);
-	}
-	double delta_R_cut_value = 0.2;
-	cuts->SetVars(delta_R);
-	if (delta_R > delta_R_cut_value) {
-		return true;
-	} else {
-		return false;
-	}
+    double delta_R = 0.;
+    if (sel_lepton_prompt and sel_lepton_nprompt) {
+        delta_R = DeltaR(sel_lepton_prompt, sel_lepton_nprompt);
+    }
+    double delta_R_cut_value = 0.2;
+    cuts->SetVars(delta_R);
+    if (delta_R > delta_R_cut_value) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool specialAna::Bjet_veto(Cuts* cuts) {
@@ -2271,33 +2234,33 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     std::vector<pxl::Particle*>* new_temp_part = new std::vector< pxl::Particle* >;
     pxl::Particle* vis_tau_decay = new pxl::Particle();
     vis_tau_decay->setName("Tau_visible_decay");
-    vis_tau_decay->setP4(0,0,0,0);
+    vis_tau_decay->setP4(0, 0, 0, 0);
     while (true) {
         bool continue_loop = false;
         for (uint i = 0; i < temp_part->size(); i++) {
             pxl::Particle* temp_part_dummy = temp_part->at(i);
             if (temp_part_dummy->getDaughters().size() == 0) {
-                if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) { // electrons
+                if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) {  /// electrons
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 13) { // muons
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 13) {  /// muons
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 111) { // pi 0
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 111) {  /// pi 0
                     final_state_part_list->push_back(temp_part_dummy);
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 211) { // pi +
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 211) {  /// pi +
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 130 or
                     TMath::Abs(temp_part_dummy->getPdgNumber()) == 310 or
-                    TMath::Abs(temp_part_dummy->getPdgNumber()) == 311) { // K 0
+                    TMath::Abs(temp_part_dummy->getPdgNumber()) == 311) {  /// K 0
                     final_state_part_list->push_back(temp_part_dummy);
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 321) { // K +
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 321) {  /// K +
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
@@ -2306,40 +2269,40 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
                 for (std::set< pxl::Relative* >::const_iterator part_it = temp_part_dummy->getDaughters().begin(); part_it != temp_part_dummy->getDaughters().end(); ++part_it) {
                     pxl::Relative *part_i = *part_it;
                     pxl::Particle* part = (pxl::Particle*)part_i;
-                    if (TMath::Abs(part->getPdgNumber()) == 16) { // tau neutrino
+                    if (TMath::Abs(part->getPdgNumber()) == 16) {  /// tau neutrino
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 14) { // muon neutrino
+                    } else if (TMath::Abs(part->getPdgNumber()) == 14) {  /// muon neutrino
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 12) { // electron neutrino
+                    } else if (TMath::Abs(part->getPdgNumber()) == 12) {  /// electron neutrino
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 22) { // photon
+                    } else if (TMath::Abs(part->getPdgNumber()) == 22) {  /// photon
                         vis_tau_decay->addP4(part);
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 11) { // electrons
+                    } else if (TMath::Abs(part->getPdgNumber()) == 11) {  /// electrons
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 13) { // muons
+                    } else if (TMath::Abs(part->getPdgNumber()) == 13) {  /// muons
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 111) { // pi 0
+                    } else if (TMath::Abs(part->getPdgNumber()) == 111) {  /// pi 0
                         final_state_part_list->push_back(part);
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 211) { // pi +
+                    } else if (TMath::Abs(part->getPdgNumber()) == 211) {  /// pi +
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 130 or
                         TMath::Abs(part->getPdgNumber()) == 310 or
-                        TMath::Abs(part->getPdgNumber()) == 311) { // K 0
+                        TMath::Abs(part->getPdgNumber()) == 311) {  /// K 0
                         final_state_part_list->push_back(part);
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 321) { // K +
+                    } else if (TMath::Abs(part->getPdgNumber()) == 321) {  /// K +
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
-                    } else { // others like W +
+                    } else {  /// others like W +
                         continue_loop = true;
                         new_temp_part->push_back(part);
                     }
@@ -2408,7 +2371,7 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     if (n_ele > 0 and (n_piplus > 0 or n_Kplus > 0)) {
         if (n_ele == 2) {
             n_pizero++;
-            n_ele=0;
+            n_ele = 0;
         } else {
             decay_mode = TString::Format("%iEleX", n_ele);
             decay_mode_id = 14;
@@ -2434,7 +2397,6 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
         if (n_piplus > 0) {
             pi_plus_part = TString::Format("%iPi", n_piplus);
         }
-    
         TString K_zero_part = "";
         if (n_Kzero > 0) {
             K_zero_part = TString::Format("%iK0", n_Kzero);
@@ -2579,7 +2541,7 @@ double specialAna::getHT() {
     return ht_val;
 }
 
-void specialAna::raw_input(TString question){
+void specialAna::raw_input(TString question) {
   TString answer;
   std::cout << question << std::endl;
   std::cin >> answer;
@@ -2827,15 +2789,21 @@ void specialAna::initEvent(const pxl::Event* event) {
             pxl::Particle *part = *part_it;
             std::string Name = part->getName();
             // Only fill the collection if we want to use the particle!
-            if (     Name == "Muon"    ) MuonListGen->push_back( part );
-            else if (Name == "Ele"     ) EleListGen->push_back( part );
-            else if (Name == "Gamma"   ) GammaListGen->push_back( part );
-            else if (Name == "Tau"     ) TauListGen->push_back( part );
-            else if (Name == (m_METType+"_gen") ) METListGen->push_back( part );
-            else if (Name == m_JetAlgo ) JetListGen->push_back( part );
-            else if (Name == genCollection) {
-                S3ListGen->push_back( part );
-                if(part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
+            if (Name == "Muon") {
+                MuonListGen->push_back(part);
+            } else if (Name == "Ele") {
+                EleListGen->push_back(part);
+            } else if (Name == "Gamma") {
+                GammaListGen->push_back(part);
+            } else if (Name == "Tau") {
+                TauListGen->push_back(part);
+            } else if (Name == (m_METType+"_gen") ) {
+                METListGen->push_back(part);
+            } else if (Name == m_JetAlgo) {
+                JetListGen->push_back(part);
+            } else if (Name == genCollection) {
+                S3ListGen->push_back(part);
+                if (part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
                     TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
                 }
             }

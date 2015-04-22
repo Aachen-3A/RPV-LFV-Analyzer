@@ -79,7 +79,7 @@ class specialAna : public pxl::AnalysisProcess  {
     pxl::Particle* Get_Truth_match(std::string name, pxl::Particle* lepton);
 
     pxl::Particle* Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau);
-    
+
     void Create_ID_effs();
     void Create_ID_object_effs(std::string object);
     void Fill_ID_effs();
@@ -101,7 +101,6 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
     //~ void Check_Ele_ID_Eff(std::vector< pxl::Particle* > part1_list, bool do_pt_cut = true, bool do_eta_cut = true);
-	
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
@@ -117,7 +116,7 @@ class specialAna : public pxl::AnalysisProcess  {
     bool pT_muele_ratio_cut(Cuts* cuts);
     bool Make_DeltaPhi_emu(Cuts* cuts);
     bool Make_DeltaR_emu(Cuts* cuts);
-   
+
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
     double DeltaPhi(pxl::Particle* lepton, pxl::Particle* met);
