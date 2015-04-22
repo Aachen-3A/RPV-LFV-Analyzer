@@ -989,67 +989,69 @@ void specialAna::KinematicsSelector(std::string const endung) {
 void specialAna::Create_ID_effs() {
     Create_ID_object_effs("Muon");
     Create_ID_object_effs("Ele");
-    //~ Create_ID_object_effs("Tau");
+    Create_ID_object_effs("Tau");
 }
 
 void specialAna::Create_ID_object_effs(std::string object) {
-    HistClass::CreateHisto(TString::Format("ID", object.c_str()), TString::Format("%s", object.c_str()),
-                            3, 0, 3, TString::Format("%s_ID_check_eff", object.c_str()));
-    HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         100, 0, 1000,
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         300, 0, 3000,
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
+                         "n_{vtx}");
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 100, 0, 3.5,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
 }
 
 void specialAna::Fill_ID_effs() {
     Fill_ID_object_effs("Muon", 13, *MuonList);
     Fill_ID_object_effs("Ele", 11, *EleList);
-    //~ Fill_ID_object_effs("Tau", 15, *TauList);
-    //~ Fill_ID_object_effs("MET", 12, *METList);
+    Fill_ID_object_effs("Tau", 15, *TauList);
 }
 
 void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
-    for (std::vector< pxl::Particle* >::const_iterator part_it = part_list.begin(); part_it != part_list.end(); ++part_it) {
+    for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
         pxl::Particle *part_i = *part_it;
-        std::string name = part_i -> getName();
-        if (name == "Ele") {
-            bool ele_eta = TMath::Abs(part_i -> getEta()) < 2.5 ? true : false;
-            bool ele_pt = part_i -> getPt() > 110. ? true : false;
-                if (ele_eta == true && ele_pt == true) {
-                HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
-                    if (Check_Ele_ID(part_i)) {
-                        HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
-                    } else {
-                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
-                    }
-                }
-            } else if (name == "Muon") {
-                bool muon_eta = TMath::Abs(part_i -> getEta()) < 2.1 ? true : false;
-                bool muon_pt = part_i -> getPt() > 45. ? true : false;
-                if (muon_eta == true && muon_pt == true) {
-                    HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
-                    if (Check_Muo_ID(part_i)) {
-                        HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
-                    } else {
-                        HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
-                        HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
-                    }
+        pxl::Particle* matched_reco_particle = 0;
+        if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
+        double delta_r_max = 0.25;
+        for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
+            pxl::Particle *part_j = *part_jt;
+            if (DeltaR(part_j, part_i) < delta_r_max) {
+                delta_r_max = DeltaR(part_j, part_i);
+                matched_reco_particle = (pxl::Particle*) part_j->clone();
+            }
+        }
+        if (matched_reco_particle != 0) {
+            if (Check_Par_ID(matched_reco_particle, false, false)) {
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
+            } else {
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), false);
+            }
+            if (Check_Par_Acc(matched_reco_particle)) {
+                if (Check_Par_ID(matched_reco_particle, false, false)) {
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), true);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
+                } else {
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), false);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), false);
                 }
             }
+        }
+        delete matched_reco_particle;
     }
 }
-
 
 void specialAna::Create_RECO_effs() {
     Create_RECO_object_effs("Muon");
@@ -1099,14 +1101,14 @@ void specialAna::Create_RECO_effs() {
 }
 
 void specialAna::Create_RECO_object_effs(std::string object) {
-    HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         100, 0, 1000,
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         300, 0, 3000,
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
     if (object != "MET") {
-        HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         100, 0, 1000,
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
                              TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
         HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
                              "n_{vtx}");
@@ -1281,7 +1283,7 @@ void specialAna::Create_trigger_effs() {
         trigger_defs[temp_trigger_name] = new Trigger(*it);
         if (trigger_defs[temp_trigger_name]->GetDimension()) {
             HistClass::CreateEff(TString::Format("%s_vs_pT(%s,%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
-                                 100, 0, 1000, 100, 0, 1000,
+                                 300, 0, 3000, 300, 0, 3000,
                                  TString::Format("p_{T}^{%s,%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
@@ -1294,7 +1296,7 @@ void specialAna::Create_trigger_effs() {
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
         } else {
             HistClass::CreateEff(TString::Format("%s_vs_pT(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 100, 0, 1000,
+                                 300, 0, 3000,
                                  TString::Format("p_{T}^{%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
@@ -1826,6 +1828,35 @@ bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut, bool do_eta_c
     } else if (name == "Muon") {
         bool muo_id = Check_Muo_ID(part, do_pt_cut, do_eta_cut);
         return muo_id;
+    } else {
+        return false;
+    }
+}
+
+bool specialAna::Check_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut) {
+    std::string name = part -> getName();
+    if (name == m_TauType) {
+        return true;
+    } else if (name == "Ele") {
+        bool ele_eta = TMath::Abs(part->getEta()) < 2.5 ? true : false;
+        bool ele_pt  = part->getPt() > 110. ? true : false;
+        if (not do_pt_cut) ele_pt = true;
+        if (not do_eta_cut) ele_eta = true;
+        if (ele_eta and ele_pt) {
+            return true;
+        } else {
+            return false;
+        }
+    } else if (name == "Muon") {
+        bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
+        bool muo_pt  = part->getPt() > 45. ? true : false;
+        if (not do_pt_cut) muo_pt = true;
+        if (not do_eta_cut) muo_eta = true;
+        if (muo_eta and muo_pt) {
+            return true;
+        } else {
+            return false;
+        }
     } else {
         return false;
     }

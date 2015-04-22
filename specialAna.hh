@@ -97,6 +97,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void endEvent(const pxl::Event* event);
 
     bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
+    bool Check_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
