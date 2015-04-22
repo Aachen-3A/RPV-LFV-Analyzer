@@ -1,4 +1,4 @@
-.TH "specialAna.cc" 3 "Sun Feb 1 2015" "RPV-LFV-Analyzer" \" -*- nroff -*-
+.TH "specialAna.cc" 3 "Mon Mar 30 2015" "RPV-LFV-Analyzer" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -19,10 +19,10 @@ specialAna.cc \-
 
 .in +1c
 .ti -1c
-.RI "\fBm_dataPeriod\fP (cfg\&.GetItem< string >('General\&.DataPeriod'))"
+.RI "\fBm_dataPeriod\fP (cfg\&.GetItem< std::string >('General\&.DataPeriod'))"
 .br
 .ti -1c
-.RI "\fBm_channel\fP (cfg\&.GetItem< string >('RPV\&.channel'))"
+.RI "\fBm_channel\fP (cfg\&.GetItem< std::string >('RPV\&.channel'))"
 .br
 .ti -1c
 .RI "\fBconfig_\fP (cfg)"
@@ -47,14 +47,14 @@ specialAna.cc \-
 .PP
  Init for the mu-tau_mu channel 
 .PP
-Definition at line 21 of file specialAna\&.cc\&.
+Definition at line 22 of file specialAna\&.cc\&.
 .PP
 References m_channel(), and m_dataPeriod()\&.
-.SS "m_channel (cfg\&.GetItem< string >'RPV\&.channel')"
+.SS "m_channel (cfg\&.GetItem< std::string >'RPV\&.channel')"
 
 .PP
 Referenced by config_()\&.
-.SS "m_dataPeriod (cfg\&.GetItem< string >'General\&.DataPeriod')"
+.SS "m_dataPeriod (cfg\&.GetItem< std::string >'General\&.DataPeriod')"
 
 .PP
 Referenced by config_()\&.
