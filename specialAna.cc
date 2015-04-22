@@ -45,7 +45,8 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     }
 
     Create_RECO_effs();
-
+    Create_ID_effs();
+    
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
     mkeep_resonance_mass["mutau"] = 0;
@@ -127,7 +128,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     ///-----------------------------------------------------------------
     /// Init for the e-mu channel
-    channel_stages["emu"] = 4;
+    channel_stages["emu"] = 5;
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Ele_syst_ScaleUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Ele_syst_ScaleDown");
@@ -137,7 +138,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionDown");
-    Init_emu_cuts();
+    Init_emu_cuts();    
     Create_N1_histos("emu", emu_cut_cfgs);
     Create_N1_histos("emu", emu_cut_cfgs, "_Ele_syst_ScaleUp");
     Create_N1_histos("emu", emu_cut_cfgs, "_Ele_syst_ScaleDown");
@@ -328,6 +329,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     }
 
     Fill_RECO_effs();
+    Fill_ID_effs();
 
     if (TriggerSelector(event)) {
         FillControllHistos();
@@ -642,6 +644,7 @@ void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",     4, -2, 2);
     emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",               10, 0, 10);
     emu_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",         100, 0, 3.2);
+    emu_cut_cfgs["DeltaR_emu"] = Cuts("DeltaR_emu",				100, 0, 10);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -732,6 +735,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
             b_emu_success = false;
             emu_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
         }
+        /// Make the DeltaR Cut 
+        if (Make_DeltaR_emu(&emu_cut_cfgs["DeltaR_emu"])) {
+			if (b_emu_success) {
+				Fill_Resonance_histograms(4, "emu", "ele", "muo", endung);
+				b_emu_success = true;
+			}
+			emu_cut_cfgs["DeltaR_emu"].SetPassed(true);
+		} else {
+			b_emu_success = false;
+			emu_cut_cfgs["DeltaR_emu"].SetPassed(false);
+		}
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
     ///-----------------------------------------------------------------
@@ -971,6 +985,72 @@ void specialAna::KinematicsSelector(std::string const endung) {
         }
     }
 }
+
+void specialAna::Create_ID_effs() {
+	Create_ID_object_effs("Muon");
+	Create_ID_object_effs("Ele");
+	//~ Create_ID_object_effs("Tau");
+}
+
+void specialAna::Create_ID_object_effs(std::string object) {								
+	HistClass::CreateHisto(TString::Format("ID", object.c_str()), TString::Format("%s", object.c_str()),
+							3, 0, 3, TString::Format("%s_ID_check_eff", object.c_str())); 
+	HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         100, 0, 1000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()),       70, 0, 70,
+                         "n_{vtx}");
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+						
+}
+
+void specialAna::Fill_ID_effs() {
+	Fill_ID_object_effs("Muon", 13, *MuonList);
+    Fill_ID_object_effs("Ele", 11, *EleList);
+    //~ Fill_ID_object_effs("Tau", 15, *TauList);
+    //~ Fill_ID_object_effs("MET", 12, *METList);
+}
+
+void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
+	for(std::vector< pxl::Particle* >::const_iterator part_it = part_list.begin(); part_it != part_list.end(); ++part_it) {
+		pxl::Particle *part_i = *part_it;
+		std::string name = part_i -> getName();
+		if(name == "Ele") {
+			bool ele_eta = TMath::Abs(part_i -> getEta()) < 2.5 ? true : false;
+			bool ele_pt = part_i -> getPt() > 110. ? true : false;
+				if(ele_eta == true && ele_pt == true) {
+				HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
+					if(Check_Ele_ID(part_i)) {
+						HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+					} else {
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+					}
+				}
+			} else if(name == "Muon") {
+				bool muon_eta = TMath::Abs(part_i -> getEta()) < 2.1 ? true : false;
+				bool muon_pt = part_i -> getPt() > 45. ? true : false;
+				if(muon_eta == true && muon_pt == true) {
+					HistClass::Fill(TString::Format("%s_ID", object.c_str()), 0, 1);
+					if(Check_Muo_ID(part_i)) {
+						HistClass::Fill(TString::Format("%s_ID", object.c_str()), 1, 1);
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+					} else {
+						HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), part_i->getPt(), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+						HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+					}
+				}
+			}
+    }
+}
+
 
 void specialAna::Create_RECO_effs() {
     Create_RECO_object_effs("Muon");
@@ -1501,6 +1581,8 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     HistClass::CreateHisto(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos, 0, n_histos, "Cut stage");
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
+    /// Delta R Histogram between muon and electron
+    HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                  channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                         part1, part2) );
     /// Resonant mass resolution histogram
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                 part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               1000, -10, 10, TString::Format("M-M_{gen}/M_{gen}(%s,%s)",                part1, part2) );
@@ -1543,6 +1625,8 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     HistClass::Fill(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos,                                                          weight);
     /// Resonant mass histogram
     HistClass::Fill(n_histos, TString::Format("%s_Mass",                  channel) + endung,               resonance_mass[channel],                                           weight);
+    /// Delta R between electron and muon
+    HistClass::Fill(n_histos, TString::Format("%s_dR",                  channel) + endung,               DeltaR(sel_lepton_prompt, sel_lepton_nprompt),                                           weight);
     /// Resonant mass resolution histogram
     double dummy_resolution = (resonance_mass[channel] - resonance_mass_gen[channel])/resonance_mass_gen[channel];
     HistClass::Fill(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               dummy_resolution,                                                  weight);
@@ -1790,6 +1874,7 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
     bool ele_eta = TMath::Abs(ele -> getEta()) < 2.5 ? true : false;
     bool ele_pt = ele -> getPt() > 110. ? true : false;
+    	
     if (not do_pt_cut) {
         ele_pt = true;
     }
@@ -1799,6 +1884,42 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     if (ele_ID && ele_eta && ele_pt) return true;
     return false;
 }
+
+//~ void specialAna::Check_Ele_ID_Eff(std::vector< pxl::Particle* > part1_list, bool do_pt_cut, bool do_eta_cut) {
+	//~ int counter=0.;
+    //~ int counter_ele=0.;
+    //~ for(std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
+		//~ pxl::Particle *part_i = *part_it;
+		//~ if(TMath::Abs(part_i -> getPdgNumber()) == 11) {
+			//~ counter++;
+			//~ if(Check_Ele_ID(part_i)) {
+				//~ counter_ele++;
+			//~ }
+		//~ }
+	//~ }
+	//~ double ele_eff=counter_ele/counter;
+	//~ HistClass::CreateHisto("electron ID check efficiency", 5, 0, 1.3);
+	//~ HistClass::Fill("electron ID check efficiency", ele_eff, true);
+//~ }
+		
+//~ void specialAna::ID_Eff_Hist(std::vector< pxl::Particle* > part1_list) {
+	//~ HistClass::CreateHisto("Ele_Eff", 10, 0, 10, "eff");
+	//~ int counter=0;
+	//~ int counter2=0;
+	//~ for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
+		//~ pxl::Particle *part_i = *part_it;
+		//~ if(TMath::Abs(part_i -> getPdgNumber()) == 11) {
+			//~ counter++;
+			//~ if(Check_Ele_ID(part_i)) {
+				//~ counter2++;
+			//~ }
+		//~ }
+	//~ }
+	//~ double eff=counter2/counter;
+	//~ HistClass::Fill("Ele_Eff", eff, weight);	
+//~ }
+    
+	
 
 std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
     double p_zeta_vis = 0;
@@ -1893,6 +2014,20 @@ bool specialAna::Make_DeltaPhi_emu(Cuts* cuts) {
     } else {
         return false;
     }
+}
+
+bool specialAna::Make_DeltaR_emu(Cuts* cuts) {
+	double delta_R = 0.;
+	if (sel_lepton_prompt and sel_lepton_nprompt) {
+		delta_R = DeltaR(sel_lepton_prompt, sel_lepton_nprompt);
+	}
+	double delta_R_cut_value = 0.2;
+	cuts->SetVars(delta_R);
+	if (delta_R > delta_R_cut_value) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 bool specialAna::Bjet_veto(Cuts* cuts) {
@@ -2503,6 +2638,11 @@ void specialAna::endJob(const Serializable*) {
         file1->cd("HLT_Effs/");
         HistClass::WriteAllEff("HLT");
     }
+    file1->cd();
+    file1->mkdir("ID_Effs");
+    file1->cd("ID_Effs/");
+    HistClass::WriteAllEff("ID");
+    HistClass::WriteAll2("ID");
     file1->cd();
     file1->mkdir("RECO_Effs");
     file1->cd("RECO_Effs/");
