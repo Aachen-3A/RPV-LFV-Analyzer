@@ -994,17 +994,27 @@ void specialAna::Create_ID_effs() {
 
 void specialAna::Create_ID_object_effs(std::string object) {
     HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         300, 0, 3000,
-                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+                         TString::Format("p_{T}^{%s(reco)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
-                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+                         TString::Format("#eta(%s(reco))", object.c_str()), TString::Format("#phi(%s(reco)) (rad)", object.c_str()));
 
     HistClass::CreateEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
-                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+                         TString::Format("p_{T}^{%s(reco)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                         TString::Format("#eta(%s(reco))", object.c_str()), TString::Format("#phi(%s(reco)) (rad)", object.c_str()));
+
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT_in_Acc_gen", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), 150, -3, 3, 100, 0, 3.5,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
 }
 
@@ -1032,20 +1042,32 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
                 HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                 HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
+
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()), part_i->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
             } else {
                 HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), false);
                 HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), false);
+
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()), part_i->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
             if (Check_Par_Acc(matched_reco_particle)) {
                 if (Check_Par_ID(matched_reco_particle, false, false)) {
                     HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), true);
                     HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                     HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
+
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc_gen", object.c_str()), part_i->getPt(), true);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
                 } else {
                     HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), false);
                     HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                     HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), false);
+
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc_gen", object.c_str()), part_i->getPt(), false);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
                 }
             }
         }
@@ -1575,6 +1597,20 @@ void specialAna::Fill_Gen_histograms(const char* channel, const char* part1, con
     HistClass::Fill(TString::Format("%s_Delta_phi_%s_%s_Gen", channel, part1, part2), DeltaPhi(sel_part1_gen, sel_part2_gen),              weight);
     /// pT ratio of the two particles
     HistClass::Fill(TString::Format("%s_pT_ratio_%s_%s_Gen",  channel, part1, part2), sel_part1_gen -> getPt() / sel_part2_gen -> getPt(), weight);
+
+    if (Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Mass", channel), resonance_mass_gen[channel], true);
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), true);
+    } else {
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Mass", channel), resonance_mass_gen[channel], false);
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
+    }
+
+    HistClass::FillEff(TString::Format("%s_RECO_vs_Mass", channel), resonance_mass_gen[channel], false);
+    HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
+
+    HistClass::FillEff(TString::Format("%s_Eff_vs_Mass", channel), resonance_mass_gen[channel], false);
+    HistClass::FillEff(TString::Format("%s_Eff_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
 }
 
 void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
@@ -1618,6 +1654,23 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
         HistClass::CreateHisto(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part2) + endung,        50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{E_{T}^{miss}}",         part2) );
         HistClass::CreateHisto(n_histos, TString::Format("%s_pT_ratio_%s_MET_corr",  channel, part2) + endung,        50, 0, 10,     TString::Format("#frac{p_{T}^{%s(corr)}}{E_{T}^{miss}}",   part2) );
         HistClass::CreateHisto(n_histos, TString::Format("%s_pT_ratio_%s_%s_corr",   channel, part1, part2) + endung, 50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{p_{T}^{%s(corr)}}",     part1, part2) );
+    }
+
+    if (endung == const_cast<char*>("")) {
+        HistClass::CreateEff(TString::Format("%s_Acc_vs_Mass", channel), 600, 0, 6000,
+                             TString::Format("M_{%s}^{(gen)} (GeV)", channel));
+        HistClass::CreateEff(TString::Format("%s_Acc_vs_Nvtx", channel),       70, 0, 70,
+                             "n_{vtx}");
+
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_Mass", channel), 600, 0, 6000,
+                             TString::Format("M_{%s}^{(gen)} (GeV)", channel));
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", channel),       70, 0, 70,
+                             "n_{vtx}");
+
+        HistClass::CreateEff(TString::Format("%s_Eff_vs_Mass", channel), 600, 0, 6000,
+                             TString::Format("M_{%s}^{(gen)} (GeV)", channel));
+        HistClass::CreateEff(TString::Format("%s_Eff_vs_Nvtx", channel),       70, 0, 70,
+                             "n_{vtx}");
     }
 }
 
@@ -1848,6 +1901,34 @@ bool specialAna::Check_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_
             return false;
         }
     } else if (name == "Muon") {
+        bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
+        bool muo_pt  = part->getPt() > 45. ? true : false;
+        if (not do_pt_cut) muo_pt = true;
+        if (not do_eta_cut) muo_eta = true;
+        if (muo_eta and muo_pt) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+bool specialAna::Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut) {
+    if (TMath::Abs(part -> getPdgNumber()) == 15) {
+        return true;
+    } else if (TMath::Abs(part -> getPdgNumber()) == 11) {
+        bool ele_eta = TMath::Abs(part->getEta()) < 2.5 ? true : false;
+        bool ele_pt  = part->getPt() > 110. ? true : false;
+        if (not do_pt_cut) ele_pt = true;
+        if (not do_eta_cut) ele_eta = true;
+        if (ele_eta and ele_pt) {
+            return true;
+        } else {
+            return false;
+        }
+    } else if (TMath::Abs(part -> getPdgNumber()) == 13) {
         bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
         bool muo_pt  = part->getPt() > 45. ? true : false;
         if (not do_pt_cut) muo_pt = true;
@@ -2583,6 +2664,7 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->mkdir(channel);
     file1->cd(TString::Format("%s/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Cutflow", channel), TString::Format("sys:N-1"));
+    HistClass::WriteAllEff(TString::Format("%s_", channel));
     file1->mkdir(TString::Format("%s/sys", channel));
     file1->cd(TString::Format("%s/sys/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Cutflow:sys", channel));
