@@ -90,6 +90,8 @@ class specialAna : public pxl::AnalysisProcess  {
     void Fill_RECO_effs();
     void Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list);
 
+    void Fill_overall_efficiencies();
+
     void FillSystematics(const pxl::Event* event, std::string const particleName);
     void FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType);
 

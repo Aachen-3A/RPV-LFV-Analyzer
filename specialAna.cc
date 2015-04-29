@@ -637,6 +637,11 @@ void specialAna::FillControllHistos() {
         HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
         HistClass::Fill("Ctr_HT", getHT(), weight);
     }
+
+    if (resonance_mass_gen["emu"] != 0 and Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::Fill("emu_RECO_vs_Mass_Pass", resonance_mass_gen["emu"], 1);
+        HistClass::Fill("emu_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
 }
 
 void specialAna::Init_emu_cuts() {
@@ -1606,11 +1611,13 @@ void specialAna::Fill_Gen_histograms(const char* channel, const char* part1, con
         HistClass::FillEff(TString::Format("%s_Acc_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
     }
 
-    HistClass::FillEff(TString::Format("%s_RECO_vs_Mass", channel), resonance_mass_gen[channel], false);
-    HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
-
-    HistClass::FillEff(TString::Format("%s_Eff_vs_Mass", channel), resonance_mass_gen[channel], false);
-    HistClass::FillEff(TString::Format("%s_Eff_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
+    if (resonance_mass_gen[channel] != 0) {
+        HistClass::Fill(TString::Format("%s_RECO_vs_Mass_All", channel), resonance_mass_gen[channel], 1);
+        HistClass::Fill(TString::Format("%s_RECO_vs_Nvtx_All", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
+    
+        HistClass::Fill(TString::Format("%s_Eff_vs_Mass_All", channel), resonance_mass_gen[channel], 1);
+        HistClass::Fill(TString::Format("%s_Eff_vs_Nvtx_All", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
 }
 
 void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
@@ -1662,15 +1669,15 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
         HistClass::CreateEff(TString::Format("%s_Acc_vs_Nvtx", channel),       70, 0, 70,
                              "n_{vtx}");
 
-        HistClass::CreateEff(TString::Format("%s_RECO_vs_Mass", channel), 600, 0, 6000,
-                             TString::Format("M_{%s}^{(gen)} (GeV)", channel));
-        HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", channel),       70, 0, 70,
-                             "n_{vtx}");
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Mass_All", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Mass_Pass", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Nvtx_All", channel), 70, 0, 70);
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Nvtx_Pass", channel), 70, 0, 70);
 
-        HistClass::CreateEff(TString::Format("%s_Eff_vs_Mass", channel), 600, 0, 6000,
-                             TString::Format("M_{%s}^{(gen)} (GeV)", channel));
-        HistClass::CreateEff(TString::Format("%s_Eff_vs_Nvtx", channel),       70, 0, 70,
-                             "n_{vtx}");
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Mass_All", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Mass_Pass", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Nvtx_All", channel), 70, 0, 70);
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Nvtx_Pass", channel), 70, 0, 70);
     }
 }
 
@@ -1716,6 +1723,11 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
         HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part2) + endung,        sel_lepton_nprompt -> getPt() / sel_met -> getPt(),                weight);
         HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET_corr",  channel, part2) + endung,        sel_lepton_nprompt_corr -> getPt() / sel_met -> getPt(),           weight);
         HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_%s_corr",   channel, part1, part2) + endung, sel_lepton_prompt -> getPt() / sel_lepton_nprompt_corr -> getPt(), weight);
+    }
+
+    if (n_histos == 0 and resonance_mass_gen[channel] != 0) {
+        HistClass::Fill(TString::Format("%s_Eff_vs_Mass_Pass", channel), resonance_mass_gen[channel], 1);
+        HistClass::Fill(TString::Format("%s_Eff_vs_Nvtx_Pass", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
     }
 }
 
@@ -2694,7 +2706,24 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
 }
 
+void specialAna::Fill_overall_efficiencies() {
+    // channel_writer(file1, "emu");
+    // channel_writer(file1, "etau");
+    // channel_writer(file1, "mutau");
+    // channel_writer(file1, "etaue");
+    // channel_writer(file1, "etaumu");
+    // channel_writer(file1, "mutaue");
+    // channel_writer(file1, "mutaumu");
+
+    HistClass::CreateEff("emu_RECO_vs_Mass", HistClass::ReturnHist("emu_RECO_vs_Mass_All"), HistClass::ReturnHist("emu_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("emu_RECO_vs_Nvtx", HistClass::ReturnHist("emu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("emu_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("emu_Eff_vs_Mass", HistClass::ReturnHist("emu_Eff_vs_Mass_All"), HistClass::ReturnHist("emu_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("emu_Eff_vs_Nvtx", HistClass::ReturnHist("emu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("emu_Eff_vs_Nvtx_Pass"));
+}
+
 void specialAna::endJob(const Serializable*) {
+    Fill_overall_efficiencies();
+
     std::cout << "Triggers that fired in this sample:" << std::endl;
     for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
         std::cout << *itr << std::endl;
