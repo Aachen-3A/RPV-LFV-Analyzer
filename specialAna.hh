@@ -90,6 +90,8 @@ class specialAna : public pxl::AnalysisProcess  {
     void Fill_RECO_effs();
     void Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list);
 
+    void Fill_overall_efficiencies();
+
     void FillSystematics(const pxl::Event* event, std::string const particleName);
     void FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType);
 
@@ -98,6 +100,7 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
+    bool Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
