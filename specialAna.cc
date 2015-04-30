@@ -642,6 +642,31 @@ void specialAna::FillControllHistos() {
         HistClass::Fill("emu_RECO_vs_Mass_Pass", resonance_mass_gen["emu"], 1);
         HistClass::Fill("emu_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
     }
+
+    if (resonance_mass_gen["etau"] != 0 and Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::Fill("etau_RECO_vs_Mass_Pass", resonance_mass_gen["etau"], 1);
+        HistClass::Fill("etau_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["mutau"] != 0 and Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::Fill("mutau_RECO_vs_Mass_Pass", resonance_mass_gen["mutau"], 1);
+        HistClass::Fill("mutau_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["etaue"] != 0 and Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::Fill("etaue_RECO_vs_Mass_Pass", resonance_mass_gen["etaue"], 1);
+        HistClass::Fill("etaue_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["etaumu"] != 0 and Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::Fill("etaumu_RECO_vs_Mass_Pass", resonance_mass_gen["etaumu"], 1);
+        HistClass::Fill("etaumu_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["mutaue"] != 0 and Check_Gen_Par_Acc(sel_part1_gen) and Check_Gen_Par_Acc(sel_part2_gen)) {
+        HistClass::Fill("mutaue_RECO_vs_Mass_Pass", resonance_mass_gen["mutaue"], 1);
+        HistClass::Fill("mutaue_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
 }
 
 void specialAna::Init_emu_cuts() {
@@ -2707,18 +2732,41 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
 }
 
 void specialAna::Fill_overall_efficiencies() {
-    // channel_writer(file1, "emu");
-    // channel_writer(file1, "etau");
-    // channel_writer(file1, "mutau");
-    // channel_writer(file1, "etaue");
-    // channel_writer(file1, "etaumu");
-    // channel_writer(file1, "mutaue");
-    // channel_writer(file1, "mutaumu");
-
     HistClass::CreateEff("emu_RECO_vs_Mass", HistClass::ReturnHist("emu_RECO_vs_Mass_All"), HistClass::ReturnHist("emu_RECO_vs_Mass_Pass"));
     HistClass::CreateEff("emu_RECO_vs_Nvtx", HistClass::ReturnHist("emu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("emu_RECO_vs_Nvtx_Pass"));
     HistClass::CreateEff("emu_Eff_vs_Mass", HistClass::ReturnHist("emu_Eff_vs_Mass_All"), HistClass::ReturnHist("emu_Eff_vs_Mass_Pass"));
     HistClass::CreateEff("emu_Eff_vs_Nvtx", HistClass::ReturnHist("emu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("emu_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("etau_RECO_vs_Mass", HistClass::ReturnHist("etau_RECO_vs_Mass_All"), HistClass::ReturnHist("etau_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("etau_RECO_vs_Nvtx", HistClass::ReturnHist("etau_RECO_vs_Nvtx_All"), HistClass::ReturnHist("etau_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("etau_Eff_vs_Mass", HistClass::ReturnHist("etau_Eff_vs_Mass_All"), HistClass::ReturnHist("etau_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("etau_Eff_vs_Nvtx", HistClass::ReturnHist("etau_Eff_vs_Nvtx_All"), HistClass::ReturnHist("etau_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("mutau_RECO_vs_Mass", HistClass::ReturnHist("mutau_RECO_vs_Mass_All"), HistClass::ReturnHist("mutau_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("mutau_RECO_vs_Nvtx", HistClass::ReturnHist("mutau_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutau_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("mutau_Eff_vs_Mass", HistClass::ReturnHist("mutau_Eff_vs_Mass_All"), HistClass::ReturnHist("mutau_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("mutau_Eff_vs_Nvtx", HistClass::ReturnHist("mutau_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutau_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("etaue_RECO_vs_Mass", HistClass::ReturnHist("etaue_RECO_vs_Mass_All"), HistClass::ReturnHist("etaue_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("etaue_RECO_vs_Nvtx", HistClass::ReturnHist("etaue_RECO_vs_Nvtx_All"), HistClass::ReturnHist("etaue_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("etaue_Eff_vs_Mass", HistClass::ReturnHist("etaue_Eff_vs_Mass_All"), HistClass::ReturnHist("etaue_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("etaue_Eff_vs_Nvtx", HistClass::ReturnHist("etaue_Eff_vs_Nvtx_All"), HistClass::ReturnHist("etaue_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("etaumu_RECO_vs_Mass", HistClass::ReturnHist("etaumu_RECO_vs_Mass_All"), HistClass::ReturnHist("etaumu_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("etaumu_RECO_vs_Nvtx", HistClass::ReturnHist("etaumu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("etaumu_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("etaumu_Eff_vs_Mass", HistClass::ReturnHist("etaumu_Eff_vs_Mass_All"), HistClass::ReturnHist("etaumu_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("etaumu_Eff_vs_Nvtx", HistClass::ReturnHist("etaumu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("etaumu_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("mutaue_RECO_vs_Mass", HistClass::ReturnHist("mutaue_RECO_vs_Mass_All"), HistClass::ReturnHist("mutaue_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaue_RECO_vs_Nvtx", HistClass::ReturnHist("mutaue_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutaue_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("mutaue_Eff_vs_Mass", HistClass::ReturnHist("mutaue_Eff_vs_Mass_All"), HistClass::ReturnHist("mutaue_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaue_Eff_vs_Nvtx", HistClass::ReturnHist("mutaue_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutaue_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("mutaumu_RECO_vs_Mass", HistClass::ReturnHist("mutaumu_RECO_vs_Mass_All"), HistClass::ReturnHist("mutaumu_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaumu_RECO_vs_Nvtx", HistClass::ReturnHist("mutaumu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutaumu_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("mutaumu_Eff_vs_Mass", HistClass::ReturnHist("mutaumu_Eff_vs_Mass_All"), HistClass::ReturnHist("mutaumu_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaumu_Eff_vs_Nvtx", HistClass::ReturnHist("mutaumu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutaumu_Eff_vs_Nvtx_Pass"));
+
 }
 
 void specialAna::endJob(const Serializable*) {
