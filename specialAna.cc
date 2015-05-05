@@ -1339,11 +1339,11 @@ void specialAna::Create_trigger_effs() {
                                  TString::Format("p_{T}^{%s,%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 150, -3, 3, 100, 0, 3.5,
+                                 150, -3, 3, 150, -3.2, 3.2,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
-                                 150, -3, 3, 100, 0, 3.5,
+                                 150, -3, 3, 150, -3.2, 3.2,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
         } else {
@@ -1352,7 +1352,7 @@ void specialAna::Create_trigger_effs() {
                                  TString::Format("p_{T}^{%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 150, -3, 3, 100, 0, 3.5,
+                                 150, -3, 3, 150, -3.2, 3.2,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
         }
