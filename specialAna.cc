@@ -1157,14 +1157,14 @@ void specialAna::Create_RECO_object_effs(std::string object) {
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
-    HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
     if (object != "MET") {
         HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
                              TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
         HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
                              "n_{vtx}");
-        HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                              TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
     }
 }
