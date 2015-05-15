@@ -561,14 +561,47 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     // }else if(particleName==m_METType){}
 
     /// reset the chosen MET and lepton
-    // if (METList->size() > 0) {
-        // sel_met = METList->at(0);
-    // } else {
-        // sel_met = 0;
-    // }
-    // sel_lepton_prompt = 0;
-    // sel_lepton_nprompt = 0;
-    // sel_lepton_nprompt_corr = 0;
+    if (METList->size() > 0) {
+        sel_met["emu"] = METList->at(0);
+        sel_met["etau"] = METList->at(0);
+        sel_met["mutau"] = METList->at(0);
+        sel_met["etaue"] = METList->at(0);
+        sel_met["etaumu"] = METList->at(0);
+        sel_met["mutaue"] = METList->at(0);
+        sel_met["mutaumu"] = METList->at(0);
+    } else {
+        sel_met["emu"] = 0;
+        sel_met["etau"] = 0;
+        sel_met["mutau"] = 0;
+        sel_met["etaue"] = 0;
+        sel_met["etaumu"] = 0;
+        sel_met["mutaue"] = 0;
+        sel_met["mutaumu"] = 0;
+    }
+
+    sel_lepton_prompt["emu"] = 0;
+    sel_lepton_prompt["etau"] = 0;
+    sel_lepton_prompt["mutau"] = 0;
+    sel_lepton_prompt["etaue"] = 0;
+    sel_lepton_prompt["etaumu"] = 0;
+    sel_lepton_prompt["mutaue"] = 0;
+    sel_lepton_prompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt["emu"] = 0;
+    sel_lepton_nprompt["etau"] = 0;
+    sel_lepton_nprompt["mutau"] = 0;
+    sel_lepton_nprompt["etaue"] = 0;
+    sel_lepton_nprompt["etaumu"] = 0;
+    sel_lepton_nprompt["mutaue"] = 0;
+    sel_lepton_nprompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt_corr["emu"] = 0;
+    sel_lepton_nprompt_corr["etau"] = 0;
+    sel_lepton_nprompt_corr["mutau"] = 0;
+    sel_lepton_nprompt_corr["etaue"] = 0;
+    sel_lepton_nprompt_corr["etaumu"] = 0;
+    sel_lepton_nprompt_corr["mutaue"] = 0;
+    sel_lepton_nprompt_corr["mutaumu"] = 0;
 
     resonance_mass["emu"] = 0;
     resonance_mass_gen["emu"] = 0;
@@ -2963,14 +2996,47 @@ void specialAna::initEvent(const pxl::Event* event) {
         }
     }
 
-    // if (METList->size() > 0) {
-        // sel_met = METList->at(0);
-    // } else {
-        // sel_met = 0;
-    // }
-    // sel_lepton_prompt = 0;
-    // sel_lepton_nprompt = 0;
-    // sel_lepton_nprompt_corr = 0;
+    if (METList->size() > 0) {
+        sel_met["emu"] = METList->at(0);
+        sel_met["etau"] = METList->at(0);
+        sel_met["mutau"] = METList->at(0);
+        sel_met["etaue"] = METList->at(0);
+        sel_met["etaumu"] = METList->at(0);
+        sel_met["mutaue"] = METList->at(0);
+        sel_met["mutaumu"] = METList->at(0);
+    } else {
+        sel_met["emu"] = 0;
+        sel_met["etau"] = 0;
+        sel_met["mutau"] = 0;
+        sel_met["etaue"] = 0;
+        sel_met["etaumu"] = 0;
+        sel_met["mutaue"] = 0;
+        sel_met["mutaumu"] = 0;
+    }
+
+    sel_lepton_prompt["emu"] = 0;
+    sel_lepton_prompt["etau"] = 0;
+    sel_lepton_prompt["mutau"] = 0;
+    sel_lepton_prompt["etaue"] = 0;
+    sel_lepton_prompt["etaumu"] = 0;
+    sel_lepton_prompt["mutaue"] = 0;
+    sel_lepton_prompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt["emu"] = 0;
+    sel_lepton_nprompt["etau"] = 0;
+    sel_lepton_nprompt["mutau"] = 0;
+    sel_lepton_nprompt["etaue"] = 0;
+    sel_lepton_nprompt["etaumu"] = 0;
+    sel_lepton_nprompt["mutaue"] = 0;
+    sel_lepton_nprompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt_corr["emu"] = 0;
+    sel_lepton_nprompt_corr["etau"] = 0;
+    sel_lepton_nprompt_corr["mutau"] = 0;
+    sel_lepton_nprompt_corr["etaue"] = 0;
+    sel_lepton_nprompt_corr["etaumu"] = 0;
+    sel_lepton_nprompt_corr["mutaue"] = 0;
+    sel_lepton_nprompt_corr["mutaumu"] = 0;
 
     resonance_mass["emu"] = 0;
     resonance_mass_gen["emu"] = 0;
