@@ -112,7 +112,7 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Make_DeltaPhi_mutau(Cuts* cuts);
     bool Make_DeltaPhi_tauemu(Cuts* cuts);
     bool Bjet_veto(Cuts* cuts);
-    bool OppSign_charge(Cuts* cuts);
+    bool OppSign_charge(Cuts* cuts, const char* channel);
     bool MT_cut(Cuts* cuts);
     double calc_lep_fraction();
     bool Leptonic_fraction_cut(Cuts* cuts);
