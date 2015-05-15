@@ -1799,30 +1799,33 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     HistClass::Fill(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               resonance_mass_gen[channel], dummy_resolution,                     weight);
     /// Particle resolution histograms
     double part1_resolution = 0;
-    if (sel_part1_gen[channel]) {
-        part1_resolution = (sel_lepton_prompt[channel]->getPt() - sel_part1_gen[channel]->getPt()) / sel_part1_gen[channel]->getPt();
-    } else {
-        part1_resolution = -1000;
-    }
     double part1_dr = 0;
     if (sel_part1_gen[channel]) {
+        part1_resolution = (sel_lepton_prompt[channel]->getPt() - sel_part1_gen[channel]->getPt()) / sel_part1_gen[channel]->getPt();
         part1_dr = DeltaR(sel_lepton_prompt[channel], sel_part1_gen[channel]);
     } else {
+        part1_resolution = -1000;
         part1_dr = -1;
     }
+
     HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part1) + endung,        part1_resolution,                                                  weight);
     HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part1) + endung,        part1_dr,                                                          weight);
-    // double part2_resolution = 0;
-    // double part2_dr = 0;
-    // if (sel_lepton_nprompt_corr[channel] != 0) {
-        // part2_resolution = (sel_lepton_nprompt_corr[channel]->getPt() - sel_part2_gen[channel]->getPt()) / sel_part2_gen[channel]->getPt();
-        // part2_dr = DeltaR(sel_lepton_nprompt_corr[channel], sel_part1_gen[channel]);
-    // } else {
-        // part2_resolution = (sel_lepton_nprompt[channel]->getPt() - sel_part2_gen[channel]->getPt()) / sel_part2_gen[channel]->getPt();
-        // part2_dr = DeltaR(sel_lepton_nprompt[channel], sel_part2_gen[channel]);
-    // }
-    // HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        part2_resolution,                                                  weight);
-    // HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        part2_dr,                                                          weight);
+    double part2_resolution = 0;
+    double part2_dr = 0;
+    if (sel_part2_gen[channel]) {
+        if (sel_lepton_nprompt_corr[channel] != 0) {
+            part2_resolution = (sel_lepton_nprompt_corr[channel]->getPt() - sel_part2_gen[channel]->getPt()) / sel_part2_gen[channel]->getPt();
+            part2_dr = DeltaR(sel_lepton_nprompt_corr[channel], sel_part1_gen[channel]);
+        } else {
+            part2_resolution = (sel_lepton_nprompt[channel]->getPt() - sel_part2_gen[channel]->getPt()) / sel_part2_gen[channel]->getPt();
+            part2_dr = DeltaR(sel_lepton_nprompt[channel], sel_part2_gen[channel]);
+        }
+    } else {
+        part2_resolution = -1000;
+        part2_dr = -1;
+    }
+    HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        part2_resolution,                                                  weight);
+    HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        part2_dr,                                                          weight);
     /// First particle histograms
     HistClass::Fill(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        sel_lepton_prompt[channel] -> getPt(),                                      weight);
     HistClass::Fill(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        sel_lepton_prompt[channel] -> getEta(),                                     weight);
