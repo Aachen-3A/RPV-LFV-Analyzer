@@ -1062,8 +1062,8 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
         double delta_r_max = 0.25;
         for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
             pxl::Particle *part_j = *part_jt;
-            if (DeltaR(part_j, part_i) < delta_r_max) {
-                delta_r_max = DeltaR(part_j, part_i);
+            if (DeltaPhi(part_j, part_i) < delta_r_max) {
+                delta_r_max = DeltaPhi(part_j, part_i);
                 matched_reco_particle = (pxl::Particle*) part_j->clone();
             }
         }
@@ -1153,6 +1153,10 @@ void specialAna::Create_RECO_effs() {
 }
 
 void specialAna::Create_RECO_object_effs(std::string object) {
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaR", object.c_str()), 320, 0, 3.2, "#DeltaR(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaEta", object.c_str()), 320, 0, 3.2, "#Delta#eta(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaPhi", object.c_str()), 320, 0, 3.2, "#Delta#phi(RECO, gen)");
+
     HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         300, 0, 3000,
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
@@ -1206,13 +1210,24 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             pxl::Particle* matched_reco_particle = 0;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
             double delta_r_max = 0.25;
+            double delta_r_min = 3;
+            double delta_eta_min = 3;
+            double delta_phi_min = 3;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
-                if (DeltaR(part_j, part_i) < delta_r_max) {
-                    delta_r_max = DeltaR(part_j, part_i);
-                    matched_reco_particle = (pxl::Particle*) part_j->clone();
+                double temp_delta_r = DeltaPhi(part_j, part_i);
+                if (temp_delta_r < delta_r_min) {
+                    delta_r_min = temp_delta_r;
+                    delta_phi_min = DeltaPhi(part_j, part_i);
+                    delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                    if (temp_delta_r < delta_r_max) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                    }
                 }
             }
+            HistClass::Fill(TString::Format("%s_RECO_DeltaR", object.c_str()), delta_r_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaEta", object.c_str()), delta_eta_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi", object.c_str()), delta_phi_min, 1.);
             if (matched_reco_particle != 0) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1278,7 +1293,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
-            if (TMath::Abs(part_i -> getEta()) < 2.5) {
+            if (Check_Gen_Par_Acc(part_i) and resonance_mass_gen["emu"] != 0) {
                 if (matched_reco_particle != 0) {
                     HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), true);
                     HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1297,13 +1312,24 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             pxl::Particle* matched_reco_particle = 0;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
             double delta_r_max = 0.25;
+            double delta_r_min = 3;
+            double delta_phi_min = 3;
+            double delta_eta_min = 3;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
-                if (DeltaR(part_j, part_i) < delta_r_max) {
-                    delta_r_max = DeltaR(part_j, part_i);
-                    matched_reco_particle = (pxl::Particle*) part_j->clone();
+                double temp_delta_r = DeltaPhi(part_j, part_i);
+                if (temp_delta_r < delta_r_min) {
+                    delta_r_min = temp_delta_r;
+                    delta_phi_min = DeltaPhi(part_j, part_i);
+                    delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                    if (delta_r_min < delta_r_max) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                    }
                 }
             }
+            HistClass::Fill(TString::Format("%s_RECO_DeltaR", object.c_str()), delta_r_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaEta", object.c_str()), delta_eta_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi", object.c_str()), delta_phi_min, 1.);
             if (matched_reco_particle != 0) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1313,7 +1339,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
-            if (TMath::Abs(part_i -> getEta()) < 2.5) {
+            if (Check_Gen_Par_Acc(part_i) and resonance_mass_gen["emu"] != 0) {
                 if (matched_reco_particle != 0) {
                     HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), true);
                     HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1651,10 +1677,15 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
     /// Delta R Histogram between muon and electron
-    HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                  channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                         part1, part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                    channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                           part1, part2) );
     /// Resonant mass resolution histogram
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                 part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                   part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               1000, -10, 10, TString::Format("M-M_{gen}/M_{gen}(%s,%s)",                part1, part2) );
+    /// Particle resolutions
+    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part1) + endung,        1000, -10, 10, TString::Format("p_{T}-p_{T,gen}/p_{T,gen}(%s)",           part1) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part1) + endung,        1000,   0, 10, TString::Format("#DeltaR(gen,RECO)(%s)",                   part1) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        1000, -10, 10, TString::Format("p_{T}-p_{T,gen}/p_{T,gen}(%s)",           part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        1000,   0, 10, TString::Format("#DeltaR(gen,RECO)(%s)",                   part2) );
     /// First particle histograms
     HistClass::CreateHisto(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part1) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        80, -4, 4,     TString::Format("#eta^{%s}",                               part1) );
@@ -1712,11 +1743,27 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     /// Resonant mass histogram
     HistClass::Fill(n_histos, TString::Format("%s_Mass",                  channel) + endung,               resonance_mass[channel],                                           weight);
     /// Delta R between electron and muon
-    HistClass::Fill(n_histos, TString::Format("%s_dR",                  channel) + endung,               DeltaR(sel_lepton_prompt, sel_lepton_nprompt),                                           weight);
+    HistClass::Fill(n_histos, TString::Format("%s_dR",                  channel) + endung,               DeltaR(sel_lepton_prompt, sel_lepton_nprompt),                       weight);
     /// Resonant mass resolution histogram
     double dummy_resolution = (resonance_mass[channel] - resonance_mass_gen[channel])/resonance_mass_gen[channel];
     HistClass::Fill(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               dummy_resolution,                                                  weight);
     HistClass::Fill(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               resonance_mass_gen[channel], dummy_resolution,                     weight);
+    /// Particle resolution histograms
+    double part1_resolution = (sel_lepton_prompt->getPt() - sel_part1_gen->getPt()) / sel_part1_gen->getPt();
+    double part1_dr = DeltaR(sel_lepton_prompt, sel_part1_gen);
+    HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part1) + endung,        part1_resolution,                                                  weight);
+    HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part1) + endung,        part1_dr,                                                          weight);
+    double part2_resolution = 0;
+    double part2_dr = 0;
+    if (sel_lepton_nprompt_corr != 0) {
+        part2_resolution = (sel_lepton_nprompt_corr->getPt() - sel_part2_gen->getPt()) / sel_part2_gen->getPt();
+        part2_dr = DeltaR(sel_lepton_nprompt_corr, sel_part1_gen);
+    } else {
+        part2_resolution = (sel_lepton_nprompt->getPt() - sel_part2_gen->getPt()) / sel_part2_gen->getPt();
+        part2_dr = DeltaR(sel_lepton_nprompt, sel_part2_gen);
+    }
+    HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        part2_resolution,                                                  weight);
+    HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        part2_dr,                                                          weight);
     /// First particle histograms
     HistClass::Fill(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        sel_lepton_prompt -> getPt(),                                      weight);
     HistClass::Fill(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        sel_lepton_prompt -> getEta(),                                     weight);
@@ -1956,8 +2003,11 @@ bool specialAna::Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_
     if (TMath::Abs(part -> getPdgNumber()) == 15) {
         return true;
     } else if (TMath::Abs(part -> getPdgNumber()) == 11) {
-        bool ele_eta = TMath::Abs(part->getEta()) < 2.5 ? true : false;
-        bool ele_pt  = part->getPt() > 110. ? true : false;
+        bool ele_eta = true;
+        if (TMath::Abs(part->getEta()) > 2.5 or (TMath::Abs(part->getEta()) < 1.566 and TMath::Abs(part->getEta()) > 1.4442)) {
+            ele_eta = false;
+        }
+        bool ele_pt  = part->getPt() > 35. ? true : false;
         if (not do_pt_cut) ele_pt = true;
         if (not do_eta_cut) ele_eta = true;
         if (ele_eta and ele_pt) {
@@ -2800,6 +2850,7 @@ void specialAna::endJob(const Serializable*) {
     file1->cd("RECO_Effs/");
     HistClass::WriteAllEff("RECO");
     HistClass::WriteAll2("RECO");
+    HistClass::WriteAll("RECO");
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
