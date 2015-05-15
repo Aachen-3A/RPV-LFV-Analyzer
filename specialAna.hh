@@ -214,16 +214,19 @@ class specialAna : public pxl::AnalysisProcess  {
 
     std::map< std::string, int > channel_stages;
 
-    pxl::Particle* sel_part1_gen;
-    pxl::Particle* sel_part2_gen;
-
-    pxl::Particle* sel_lepton_prompt;
-    pxl::Particle* sel_lepton_nprompt;
-    pxl::Particle* sel_met;
-    pxl::Particle* sel_lepton_nprompt_corr;
-
+    /// map to keep track of the resonance masses of the different channels
     std::map< std::string, double > resonance_mass;
     std::map< std::string, double > resonance_mass_gen;
+
+    /// map to keep track of the selected gen level particles for each channel
+    std::map< std::string, pxl::Particle*> sel_part1_gen;
+    std::map< std::string, pxl::Particle*> sel_part2_gen;
+
+    /// map to keep track of the selected reco level particles for each channel
+    std::map< std::string, pxl::Particle*> sel_lepton_prompt;
+    std::map< std::string, pxl::Particle*> sel_lepton_nprompt;
+    std::map< std::string, pxl::Particle*> sel_met;
+    std::map< std::string, pxl::Particle*> sel_lepton_nprompt_corr;
 
     std::unordered_set< std::string > triggers;
 
