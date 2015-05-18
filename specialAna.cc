@@ -1728,7 +1728,7 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     /// Delta R Histogram between muon and electron
     HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                    channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                           part1, part2) );
     /// Resonant mass resolution histogram
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 5000, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                   part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                   part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               1000, -10, 10, TString::Format("M-M_{gen}/M_{gen}(%s,%s)",                part1, part2) );
     /// Particle resolutions
     HistClass::CreateHisto(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part1) + endung,        1000, -10, 10, TString::Format("p_{T}-p_{T,gen}/p_{T,gen}(%s)",           part1) );
@@ -2814,11 +2814,11 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd(TString::Format("%s/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Cutflow", channel), TString::Format("sys:N-1"));
     HistClass::WriteAllEff(TString::Format("%s_", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Gen", channel));
     file1->mkdir(TString::Format("%s/sys", channel));
     file1->cd(TString::Format("%s/sys/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Cutflow:sys", channel));
     file1->cd();
-    HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Gen", channel));
     for (int i = 0; i < channel_stages[channel]; i++) {
         char n_satge = static_cast<char>((static_cast<int>('0'))+i);
         file1->mkdir(TString::Format("%s/Stage_%c", channel, n_satge));
