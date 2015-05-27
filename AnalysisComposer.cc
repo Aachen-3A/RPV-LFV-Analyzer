@@ -31,9 +31,9 @@ AnalysisComposer::AnalysisComposer() :
     runSpecialAna(true),
     NoCcEventClass(false),
     runCcEventClass(false),
-    DumpECHistos(false),
-    m_XSectionsFile("$MUSIC_BASE/ConfigFiles/XSections.txt"),
-    m_PlotConfigFile("$MUSIC_BASE/ConfigFiles/ControlPlots2.cfg")
+    DumpECHistos(false)//,
+    // m_XSectionsFile("$MUSIC_BASE/ConfigFiles/XSections.txt"),
+    // m_PlotConfigFile("$MUSIC_BASE/ConfigFiles/ControlPlots2.cfg")
 {}
 
 po::options_description AnalysisComposer::getCmdArguments() {
