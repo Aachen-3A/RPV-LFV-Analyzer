@@ -1108,7 +1108,7 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
         pxl::Particle *part_i = *part_it;
         pxl::Particle* matched_reco_particle = 0;
         if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
-        double delta_r_max = 0.25;
+        double delta_r_max = 0.5;
         for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
             pxl::Particle *part_j = *part_jt;
             if (DeltaPhi(part_j, part_i) < delta_r_max) {
@@ -1258,10 +1258,10 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             pxl::Particle *part_i = *part_it;
             pxl::Particle* matched_reco_particle = 0;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
-            double delta_r_max = 0.25;
-            double delta_r_min = 3;
-            double delta_eta_min = 3;
-            double delta_phi_min = 3;
+            double delta_r_max = 0.5;
+            double delta_r_min = 100;
+            double delta_eta_min = 100;
+            double delta_phi_min = 100;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 double temp_delta_r = DeltaPhi(part_j, part_i);
@@ -1360,10 +1360,11 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             pxl::Particle *part_i = *part_it;
             pxl::Particle* matched_reco_particle = 0;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
-            double delta_r_max = 0.25;
-            double delta_r_min = 3;
-            double delta_phi_min = 3;
-            double delta_eta_min = 3;
+            double delta_r_max = 0.5;
+            // delta_r_max = 5;
+            double delta_r_min = 100;
+            double delta_phi_min = 100;
+            double delta_eta_min = 100;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 double temp_delta_r = DeltaPhi(part_j, part_i);
@@ -3004,7 +3005,7 @@ void specialAna::initEvent(const pxl::Event* event) {
     for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it) {
         pxl::Particle *part = *part_it;
         std::string Name = part->getName();
-        part->setP4(part->getPx() * 1.05, part->getPy() * 1.05, part->getPz(), part->getE() * 0.95);
+        // part->setP4(part->getPx() * 1.05, part->getPy() * 1.05, part->getPz(), part->getE() * 0.95);
         // Only fill the collection if we want to use the particle!
         if (Name == "Muon") {
             MuonList->push_back(part);
