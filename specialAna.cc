@@ -138,6 +138,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_MET_syst_ScaleDown");
     Init_emu_cuts();
     Create_N1_histos("emu", emu_cut_cfgs);
     Create_N1_histos("emu", emu_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -148,6 +154,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("emu", emu_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("emu", emu_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("emu", emu_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("emu", emu_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the e-tau_h channel
@@ -161,6 +173,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_MET_syst_ScaleDown");
     Init_etau_cuts();
     Create_N1_histos("etau", etau_cut_cfgs);
     Create_N1_histos("etau", etau_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -171,6 +189,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("etau", etau_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("etau", etau_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("etau", etau_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the mu-tau_h channel
@@ -184,6 +208,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_MET_syst_ScaleDown");
     Init_mutau_cuts();
     Create_N1_histos("mutau", mutau_cut_cfgs);
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -194,6 +224,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the e-tau_e channel
@@ -207,6 +243,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_MET_syst_ScaleDown");
     Init_etaue_cuts();
     Create_N1_histos("etaue", etaue_cut_cfgs);
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -217,6 +259,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the e-tau_mu channel
@@ -230,6 +278,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_MET_syst_ScaleDown");
     Init_etaumu_cuts();
     Create_N1_histos("etaumu", etaumu_cut_cfgs);
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -240,6 +294,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the mu-tau_e channel
@@ -253,6 +313,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_MET_syst_ScaleDown");
     Init_mutaue_cuts();
     Create_N1_histos("mutaue", mutaue_cut_cfgs);
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -263,6 +329,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the mu-tau_mu channel
@@ -276,6 +348,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_MET_syst_ScaleDown");
     Init_mutaumu_cuts();
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs);
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -286,6 +364,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_MET_syst_ScaleDown");
 }
 
 specialAna::~specialAna() {
@@ -386,6 +470,12 @@ void specialAna::analyseEvent(const pxl::Event* event) {
             FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
 
             FillSystematics(event, "Tau");
+
+            FillSystematics(event, "Jet");
+            FillSystematicsUpDown(event, "Jet", "Up", "Resolution");
+            FillSystematicsUpDown(event, "Jet", "Down", "Resolution");
+
+            FillSystematics(event,"MET");
         }
     }
     endEvent(event);
@@ -518,7 +608,11 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     /// extract one EventView
     /// make sure the object key is the same as in Systematics.cc specified
-    tempEventView = event->findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
+    if (particleName == "MET") {
+        tempEventView = event->findObject< pxl::EventView >(m_METType + "_syst" + shiftType + updown);
+    } else {
+        tempEventView = event->findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
+    }
 
     if (tempEventView == 0) {
         throw std::runtime_error("specialAna.cc: no EventView '" + particleName + "_syst" + shiftType + updown + "' found!");
@@ -1206,6 +1300,10 @@ void specialAna::Create_RECO_object_effs(std::string object) {
     HistClass::CreateHisto(TString::Format("%s_RECO_DeltaEta", object.c_str()), 320, 0, 3.2, "#Delta#eta(RECO, gen)");
     HistClass::CreateHisto(TString::Format("%s_RECO_DeltaPhi", object.c_str()), 320, 0, 3.2, "#Delta#phi(RECO, gen)");
 
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaPhi_vs_DeltaEta", object.c_str()), 320, 0, 3.2, 320, 0, 3.2, "#Delta#phi(RECO, gen)", "#Delta#eta(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), 200, -50, 50, 320, 0, 3.2, "PV z (cm)", "#DeltaR(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), 200, -50, 50, 320, 0, 3.2, "z (cm)", "#DeltaR(RECO, gen)");
+
     HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         300, 0, 3000,
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
@@ -1262,8 +1360,19 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             double delta_r_min = 100;
             double delta_eta_min = 100;
             double delta_phi_min = 100;
+
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
+                if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
+                    pxl::Particle *genPart =  dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst (m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
+                    if (genPart->getId() == part_i->getId()) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                        delta_r_min = DeltaR(part_j, part_i);
+                        delta_phi_min = DeltaPhi(part_j, part_i);
+                        delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                        break;
+                    }
+                }
                 double temp_delta_r = DeltaPhi(part_j, part_i);
                 if (temp_delta_r < delta_r_min) {
                     delta_r_min = temp_delta_r;
@@ -1277,6 +1386,17 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             HistClass::Fill(TString::Format("%s_RECO_DeltaR", object.c_str()), delta_r_min, 1.);
             HistClass::Fill(TString::Format("%s_RECO_DeltaEta", object.c_str()), delta_eta_min, 1.);
             HistClass::Fill(TString::Format("%s_RECO_DeltaPhi", object.c_str()), delta_phi_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi_vs_DeltaEta", object.c_str()), delta_phi_min, delta_eta_min, 1.);
+            std::vector< pxl::Vertex* > AllVertices;
+            m_GenEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            if (AllVertices.size() > 0) {
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), AllVertices[0]->getZ(), delta_r_min, 1.);
+            }
+            m_RecEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            for( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
+                if( (*PV)->getName() != "PV" ) continue;
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), (*PV)->getZ(), delta_r_min, 1.);
+            }
             if (matched_reco_particle != 0) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1367,6 +1487,16 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             double delta_eta_min = 100;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
+                if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
+                    pxl::Particle *genPart =  dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst (m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
+                    if (genPart->getId() == part_i->getId()) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                        delta_r_min = DeltaR(part_j, part_i);
+                        delta_phi_min = DeltaPhi(part_j, part_i);
+                        delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                        break;
+                    }
+                }
                 double temp_delta_r = DeltaPhi(part_j, part_i);
                 if (temp_delta_r < delta_r_min) {
                     delta_r_min = temp_delta_r;
@@ -1380,6 +1510,17 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             HistClass::Fill(TString::Format("%s_RECO_DeltaR", object.c_str()), delta_r_min, 1.);
             HistClass::Fill(TString::Format("%s_RECO_DeltaEta", object.c_str()), delta_eta_min, 1.);
             HistClass::Fill(TString::Format("%s_RECO_DeltaPhi", object.c_str()), delta_phi_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi_vs_DeltaEta", object.c_str()), delta_phi_min, delta_eta_min, 1.);
+            std::vector< pxl::Vertex* > AllVertices;
+            m_GenEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            if (AllVertices.size() > 0) {
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), AllVertices[0]->getZ(), delta_r_min, 1.);
+            }
+            m_RecEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            for( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
+                if( (*PV)->getName() != "PV" ) continue;
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), (*PV)->getZ(), delta_r_min, 1.);
+            }
             if (matched_reco_particle != 0) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
