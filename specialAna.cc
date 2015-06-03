@@ -45,6 +45,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     }
 
     Create_RECO_effs();
+    Create_ID_effs();
 
     mkeep_resonance_mass["emu"] = 0;
     mkeep_resonance_mass["etau"] = 0;
@@ -127,7 +128,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     ///-----------------------------------------------------------------
     /// Init for the e-mu channel
-    channel_stages["emu"] = 4;
+    channel_stages["emu"] = 5;
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Ele_syst_ScaleUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Ele_syst_ScaleDown");
@@ -137,6 +138,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["emu"], "emu", "ele", "muo", "_MET_syst_ScaleDown");
     Init_emu_cuts();
     Create_N1_histos("emu", emu_cut_cfgs);
     Create_N1_histos("emu", emu_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -147,6 +154,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("emu", emu_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("emu", emu_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("emu", emu_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("emu", emu_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("emu", emu_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("emu", emu_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the e-tau_h channel
@@ -160,6 +173,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etau"], "etau", "ele", "tau", "_MET_syst_ScaleDown");
     Init_etau_cuts();
     Create_N1_histos("etau", etau_cut_cfgs);
     Create_N1_histos("etau", etau_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -170,6 +189,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("etau", etau_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("etau", etau_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("etau", etau_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("etau", etau_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("etau", etau_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("etau", etau_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the mu-tau_h channel
@@ -183,6 +208,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutau"], "mutau", "muo", "tau", "_MET_syst_ScaleDown");
     Init_mutau_cuts();
     Create_N1_histos("mutau", mutau_cut_cfgs);
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -193,6 +224,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("mutau", mutau_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("mutau", mutau_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the e-tau_e channel
@@ -206,6 +243,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaue"], "etaue", "ele", "tau_ele", "_MET_syst_ScaleDown");
     Init_etaue_cuts();
     Create_N1_histos("etaue", etaue_cut_cfgs);
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -216,6 +259,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("etaue", etaue_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("etaue", etaue_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the e-tau_mu channel
@@ -229,6 +278,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["etaumu"], "etaumu", "ele", "tau_muo", "_MET_syst_ScaleDown");
     Init_etaumu_cuts();
     Create_N1_histos("etaumu", etaumu_cut_cfgs);
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -239,6 +294,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("etaumu", etaumu_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the mu-tau_e channel
@@ -252,6 +313,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaue"], "mutaue", "muo", "tau_ele", "_MET_syst_ScaleDown");
     Init_mutaue_cuts();
     Create_N1_histos("mutaue", mutaue_cut_cfgs);
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -262,6 +329,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("mutaue", mutaue_cut_cfgs, "_MET_syst_ScaleDown");
 
     ///-----------------------------------------------------------------
     /// Init for the mu-tau_mu channel
@@ -275,6 +348,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Muon_syst_ScaleDown");
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Muon_syst_ResolutionUp");
     Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Muon_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ScaleDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ResolutionUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_Jet_syst_ResolutionDown");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_MET_syst_ScaleUp");
+    Create_Resonance_histograms(channel_stages["mutaumu"], "mutaumu", "muo", "tau_muo", "_MET_syst_ScaleDown");
     Init_mutaumu_cuts();
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs);
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Ele_syst_ScaleUp");
@@ -285,6 +364,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Muon_syst_ScaleDown");
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Muon_syst_ResolutionUp");
     Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Muon_syst_ResolutionDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ScaleDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ResolutionUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_Jet_syst_ResolutionDown");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_MET_syst_ScaleUp");
+    Create_N1_histos("mutaumu", mutaumu_cut_cfgs, "_MET_syst_ScaleDown");
 }
 
 specialAna::~specialAna() {
@@ -328,6 +413,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     }
 
     Fill_RECO_effs();
+    Fill_ID_effs();
 
     if (TriggerSelector(event)) {
         FillControllHistos();
@@ -384,6 +470,12 @@ void specialAna::analyseEvent(const pxl::Event* event) {
             FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
 
             FillSystematics(event, "Tau");
+
+            FillSystematics(event, "Jet");
+            FillSystematicsUpDown(event, "Jet", "Up", "Resolution");
+            FillSystematicsUpDown(event, "Jet", "Down", "Resolution");
+
+            FillSystematics(event,"MET");
         }
     }
     endEvent(event);
@@ -516,7 +608,11 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     /// extract one EventView
     /// make sure the object key is the same as in Systematics.cc specified
-    tempEventView = event->findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
+    if (particleName == "MET") {
+        tempEventView = event->findObject< pxl::EventView >(m_METType + "_syst" + shiftType + updown);
+    } else {
+        tempEventView = event->findObject< pxl::EventView >(particleName + "_syst" + shiftType + updown);
+    }
 
     if (tempEventView == 0) {
         throw std::runtime_error("specialAna.cc: no EventView '" + particleName + "_syst" + shiftType + updown + "' found!");
@@ -560,13 +656,46 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     /// reset the chosen MET and lepton
     if (METList->size() > 0) {
-        sel_met = METList->at(0);
+        sel_met["emu"] = METList->at(0);
+        sel_met["etau"] = METList->at(0);
+        sel_met["mutau"] = METList->at(0);
+        sel_met["etaue"] = METList->at(0);
+        sel_met["etaumu"] = METList->at(0);
+        sel_met["mutaue"] = METList->at(0);
+        sel_met["mutaumu"] = METList->at(0);
     } else {
-        sel_met = 0;
+        sel_met["emu"] = 0;
+        sel_met["etau"] = 0;
+        sel_met["mutau"] = 0;
+        sel_met["etaue"] = 0;
+        sel_met["etaumu"] = 0;
+        sel_met["mutaue"] = 0;
+        sel_met["mutaumu"] = 0;
     }
-    sel_lepton_prompt = 0;
-    sel_lepton_nprompt = 0;
-    sel_lepton_nprompt_corr = 0;
+
+    sel_lepton_prompt["emu"] = 0;
+    sel_lepton_prompt["etau"] = 0;
+    sel_lepton_prompt["mutau"] = 0;
+    sel_lepton_prompt["etaue"] = 0;
+    sel_lepton_prompt["etaumu"] = 0;
+    sel_lepton_prompt["mutaue"] = 0;
+    sel_lepton_prompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt["emu"] = 0;
+    sel_lepton_nprompt["etau"] = 0;
+    sel_lepton_nprompt["mutau"] = 0;
+    sel_lepton_nprompt["etaue"] = 0;
+    sel_lepton_nprompt["etaumu"] = 0;
+    sel_lepton_nprompt["mutaue"] = 0;
+    sel_lepton_nprompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt_corr["emu"] = 0;
+    sel_lepton_nprompt_corr["etau"] = 0;
+    sel_lepton_nprompt_corr["mutau"] = 0;
+    sel_lepton_nprompt_corr["etaue"] = 0;
+    sel_lepton_nprompt_corr["etaumu"] = 0;
+    sel_lepton_nprompt_corr["mutaue"] = 0;
+    sel_lepton_nprompt_corr["mutaumu"] = 0;
 
     resonance_mass["emu"] = 0;
     resonance_mass_gen["emu"] = 0;
@@ -585,30 +714,46 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     KinematicsSelector("_" + particleName + "_syst_" + shiftType + updown);
 
-    if (sel_lepton_prompt != 0) {
-        delete sel_lepton_prompt;
-        sel_lepton_prompt = 0;
-    }
-    if (sel_lepton_nprompt != 0) {
-        delete sel_lepton_nprompt;
-        sel_lepton_nprompt = 0;
-    }
-    if (sel_lepton_nprompt_corr != 0) {
-        delete sel_lepton_nprompt_corr;
-        sel_lepton_nprompt_corr = 0;
-    }
-    if (sel_lepton_nprompt_corr != 0) {
-        delete sel_lepton_nprompt_corr;
-        sel_lepton_nprompt_corr = 0;
+    for(auto const &it1 : sel_lepton_prompt) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_prompt[it1.first] = 0;
+        }
     }
 
-    if (sel_part1_gen != 0) {
-        delete sel_part1_gen;
-        sel_part1_gen = 0;
+    for(auto const &it1 : sel_lepton_nprompt) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_nprompt[it1.first] = 0;
+        }
     }
-    if (sel_part2_gen != 0) {
-        delete sel_part2_gen;
-        sel_part2_gen = 0;
+
+    for(auto const &it1 : sel_lepton_nprompt_corr) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_nprompt_corr[it1.first] = 0;
+        }
+    }
+
+    for(auto const &it1 : sel_lepton_nprompt_corr) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_nprompt_corr[it1.first] = 0;
+        }
+    }
+
+    for(auto const &it1 : sel_part1_gen) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_part1_gen[it1.first] = 0;
+        }
+    }
+
+    for(auto const &it1 : sel_part2_gen) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_part2_gen[it1.first] = 0;
+        }
     }
 
     /// return to backup
@@ -635,6 +780,36 @@ void specialAna::FillControllHistos() {
         HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
         HistClass::Fill("Ctr_HT", getHT(), weight);
     }
+
+    if (resonance_mass_gen["emu"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["emu"]) and Check_Gen_Par_Acc(sel_part2_gen["emu"])) {
+        HistClass::Fill("emu_RECO_vs_Mass_Pass", resonance_mass_gen["emu"], 1);
+        HistClass::Fill("emu_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["etau"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["etau"]) and Check_Gen_Par_Acc(sel_part2_gen["etau"])) {
+        HistClass::Fill("etau_RECO_vs_Mass_Pass", resonance_mass_gen["etau"], 1);
+        HistClass::Fill("etau_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["mutau"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["mutau"]) and Check_Gen_Par_Acc(sel_part2_gen["mutau"])) {
+        HistClass::Fill("mutau_RECO_vs_Mass_Pass", resonance_mass_gen["mutau"], 1);
+        HistClass::Fill("mutau_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["etaue"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["etaue"]) and Check_Gen_Par_Acc(sel_part2_gen["etaue"])) {
+        HistClass::Fill("etaue_RECO_vs_Mass_Pass", resonance_mass_gen["etaue"], 1);
+        HistClass::Fill("etaue_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["etaumu"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["etaumu"]) and Check_Gen_Par_Acc(sel_part2_gen["etaumu"])) {
+        HistClass::Fill("etaumu_RECO_vs_Mass_Pass", resonance_mass_gen["etaumu"], 1);
+        HistClass::Fill("etaumu_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
+
+    if (resonance_mass_gen["mutaue"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["mutaue"]) and Check_Gen_Par_Acc(sel_part2_gen["mutaue"])) {
+        HistClass::Fill("mutaue_RECO_vs_Mass_Pass", resonance_mass_gen["mutaue"], 1);
+        HistClass::Fill("mutaue_RECO_vs_Nvtx_Pass", m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
 }
 
 void specialAna::Init_emu_cuts() {
@@ -642,6 +817,7 @@ void specialAna::Init_emu_cuts() {
     emu_cut_cfgs["OppSign_charge"] = Cuts("OppSign_charge",     4, -2, 2);
     emu_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",               10, 0, 10);
     emu_cut_cfgs["DeltaPhi_emu"] = Cuts("DeltaPhi_emu",         100, 0, 3.2);
+    emu_cut_cfgs["DeltaR_emu"] = Cuts("DeltaR_emu",             100, 0, 10);
 }
 
 void specialAna::Init_etau_cuts() {
@@ -700,7 +876,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             emu_cut_cfgs["kinematics"].SetVars(resonance_mass["emu"]);
         }
         /// Make the same-sign charge cut
-        if (OppSign_charge(&emu_cut_cfgs["OppSign_charge"])) {
+        if (OppSign_charge(&emu_cut_cfgs["OppSign_charge"], "emu")) {
             if (b_emu_success) {
                 Fill_Resonance_histograms(1, "emu", "ele", "muo", endung);
                 b_emu_success = true;
@@ -731,6 +907,17 @@ void specialAna::KinematicsSelector(std::string const endung) {
         } else {
             b_emu_success = false;
             emu_cut_cfgs["DeltaPhi_emu"].SetPassed(false);
+        }
+        /// Make the DeltaR Cut
+        if (Make_DeltaR_emu(&emu_cut_cfgs["DeltaR_emu"])) {
+            if (b_emu_success) {
+                Fill_Resonance_histograms(4, "emu", "ele", "muo", endung);
+                b_emu_success = true;
+            }
+            emu_cut_cfgs["DeltaR_emu"].SetPassed(true);
+        } else {
+            b_emu_success = false;
+            emu_cut_cfgs["DeltaR_emu"].SetPassed(false);
         }
         Fill_N1_histos("emu", emu_cut_cfgs, endung);
     }
@@ -813,7 +1000,7 @@ void specialAna::KinematicsSelector(std::string const endung) {
             mutau_cut_cfgs["BJet_veto"].SetPassed(false);
         }
         /// Make the same-sign charge cut
-        if (OppSign_charge(&mutau_cut_cfgs["OppSign_charge"])) {
+        if (OppSign_charge(&mutau_cut_cfgs["OppSign_charge"], "mutau")) {
             if (b_mutau_success) {
                 Fill_Resonance_histograms(5, "mutau", "muo", "tau", endung);
                 b_mutau_success = true;
@@ -972,6 +1159,95 @@ void specialAna::KinematicsSelector(std::string const endung) {
     }
 }
 
+void specialAna::Create_ID_effs() {
+    Create_ID_object_effs("Muon");
+    Create_ID_object_effs("Ele");
+    Create_ID_object_effs("Tau");
+}
+
+void specialAna::Create_ID_object_effs(std::string object) {
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(reco)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()),       70, 0, 70,
+                         "n_{vtx}");
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
+                         TString::Format("#eta(%s(reco))", object.c_str()), TString::Format("#phi(%s(reco)) (rad)", object.c_str()));
+
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(reco)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
+                         "n_{vtx}");
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
+                         TString::Format("#eta(%s(reco))", object.c_str()), TString::Format("#phi(%s(reco)) (rad)", object.c_str()));
+
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+
+    HistClass::CreateEff(TString::Format("%s_ID_vs_pT_in_Acc_gen", object.c_str()),         300, 0, 3000,
+                         TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
+    HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
+                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+}
+
+void specialAna::Fill_ID_effs() {
+    Fill_ID_object_effs("Muon", 13, *MuonList);
+    Fill_ID_object_effs("Ele", 11, *EleList);
+    Fill_ID_object_effs("Tau", 15, *TauList);
+}
+
+void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list) {
+    for (std::vector< pxl::Particle* >::const_iterator part_it = S3ListGen->begin(); part_it != S3ListGen->end(); ++part_it) {
+        pxl::Particle *part_i = *part_it;
+        pxl::Particle* matched_reco_particle = 0;
+        if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
+        double delta_r_max = 0.5;
+        for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
+            pxl::Particle *part_j = *part_jt;
+            if (DeltaPhi(part_j, part_i) < delta_r_max) {
+                delta_r_max = DeltaPhi(part_j, part_i);
+                matched_reco_particle = (pxl::Particle*) part_j->clone();
+            }
+        }
+        if (matched_reco_particle != 0) {
+            if (Check_Par_ID(matched_reco_particle, false, false)) {
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
+
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()), part_i->getPt(), true);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+            } else {
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), false);
+
+                HistClass::FillEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()), part_i->getPt(), false);
+                HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+            }
+            if (Check_Par_Acc(matched_reco_particle)) {
+                if (Check_Par_ID(matched_reco_particle, false, false)) {
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), true);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
+
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc_gen", object.c_str()), part_i->getPt(), true);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), true);
+                } else {
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), false);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), false);
+
+                    HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc_gen", object.c_str()), part_i->getPt(), false);
+                    HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
+                }
+            }
+        }
+        delete matched_reco_particle;
+    }
+}
+
 void specialAna::Create_RECO_effs() {
     Create_RECO_object_effs("Muon");
     Create_RECO_object_effs("Ele");
@@ -1020,18 +1296,26 @@ void specialAna::Create_RECO_effs() {
 }
 
 void specialAna::Create_RECO_object_effs(std::string object) {
-    HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         100, 0, 1000,
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaR", object.c_str()), 320, 0, 3.2, "#DeltaR(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaEta", object.c_str()), 320, 0, 3.2, "#Delta#eta(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaPhi", object.c_str()), 320, 0, 3.2, "#Delta#phi(RECO, gen)");
+
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaPhi_vs_DeltaEta", object.c_str()), 320, 0, 3.2, 320, 0, 3.2, "#Delta#phi(RECO, gen)", "#Delta#eta(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), 200, -50, 50, 320, 0, 3.2, "PV z (cm)", "#DeltaR(RECO, gen)");
+    HistClass::CreateHisto(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), 200, -50, 50, 320, 0, 3.2, "z (cm)", "#DeltaR(RECO, gen)");
+
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_pT", object.c_str()),         300, 0, 3000,
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
-    HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+    HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
     if (object != "MET") {
-        HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         100, 0, 1000,
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
                              TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
         HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
                              "n_{vtx}");
-        HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 100, 0, 3.5,
+        HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                              TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
     }
 }
@@ -1072,13 +1356,46 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             pxl::Particle *part_i = *part_it;
             pxl::Particle* matched_reco_particle = 0;
             if (part_i->getUserRecord("decay_mode_id") == 0 or part_i->getUserRecord("decay_mode_id") == 1) continue;
-            double delta_r_max = 0.25;
+            double delta_r_max = 0.5;
+            double delta_r_min = 100;
+            double delta_eta_min = 100;
+            double delta_phi_min = 100;
+
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
-                if (DeltaR(part_j, part_i) < delta_r_max) {
-                    delta_r_max = DeltaR(part_j, part_i);
-                    matched_reco_particle = (pxl::Particle*) part_j->clone();
+                if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
+                    pxl::Particle *genPart =  dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst (m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
+                    if (genPart->getId() == part_i->getId()) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                        delta_r_min = DeltaR(part_j, part_i);
+                        delta_phi_min = DeltaPhi(part_j, part_i);
+                        delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                        break;
+                    }
                 }
+                double temp_delta_r = DeltaPhi(part_j, part_i);
+                if (temp_delta_r < delta_r_min) {
+                    delta_r_min = temp_delta_r;
+                    delta_phi_min = DeltaPhi(part_j, part_i);
+                    delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                    if (temp_delta_r < delta_r_max) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                    }
+                }
+            }
+            HistClass::Fill(TString::Format("%s_RECO_DeltaR", object.c_str()), delta_r_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaEta", object.c_str()), delta_eta_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi", object.c_str()), delta_phi_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi_vs_DeltaEta", object.c_str()), delta_phi_min, delta_eta_min, 1.);
+            std::vector< pxl::Vertex* > AllVertices;
+            m_GenEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            if (AllVertices.size() > 0) {
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), AllVertices[0]->getZ(), delta_r_min, 1.);
+            }
+            m_RecEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            for( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
+                if( (*PV)->getName() != "PV" ) continue;
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), (*PV)->getZ(), delta_r_min, 1.);
             }
             if (matched_reco_particle != 0) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
@@ -1088,55 +1405,55 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 if (matched_reco_particle->getUserRecord("decayMode") == 17) {
                     if (part_i->getPt() < 500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_0_500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 500 and part_i->getPt() < 1000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_500_1000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 1000 and part_i->getPt() < 1500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1000_1500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 1500 and part_i->getPt() < 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1500_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     } else if (part_i->getPt() > 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
                                          15.5,
                                          1.);
                     }
                 } else {
                     if (part_i->getPt() < 500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_0_500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 500 and part_i->getPt() < 1000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_500_1000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 1000 and part_i->getPt() < 1500) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1000_1500",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 1500 and part_i->getPt() < 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_1500_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     } else if (part_i->getPt() > 2000) {
                         HistClass::Fill("Tau_RECO_vs_gendm_vs_recodm_2000",
-                                         (double)part_i->getUserRecord("decay_mode_id")-1.5,
-                                         (double)matched_reco_particle->getUserRecord("decayMode")+0.5,
+                                         static_cast<double>(part_i->getUserRecord("decay_mode_id")) - 1.5,
+                                         static_cast<double>(matched_reco_particle->getUserRecord("decayMode")) + 0.5,
                                          1.);
                     }
                 }
@@ -1145,7 +1462,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
-            if (TMath::Abs(part_i -> getEta()) < 2.5) {
+            if (Check_Gen_Par_Acc(part_i) and resonance_mass_gen["emu"] != 0) {
                 if (matched_reco_particle != 0) {
                     HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), true);
                     HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1163,13 +1480,46 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             pxl::Particle *part_i = *part_it;
             pxl::Particle* matched_reco_particle = 0;
             if (TMath::Abs(part_i->getPdgNumber()) != id) continue;
-            double delta_r_max = 0.25;
+            double delta_r_max = 0.5;
+            // delta_r_max = 5;
+            double delta_r_min = 100;
+            double delta_phi_min = 100;
+            double delta_eta_min = 100;
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
-                if (DeltaR(part_j, part_i) < delta_r_max) {
-                    delta_r_max = DeltaR(part_j, part_i);
-                    matched_reco_particle = (pxl::Particle*) part_j->clone();
+                if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
+                    pxl::Particle *genPart =  dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst (m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
+                    if (genPart->getId() == part_i->getId()) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                        delta_r_min = DeltaR(part_j, part_i);
+                        delta_phi_min = DeltaPhi(part_j, part_i);
+                        delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                        break;
+                    }
                 }
+                double temp_delta_r = DeltaPhi(part_j, part_i);
+                if (temp_delta_r < delta_r_min) {
+                    delta_r_min = temp_delta_r;
+                    delta_phi_min = DeltaPhi(part_j, part_i);
+                    delta_eta_min = TMath::Abs(part_j->getEta() - part_i->getEta());
+                    if (delta_r_min < delta_r_max) {
+                        matched_reco_particle = (pxl::Particle*) part_j->clone();
+                    }
+                }
+            }
+            HistClass::Fill(TString::Format("%s_RECO_DeltaR", object.c_str()), delta_r_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaEta", object.c_str()), delta_eta_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi", object.c_str()), delta_phi_min, 1.);
+            HistClass::Fill(TString::Format("%s_RECO_DeltaPhi_vs_DeltaEta", object.c_str()), delta_phi_min, delta_eta_min, 1.);
+            std::vector< pxl::Vertex* > AllVertices;
+            m_GenEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            if (AllVertices.size() > 0) {
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), AllVertices[0]->getZ(), delta_r_min, 1.);
+            }
+            m_RecEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
+            for( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
+                if( (*PV)->getName() != "PV" ) continue;
+                HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), (*PV)->getZ(), delta_r_min, 1.);
             }
             if (matched_reco_particle != 0) {
                 HistClass::FillEff(TString::Format("%s_RECO_vs_pT", object.c_str()), part_i->getPt(), true);
@@ -1180,7 +1530,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
                 HistClass::FillEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
-            if (TMath::Abs(part_i -> getEta()) < 2.5) {
+            if (Check_Gen_Par_Acc(part_i) and resonance_mass_gen["emu"] != 0) {
                 if (matched_reco_particle != 0) {
                     HistClass::FillEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()), part_i->getPt(), true);
                     HistClass::FillEff(TString::Format("%s_RECO_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
@@ -1202,24 +1552,24 @@ void specialAna::Create_trigger_effs() {
         trigger_defs[temp_trigger_name] = new Trigger(*it);
         if (trigger_defs[temp_trigger_name]->GetDimension()) {
             HistClass::CreateEff(TString::Format("%s_vs_pT(%s,%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
-                                 100, 0, 1000, 100, 0, 1000,
+                                 300, 0, 3000, 300, 0, 3000,
                                  TString::Format("p_{T}^{%s,%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str(), trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 150, -3, 3, 100, 0, 3.5,
+                                 150, -3, 3, 150, -3.2, 3.2,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
-                                 150, -3, 3, 100, 0, 3.5,
+                                 150, -3, 3, 150, -3.2, 3.2,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart2Name().c_str()));
         } else {
             HistClass::CreateEff(TString::Format("%s_vs_pT(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 100, 0, 1000,
+                                 300, 0, 3000,
                                  TString::Format("p_{T}^{%s} (GeV)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
             HistClass::CreateEff(TString::Format("%s_vs_Nvtx", temp_trigger_name), 70, 0, 70, "n_{vtx}");
             HistClass::CreateEff(TString::Format("%s_vs_eta_vs_phi(%s)", temp_trigger_name, trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
-                                 150, -3, 3, 100, 0, 3.5,
+                                 150, -3, 3, 150, -3.2, 3.2,
                                  TString::Format("#eta(%s)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()),
                                  TString::Format("#phi(%s) (rad)", trigger_defs[temp_trigger_name]->GetPart1Name().c_str()));
         }
@@ -1483,17 +1833,33 @@ void specialAna::Fill_Gen_histograms(const char* channel, const char* part1, con
     /// Resonant mass histogram
     HistClass::Fill(TString::Format("%s_Mass_Gen",            channel),               resonance_mass_gen[channel],                         weight);
     /// First particle histograms
-    HistClass::Fill(TString::Format("%s_pT_%s_Gen",           channel, part1),        sel_part1_gen -> getPt(),                            weight);
-    HistClass::Fill(TString::Format("%s_eta_%s_Gen",          channel, part1),        sel_part1_gen -> getEta(),                           weight);
-    HistClass::Fill(TString::Format("%s_phi_%s_Gen",          channel, part1),        sel_part1_gen -> getPhi(),                           weight);
+    HistClass::Fill(TString::Format("%s_pT_%s_Gen",           channel, part1),        sel_part1_gen[channel] -> getPt(),                            weight);
+    HistClass::Fill(TString::Format("%s_eta_%s_Gen",          channel, part1),        sel_part1_gen[channel] -> getEta(),                           weight);
+    HistClass::Fill(TString::Format("%s_phi_%s_Gen",          channel, part1),        sel_part1_gen[channel] -> getPhi(),                           weight);
     /// Second particle histograms
-    HistClass::Fill(TString::Format("%s_pT_%s_Gen",           channel, part2),        sel_part2_gen -> getPt(),                            weight);
-    HistClass::Fill(TString::Format("%s_eta_%s_Gen",          channel, part2),        sel_part2_gen -> getEta(),                           weight);
-    HistClass::Fill(TString::Format("%s_phi_%s_Gen",          channel, part2),        sel_part2_gen -> getPhi(),                           weight);
+    HistClass::Fill(TString::Format("%s_pT_%s_Gen",           channel, part2),        sel_part2_gen[channel] -> getPt(),                            weight);
+    HistClass::Fill(TString::Format("%s_eta_%s_Gen",          channel, part2),        sel_part2_gen[channel] -> getEta(),                           weight);
+    HistClass::Fill(TString::Format("%s_phi_%s_Gen",          channel, part2),        sel_part2_gen[channel] -> getPhi(),                           weight);
     /// Delta phi between the two particles
-    HistClass::Fill(TString::Format("%s_Delta_phi_%s_%s_Gen", channel, part1, part2), DeltaPhi(sel_part1_gen, sel_part2_gen),              weight);
+    HistClass::Fill(TString::Format("%s_Delta_phi_%s_%s_Gen", channel, part1, part2), DeltaPhi(sel_part1_gen[channel], sel_part2_gen[channel]),              weight);
     /// pT ratio of the two particles
-    HistClass::Fill(TString::Format("%s_pT_ratio_%s_%s_Gen",  channel, part1, part2), sel_part1_gen -> getPt() / sel_part2_gen -> getPt(), weight);
+    HistClass::Fill(TString::Format("%s_pT_ratio_%s_%s_Gen",  channel, part1, part2), sel_part1_gen[channel] -> getPt() / sel_part2_gen[channel] -> getPt(), weight);
+
+    if (Check_Gen_Par_Acc(sel_part1_gen[channel]) and Check_Gen_Par_Acc(sel_part2_gen[channel])) {
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Mass", channel), resonance_mass_gen[channel], true);
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), true);
+    } else {
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Mass", channel), resonance_mass_gen[channel], false);
+        HistClass::FillEff(TString::Format("%s_Acc_vs_Nvtx", channel), m_RecEvtView->getUserRecord("NumVertices"), false);
+    }
+
+    if (resonance_mass_gen[channel] != 0) {
+        HistClass::Fill(TString::Format("%s_RECO_vs_Mass_All", channel), resonance_mass_gen[channel], 1);
+        HistClass::Fill(TString::Format("%s_RECO_vs_Nvtx_All", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
+    
+        HistClass::Fill(TString::Format("%s_Eff_vs_Mass_All", channel), resonance_mass_gen[channel], 1);
+        HistClass::Fill(TString::Format("%s_Eff_vs_Nvtx_All", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
+    }
 }
 
 void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
@@ -1501,9 +1867,16 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     HistClass::CreateHisto(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos, 0, n_histos, "Cut stage");
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
+    /// Delta R Histogram between muon and electron
+    HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                    channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                           part1, part2) );
     /// Resonant mass resolution histogram
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                 part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung, 500, 0, 5000, 1000, -10, 10, TString::Format("M^{gen}_{%s,%s} (GeV)",                   part1, part2), TString::Format("M-M_{gen}/M_{gen}(%s,%s)", part1, part2));
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               1000, -10, 10, TString::Format("M-M_{gen}/M_{gen}(%s,%s)",                part1, part2) );
+    /// Particle resolutions
+    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part1) + endung,        1000, -10, 10, TString::Format("p_{T}-p_{T,gen}/p_{T,gen}(%s)",           part1) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part1) + endung,        1000,   0, 10, TString::Format("#DeltaR(gen,RECO)(%s)",                   part1) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        1000, -10, 10, TString::Format("p_{T}-p_{T,gen}/p_{T,gen}(%s)",           part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        1000,   0, 10, TString::Format("#DeltaR(gen,RECO)(%s)",                   part2) );
     /// First particle histograms
     HistClass::CreateHisto(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part1) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        80, -4, 4,     TString::Format("#eta^{%s}",                               part1) );
@@ -1536,6 +1909,23 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
         HistClass::CreateHisto(n_histos, TString::Format("%s_pT_ratio_%s_MET_corr",  channel, part2) + endung,        50, 0, 10,     TString::Format("#frac{p_{T}^{%s(corr)}}{E_{T}^{miss}}",   part2) );
         HistClass::CreateHisto(n_histos, TString::Format("%s_pT_ratio_%s_%s_corr",   channel, part1, part2) + endung, 50, 0, 10,     TString::Format("#frac{p_{T}^{%s}}{p_{T}^{%s(corr)}}",     part1, part2) );
     }
+
+    if (endung == const_cast<char*>("")) {
+        HistClass::CreateEff(TString::Format("%s_Acc_vs_Mass", channel), 600, 0, 6000,
+                             TString::Format("M_{%s}^{(gen)} (GeV)", channel));
+        HistClass::CreateEff(TString::Format("%s_Acc_vs_Nvtx", channel),       70, 0, 70,
+                             "n_{vtx}");
+
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Mass_All", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Mass_Pass", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Nvtx_All", channel), 70, 0, 70);
+        HistClass::CreateHisto(TString::Format("%s_RECO_vs_Nvtx_Pass", channel), 70, 0, 70);
+
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Mass_All", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Mass_Pass", channel), 600, 0, 6000);
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Nvtx_All", channel), 70, 0, 70);
+        HistClass::CreateHisto(TString::Format("%s_Eff_vs_Nvtx_Pass", channel), 70, 0, 70);
+    }
 }
 
 void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung) {
@@ -1543,41 +1933,77 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     HistClass::Fill(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos,                                                          weight);
     /// Resonant mass histogram
     HistClass::Fill(n_histos, TString::Format("%s_Mass",                  channel) + endung,               resonance_mass[channel],                                           weight);
+    /// Delta R between electron and muon
+    HistClass::Fill(n_histos, TString::Format("%s_dR",                    channel) + endung,               DeltaR(sel_lepton_prompt[channel], sel_lepton_nprompt[channel]),                     weight);
     /// Resonant mass resolution histogram
     double dummy_resolution = (resonance_mass[channel] - resonance_mass_gen[channel])/resonance_mass_gen[channel];
     HistClass::Fill(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               dummy_resolution,                                                  weight);
     HistClass::Fill(n_histos, TString::Format("%s_Mass_resolution",       channel) + endung,               resonance_mass_gen[channel], dummy_resolution,                     weight);
+    /// Particle resolution histograms
+    double part1_resolution = 0;
+    double part1_dr = 0;
+    if (sel_part1_gen[channel]) {
+        part1_resolution = (sel_lepton_prompt[channel]->getPt() - sel_part1_gen[channel]->getPt()) / sel_part1_gen[channel]->getPt();
+        part1_dr = DeltaR(sel_lepton_prompt[channel], sel_part1_gen[channel]);
+    } else {
+        part1_resolution = -1000;
+        part1_dr = -1;
+    }
+
+    HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part1) + endung,        part1_resolution,                                                  weight);
+    HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part1) + endung,        part1_dr,                                                          weight);
+    double part2_resolution = 0;
+    double part2_dr = 0;
+    if (sel_part2_gen[channel]) {
+        if (sel_lepton_nprompt_corr[channel] != 0) {
+            part2_resolution = (sel_lepton_nprompt_corr[channel]->getPt() - sel_part2_gen[channel]->getPt()) / sel_part2_gen[channel]->getPt();
+            part2_dr = DeltaR(sel_lepton_nprompt_corr[channel], sel_part1_gen[channel]);
+        } else {
+            part2_resolution = (sel_lepton_nprompt[channel]->getPt() - sel_part2_gen[channel]->getPt()) / sel_part2_gen[channel]->getPt();
+            part2_dr = DeltaR(sel_lepton_nprompt[channel], sel_part2_gen[channel]);
+        }
+    } else {
+        part2_resolution = -1000;
+        part2_dr = -1;
+    }
+    HistClass::Fill(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        part2_resolution,                                                  weight);
+    HistClass::Fill(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        part2_dr,                                                          weight);
     /// First particle histograms
-    HistClass::Fill(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        sel_lepton_prompt -> getPt(),                                      weight);
-    HistClass::Fill(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        sel_lepton_prompt -> getEta(),                                     weight);
-    HistClass::Fill(n_histos, TString::Format("%s_phi_%s",                channel, part1) + endung,        sel_lepton_prompt -> getPhi(),                                     weight);
+    HistClass::Fill(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        sel_lepton_prompt[channel] -> getPt(),                                      weight);
+    HistClass::Fill(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        sel_lepton_prompt[channel] -> getEta(),                                     weight);
+    HistClass::Fill(n_histos, TString::Format("%s_phi_%s",                channel, part1) + endung,        sel_lepton_prompt[channel] -> getPhi(),                                     weight);
     /// Second particle histograms
-    HistClass::Fill(n_histos, TString::Format("%s_pT_%s",                 channel, part2) + endung,        sel_lepton_nprompt -> getPt(),                                     weight);
-    HistClass::Fill(n_histos, TString::Format("%s_eta_%s",                channel, part2) + endung,        sel_lepton_nprompt -> getEta(),                                    weight);
-    HistClass::Fill(n_histos, TString::Format("%s_phi_%s",                channel, part2) + endung,        sel_lepton_nprompt -> getPhi(),                                    weight);
+    HistClass::Fill(n_histos, TString::Format("%s_pT_%s",                 channel, part2) + endung,        sel_lepton_nprompt[channel] -> getPt(),                                     weight);
+    HistClass::Fill(n_histos, TString::Format("%s_eta_%s",                channel, part2) + endung,        sel_lepton_nprompt[channel] -> getEta(),                                    weight);
+    HistClass::Fill(n_histos, TString::Format("%s_phi_%s",                channel, part2) + endung,        sel_lepton_nprompt[channel] -> getPhi(),                                    weight);
     /// Delta phi between the two particles
-    HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_%s",       channel, part1, part2) + endung, DeltaPhi(sel_lepton_prompt, sel_lepton_nprompt),                   weight);
+    HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_%s",       channel, part1, part2) + endung, DeltaPhi(sel_lepton_prompt[channel], sel_lepton_nprompt[channel]),                   weight);
     /// pT ratio of the two particles
-    HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_%s",        channel, part1, part2) + endung, sel_lepton_prompt -> getPt() / sel_lepton_nprompt -> getPt(),      weight);
+    HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_%s",        channel, part1, part2) + endung, sel_lepton_prompt[channel] -> getPt() / sel_lepton_nprompt[channel] -> getPt(),      weight);
     /// Create histograms for channels with MET
     if (channel != const_cast<char*>("emu")) {
         /// MET histograms
-        HistClass::Fill(n_histos, TString::Format("%s_MET",                   channel) + endung,               sel_met -> getPt(),                                                weight);
-        HistClass::Fill(n_histos, TString::Format("%s_phi_MET",               channel) + endung,               sel_met -> getPhi(),                                               weight);
+        HistClass::Fill(n_histos, TString::Format("%s_MET",                   channel) + endung,               sel_met[channel] -> getPt(),                                                weight);
+        HistClass::Fill(n_histos, TString::Format("%s_phi_MET",               channel) + endung,               sel_met[channel] -> getPhi(),                                               weight);
         /// Corrected second particle histogram
-        HistClass::Fill(n_histos, TString::Format("%s_pT_%s_corr",            channel, part2) + endung,        sel_lepton_nprompt_corr -> getPt(),                                weight);
-        HistClass::Fill(n_histos, TString::Format("%s_eta_%s_corr",           channel, part2) + endung,        sel_lepton_nprompt_corr -> getEta(),                               weight);
-        HistClass::Fill(n_histos, TString::Format("%s_phi_%s_corr",           channel, part2) + endung,        sel_lepton_nprompt_corr -> getPhi(),                               weight);
+        HistClass::Fill(n_histos, TString::Format("%s_pT_%s_corr",            channel, part2) + endung,        sel_lepton_nprompt_corr[channel] -> getPt(),                                weight);
+        HistClass::Fill(n_histos, TString::Format("%s_eta_%s_corr",           channel, part2) + endung,        sel_lepton_nprompt_corr[channel] -> getEta(),                               weight);
+        HistClass::Fill(n_histos, TString::Format("%s_phi_%s_corr",           channel, part2) + endung,        sel_lepton_nprompt_corr[channel] -> getPhi(),                               weight);
         /// Delta phi between the other particles
-        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_MET",      channel, part1) + endung,        DeltaPhi(sel_lepton_prompt, sel_met),                              weight);
-        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_MET",      channel, part2) + endung,        DeltaPhi(sel_lepton_nprompt, sel_met),                             weight);
-        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_MET_corr", channel, part2) + endung,        DeltaPhi(sel_lepton_nprompt_corr, sel_met),                        weight);
-        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_%s_corr",  channel, part1, part2) + endung, DeltaPhi(sel_lepton_prompt, sel_lepton_nprompt_corr),              weight);
+        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_MET",      channel, part1) + endung,        DeltaPhi(sel_lepton_prompt[channel], sel_met[channel]),                              weight);
+        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_MET",      channel, part2) + endung,        DeltaPhi(sel_lepton_nprompt[channel], sel_met[channel]),                             weight);
+        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_MET_corr", channel, part2) + endung,        DeltaPhi(sel_lepton_nprompt_corr[channel], sel_met[channel]),                        weight);
+        HistClass::Fill(n_histos, TString::Format("%s_Delta_phi_%s_%s_corr",  channel, part1, part2) + endung, DeltaPhi(sel_lepton_prompt[channel], sel_lepton_nprompt_corr[channel]),              weight);
         /// pT ratio of the other particles
-        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part1) + endung,        sel_lepton_prompt -> getPt() / sel_met -> getPt(),                 weight);
-        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part2) + endung,        sel_lepton_nprompt -> getPt() / sel_met -> getPt(),                weight);
-        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET_corr",  channel, part2) + endung,        sel_lepton_nprompt_corr -> getPt() / sel_met -> getPt(),           weight);
-        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_%s_corr",   channel, part1, part2) + endung, sel_lepton_prompt -> getPt() / sel_lepton_nprompt_corr -> getPt(), weight);
+        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part1) + endung,        sel_lepton_prompt[channel] -> getPt() / sel_met[channel] -> getPt(),                 weight);
+        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part2) + endung,        sel_lepton_nprompt[channel] -> getPt() / sel_met[channel] -> getPt(),                weight);
+        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET_corr",  channel, part2) + endung,        sel_lepton_nprompt_corr[channel] -> getPt() / sel_met[channel] -> getPt(),           weight);
+        HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_%s_corr",   channel, part1, part2) + endung, sel_lepton_prompt[channel] -> getPt() / sel_lepton_nprompt_corr[channel] -> getPt(), weight);
+    }
+
+    if (n_histos == 0 and resonance_mass_gen[channel] != 0) {
+        HistClass::Fill(TString::Format("%s_Eff_vs_Mass_Pass", channel), resonance_mass_gen[channel], 1);
+        HistClass::Fill(TString::Format("%s_Eff_vs_Nvtx_Pass", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
     }
 }
 
@@ -1608,8 +2034,8 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                     part_sum -> addP4(part_j);
                     if (part_sum -> getMass() > resonance_mass_gen[channel]) {
                         resonance_mass_gen[channel] = part_sum -> getMass();
-                        sel_part1_gen = (pxl::Particle*) part_i->clone();
-                        sel_part2_gen = (pxl::Particle*) part_j->clone();
+                        sel_part1_gen[channel] = (pxl::Particle*) part_i->clone();
+                        sel_part2_gen[channel] = (pxl::Particle*) part_j->clone();
                     }
                     delete part_sum;
                 }
@@ -1626,8 +2052,8 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                     part_sum -> addP4(part_j);
                     if (part_sum -> getMass() > resonance_mass_gen[channel]) {
                         resonance_mass_gen[channel] = part_sum -> getMass();
-                        sel_part1_gen = (pxl::Particle*) part_i->clone();
-                        sel_part2_gen = (pxl::Particle*) part_j->clone();
+                        sel_part1_gen[channel] = (pxl::Particle*) part_i->clone();
+                        sel_part2_gen[channel] = (pxl::Particle*) part_j->clone();
                     }
                     delete part_sum;
                 }
@@ -1653,8 +2079,8 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                 part_sum -> addP4(part_j);
                 if (part_sum -> getMass() > resonance_mass[channel]) {
                     resonance_mass[channel] = part_sum -> getMass();
-                    sel_lepton_prompt = (pxl::Particle*) part_i->clone();
-                    sel_lepton_nprompt = (pxl::Particle*) part_j->clone();
+                    sel_lepton_prompt[channel] = (pxl::Particle*) part_i->clone();
+                    sel_lepton_nprompt[channel] = (pxl::Particle*) part_j->clone();
                 }
                 delete part_sum;
             }
@@ -1669,7 +2095,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
 
 bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list, std::vector< pxl::Particle* > met_list) {
     resonance_mass[channel] = 0;
-    if (not sel_met) return false;
+    if (not sel_met[channel]) return false;
     for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
         pxl::Particle *part_i = *part_it;
         if (Check_Par_ID(part_i)) {
@@ -1683,7 +2109,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
                 pxl::Particle* dummy_met = new pxl::Particle();
                 /// use tau eta to project MET
                 TLorentzVector* calc_met = new TLorentzVector();
-                calc_met -> SetPtEtaPhiM(sel_met->getPt(), part_j->getEta(), sel_met->getPhi(), 0);
+                calc_met -> SetPtEtaPhiM(sel_met[channel]->getPt(), part_j->getEta(), sel_met[channel]->getPhi(), 0);
                 dummy_met->setP4(calc_met->Px(), calc_met->Py(), calc_met->Pz(), calc_met->E());
                 dummy_taumu->addP4(dummy_met);
                 delete calc_met;
@@ -1714,10 +2140,10 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
 
                 if (dummy_taumu->getMass() > resonance_mass[channel]) {
                     resonance_mass[channel] = dummy_taumu->getMass();
-                    sel_lepton_prompt = (pxl::Particle*) part_i -> clone();
-                    sel_lepton_nprompt = (pxl::Particle*) part_j -> clone();
-                    sel_lepton_nprompt_corr = (pxl::Particle*) part_j -> clone();
-                    sel_lepton_nprompt_corr -> addP4(dummy_met);
+                    sel_lepton_prompt[channel] = (pxl::Particle*) part_i -> clone();
+                    sel_lepton_nprompt[channel] = (pxl::Particle*) part_j -> clone();
+                    sel_lepton_nprompt_corr[channel] = (pxl::Particle*) part_j -> clone();
+                    sel_lepton_nprompt_corr[channel] -> addP4(dummy_met);
                 }
                 delete dummy_taumu;
                 delete dummy_taumu_uncorr;
@@ -1743,6 +2169,66 @@ bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut, bool do_eta_c
     } else if (name == "Muon") {
         bool muo_id = Check_Muo_ID(part, do_pt_cut, do_eta_cut);
         return muo_id;
+    } else {
+        return false;
+    }
+}
+
+bool specialAna::Check_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut) {
+    std::string name = part -> getName();
+    if (name == m_TauType) {
+        return true;
+    } else if (name == "Ele") {
+        bool ele_eta = TMath::Abs(part->getEta()) < 2.5 ? true : false;
+        bool ele_pt  = part->getPt() > 110. ? true : false;
+        if (not do_pt_cut) ele_pt = true;
+        if (not do_eta_cut) ele_eta = true;
+        if (ele_eta and ele_pt) {
+            return true;
+        } else {
+            return false;
+        }
+    } else if (name == "Muon") {
+        bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
+        bool muo_pt  = part->getPt() > 45. ? true : false;
+        if (not do_pt_cut) muo_pt = true;
+        if (not do_eta_cut) muo_eta = true;
+        if (muo_eta and muo_pt) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+bool specialAna::Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut) {
+    if (TMath::Abs(part -> getPdgNumber()) == 15) {
+        return true;
+    } else if (TMath::Abs(part -> getPdgNumber()) == 11) {
+        bool ele_eta = true;
+        if (TMath::Abs(part->getEta()) > 2.5 or (TMath::Abs(part->getEta()) < 1.566 and TMath::Abs(part->getEta()) > 1.4442)) {
+            ele_eta = false;
+        }
+        bool ele_pt  = part->getPt() > 35. ? true : false;
+        if (not do_pt_cut) ele_pt = true;
+        if (not do_eta_cut) ele_eta = true;
+        if (ele_eta and ele_pt) {
+            return true;
+        } else {
+            return false;
+        }
+    } else if (TMath::Abs(part -> getPdgNumber()) == 13) {
+        bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
+        bool muo_pt  = part->getPt() > 45. ? true : false;
+        if (not do_pt_cut) muo_pt = true;
+        if (not do_eta_cut) muo_eta = true;
+        if (muo_eta and muo_pt) {
+            return true;
+        } else {
+            return false;
+        }
     } else {
         return false;
     }
@@ -1790,6 +2276,7 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
     bool ele_eta = TMath::Abs(ele -> getEta()) < 2.5 ? true : false;
     bool ele_pt = ele -> getPt() > 110. ? true : false;
+
     if (not do_pt_cut) {
         ele_pt = true;
     }
@@ -1828,7 +2315,7 @@ std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Partic
 }
 
 bool specialAna::Make_zeta_cut(Cuts* cuts) {
-    std::vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt, sel_lepton_nprompt, sel_met);
+    std::vector<double> zeta_vals = Make_zeta_stuff(sel_lepton_prompt["mutau"], sel_lepton_nprompt["mutau"], sel_met["mutau"]);
     double zeta_steepnes_cut_value = -1.21;
     double zeta_offset_cut_value   = -24.1;
     cuts->SetVars(zeta_vals[0], zeta_vals[1]);
@@ -1841,8 +2328,8 @@ bool specialAna::Make_zeta_cut(Cuts* cuts) {
 
 bool specialAna::Make_DeltaPhi_tauMET(Cuts* cuts) {
     double delta_phi = 10.;
-    if (sel_met and sel_lepton_nprompt) {
-        delta_phi = DeltaPhi(sel_lepton_nprompt, sel_met);
+    if (sel_met["mutau"] and sel_lepton_nprompt["mutau"]) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt["mutau"], sel_met["mutau"]);
     }
     double delta_phi_tau_met_cut_value = 1.3;
     cuts->SetVars(delta_phi);
@@ -1855,8 +2342,8 @@ bool specialAna::Make_DeltaPhi_tauMET(Cuts* cuts) {
 
 bool specialAna::Make_DeltaPhi_mutau(Cuts* cuts) {
     double delta_phi = 0.;
-    if (sel_lepton_prompt and sel_lepton_nprompt) {
-        delta_phi = DeltaPhi(sel_lepton_nprompt, sel_lepton_prompt);
+    if (sel_lepton_prompt["mutau"] and sel_lepton_nprompt["mutau"]) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt["mutau"], sel_lepton_prompt["mutau"]);
     }
     double delta_phi_mu_tau_cut_value = 2.3;
     cuts->SetVars(delta_phi);
@@ -1869,8 +2356,8 @@ bool specialAna::Make_DeltaPhi_mutau(Cuts* cuts) {
 
 bool specialAna::Make_DeltaPhi_tauemu(Cuts* cuts) {
     double delta_phi = 0.;
-    if (sel_lepton_prompt and sel_lepton_nprompt) {
-        delta_phi = DeltaPhi(sel_lepton_nprompt, sel_lepton_prompt);
+    if (sel_lepton_prompt["mutaue"] and sel_lepton_nprompt["mutaue"]) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt["mutaue"], sel_lepton_prompt["mutaue"]);
     }
     double delta_phi_mu_tau_cut_value = 2.7;
     cuts->SetVars(delta_phi);
@@ -1883,12 +2370,26 @@ bool specialAna::Make_DeltaPhi_tauemu(Cuts* cuts) {
 
 bool specialAna::Make_DeltaPhi_emu(Cuts* cuts) {
     double delta_phi = 0.;
-    if (sel_lepton_prompt and sel_lepton_nprompt) {
-        delta_phi = DeltaPhi(sel_lepton_nprompt, sel_lepton_prompt);
+    if (sel_lepton_prompt["emu"] and sel_lepton_nprompt["emu"]) {
+        delta_phi = DeltaPhi(sel_lepton_nprompt["emu"], sel_lepton_prompt["emu"]);
     }
     double delta_phi_e_mu_cut_value = 2.7;
     cuts->SetVars(delta_phi);
     if (delta_phi > delta_phi_e_mu_cut_value) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool specialAna::Make_DeltaR_emu(Cuts* cuts) {
+    double delta_R = 0.;
+    if (sel_lepton_prompt["emu"] and sel_lepton_nprompt["emu"]) {
+        delta_R = DeltaR(sel_lepton_prompt["emu"], sel_lepton_nprompt["emu"]);
+    }
+    double delta_R_cut_value = 0.2;
+    cuts->SetVars(delta_R);
+    if (delta_R > delta_R_cut_value) {
         return true;
     } else {
         return false;
@@ -1904,10 +2405,10 @@ bool specialAna::Bjet_veto(Cuts* cuts) {
     }
 }
 
-bool specialAna::OppSign_charge(Cuts* cuts) {
+bool specialAna::OppSign_charge(Cuts* cuts, const char* channel) {
     double charge_product = 0;
-    if (sel_lepton_prompt and sel_lepton_nprompt) {
-        charge_product = sel_lepton_prompt->getCharge() * sel_lepton_nprompt->getCharge();
+    if (sel_lepton_prompt[channel] and sel_lepton_nprompt[channel]) {
+        charge_product = sel_lepton_prompt[channel]->getCharge() * sel_lepton_nprompt[channel]->getCharge();
     }
     cuts->SetVars(charge_product);
     if (charge_product < 0) {
@@ -1919,8 +2420,8 @@ bool specialAna::OppSign_charge(Cuts* cuts) {
 
 bool specialAna::MT_cut(Cuts* cuts) {
     double mt = 0;
-    if (sel_lepton_prompt and sel_met) {
-        mt = MT(sel_lepton_prompt, sel_met);
+    if (sel_lepton_prompt["mutau"] and sel_met["mutau"]) {
+        mt = MT(sel_lepton_prompt["mutau"], sel_met["mutau"]);
     }
     cuts->SetVars(mt);
     double mt_min_cut_value = 180;
@@ -1932,7 +2433,7 @@ bool specialAna::MT_cut(Cuts* cuts) {
 }
 
 double specialAna::calc_lep_fraction() {
-    double pT_sum_lep = sel_lepton_prompt->getPt() + sel_lepton_nprompt->getPt();
+    double pT_sum_lep = sel_lepton_prompt["mutaue"]->getPt() + sel_lepton_nprompt["mutaue"]->getPt();
     double pT_sum_had = 0;
     for (std::vector< pxl::Particle* >::const_iterator part_it = JetList->begin(); part_it != JetList->end(); ++part_it) {
         pxl::Particle *part_i = *part_it;
@@ -1944,7 +2445,7 @@ double specialAna::calc_lep_fraction() {
 
 bool specialAna::Leptonic_fraction_cut(Cuts* cuts) {
     double lep_fraction = 0;
-    if (sel_lepton_nprompt and sel_lepton_prompt) {
+    if (sel_lepton_nprompt["mutaue"] and sel_lepton_prompt["mutaue"]) {
         lep_fraction = calc_lep_fraction();
     }
     cuts->SetVars(lep_fraction);
@@ -1958,8 +2459,8 @@ bool specialAna::Leptonic_fraction_cut(Cuts* cuts) {
 
 bool specialAna::pT_mutau_ratio_cut(Cuts* cuts) {
     double pT_ratio = 0;
-    if (sel_lepton_nprompt_corr and sel_lepton_prompt) {
-        pT_ratio = sel_lepton_nprompt_corr->getPt() / sel_lepton_prompt->getPt();
+    if (sel_lepton_nprompt_corr["mutaue"] and sel_lepton_prompt["mutaue"]) {
+        pT_ratio = sel_lepton_nprompt_corr["mutaue"]->getPt() / sel_lepton_prompt["mutaue"]->getPt();
     }
     cuts->SetVars(pT_ratio);
     double pT_mutau_ratio_cut_min_val = 0.6;
@@ -1973,8 +2474,8 @@ bool specialAna::pT_mutau_ratio_cut(Cuts* cuts) {
 
 bool specialAna::pT_muele_ratio_cut(Cuts* cuts) {
     double pT_ratio = 0;
-    if (sel_lepton_nprompt and sel_lepton_prompt) {
-        pT_ratio = sel_lepton_prompt->getPt() / sel_lepton_nprompt->getEt();
+    if (sel_lepton_nprompt["mutaue"] and sel_lepton_prompt["mutaue"]) {
+        pT_ratio = sel_lepton_prompt["mutaue"]->getPt() / sel_lepton_nprompt["mutaue"]->getEt();
     }
     cuts->SetVars(pT_ratio);
     double pT_muele_ratio_cut_min_val = 1;
@@ -2136,33 +2637,33 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     std::vector<pxl::Particle*>* new_temp_part = new std::vector< pxl::Particle* >;
     pxl::Particle* vis_tau_decay = new pxl::Particle();
     vis_tau_decay->setName("Tau_visible_decay");
-    vis_tau_decay->setP4(0,0,0,0);
+    vis_tau_decay->setP4(0, 0, 0, 0);
     while (true) {
         bool continue_loop = false;
-        for (int i = 0; i < temp_part->size(); i++) {
+        for (uint i = 0; i < temp_part->size(); i++) {
             pxl::Particle* temp_part_dummy = temp_part->at(i);
             if (temp_part_dummy->getDaughters().size() == 0) {
-                if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) { // electrons
+                if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 11) {  /// electrons
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 13) { // muons
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 13) {  /// muons
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 111) { // pi 0
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 111) {  /// pi 0
                     final_state_part_list->push_back(temp_part_dummy);
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 211) { // pi +
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 211) {  /// pi +
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
                 } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 130 or
                     TMath::Abs(temp_part_dummy->getPdgNumber()) == 310 or
-                    TMath::Abs(temp_part_dummy->getPdgNumber()) == 311) { // K 0
+                    TMath::Abs(temp_part_dummy->getPdgNumber()) == 311) {  /// K 0
                     final_state_part_list->push_back(temp_part_dummy);
                     vis_tau_decay->addP4(temp_part_dummy);
-                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 321) { // K +
+                } else if (TMath::Abs(temp_part_dummy->getPdgNumber()) == 321) {  /// K +
                     final_state_part_list->push_back(temp_part_dummy);
                     n_prong++;
                     vis_tau_decay->addP4(temp_part_dummy);
@@ -2171,40 +2672,40 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
                 for (std::set< pxl::Relative* >::const_iterator part_it = temp_part_dummy->getDaughters().begin(); part_it != temp_part_dummy->getDaughters().end(); ++part_it) {
                     pxl::Relative *part_i = *part_it;
                     pxl::Particle* part = (pxl::Particle*)part_i;
-                    if (TMath::Abs(part->getPdgNumber()) == 16) { // tau neutrino
+                    if (TMath::Abs(part->getPdgNumber()) == 16) {  /// tau neutrino
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 14) { // muon neutrino
+                    } else if (TMath::Abs(part->getPdgNumber()) == 14) {  /// muon neutrino
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 12) { // electron neutrino
+                    } else if (TMath::Abs(part->getPdgNumber()) == 12) {  /// electron neutrino
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 22) { // photon
+                    } else if (TMath::Abs(part->getPdgNumber()) == 22) {  /// photon
                         vis_tau_decay->addP4(part);
                         continue;
-                    } else if (TMath::Abs(part->getPdgNumber()) == 11) { // electrons
+                    } else if (TMath::Abs(part->getPdgNumber()) == 11) {  /// electrons
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 13) { // muons
+                    } else if (TMath::Abs(part->getPdgNumber()) == 13) {  /// muons
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 111) { // pi 0
+                    } else if (TMath::Abs(part->getPdgNumber()) == 111) {  /// pi 0
                         final_state_part_list->push_back(part);
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 211) { // pi +
+                    } else if (TMath::Abs(part->getPdgNumber()) == 211) {  /// pi +
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
                     } else if (TMath::Abs(part->getPdgNumber()) == 130 or
                         TMath::Abs(part->getPdgNumber()) == 310 or
-                        TMath::Abs(part->getPdgNumber()) == 311) { // K 0
+                        TMath::Abs(part->getPdgNumber()) == 311) {  /// K 0
                         final_state_part_list->push_back(part);
                         vis_tau_decay->addP4(part);
-                    } else if (TMath::Abs(part->getPdgNumber()) == 321) { // K +
+                    } else if (TMath::Abs(part->getPdgNumber()) == 321) {  /// K +
                         final_state_part_list->push_back(part);
                         n_prong++;
                         vis_tau_decay->addP4(part);
-                    } else { // others like W +
+                    } else {  /// others like W +
                         continue_loop = true;
                         new_temp_part->push_back(part);
                     }
@@ -2273,7 +2774,7 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
     if (n_ele > 0 and (n_piplus > 0 or n_Kplus > 0)) {
         if (n_ele == 2) {
             n_pizero++;
-            n_ele=0;
+            n_ele = 0;
         } else {
             decay_mode = TString::Format("%iEleX", n_ele);
             decay_mode_id = 14;
@@ -2299,7 +2800,6 @@ pxl::Particle* specialAna::Get_tau_truth_decay_mode(pxl::EventView& eventview, p
         if (n_piplus > 0) {
             pi_plus_part = TString::Format("%iPi", n_piplus);
         }
-    
         TString K_zero_part = "";
         if (n_Kzero > 0) {
             K_zero_part = TString::Format("%iK0", n_Kzero);
@@ -2444,7 +2944,7 @@ double specialAna::getHT() {
     return ht_val;
 }
 
-void specialAna::raw_input(TString question){
+void specialAna::raw_input(TString question) {
   TString answer;
   std::cout << question << std::endl;
   std::cin >> answer;
@@ -2455,6 +2955,8 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->mkdir(channel);
     file1->cd(TString::Format("%s/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Cutflow", channel), TString::Format("sys:N-1"));
+    HistClass::WriteAllEff(TString::Format("%s_", channel));
+    HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Gen", channel));
     file1->mkdir(TString::Format("%s/sys", channel));
     file1->cd(TString::Format("%s/sys/", channel));
     HistClass::WriteAll(TString::Format("_%s_", channel), TString::Format("%s:_Cutflow:sys", channel));
@@ -2484,7 +2986,47 @@ void specialAna::channel_writer(TFile* file, const char* channel) {
     file1->cd();
 }
 
+void specialAna::Fill_overall_efficiencies() {
+    HistClass::CreateEff("emu_RECO_vs_Mass", HistClass::ReturnHist("emu_RECO_vs_Mass_All"), HistClass::ReturnHist("emu_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("emu_RECO_vs_Nvtx", HistClass::ReturnHist("emu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("emu_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("emu_Eff_vs_Mass", HistClass::ReturnHist("emu_Eff_vs_Mass_All"), HistClass::ReturnHist("emu_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("emu_Eff_vs_Nvtx", HistClass::ReturnHist("emu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("emu_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("etau_RECO_vs_Mass", HistClass::ReturnHist("etau_RECO_vs_Mass_All"), HistClass::ReturnHist("etau_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("etau_RECO_vs_Nvtx", HistClass::ReturnHist("etau_RECO_vs_Nvtx_All"), HistClass::ReturnHist("etau_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("etau_Eff_vs_Mass", HistClass::ReturnHist("etau_Eff_vs_Mass_All"), HistClass::ReturnHist("etau_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("etau_Eff_vs_Nvtx", HistClass::ReturnHist("etau_Eff_vs_Nvtx_All"), HistClass::ReturnHist("etau_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("mutau_RECO_vs_Mass", HistClass::ReturnHist("mutau_RECO_vs_Mass_All"), HistClass::ReturnHist("mutau_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("mutau_RECO_vs_Nvtx", HistClass::ReturnHist("mutau_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutau_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("mutau_Eff_vs_Mass", HistClass::ReturnHist("mutau_Eff_vs_Mass_All"), HistClass::ReturnHist("mutau_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("mutau_Eff_vs_Nvtx", HistClass::ReturnHist("mutau_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutau_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("etaue_RECO_vs_Mass", HistClass::ReturnHist("etaue_RECO_vs_Mass_All"), HistClass::ReturnHist("etaue_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("etaue_RECO_vs_Nvtx", HistClass::ReturnHist("etaue_RECO_vs_Nvtx_All"), HistClass::ReturnHist("etaue_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("etaue_Eff_vs_Mass", HistClass::ReturnHist("etaue_Eff_vs_Mass_All"), HistClass::ReturnHist("etaue_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("etaue_Eff_vs_Nvtx", HistClass::ReturnHist("etaue_Eff_vs_Nvtx_All"), HistClass::ReturnHist("etaue_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("etaumu_RECO_vs_Mass", HistClass::ReturnHist("etaumu_RECO_vs_Mass_All"), HistClass::ReturnHist("etaumu_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("etaumu_RECO_vs_Nvtx", HistClass::ReturnHist("etaumu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("etaumu_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("etaumu_Eff_vs_Mass", HistClass::ReturnHist("etaumu_Eff_vs_Mass_All"), HistClass::ReturnHist("etaumu_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("etaumu_Eff_vs_Nvtx", HistClass::ReturnHist("etaumu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("etaumu_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("mutaue_RECO_vs_Mass", HistClass::ReturnHist("mutaue_RECO_vs_Mass_All"), HistClass::ReturnHist("mutaue_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaue_RECO_vs_Nvtx", HistClass::ReturnHist("mutaue_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutaue_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("mutaue_Eff_vs_Mass", HistClass::ReturnHist("mutaue_Eff_vs_Mass_All"), HistClass::ReturnHist("mutaue_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaue_Eff_vs_Nvtx", HistClass::ReturnHist("mutaue_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutaue_Eff_vs_Nvtx_Pass"));
+
+    HistClass::CreateEff("mutaumu_RECO_vs_Mass", HistClass::ReturnHist("mutaumu_RECO_vs_Mass_All"), HistClass::ReturnHist("mutaumu_RECO_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaumu_RECO_vs_Nvtx", HistClass::ReturnHist("mutaumu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutaumu_RECO_vs_Nvtx_Pass"));
+    HistClass::CreateEff("mutaumu_Eff_vs_Mass", HistClass::ReturnHist("mutaumu_Eff_vs_Mass_All"), HistClass::ReturnHist("mutaumu_Eff_vs_Mass_Pass"));
+    HistClass::CreateEff("mutaumu_Eff_vs_Nvtx", HistClass::ReturnHist("mutaumu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutaumu_Eff_vs_Nvtx_Pass"));
+
+}
+
 void specialAna::endJob(const Serializable*) {
+    Fill_overall_efficiencies();
+
     std::cout << "Triggers that fired in this sample:" << std::endl;
     for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
         std::cout << *itr << std::endl;
@@ -2504,10 +3046,16 @@ void specialAna::endJob(const Serializable*) {
         HistClass::WriteAllEff("HLT");
     }
     file1->cd();
+    file1->mkdir("ID_Effs");
+    file1->cd("ID_Effs/");
+    HistClass::WriteAllEff("ID");
+    HistClass::WriteAll2("ID");
+    file1->cd();
     file1->mkdir("RECO_Effs");
     file1->cd("RECO_Effs/");
     HistClass::WriteAllEff("RECO");
     HistClass::WriteAll2("RECO");
+    HistClass::WriteAll("RECO");
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
@@ -2598,7 +3146,7 @@ void specialAna::initEvent(const pxl::Event* event) {
     for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it) {
         pxl::Particle *part = *part_it;
         std::string Name = part->getName();
-        part->setP4(part->getPx() * 1.05, part->getPy() * 1.05, part->getPz(), part->getE() * 0.95);
+        // part->setP4(part->getPx() * 1.05, part->getPy() * 1.05, part->getPz(), part->getE() * 0.95);
         // Only fill the collection if we want to use the particle!
         if (Name == "Muon") {
             MuonList->push_back(part);
@@ -2621,13 +3169,46 @@ void specialAna::initEvent(const pxl::Event* event) {
     }
 
     if (METList->size() > 0) {
-        sel_met = METList->at(0);
+        sel_met["emu"] = METList->at(0);
+        sel_met["etau"] = METList->at(0);
+        sel_met["mutau"] = METList->at(0);
+        sel_met["etaue"] = METList->at(0);
+        sel_met["etaumu"] = METList->at(0);
+        sel_met["mutaue"] = METList->at(0);
+        sel_met["mutaumu"] = METList->at(0);
     } else {
-        sel_met = 0;
+        sel_met["emu"] = 0;
+        sel_met["etau"] = 0;
+        sel_met["mutau"] = 0;
+        sel_met["etaue"] = 0;
+        sel_met["etaumu"] = 0;
+        sel_met["mutaue"] = 0;
+        sel_met["mutaumu"] = 0;
     }
-    sel_lepton_prompt = 0;
-    sel_lepton_nprompt = 0;
-    sel_lepton_nprompt_corr = 0;
+
+    sel_lepton_prompt["emu"] = 0;
+    sel_lepton_prompt["etau"] = 0;
+    sel_lepton_prompt["mutau"] = 0;
+    sel_lepton_prompt["etaue"] = 0;
+    sel_lepton_prompt["etaumu"] = 0;
+    sel_lepton_prompt["mutaue"] = 0;
+    sel_lepton_prompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt["emu"] = 0;
+    sel_lepton_nprompt["etau"] = 0;
+    sel_lepton_nprompt["mutau"] = 0;
+    sel_lepton_nprompt["etaue"] = 0;
+    sel_lepton_nprompt["etaumu"] = 0;
+    sel_lepton_nprompt["mutaue"] = 0;
+    sel_lepton_nprompt["mutaumu"] = 0;
+
+    sel_lepton_nprompt_corr["emu"] = 0;
+    sel_lepton_nprompt_corr["etau"] = 0;
+    sel_lepton_nprompt_corr["mutau"] = 0;
+    sel_lepton_nprompt_corr["etaue"] = 0;
+    sel_lepton_nprompt_corr["etaumu"] = 0;
+    sel_lepton_nprompt_corr["mutaue"] = 0;
+    sel_lepton_nprompt_corr["mutaumu"] = 0;
 
     resonance_mass["emu"] = 0;
     resonance_mass_gen["emu"] = 0;
@@ -2687,15 +3268,21 @@ void specialAna::initEvent(const pxl::Event* event) {
             pxl::Particle *part = *part_it;
             std::string Name = part->getName();
             // Only fill the collection if we want to use the particle!
-            if (     Name == "Muon"    ) MuonListGen->push_back( part );
-            else if (Name == "Ele"     ) EleListGen->push_back( part );
-            else if (Name == "Gamma"   ) GammaListGen->push_back( part );
-            else if (Name == "Tau"     ) TauListGen->push_back( part );
-            else if (Name == (m_METType+"_gen") ) METListGen->push_back( part );
-            else if (Name == m_JetAlgo ) JetListGen->push_back( part );
-            else if (Name == genCollection) {
-                S3ListGen->push_back( part );
-                if(part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
+            if (Name == "Muon") {
+                MuonListGen->push_back(part);
+            } else if (Name == "Ele") {
+                EleListGen->push_back(part);
+            } else if (Name == "Gamma") {
+                GammaListGen->push_back(part);
+            } else if (Name == "Tau") {
+                TauListGen->push_back(part);
+            } else if (Name == (m_METType+"_gen") ) {
+                METListGen->push_back(part);
+            } else if (Name == m_JetAlgo) {
+                JetListGen->push_back(part);
+            } else if (Name == genCollection) {
+                S3ListGen->push_back(part);
+                if (part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
                     TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
                 }
             }
@@ -2704,30 +3291,46 @@ void specialAna::initEvent(const pxl::Event* event) {
 }
 
 void specialAna::endEvent(const pxl::Event* event) {
-    if (sel_lepton_prompt != 0) {
-        delete sel_lepton_prompt;
-        sel_lepton_prompt = 0;
-    }
-    if (sel_lepton_nprompt != 0) {
-        delete sel_lepton_nprompt;
-        sel_lepton_nprompt = 0;
-    }
-    if (sel_lepton_nprompt_corr != 0) {
-        delete sel_lepton_nprompt_corr;
-        sel_lepton_nprompt_corr = 0;
-    }
-    if (sel_lepton_nprompt_corr != 0) {
-        delete sel_lepton_nprompt_corr;
-        sel_lepton_nprompt_corr = 0;
+    for(auto const &it1 : sel_lepton_prompt) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_prompt[it1.first] = 0;
+        }
     }
 
-    if (sel_part1_gen != 0) {
-        delete sel_part1_gen;
-        sel_part1_gen = 0;
+    for(auto const &it1 : sel_lepton_nprompt) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_nprompt[it1.first] = 0;
+        }
     }
-    if (sel_part2_gen != 0) {
-        delete sel_part2_gen;
-        sel_part2_gen = 0;
+
+    for(auto const &it1 : sel_lepton_nprompt_corr) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_nprompt_corr[it1.first] = 0;
+        }
+    }
+
+    for(auto const &it1 : sel_lepton_nprompt_corr) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_lepton_nprompt_corr[it1.first] = 0;
+        }
+    }
+
+    for(auto const &it1 : sel_part1_gen) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_part1_gen[it1.first] = 0;
+        }
+    }
+
+    for(auto const &it1 : sel_part2_gen) {
+        if (it1.second != 0) {
+            delete it1.second;
+            sel_part2_gen[it1.first] = 0;
+        }
     }
 
     delete EleList;
@@ -2753,7 +3356,7 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete TauListGen;
         delete S3ListGen;
 
-        for (int i = 0; i < TauVisListGen->size(); i++) {
+        for (uint i = 0; i < TauVisListGen->size(); i++) {
             delete TauVisListGen->at(i);
         }
         delete TauVisListGen;

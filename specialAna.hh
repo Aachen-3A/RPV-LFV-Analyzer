@@ -80,10 +80,17 @@ class specialAna : public pxl::AnalysisProcess  {
 
     pxl::Particle* Get_tau_truth_decay_mode(pxl::EventView& eventview, pxl::Particle* truth_tau);
 
+    void Create_ID_effs();
+    void Create_ID_object_effs(std::string object);
+    void Fill_ID_effs();
+    void Fill_ID_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list);
+
     void Create_RECO_effs();
     void Create_RECO_object_effs(std::string object);
     void Fill_RECO_effs();
     void Fill_RECO_object_effs(std::string object, int id, std::vector< pxl::Particle* > part_list);
+
+    void Fill_overall_efficiencies();
 
     void FillSystematics(const pxl::Event* event, std::string const particleName);
     void FillSystematicsUpDown(const pxl::Event* event, std::string const particleName, std::string const updown, std::string const shiftType);
@@ -92,9 +99,12 @@ class specialAna : public pxl::AnalysisProcess  {
     void endEvent(const pxl::Event* event);
 
     bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
+    bool Check_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
+    bool Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
     bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
+    //~ void Check_Ele_ID_Eff(std::vector< pxl::Particle* > part1_list, bool do_pt_cut = true, bool do_eta_cut = true);
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
@@ -102,13 +112,14 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Make_DeltaPhi_mutau(Cuts* cuts);
     bool Make_DeltaPhi_tauemu(Cuts* cuts);
     bool Bjet_veto(Cuts* cuts);
-    bool OppSign_charge(Cuts* cuts);
+    bool OppSign_charge(Cuts* cuts, const char* channel);
     bool MT_cut(Cuts* cuts);
     double calc_lep_fraction();
     bool Leptonic_fraction_cut(Cuts* cuts);
     bool pT_mutau_ratio_cut(Cuts* cuts);
     bool pT_muele_ratio_cut(Cuts* cuts);
     bool Make_DeltaPhi_emu(Cuts* cuts);
+    bool Make_DeltaR_emu(Cuts* cuts);
 
     bool TriggerSelector(const pxl::Event* event);
     double DeltaPhi(double a, double b);
@@ -203,16 +214,19 @@ class specialAna : public pxl::AnalysisProcess  {
 
     std::map< std::string, int > channel_stages;
 
-    pxl::Particle* sel_part1_gen;
-    pxl::Particle* sel_part2_gen;
-
-    pxl::Particle* sel_lepton_prompt;
-    pxl::Particle* sel_lepton_nprompt;
-    pxl::Particle* sel_met;
-    pxl::Particle* sel_lepton_nprompt_corr;
-
+    /// map to keep track of the resonance masses of the different channels
     std::map< std::string, double > resonance_mass;
     std::map< std::string, double > resonance_mass_gen;
+
+    /// map to keep track of the selected gen level particles for each channel
+    std::map< std::string, pxl::Particle*> sel_part1_gen;
+    std::map< std::string, pxl::Particle*> sel_part2_gen;
+
+    /// map to keep track of the selected reco level particles for each channel
+    std::map< std::string, pxl::Particle*> sel_lepton_prompt;
+    std::map< std::string, pxl::Particle*> sel_lepton_nprompt;
+    std::map< std::string, pxl::Particle*> sel_met;
+    std::map< std::string, pxl::Particle*> sel_lepton_nprompt_corr;
 
     std::unordered_set< std::string > triggers;
 
