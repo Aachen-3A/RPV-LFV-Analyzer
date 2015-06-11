@@ -14,6 +14,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     m_BJets_algo(cfg.GetItem< std::string >("Jet.BJets.Algo")),
     m_METType(cfg.GetItem< std::string >("MET.Type.Rec")),
     m_TauType(cfg.GetItem< std::string >("Tau.Type.Rec")),
+    doFakeRate(cfg.GetItem< bool >("Ele.DoFakeRate")),
 
     m_trigger_string(Tools::splitString< std::string >(cfg.GetItem< std::string >("RPV.trigger_list"))),
     d_mydiscmu({"isPFMuon", "isGlobalMuon", "isTrackerMuon", "isStandAloneMuon", "isTightMuon", "isHighPtMuon"}),
@@ -115,6 +116,20 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     HistClass::CreateHisto("Ctr_pT_hat", 5000, 0, 5000, "#hat{p_{T}} (GeV)");
     HistClass::CreateHisto("Ctr_HT", 5000, 0, 5000, "H_{T} (GeV)");
+
+    if (doFakeRate) {
+        HistClass::CreateHisto("JetFakeRate", 620, 0, 6200, "m(e#mu) [GeV]");
+        HistClass::CreateHisto("JetFakeRate #eta", 30, 0, 3, "|#eta|");
+        HistClass::CreateHisto("JetFakeRate #phi", 32, 0, 3.2, "|#phi|");
+        HistClass::CreateHisto("JetFakeRate E_{T} in barrel", 70, 0, 3500, "E_{T}");
+        HistClass::CreateHisto("JetFakeRate E_{T} in endcap", 70, 0, 3500, "E_{T}");
+        
+        HistClass::CreateHisto("JetFakeRate HEEP", 620, 0, 6200, "m(e#mu) [GeV]");
+        HistClass::CreateHisto("JetFakeRate HEEP #eta", 30, 0, 3, "|#eta|");
+        HistClass::CreateHisto("JetFakeRate HEEP #phi", 32, 0, 3.2, "|#phi|");
+        HistClass::CreateHisto("JetFakeRate E_{T} HEEP in barrel", 70, 0, 3500, "E_{T}");
+        HistClass::CreateHisto("JetFakeRate E_{T} HEEP in endcap", 70, 0, 3500, "E_{T}");
+    }
 
     if (not runOnData) {
         Create_Gen_histograms("emu", "ele", "muo");
@@ -412,8 +427,64 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         Fill_trigger_effs();
     }
 
+    // alternatively you could redefine the Electron-List so you get the reduced Plots in Emu-Stages, bad if you want to compare Sets
+    //~ Temp_List = new std::vector< pxl::Particle* >;
+    if (doFakeRate) {
+		pxl::Particle* temp_ele = 0;
+		double FakeRate = 0;
+		for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
+			pxl::Particle *ele = *part_it;
+			int temp = FindJetFakeElectrons(ele);
+			if (temp > 0 and FindResonance("emu", *EleList, *MuonList)) {
+				HistClass::Fill("JetFakeRate", resonance_mass["emu"], weight);
+				if (temp < 3) {
+					temp_ele = (pxl::Particle*) ele->clone();
+					//~ Temp_List->push_back(temp_ele);
+				}
+			}
+			if (temp > 2.5 and FindResonance("emu", *EleList, *MuonList)) {
+				HistClass::Fill("JetFakeRate HEEP", resonance_mass["emu"], weight);
+			}
+		}
+		if (not runOnData and temp_ele) {
+			// define FakeRate, currently 8TeV;
+			if (fabs(temp_ele->getEta()) < 1.442) {
+				if(temp_ele->getEt() > 35 and temp_ele->getEt() < 98) {
+					FakeRate = 0.0226 - 0.000153 * temp_ele->getEt();
+				} else if (temp_ele->getEt() > 98 and temp_ele->getEt() < 191.9) {
+					FakeRate = 0.0115 - 0.0000398 * temp_ele->getEt();
+				} else {
+					FakeRate = 0.00382;
+				}
+			} else if (fabs(temp_ele->getEta()) > 1.56 and fabs(temp_ele->getEta()) < 2.5) {
+				if(temp_ele->getEt() > 35 and temp_ele->getEt() < 89.9) {
+					FakeRate = 0.0823 - 0.000522 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
+				} else if (temp_ele->getEt() > 89.9 and temp_ele->getEt() < 166.4) {
+					FakeRate = 0.0403 - 0.0000545 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
+				} else {
+					FakeRate = 0.0290 + 0.0000132 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
+				}
+			} 
+			weight = weight*1/(1-FakeRate);
+			//whereas FakeRate is yet to get from Data
+			//as the functional form is not set, yet!;
+			//supposed to use pileupweight and others aswell?!
+		}
+		delete temp_ele;
+		temp_ele = 0;
+		//~ delete EleList;
+		//~ EleList = 0;
+		//~ EleList = new std::vector< pxl::Particle* >;
+		//~ for (std::vector< pxl::Particle >::const_iterator part_it = Temp_List->begin(); part_it != Temp_List->end(); part_it++) {
+			//~ pxl::Particle* temp = *part_it;
+			//~ EleList->push_back(temp);
+		//~ }			
+	}
+	
     Fill_RECO_effs();
     Fill_ID_effs();
+	
+    Make_emu_EfficiencyHisto();
 
     if (TriggerSelector(event)) {
         FillControllHistos();
@@ -444,7 +515,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         }
 
         for (uint i = 0; i < EleList->size(); i++) {
-            if (EleList->at(i)->getPt() < 25 or TMath::Abs(EleList->at(i)->getEta()) > 2.5 or (TMath::Abs(EleList->at(i)->getEta()) > 1.442 and TMath::Abs(EleList->at(i)->getEta()) < 1.56)) continue;
+            
             if (EleList->at(i)->getUserRecord("IDpassed").asBool()) {
                 Fill_Particle_histos(2, EleList->at(i));
             }
@@ -1177,6 +1248,7 @@ void specialAna::Create_ID_object_effs(std::string object) {
                          TString::Format("p_{T}^{%s(reco)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
+
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                          TString::Format("#eta(%s(reco))", object.c_str()), TString::Format("#phi(%s(reco)) (rad)", object.c_str()));
 
@@ -1309,7 +1381,6 @@ void specialAna::Create_RECO_object_effs(std::string object) {
     HistClass::CreateEff(TString::Format("%s_RECO_vs_Nvtx", object.c_str()),       70, 0, 70,
                          "n_{vtx}");
     HistClass::CreateEff(TString::Format("%s_RECO_vs_eta_vs_phi", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
-                         TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
     if (object != "MET") {
         HistClass::CreateEff(TString::Format("%s_RECO_vs_pT_in_Acc", object.c_str()),         300, 0, 3000,
                              TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
@@ -1360,7 +1431,6 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             double delta_r_min = 100;
             double delta_eta_min = 100;
             double delta_phi_min = 100;
-
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
@@ -1866,7 +1936,9 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     /// Cutflow histogram
     HistClass::CreateHisto(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos, 0, n_histos, "Cut stage");
     /// Resonant mass histogram
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               5000, 0, 5000, TString::Format("M_{%s,%s} (GeV)",                         part1, part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               620, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                     	    part1, part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_Gen",              channel) + endung,               620, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                     	    part1, part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Pt",                    channel) + endung,               150, -20, 500, TString::Format("Pt_{%s,%s} (GeV)",                    	part1, part2) );
     /// Delta R Histogram between muon and electron
     HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                    channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                           part1, part2) );
     /// Resonant mass resolution histogram
@@ -1878,11 +1950,11 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     HistClass::CreateHisto(n_histos, TString::Format("%s_pT_resolution_%s",      channel, part2) + endung,        1000, -10, 10, TString::Format("p_{T}-p_{T,gen}/p_{T,gen}(%s)",           part2) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_deltaR_match_%s",       channel, part2) + endung,        1000,   0, 10, TString::Format("#DeltaR(gen,RECO)(%s)",                   part2) );
     /// First particle histograms
-    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part1) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_%s",                 channel, part1) + endung,        500, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        	part1) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_eta_%s",                channel, part1) + endung,        80, -4, 4,     TString::Format("#eta^{%s}",                               part1) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_phi_%s",                channel, part1) + endung,        40, -3.2, 3.2, TString::Format("#phi^{%s} (rad)",                         part1) );
     /// Second particle histograms
-    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_%s",                 channel, part2) + endung,        5000, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_pT_%s",                 channel, part2) + endung,        500, 0, 5000, TString::Format("p_{T}^{%s} (GeV)",                        	part2) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_eta_%s",                channel, part2) + endung,        80, -4, 4,     TString::Format("#eta^{%s}",                               part2) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_phi_%s",                channel, part2) + endung,        40, -3.2, 3.2, TString::Format("#phi^{%s} (rad)",                         part2) );
     /// Delta phi between the two particles
@@ -1933,6 +2005,8 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     HistClass::Fill(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos,                                                          weight);
     /// Resonant mass histogram
     HistClass::Fill(n_histos, TString::Format("%s_Mass",                  channel) + endung,               resonance_mass[channel],                                           weight);
+    HistClass::Fill(n_histos, TString::Format("%s_Mass_Gen",                  channel) + endung,               resonance_mass_gen[channel],                                           weight);
+    HistClass::Fill(n_histos, TString::Format("%s_Pt",                  channel) + endung,                 resonance_mass["Pt"],                                              weight);
     /// Delta R between electron and muon
     HistClass::Fill(n_histos, TString::Format("%s_dR",                    channel) + endung,               DeltaR(sel_lepton_prompt[channel], sel_lepton_nprompt[channel]),                     weight);
     /// Resonant mass resolution histogram
@@ -2285,6 +2359,64 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     }
     if (ele_ID && ele_eta && ele_pt) return true;
     return false;
+}
+
+int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
+	double const abseta = fabs( ele->getEta() );
+	double eta_Barrel_max = 1.442;
+	double eta_Endcap_min = 1.56;
+	double eta_Endcap_max = 2.5;	
+	int Barrel_InnerLayerLostHits_max = 1;
+	int Endcap_InnerLayerLostHits_max = 1;
+	double Barrel_sigmaIetaIeta_max = 0.013;
+	double Endcap_sigmaIetaIeta_max = 0.034;
+	double Barrel_dxy_max = 0.02;
+	double Endcap_dxy_max = 0.05;
+	double Barrel_HoE_max = 0.15;
+	double Endcap_HoE_max = 0.1;
+	bool fakechecks = false;
+	bool allchecks = false;
+	if ( abseta < eta_Barrel_max ) {
+		// ele in barrel
+		if ( ele->getUserRecord("HoEm").toDouble() < Barrel_HoE_max and
+				ele->getUserRecord("NinnerLayerLostHits").toDouble() <= Barrel_InnerLayerLostHits_max and not
+				ele->getUserRecord("Dxy").toDouble() < Barrel_dxy_max and
+				ele->getUserRecord("sigmaIetaIeta").toDouble() < Barrel_sigmaIetaIeta_max) {
+			fakechecks = true;
+			HistClass::Fill("JetFakeRate #eta", fabs(ele->getEta()), weight);
+			HistClass::Fill("JetFakeRate #phi", fabs(ele->getPhi()), weight);
+			HistClass::Fill("JetFakeRate E_{T} in barrel", ele->getEt(), weight);
+			if (Check_Ele_ID(ele, false, false) ) {
+				allchecks = true;
+				HistClass::Fill("JetFakeRate HEEP #eta", fabs(ele->getEta()), weight);
+				HistClass::Fill("JetFakeRate HEEP #phi", fabs(ele->getPhi()), weight);
+				HistClass::Fill("JetFakeRate E_{T} HEEP in barrel", ele->getEt(), weight);
+				return 3;
+			}
+		}
+		if (fakechecks and not allchecks) return 1;
+		return 0;
+	} else if ( abseta > eta_Endcap_min and abseta < eta_Endcap_max ) {
+		//ele in endcap
+		if (ele->getUserRecord("HoEm").toDouble() < Endcap_HoE_max and
+				ele->getUserRecord("NinnerLayerLostHits").toDouble() <= Endcap_InnerLayerLostHits_max and
+				ele->getUserRecord("Dxy").toDouble() < Endcap_dxy_max and
+				ele->getUserRecord("sigmaIetaIeta").toDouble() < Endcap_sigmaIetaIeta_max) {
+			fakechecks = true;
+			HistClass::Fill("JetFakeRate #eta", fabs(ele->getEta()), weight);
+			HistClass::Fill("JetFakeRate #phi", fabs(ele->getPhi()), weight);
+			HistClass::Fill("JetFakeRate E_{T} in endcap", ele->getEt(), weight);
+			if (Check_Ele_ID(ele, false, false)) {
+				allchecks = true;
+				HistClass::Fill("JetFakeRate HEEP #eta", fabs(ele->getEta()), weight);
+				HistClass::Fill("JetFakeRate HEEP #phi", fabs(ele->getPhi()), weight);
+				HistClass::Fill("JetFakeRate E_{T} HEEP in endcap", ele->getEt(), weight);
+				return 4;
+			}
+		}
+		if (fakechecks and not allchecks) return 2;
+		return 0;
+	} else return 0;
 }
 
 std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
@@ -2894,7 +3026,7 @@ double specialAna::getPtHat() {
             if (TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 24) {
                 w = S3ListGen->at(i);
             }
-            // take the neutrio to avoid showering and so on!!
+            // take the neutrino to avoid showering and so on!!
             if ((TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 12 ||
                  TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 14 ||
                  TMath::Abs(S3ListGen->at(i)->getPdgNumber()) == 16) &&
@@ -2910,7 +3042,7 @@ double specialAna::getPtHat() {
             if (TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 24) {
                 w = S3ListGen->at(i);
             }
-            // take the neutrio to avoid showering and so on!!
+            // take the neutrino to avoid showering and so on!!
             if ((TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 12 ||
                  TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 14 ||
                  TMath::Abs(S3ListGen->at(i)->getUserRecord("id").asInt32()) == 16) &&
@@ -3056,6 +3188,10 @@ void specialAna::endJob(const Serializable*) {
     HistClass::WriteAllEff("RECO");
     HistClass::WriteAll2("RECO");
     HistClass::WriteAll("RECO");
+    file1->cd();
+    file1->mkdir("JetFakeRate");
+    file1->cd("JetFakeRate/");
+    HistClass::WriteAll("JetFakeRate");    
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
