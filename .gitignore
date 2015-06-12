@@ -9,3 +9,4 @@
 *Dict.h
 hooks/
 doc/doxy_cfg
+scripts/*.root
