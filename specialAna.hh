@@ -103,7 +103,8 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
-    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
+
+    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true, bool forceHEEP = true);
 
     int FindJetFakeElectrons(pxl::Particle* ele);
 
@@ -179,8 +180,6 @@ class specialAna : public pxl::AnalysisProcess  {
     std::vector< pxl::Particle* > * METList;
     std::vector< pxl::Particle* > * JetList;
     std::vector< pxl::Particle* > * BJetList;
-    
-    //~ std::vector< pxl::Particle* > * Temp_List;
 
     std::vector< pxl::Particle* > * RememberPart;
     std::vector< pxl::Particle* > * RememberMET;
