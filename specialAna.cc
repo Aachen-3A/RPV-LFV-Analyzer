@@ -416,13 +416,13 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     initEvent(event);
 
     if (tail_selector(event)) return;
-
+    
     if (not runOnData) {
         Fill_Gen_Controll_histo();
     }
-
+	
     GenSelector();
-
+    
     for (uint i = 0; i < MuonList->size(); i++) {
         if (MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1) continue;
         Fill_Particle_histos(0, MuonList->at(i));
@@ -453,7 +453,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
 		pxl::Particle* temp_ele = 0;
 		double FakeRate = 0;
 		for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
-			pxl::Particle *ele = *part_it;
+			pxl::Particle* ele = *part_it;
 			int temp = FindJetFakeElectrons(ele);
 			if (temp > 0 and FindResonance("emu", *EleList, *MuonList)) {
 				HistClass::Fill("JetFakeRate", resonance_mass["emu"], weight);
@@ -545,11 +545,9 @@ void specialAna::analyseEvent(const pxl::Event* event) {
 
         if (not runOnData) {
             FillSystematics(event, "Ele");
-
             FillSystematics(event, "Muon");
             FillSystematicsUpDown(event, "Muon", "Up", "Resolution");
             FillSystematicsUpDown(event, "Muon", "Down", "Resolution");
-
             FillSystematics(event, "Tau");
 
             FillSystematics(event, "Jet");
@@ -701,7 +699,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     /// get all particles
     std::vector< pxl::Particle* > shiftedParticles;
     tempEventView->getObjectsOfType< pxl::Particle >(shiftedParticles);
-
+    
     /// backup OldList
     RememberMET = METList;
     METList = new std::vector< pxl::Particle* >;
@@ -792,6 +790,12 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     resonance_mass_gen["mutaue"] = 0;
     resonance_mass["mutaumu"] = 0;
     resonance_mass_gen["mutaumu"] = 0;
+    
+    for(std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
+		pxl::Particle *ele = *part_it;
+		ele->setUserRecord("FakeID", false);
+		FindJetFakeElectrons(ele);
+	}
 
     KinematicsSelector("_" + particleName + "_syst_" + shiftType + updown);
 
@@ -2153,7 +2157,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
 }
 
 bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list) {
-	bool forceHEEP = true;
+    bool forceHEEP = true;
     resonance_mass[channel] = 0;
 
     for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
@@ -3486,7 +3490,7 @@ void specialAna::initEvent(const pxl::Event* event) {
         if (b_8TeV) {
             genCollection = "S3";
         }
-        for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); ++part_it) {
+        for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); part_it++) {
             pxl::Particle *part = *part_it;
             std::string Name = part->getName();
             // Only fill the collection if we want to use the particle!
@@ -3513,8 +3517,8 @@ void specialAna::initEvent(const pxl::Event* event) {
     
     if (doFakeRate) {
 		for(std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); ++part_it) {
-			pxl::Particle *part = *part_it;
-            part->setUserRecord("FakeID",false);
+			pxl::Particle* ele = *part_it;
+            ele->setUserRecord("FakeID",false);
 		}
 	}
 }
