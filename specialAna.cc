@@ -3512,7 +3512,7 @@ void specialAna::initEvent(const pxl::Event* event) {
     }
     
     if (doFakeRate) {
-		for(std::vector< pxl::Particle* >::const_iterator part_it = EleList.begin(); part_it != EleList.end(); ++part_it) {
+		for(std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); ++part_it) {
 			pxl::Particle *part = *part_it;
             part->setUserRecord("FakeID",false);
 		}
