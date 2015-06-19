@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import ROOT as r
+from configobj import ConfigObj
+
+lumi = 1000
 
 bgpath = '/disk1/erdweg/out/output2015_6_2_18_23/merged/'
 bgsamples = [
@@ -70,7 +73,7 @@ sys_labels = [
  '_Jet_syst_ResolutionDown',
 ]
 
-def get_hist_from_file(path, hist_name_temp, file_name):
+def get_hist_from_file(path, hist_name_temp, file_name, weight = 1):
     in_file = r.TFile(path + file_name + '.root', 'READ')
     hist = in_file.Get(hist_name_temp)
     try:
@@ -79,15 +82,28 @@ def get_hist_from_file(path, hist_name_temp, file_name):
         print('can not assign directory')
         print(' In file: %s, histogram: %s'%(file_name, hist_name_temp))
     in_file.Close()
+    hist.Scale(weight)
     return hist
 
-def write_sample(path, item):
+def write_sample(path, item, xs):
     sample_name = item
 
-    hist = get_hist_from_file(path, hist_name, item)
+    Nev=0
+    try:
+        counter = get_hist_from_file(path, "h_counters", item)
+        Nev=max(counter.GetBinContent(1),counter.GetBinContent(2))
+        del counter
+    except:
+        print("[Info] If you want to use Nev from the root file store 'h_counters'")
+        Nev=xs[item].as_float("Nev")
+
+    BGtotalweight=xs[item].as_float("xs")*xs[item].as_float("weight")*lumi/Nev
+
+    hist = get_hist_from_file(path, hist_name, item, BGtotalweight)
+
     sys_hists = []
     for name in sys_labels:
-        sys_hists.append(get_hist_from_file(path, sys_hist_name + name, item))
+        sys_hists.append(get_hist_from_file(path, sys_hist_name + name, item, BGtotalweight))
 
     out_file = r.TFile(out_file_name, 'UPDATE')
     out_file.mkdir(sample_name)
@@ -104,13 +120,56 @@ def write_sample(path, item):
 
     out_file.Close()
 
+def write_sum():
+    counting = 0
+    for item in bgsamples:
+        print(item)
+        if counting == 0:
+            dummy_hist = get_hist_from_file('./', item + '/' + sys_hist_name.split('/')[-1], out_file_name.replace('.root',''))
+        else:
+            dummy_hist.Add(get_hist_from_file('./', item + '/' + sys_hist_name.split('/')[-1], out_file_name.replace('.root','')))
+        counting += 1
+
+    out_file = r.TFile(out_file_name, 'UPDATE')
+
+    dummy_hist.Write()
+
+    out_file.Close()
+    del dummy_hist
+
+    for name in sys_labels:
+        counting = 0
+        for item in bgsamples:
+            if counting == 0:
+                dummy_hist = get_hist_from_file('./', item + '/sys/' + sys_hist_name.split('/')[-1] + name, out_file_name.replace('.root',''))
+            else:
+                dummy_hist.Add(get_hist_from_file('./', item + '/sys/' + sys_hist_name.split('/')[-1] + name, out_file_name.replace('.root','')))
+            counting += 1
+
+        out_file = r.TFile(out_file_name, 'UPDATE')
+
+        out_file.Cd('sys/')
+
+        dummy_hist.Write()
+
+        out_file.Close()
+        del dummy_hist
+
 def main():
+    try: 
+        xs = ConfigObj('/disk1/erdweg/plotting/xs_Phys14.cfg')
+    except:
+        print("no xs file /disk1/erdweg/plotting/xs_Phys14.cfg")
+        exit()
+
     out_file = r.TFile(out_file_name, 'RECREATE')
+    out_file.mkdir('sys/')
     out_file.Close()
     for item in bgsamples:
-        write_sample(bgpath, item)
+        write_sample(bgpath, item, xs)
     for item in sgsamples:
-        write_sample(sgpath, item)
+        write_sample(sgpath, item, xs)
+    write_sum()
 
 if __name__ == '__main__':
     main()
