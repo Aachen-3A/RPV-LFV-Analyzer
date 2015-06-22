@@ -103,8 +103,10 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
-    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
-    //~ void Check_Ele_ID_Eff(std::vector< pxl::Particle* > part1_list, bool do_pt_cut = true, bool do_eta_cut = true);
+
+    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true, bool forceHEEP = true);
+
+    int FindJetFakeElectrons(pxl::Particle* ele);
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
@@ -138,6 +140,7 @@ class specialAna : public pxl::AnalysisProcess  {
     bool runOnData;
     bool doTriggerStudies;
     const std::string m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
+    bool doFakeRate;
 
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
