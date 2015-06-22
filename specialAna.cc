@@ -416,7 +416,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     initEvent(event);
 
     if (tail_selector(event)) return;
-    
+
     if (not runOnData) {
         Fill_Gen_Controll_histo();
     }
@@ -468,7 +468,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         if (not runOnData and temp_ele) {
             // define FakeRate, currently 8TeV;
             if (fabs(temp_ele->getEta()) < 1.442) {
-                if(temp_ele->getEt() > 35 and temp_ele->getEt() < 98) {
+                if (temp_ele->getEt() > 35 and temp_ele->getEt() < 98) {
                     FakeRate = 0.0226 - 0.000153 * temp_ele->getEt();
                 } else if (temp_ele->getEt() > 98 and temp_ele->getEt() < 191.9) {
                     FakeRate = 0.0115 - 0.0000398 * temp_ele->getEt();
@@ -476,18 +476,18 @@ void specialAna::analyseEvent(const pxl::Event* event) {
                     FakeRate = 0.00382;
                 }
             } else if (fabs(temp_ele->getEta()) > 1.56 and fabs(temp_ele->getEta()) < 2.5) {
-                if(temp_ele->getEt() > 35 and temp_ele->getEt() < 89.9) {
+                if (temp_ele->getEt() > 35 and temp_ele->getEt() < 89.9) {
                     FakeRate = 0.0823 - 0.000522 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
                 } else if (temp_ele->getEt() > 89.9 and temp_ele->getEt() < 166.4) {
                     FakeRate = 0.0403 - 0.0000545 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
                 } else {
                     FakeRate = 0.0290 + 0.0000132 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
                 }
-            } 
+            }
             weight = weight*1/(1-FakeRate);
-            //whereas FakeRate is yet to get from Data
-            //as the functional form is not set, yet!;
-            //supposed to use pileupweight and others aswell?!
+            // whereas FakeRate is yet to get from Data
+            // as the functional form is not set, yet!;
+            // supposed to use pileupweight and others aswell?!
         }
         delete temp_ele;
         temp_ele = 0;
@@ -525,7 +525,6 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         }
 
         for (uint i = 0; i < EleList->size(); i++) {
-            
             if (EleList->at(i)->getUserRecord("IDpassed").asBool()) {
                 Fill_Particle_histos(2, EleList->at(i));
             }
@@ -554,7 +553,7 @@ void specialAna::analyseEvent(const pxl::Event* event) {
             FillSystematicsUpDown(event, "Jet", "Up", "Resolution");
             FillSystematicsUpDown(event, "Jet", "Down", "Resolution");
 
-            FillSystematics(event,"MET");
+            FillSystematics(event, "MET");
         }
     }
     endEvent(event);
@@ -699,7 +698,7 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     /// get all particles
     std::vector< pxl::Particle* > shiftedParticles;
     tempEventView->getObjectsOfType< pxl::Particle >(shiftedParticles);
-    
+
     /// backup OldList
     RememberMET = METList;
     METList = new std::vector< pxl::Particle* >;
@@ -790,8 +789,8 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
     resonance_mass_gen["mutaue"] = 0;
     resonance_mass["mutaumu"] = 0;
     resonance_mass_gen["mutaumu"] = 0;
-    
-    for(std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
+
+    for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
         pxl::Particle *ele = *part_it;
         ele->setUserRecord("FakeID", false);
         FindJetFakeElectrons(ele);
@@ -799,42 +798,42 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 
     KinematicsSelector("_" + particleName + "_syst_" + shiftType + updown);
 
-    for(auto const &it1 : sel_lepton_prompt) {
+    for (auto const &it1 : sel_lepton_prompt) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_prompt[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_lepton_nprompt) {
+    for (auto const &it1 : sel_lepton_nprompt) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_nprompt[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_lepton_nprompt_corr) {
+    for (auto const &it1 : sel_lepton_nprompt_corr) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_nprompt_corr[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_lepton_nprompt_corr) {
+    for (auto const &it1 : sel_lepton_nprompt_corr) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_nprompt_corr[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_part1_gen) {
+    for (auto const &it1 : sel_part1_gen) {
         if (it1.second != 0) {
             delete it1.second;
             sel_part1_gen[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_part2_gen) {
+    for (auto const &it1 : sel_part2_gen) {
         if (it1.second != 0) {
             delete it1.second;
             sel_part2_gen[it1.first] = 0;
@@ -1449,7 +1448,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
-                    pxl::Particle *genPart =  dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst (m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
+                    pxl::Particle *genPart = dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst(m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
                     if (genPart->getId() == part_i->getId()) {
                         matched_reco_particle = (pxl::Particle*) part_j->clone();
                         delta_r_min = DeltaR(part_j, part_i);
@@ -1478,8 +1477,8 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), AllVertices[0]->getZ(), delta_r_min, 1.);
             }
             m_RecEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
-            for( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
-                if( (*PV)->getName() != "PV" ) continue;
+            for ( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
+                if ( (*PV)->getName() != "PV" ) continue;
                 HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), (*PV)->getZ(), delta_r_min, 1.);
             }
             if (matched_reco_particle != 0) {
@@ -1573,7 +1572,7 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part_list.begin(); part_jt != part_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
                 if (part_j->getSoftRelations().hasType("priv-gen-rec")) {
-                    pxl::Particle *genPart =  dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst (m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
+                    pxl::Particle *genPart = dynamic_cast< pxl::Particle* >(part_j->getSoftRelations().getFirst(m_GenEvtView->getObjectOwner(), "priv-gen-rec"));
                     if (genPart->getId() == part_i->getId()) {
                         matched_reco_particle = (pxl::Particle*) part_j->clone();
                         delta_r_min = DeltaR(part_j, part_i);
@@ -1602,8 +1601,8 @@ void specialAna::Fill_RECO_object_effs(std::string object, int id, std::vector< 
                 HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_z", object.c_str()), AllVertices[0]->getZ(), delta_r_min, 1.);
             }
             m_RecEvtView->getObjectsOfType< pxl::Vertex >(AllVertices);
-            for( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
-                if( (*PV)->getName() != "PV" ) continue;
+            for ( std::vector< pxl::Vertex* >::const_iterator PV = AllVertices.begin(); PV != AllVertices.end(); PV++ ) {
+                if ( (*PV)->getName() != "PV" ) continue;
                 HistClass::Fill(TString::Format("%s_RECO_DeltaR_vs_PVz", object.c_str()), (*PV)->getZ(), delta_r_min, 1.);
             }
             if (matched_reco_particle != 0) {
@@ -1941,7 +1940,7 @@ void specialAna::Fill_Gen_histograms(const char* channel, const char* part1, con
     if (resonance_mass_gen[channel] != 0) {
         HistClass::Fill(TString::Format("%s_RECO_vs_Mass_All", channel), resonance_mass_gen[channel], 1);
         HistClass::Fill(TString::Format("%s_RECO_vs_Nvtx_All", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
-    
+
         HistClass::Fill(TString::Format("%s_Eff_vs_Mass_All", channel), resonance_mass_gen[channel], 1);
         HistClass::Fill(TString::Format("%s_Eff_vs_Nvtx_All", channel), m_RecEvtView->getUserRecord("NumVertices"), 1);
     }
@@ -2368,7 +2367,7 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
     bool ele_eta = TMath::Abs(ele -> getEta()) < 2.5 ? true : false;
 
-    bool ele_pt = ele -> getPt() > 35. ? true : false;    
+    bool ele_pt = ele -> getPt() > 35. ? true : false;
 
     if (not do_pt_cut) {
         ele_pt = true;
@@ -2386,10 +2385,10 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
 }
 
 int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
-    double const abseta = fabs( ele->getEta() );
+    double const abseta = fabs(ele->getEta());
     double eta_Barrel_max = 1.442;
     double eta_Endcap_min = 1.56;
-    double eta_Endcap_max = 2.5;    
+    double eta_Endcap_max = 2.5;
     int Barrel_InnerLayerLostHits_max = 1;
     int Endcap_InnerLayerLostHits_max = 1;
     double Barrel_sigmaIetaIeta_max = 0.013;
@@ -2411,38 +2410,38 @@ int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
             HistClass::Fill("JetFakeRate #phi", fabs(ele->getPhi()), weight);
             HistClass::Fill("JetFakeRate E_{T} in barrel", ele->getEt(), weight);
             if (ele->getEt() > 35 and ele->getEt() < 50) {
-                HistClass::Fill("JetFakeRate E_{T}=35 - 50", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=35 - 50", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 50 and ele->getEt() < 80) {
-                HistClass::Fill("JetFakeRate E_{T}=50 - 80", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=50 - 80", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 80 and ele->getEt() < 100) {
-                HistClass::Fill("JetFakeRate E_{T}=80 - 100", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=80 - 100", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 100 and ele->getEt() < 200) {
-                HistClass::Fill("JetFakeRate E_{T}=100 - 200", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=100 - 200", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 200 and ele->getEt() < 300) {
-                HistClass::Fill("JetFakeRate E_{T}=200 - 300", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=200 - 300", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 300 and ele->getEt() < 1000) {
-                HistClass::Fill("JetFakeRate E_{T}=300 - 1000", fabs(ele->getEta()), weight); 
-            } else if(ele->getEt() > 1000) {
+                HistClass::Fill("JetFakeRate E_{T}=300 - 1000", fabs(ele->getEta()), weight);
+            } else if (ele->getEt() > 1000) {
                 HistClass::Fill("JetFakeRate E_{T}>1000", fabs(ele->getEt()), weight);
             }
-            if (Check_Ele_ID(ele, false, false, true) ) {
+            if (Check_Ele_ID(ele, false, false, true)) {
                 allchecks = true;
                 HistClass::Fill("JetFakeRate HEEP #eta", fabs(ele->getEta()), weight);
                 HistClass::Fill("JetFakeRate HEEP #phi", fabs(ele->getPhi()), weight);
                 HistClass::Fill("JetFakeRate E_{T} HEEP in barrel", ele->getEt(), weight);
                 if (ele->getEt() > 35 and ele->getEt() < 50) {
-                    HistClass::Fill("JetFakeRate E_{T}=35 - 50 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=35 - 50 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 50 and ele->getEt() < 80) {
-                    HistClass::Fill("JetFakeRate E_{T}=50 - 80 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=50 - 80 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 80 and ele->getEt() < 100) {
-                    HistClass::Fill("JetFakeRate E_{T}=80 - 100 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=80 - 100 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 100 and ele->getEt() < 200) {
-                    HistClass::Fill("JetFakeRate E_{T}=100 - 200 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=100 - 200 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 200 and ele->getEt() < 300) {
-                    HistClass::Fill("JetFakeRate E_{T}=200 - 300 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=200 - 300 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 300 and ele->getEt() < 1000) {
-                    HistClass::Fill("JetFakeRate E_{T}=300 - 1000 HEEP", fabs(ele->getEta()), weight); 
-                } else if(ele->getEt() > 1000) {
+                    HistClass::Fill("JetFakeRate E_{T}=300 - 1000 HEEP", fabs(ele->getEta()), weight);
+                } else if (ele->getEt() > 1000) {
                     HistClass::Fill("JetFakeRate E_{T}>1000 HEEP", fabs(ele->getEta()), weight);
                 }
                 return 3;
@@ -2454,7 +2453,7 @@ int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
         }
         return 0;
     } else if ( abseta > eta_Endcap_min and abseta < eta_Endcap_max ) {
-        //ele in endcap
+        // ele in endcap
         if (ele->getUserRecord("HoEm").toDouble() < Endcap_HoE_max and
                 ele->getUserRecord("NinnerLayerLostHits").toDouble() <= Endcap_InnerLayerLostHits_max and
                 ele->getUserRecord("Dxy").toDouble() < Endcap_dxy_max and
@@ -2464,18 +2463,18 @@ int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
             HistClass::Fill("JetFakeRate #phi", fabs(ele->getPhi()), weight);
             HistClass::Fill("JetFakeRate E_{T} in endcap", ele->getEt(), weight);
             if (ele->getEt() > 35 and ele->getEt() < 50) {
-                HistClass::Fill("JetFakeRate E_{T}=35 - 50", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=35 - 50", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 50 and ele->getEt() < 80) {
-                HistClass::Fill("JetFakeRate E_{T}=50 - 80", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=50 - 80", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 80 and ele->getEt() < 100) {
-                HistClass::Fill("JetFakeRate E_{T}=80 - 100", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=80 - 100", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 100 and ele->getEt() < 200) {
-                HistClass::Fill("JetFakeRate E_{T}=100 - 200", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=100 - 200", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 200 and ele->getEt() < 300) {
-                HistClass::Fill("JetFakeRate E_{T}=200 - 300", fabs(ele->getEta()), weight);  
+                HistClass::Fill("JetFakeRate E_{T}=200 - 300", fabs(ele->getEta()), weight);
             } else if (ele->getEt() > 300 and ele->getEt() < 1000) {
-                HistClass::Fill("JetFakeRate E_{T}=300 - 1000", fabs(ele->getEta()), weight); 
-            } else if(ele->getEt() > 1000) {
+                HistClass::Fill("JetFakeRate E_{T}=300 - 1000", fabs(ele->getEta()), weight);
+            } else if (ele->getEt() > 1000) {
                 HistClass::Fill("JetFakeRate E_{T}>1000", fabs(ele->getEta()), weight);
             }
             if (Check_Ele_ID(ele, false, false, true)) {
@@ -2484,18 +2483,18 @@ int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
                 HistClass::Fill("JetFakeRate HEEP #phi", fabs(ele->getPhi()), weight);
                 HistClass::Fill("JetFakeRate E_{T} HEEP in endcap", ele->getEt(), weight);
                 if (ele->getEt() > 35 and ele->getEt() < 50) {
-                    HistClass::Fill("JetFakeRate E_{T}=35 - 50 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=35 - 50 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 50 and ele->getEt() < 80) {
-                    HistClass::Fill("JetFakeRate E_{T}=50 - 80 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=50 - 80 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 80 and ele->getEt() < 100) {
-                    HistClass::Fill("JetFakeRate E_{T}=80 - 100 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=80 - 100 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 100 and ele->getEt() < 200) {
-                    HistClass::Fill("JetFakeRate E_{T}=100 - 200 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=100 - 200 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 200 and ele->getEt() < 300) {
-                    HistClass::Fill("JetFakeRate E_{T}=200 - 300 HEEP", fabs(ele->getEta()), weight);  
+                    HistClass::Fill("JetFakeRate E_{T}=200 - 300 HEEP", fabs(ele->getEta()), weight);
                 } else if (ele->getEt() > 300 and ele->getEt() < 1000) {
-                    HistClass::Fill("JetFakeRate E_{T}=300 - 1000 HEEP", fabs(ele->getEta()), weight); 
-                } else if(ele->getEt() > 1000) {
+                    HistClass::Fill("JetFakeRate E_{T}=300 - 1000 HEEP", fabs(ele->getEta()), weight);
+                } else if (ele->getEt() > 1000) {
                     HistClass::Fill("JetFakeRate E_{T}>1000 HEEP", fabs(ele->getEta()), weight);
                 }
                 return 4;
@@ -2506,7 +2505,9 @@ int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
             return 2;
         }
         return 0;
-    } else return 0;
+    } else {
+        return 0;
+    }
 }
 
 std::vector<double> specialAna::Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met) {
@@ -3243,7 +3244,6 @@ void specialAna::Fill_overall_efficiencies() {
     HistClass::CreateEff("mutaumu_RECO_vs_Nvtx", HistClass::ReturnHist("mutaumu_RECO_vs_Nvtx_All"), HistClass::ReturnHist("mutaumu_RECO_vs_Nvtx_Pass"));
     HistClass::CreateEff("mutaumu_Eff_vs_Mass", HistClass::ReturnHist("mutaumu_Eff_vs_Mass_All"), HistClass::ReturnHist("mutaumu_Eff_vs_Mass_Pass"));
     HistClass::CreateEff("mutaumu_Eff_vs_Nvtx", HistClass::ReturnHist("mutaumu_Eff_vs_Nvtx_All"), HistClass::ReturnHist("mutaumu_Eff_vs_Nvtx_Pass"));
-
 }
 
 void specialAna::endJob(const Serializable*) {
@@ -3281,7 +3281,7 @@ void specialAna::endJob(const Serializable*) {
     file1->cd();
     file1->mkdir("JetFakeRate");
     file1->cd("JetFakeRate/");
-    HistClass::WriteAll("JetFakeRate");    
+    HistClass::WriteAll("JetFakeRate");
     file1->cd();
     file1->mkdir("Ctr");
     file1->cd("Ctr/");
@@ -3502,7 +3502,7 @@ void specialAna::initEvent(const pxl::Event* event) {
                 GammaListGen->push_back(part);
             } else if (Name == "Tau") {
                 TauListGen->push_back(part);
-            } else if (Name == (m_METType+"_gen") ) {
+            } else if (Name == (m_METType+"_gen")) {
                 METListGen->push_back(part);
             } else if (Name == m_JetAlgo) {
                 JetListGen->push_back(part);
@@ -3514,52 +3514,52 @@ void specialAna::initEvent(const pxl::Event* event) {
             }
         }
     }
-    
+
     if (doFakeRate) {
-        for(std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); ++part_it) {
+        for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); ++part_it) {
             pxl::Particle* ele = *part_it;
-            ele->setUserRecord("FakeID",false);
+            ele->setUserRecord("FakeID", false);
         }
     }
 }
 
 void specialAna::endEvent(const pxl::Event* event) {
-    for(auto const &it1 : sel_lepton_prompt) {
+    for (auto const &it1 : sel_lepton_prompt) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_prompt[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_lepton_nprompt) {
+    for (auto const &it1 : sel_lepton_nprompt) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_nprompt[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_lepton_nprompt_corr) {
+    for (auto const &it1 : sel_lepton_nprompt_corr) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_nprompt_corr[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_lepton_nprompt_corr) {
+    for (auto const &it1 : sel_lepton_nprompt_corr) {
         if (it1.second != 0) {
             delete it1.second;
             sel_lepton_nprompt_corr[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_part1_gen) {
+    for (auto const &it1 : sel_part1_gen) {
         if (it1.second != 0) {
             delete it1.second;
             sel_part1_gen[it1.first] = 0;
         }
     }
 
-    for(auto const &it1 : sel_part2_gen) {
+    for (auto const &it1 : sel_part2_gen) {
         if (it1.second != 0) {
             delete it1.second;
             sel_part2_gen[it1.first] = 0;
