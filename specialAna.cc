@@ -640,7 +640,7 @@ bool specialAna::tail_selector(const pxl::Event* event) {
     }
 
     /// ttbar 13TeV tail fitting
-    if (b_13TeV and Datastream.Contains("TT_CT10_TuneZ2star_8TeV-powheg")) {
+    if (b_13TeV and Datastream.Contains("TT_13TeV_PH")) {
         for (uint i = 0; i < S3ListGen->size(); i++) {
             if (S3ListGen->at(i) -> getPdgNumber() == 6) {
                 for (uint j = 0; j < S3ListGen->size(); j++) {
@@ -649,9 +649,9 @@ bool specialAna::tail_selector(const pxl::Event* event) {
                                                     - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
                                                     - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
                                                     - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                        if (!Datastream.Contains("Mtt") and sqrt(mass) > 700) {
+                        if (!Datastream.Contains("Mtt") and sqrt(mass) > 1000) {
                             return true;
-                        } else if (Datastream.Contains("Mtt") and sqrt(mass) <= 700) {
+                        } else if (Datastream.Contains("Mtt") and sqrt(mass) <= 1000) {
                             return true;
                         }
                     }
