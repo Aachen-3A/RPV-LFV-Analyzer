@@ -24,16 +24,7 @@ using std::string;
 AnalysisComposer::AnalysisComposer() :
     m_analysisName("RPV-LFV-Analyzer"),
     m_outputDirectory("./MusicOutDir"),
-    runOnData(false),
-    // music variables
-    ECMerger(2),
-    NoCcControl(false),
-    runSpecialAna(true),
-    NoCcEventClass(false),
-    runCcEventClass(false),
-    DumpECHistos(false)//,
-    // m_XSectionsFile("$MUSIC_BASE/ConfigFiles/XSections.txt"),
-    // m_PlotConfigFile("$MUSIC_BASE/ConfigFiles/ControlPlots2.cfg")
+    runOnData(false)
 {}
 
 po::options_description AnalysisComposer::getCmdArguments() {

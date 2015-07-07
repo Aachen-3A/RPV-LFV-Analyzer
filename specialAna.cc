@@ -47,7 +47,6 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     sample_weight = 1.;
 
     if (doSampleWeighting) {
-        /* load sample config */
         ConfigParser_t cfg;
         if (cfg.readFile(expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg")))
         {
@@ -56,6 +55,12 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
         double testValue;
         std::string section = "TT_Mtt-1000toInf_13TeV_MCRUN2_74_V9_ext1-v2_PH";
+
+        // std::string datastream = event->getUserRecord("Dataset").asString();
+        // TString Datastream = datastream;
+// 
+        // std::cerr << Datastream << std::endl;
+        // raw_input("bla");
 
         double xs = 0.;
         double weight = 0.;
@@ -84,7 +89,6 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         std::cout << "\n Weighting the sample " << section << " with the factor:\n";
         std::cout << "\t " << sample_weight << " = " << lumi << "(lumi) * " << xs << "(xs) * ";
         std::cout << weight << "(weight) / " << Nev << "(Nev)\n\n"; 
-
     }
 
     if (doTriggerStudies) {
