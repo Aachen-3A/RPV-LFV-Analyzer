@@ -3,9 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include <unordered_set>
 #include <fstream>
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 /// clean up the header!!!
@@ -131,6 +133,8 @@ class specialAna : public pxl::AnalysisProcess  {
     double getPtHat();
     double getHT();
 
+
+    static std::string expand_environment_variables( std::string s );
     void raw_input(TString question);
 
     pxl::EventView *m_RecEvtView;
@@ -139,6 +143,7 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool runOnData;
     bool doTriggerStudies;
+    bool doSampleWeighting;
     const std::string m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
     bool doFakeRate;
 
@@ -161,6 +166,7 @@ class specialAna : public pxl::AnalysisProcess  {
     double temp_event;
 
     double weight;
+    double sample_weight;
 
     unsigned int numMuon;
     unsigned int numEle;
@@ -236,7 +242,7 @@ class specialAna : public pxl::AnalysisProcess  {
     std::map< std::string, float > mLeptonTree;
 
     bool keep_data_event;
-    std::map< std::string, float > mkeep_resonance_mass;
+    std::unordered_map< std::string, float > mkeep_resonance_mass;
 
     double event_weight;
     double pileup_weight;

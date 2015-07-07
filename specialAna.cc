@@ -1,6 +1,7 @@
 #include "specialAna.hh"
 #include "HistClass.hh"
 #include "Tools/Tools.hh"
+#include "cfgparser.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -10,6 +11,7 @@
 specialAna::specialAna(const Tools::MConfig &cfg) :
     runOnData(cfg.GetItem< bool >("General.RunOnData")),
     doTriggerStudies(cfg.GetItem< bool >("General.DoTriggerStudies")),
+    doSampleWeighting(cfg.GetItem< bool >("General.DoSampleWeighting")),
     m_JetAlgo(cfg.GetItem< std::string >("Jet.Type.Rec")),
     m_BJets_algo(cfg.GetItem< std::string >("Jet.BJets.Algo")),
     m_METType(cfg.GetItem< std::string >("MET.Type.Rec")),
@@ -40,6 +42,17 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
+
+    sample_weight = 1.;
+
+    if (doSampleWeighting) {
+        /* load sample config */
+        ConfigParser_t cfg;
+        if (cfg.readFile(expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg")))
+        {
+            std::cerr << "Error: Cannot open config file '" << expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg") <<"'\n";
+        }
+    }
 
     if (doTriggerStudies) {
         Create_trigger_effs();
@@ -116,6 +129,9 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     HistClass::CreateHisto("Ctr_pT_hat", 5000, 0, 5000, "#hat{p_{T}} (GeV)");
     HistClass::CreateHisto("Ctr_HT", 5000, 0, 5000, "H_{T} (GeV)");
+
+    HistClass::CreateHisto("Ctr_TTbar_mass_pre", 500, 0, 5000, "M_{tt} (GeV)");
+    HistClass::CreateHisto("Ctr_TTbar_mass_post", 500, 0, 5000, "M_{tt} (GeV)");
 
     HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
     HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
@@ -640,20 +656,23 @@ bool specialAna::tail_selector(const pxl::Event* event) {
     }
 
     /// ttbar 13TeV tail fitting
-    if (b_13TeV and Datastream.Contains("TT_13TeV_PH")) {
+    if (b_13TeV and Datastream.Contains("TT_")) {
         for (uint i = 0; i < S3ListGen->size(); i++) {
             if (S3ListGen->at(i) -> getPdgNumber() == 6) {
                 for (uint j = 0; j < S3ListGen->size(); j++) {
                     if (S3ListGen->at(j) -> getPdgNumber() == -6) {
-                        double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
-                                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
-                                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
-                                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                        if (!Datastream.Contains("Mtt") and sqrt(mass) > 1000) {
+                        double mass = (S3ListGen->at(j)->getE()  + S3ListGen->at(i)->getE()) *(S3ListGen->at(j)->getE()  + S3ListGen->at(i)->getE())
+                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                        mass = sqrt(mass);
+                        HistClass::Fill("Ctr_TTbar_mass_pre", mass, weight);
+                        if (!Datastream.Contains("Mtt") and mass > 1000) {
                             return true;
-                        } else if (Datastream.Contains("Mtt") and sqrt(mass) <= 1000) {
+                        } else if (Datastream.Contains("Mtt") and mass <= 1000) {
                             return true;
                         }
+                        HistClass::Fill("Ctr_TTbar_mass_post", mass, weight);
                     }
                 }
             }
@@ -3167,6 +3186,24 @@ double specialAna::getHT() {
     return ht_val;
 }
 
+std::string specialAna::expand_environment_variables( std::string s ) {
+    if( s.find( "${" ) == std::string::npos ) return s;
+
+    std::string pre  = s.substr( 0, s.find( "${" ) );
+    std::string post = s.substr( s.find( "${" ) + 2 );
+
+    if( post.find( '}' ) == std::string::npos ) return s;
+
+    std::string variable = post.substr( 0, post.find( '}' ) );
+    std::string value    = "";
+
+    post = post.substr( post.find( '}' ) + 1 );
+
+    if( getenv( variable.c_str() ) != NULL ) value = std::string( getenv( variable.c_str() ) );
+
+    return expand_environment_variables( pre + value + post );
+}
+
 void specialAna::raw_input(TString question) {
   TString answer;
   std::cout << question << std::endl;
@@ -3480,6 +3517,8 @@ void specialAna::initEvent(const pxl::Event* event) {
             error << "The data period " << m_dataPeriod << " is not supported by this analysis!\n";
             throw Tools::config_error(error.str());
         }
+
+        weight = weight * sample_weight;
 
         // get all particles
         std::vector< pxl::Particle* > AllParticlesGen;
