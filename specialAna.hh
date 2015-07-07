@@ -144,6 +144,7 @@ class specialAna : public pxl::AnalysisProcess  {
     bool runOnData;
     bool doTriggerStudies;
     bool doSampleWeighting;
+    double lumi;
     const std::string m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
     bool doFakeRate;
 

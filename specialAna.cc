@@ -12,6 +12,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     runOnData(cfg.GetItem< bool >("General.RunOnData")),
     doTriggerStudies(cfg.GetItem< bool >("General.DoTriggerStudies")),
     doSampleWeighting(cfg.GetItem< bool >("General.DoSampleWeighting")),
+    lumi(cfg.GetItem< double >("General.lumi")),
     m_JetAlgo(cfg.GetItem< std::string >("Jet.Type.Rec")),
     m_BJets_algo(cfg.GetItem< std::string >("Jet.BJets.Algo")),
     m_METType(cfg.GetItem< std::string >("MET.Type.Rec")),
@@ -52,6 +53,38 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
         {
             std::cerr << "Error: Cannot open config file '" << expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg") <<"'\n";
         }
+
+        double testValue;
+        std::string section = "TT_Mtt-1000toInf_13TeV_MCRUN2_74_V9_ext1-v2_PH";
+
+        double xs = 0.;
+        double weight = 0.;
+        double Nev = 0.;
+
+        if (cfg.getValue(section, "xs", &testValue)) {
+            xs = testValue;
+        } else {
+            std::cout << "Section/option [" << section << "] xs not found" << std::endl;
+        }
+
+        if (cfg.getValue(section, "weight", &testValue)) {
+            weight = testValue;
+        } else {
+            std::cout << "Section/option [" << section << "] weight not found" << std::endl;
+        }
+
+        if (cfg.getValue(section, "Nev", &testValue)) {
+            Nev = testValue;
+        } else {
+            std::cout << "Section/option [" << section << "] Nev not found" << std::endl;
+        }
+
+        sample_weight = lumi * xs * weight / Nev;
+
+        std::cout << "\n Weighting the sample " << section << " with the factor:\n";
+        std::cout << "\t " << sample_weight << " = " << lumi << "(lumi) * " << xs << "(xs) * ";
+        std::cout << weight << "(weight) / " << Nev << "(Nev)\n\n"; 
+
     }
 
     if (doTriggerStudies) {
