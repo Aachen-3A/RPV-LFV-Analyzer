@@ -3545,7 +3545,9 @@ void specialAna::initEvent(const pxl::Event* event) {
                                    "-tauola",
                                    "-evtgen",
                                    "_evtgen",
-                                   "_MCRUN2_74_V9-v2"
+                                   "_MCRUN2_74_V9-v2",
+                                   "_MCRUN2_74_V9-v1",
+                                   "_MCRUN2_74_V9-v3"
              };
 
             for (uint i = 0; i < sizeof(tags)/sizeof(tags[0]); i++) {
