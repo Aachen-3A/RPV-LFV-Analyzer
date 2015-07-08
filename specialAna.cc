@@ -1,6 +1,7 @@
 #include "specialAna.hh"
 #include "HistClass.hh"
 #include "Tools/Tools.hh"
+#include "cfgparser.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -10,6 +11,8 @@
 specialAna::specialAna(const Tools::MConfig &cfg) :
     runOnData(cfg.GetItem< bool >("General.RunOnData")),
     doTriggerStudies(cfg.GetItem< bool >("General.DoTriggerStudies")),
+    doSampleWeighting(cfg.GetItem< bool >("General.DoSampleWeighting")),
+    lumi(cfg.GetItem< double >("General.lumi")),
     m_JetAlgo(cfg.GetItem< std::string >("Jet.Type.Rec")),
     m_BJets_algo(cfg.GetItem< std::string >("Jet.BJets.Algo")),
     m_METType(cfg.GetItem< std::string >("MET.Type.Rec")),
@@ -40,6 +43,9 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
+
+    sample_weight = 1.;
+    backup_datstream = "";
 
     if (doTriggerStudies) {
         Create_trigger_effs();
@@ -116,6 +122,9 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     HistClass::CreateHisto("Ctr_pT_hat", 5000, 0, 5000, "#hat{p_{T}} (GeV)");
     HistClass::CreateHisto("Ctr_HT", 5000, 0, 5000, "H_{T} (GeV)");
+
+    HistClass::CreateHisto("Ctr_TTbar_mass_pre", 500, 0, 5000, "M_{tt} (GeV)");
+    HistClass::CreateHisto("Ctr_TTbar_mass_post", 500, 0, 5000, "M_{tt} (GeV)");
 
     HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
     HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
@@ -640,20 +649,23 @@ bool specialAna::tail_selector(const pxl::Event* event) {
     }
 
     /// ttbar 13TeV tail fitting
-    if (b_13TeV and Datastream.Contains("TT_13TeV_PH")) {
+    if (b_13TeV and Datastream.Contains("TT_")) {
         for (uint i = 0; i < S3ListGen->size(); i++) {
             if (S3ListGen->at(i) -> getPdgNumber() == 6) {
                 for (uint j = 0; j < S3ListGen->size(); j++) {
                     if (S3ListGen->at(j) -> getPdgNumber() == -6) {
-                        double mass = (S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())  *(S3ListGen->at(j)->getE() + S3ListGen->at(i)->getE())
-                                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
-                                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
-                                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
-                        if (!Datastream.Contains("Mtt") and sqrt(mass) > 1000) {
+                        double mass = (S3ListGen->at(j)->getE()  + S3ListGen->at(i)->getE()) *(S3ListGen->at(j)->getE()  + S3ListGen->at(i)->getE())
+                                    - (S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())*(S3ListGen->at(j)->getPx() + S3ListGen->at(i)->getPx())
+                                    - (S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())*(S3ListGen->at(j)->getPy() + S3ListGen->at(i)->getPy())
+                                    - (S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz())*(S3ListGen->at(j)->getPz() + S3ListGen->at(i)->getPz());
+                        mass = sqrt(mass);
+                        HistClass::Fill("Ctr_TTbar_mass_pre", mass, weight);
+                        if (!Datastream.Contains("Mtt") and mass > 1000) {
                             return true;
-                        } else if (Datastream.Contains("Mtt") and sqrt(mass) <= 1000) {
+                        } else if (Datastream.Contains("Mtt") and mass <= 1000) {
                             return true;
                         }
+                        HistClass::Fill("Ctr_TTbar_mass_post", mass, weight);
                     }
                 }
             }
@@ -3167,6 +3179,24 @@ double specialAna::getHT() {
     return ht_val;
 }
 
+std::string specialAna::expand_environment_variables( std::string s ) {
+    if( s.find( "${" ) == std::string::npos ) return s;
+
+    std::string pre  = s.substr( 0, s.find( "${" ) );
+    std::string post = s.substr( s.find( "${" ) + 2 );
+
+    if( post.find( '}' ) == std::string::npos ) return s;
+
+    std::string variable = post.substr( 0, post.find( '}' ) );
+    std::string value    = "";
+
+    post = post.substr( post.find( '}' ) + 1 );
+
+    if( getenv( variable.c_str() ) != NULL ) value = std::string( getenv( variable.c_str() ) );
+
+    return expand_environment_variables( pre + value + post );
+}
+
 void specialAna::raw_input(TString question) {
   TString answer;
   std::cout << question << std::endl;
@@ -3467,7 +3497,7 @@ void specialAna::initEvent(const pxl::Event* event) {
 
     if (not runOnData) {
         event_weight = m_GenEvtView->getUserRecord("Weight");
-        event_weight = 1;
+        // event_weight = 1;
         // double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
         pileup_weight = m_GenEvtView->getUserRecord_def("PUWeight", 1.);
 
@@ -3480,6 +3510,117 @@ void specialAna::initEvent(const pxl::Event* event) {
             error << "The data period " << m_dataPeriod << " is not supported by this analysis!\n";
             throw Tools::config_error(error.str());
         }
+
+        if (doSampleWeighting) {
+
+            std::string datastream = event->getUserRecord("Dataset").asString();
+            TString Datastream = datastream;
+
+            if (backup_datstream != Datastream) {
+                backup_datstream = Datastream;
+                ConfigParser_t cfg;
+                if (cfg.readFile(expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg")))
+                {
+                    std::cerr << "Error: Cannot open config file '" << expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg") <<"'\n";
+                }
+
+                double testValue;
+
+                Datastream = Datastream.ReplaceAll("/", "");
+
+                std::string tags[] = { "MINIAODSIM",
+                                       "AODSIM",
+                                       "DR74",
+                                       "25ns",
+                                       "RunIISpring15",
+                                       "-Asympt",
+                                       "_Asympt",
+                                       "-TuneCUETP8M1",
+                                       "_TuneCUETP8M1",
+                                       "-CT10",
+                                       "_CT10",
+                                       "_tarball",
+                                       "-tarball",
+                                       "_cff",
+                                       "-cff",
+                                       "_tauola",
+                                       "-tauola",
+                                       "-evtgen",
+                                       "_evtgen",
+                                       "_MCRUN2_74_V9-v2",
+                                       "_MCRUN2_74_V9-v1",
+                                       "_MCRUN2_74_V9-v3"
+                 };
+
+                for (uint i = 0; i < sizeof(tags)/sizeof(tags[0]); i++) {
+                    Datastream = Datastream.ReplaceAll(tags[i], "");
+                }
+
+                std::vector< std::pair<std::string, std::string> > generators;
+                generators.push_back(std::pair<std::string, std::string>("_madgraph","MG"));
+                generators.push_back(std::pair<std::string, std::string>("-madgraph","MG"));
+                generators.push_back(std::pair<std::string, std::string>("madgraph","MG"));
+                generators.push_back(std::pair<std::string, std::string>("_powheg","PH"));
+                generators.push_back(std::pair<std::string, std::string>("-powheg","PH"));
+                generators.push_back(std::pair<std::string, std::string>("powheg","PH"));
+                generators.push_back(std::pair<std::string, std::string>("_sherpa","SP"));
+                generators.push_back(std::pair<std::string, std::string>("-sherpa","SP"));
+                generators.push_back(std::pair<std::string, std::string>("sherpa","SP"));
+                generators.push_back(std::pair<std::string, std::string>("_mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("-mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("amcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("_pythia8","P8"));
+                generators.push_back(std::pair<std::string, std::string>("-pythia8","P8"));
+                generators.push_back(std::pair<std::string, std::string>("pythia8","P8"));
+
+                for (uint i = 0; i < generators.size(); i++) {
+                    if (Datastream.Contains(generators[i].first)) {
+                        Datastream = Datastream.ReplaceAll(generators[i].first, "");
+                        Datastream += "_" + generators[i].second;
+                        break;
+                    }
+                }
+
+                for (uint i = 0; i < generators.size(); i++) {
+                    if (Datastream.Contains(generators[i].first)) {
+                        Datastream = Datastream.ReplaceAll(generators[i].first, "");
+                    }
+                }
+
+                std::string section = (std::string)Datastream;
+
+                double xs = 0.;
+                double weight = 0.;
+                double Nev = 1.;
+
+                if (cfg.getValue(section, "xs", &testValue)) {
+                    xs = testValue;
+                } else {
+                    std::cout << "Section/option [" << section << "] xs not found" << std::endl;
+                }
+    
+                if (cfg.getValue(section, "weight", &testValue)) {
+                    weight = testValue;
+                } else {
+                    std::cout << "Section/option [" << section << "] weight not found" << std::endl;
+                }
+
+                if (cfg.getValue(section, "Nev", &testValue)) {
+                    Nev = testValue;
+                } else {
+                    std::cout << "Section/option [" << section << "] Nev not found" << std::endl;
+                }
+
+                sample_weight = lumi * xs * weight / Nev;
+
+                std::cout << "\n Weighting the sample " << section << " with the factor:\n";
+                std::cout << "\t " << sample_weight << " = " << lumi << "(lumi) * " << xs << "(xs) * ";
+                std::cout << weight << "(weight) / " << Nev << "(Nev)\n\n";
+            }
+        }
+
+        weight = weight * sample_weight;
 
         // get all particles
         std::vector< pxl::Particle* > AllParticlesGen;
