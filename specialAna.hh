@@ -168,6 +168,7 @@ class specialAna : public pxl::AnalysisProcess  {
 
     double weight;
     double sample_weight;
+    TString backup_datstream;
 
     unsigned int numMuon;
     unsigned int numEle;

@@ -45,6 +45,7 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
 
     sample_weight = 1.;
+    backup_datstream = "";
 
     if (doTriggerStudies) {
         Create_trigger_effs();
@@ -3510,108 +3511,108 @@ void specialAna::initEvent(const pxl::Event* event) {
             throw Tools::config_error(error.str());
         }
 
-        sample_weight = 1.;
-
         if (doSampleWeighting) {
-            ConfigParser_t cfg;
-            if (cfg.readFile(expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg")))
-            {
-                std::cerr << "Error: Cannot open config file '" << expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg") <<"'\n";
-            }
-
-            double testValue;
 
             std::string datastream = event->getUserRecord("Dataset").asString();
             TString Datastream = datastream;
 
-            Datastream = Datastream.ReplaceAll("/", "");
-
-            std::string tags[] = { "MINIAODSIM",
-                                   "AODSIM",
-                                   "DR74",
-                                   "25ns",
-                                   "RunIISpring15",
-                                   "-Asympt",
-                                   "_Asympt",
-                                   "-TuneCUETP8M1",
-                                   "_TuneCUETP8M1",
-                                   "-CT10",
-                                   "_CT10",
-                                   "_tarball",
-                                   "-tarball",
-                                   "_cff",
-                                   "-cff",
-                                   "_tauola",
-                                   "-tauola",
-                                   "-evtgen",
-                                   "_evtgen",
-                                   "_MCRUN2_74_V9-v2",
-                                   "_MCRUN2_74_V9-v1",
-                                   "_MCRUN2_74_V9-v3"
-             };
-
-            for (uint i = 0; i < sizeof(tags)/sizeof(tags[0]); i++) {
-                Datastream = Datastream.ReplaceAll(tags[i], "");
-            }
-
-            std::vector< std::pair<std::string, std::string> > generators;
-            generators.push_back(std::pair<std::string, std::string>("_madgraph","MG"));
-            generators.push_back(std::pair<std::string, std::string>("-madgraph","MG"));
-            generators.push_back(std::pair<std::string, std::string>("madgraph","MG"));
-            generators.push_back(std::pair<std::string, std::string>("_powheg","PH"));
-            generators.push_back(std::pair<std::string, std::string>("-powheg","PH"));
-            generators.push_back(std::pair<std::string, std::string>("powheg","PH"));
-            generators.push_back(std::pair<std::string, std::string>("_sherpa","SP"));
-            generators.push_back(std::pair<std::string, std::string>("-sherpa","SP"));
-            generators.push_back(std::pair<std::string, std::string>("sherpa","SP"));
-            generators.push_back(std::pair<std::string, std::string>("_mcatnlo","MC"));
-            generators.push_back(std::pair<std::string, std::string>("-mcatnlo","MC"));
-            generators.push_back(std::pair<std::string, std::string>("mcatnlo","MC"));
-            generators.push_back(std::pair<std::string, std::string>("_pythia8","P8"));
-            generators.push_back(std::pair<std::string, std::string>("-pythia8","P8"));
-            generators.push_back(std::pair<std::string, std::string>("pythia8","P8"));
-
-            for (uint i = 0; i < generators.size(); i++) {
-                if (Datastream.Contains(generators[i].first)) {
-                    Datastream = Datastream.ReplaceAll(generators[i].first, "");
-                    Datastream += "_" + generators[i].second;
-                    break;
+            if (backup_datstream != Datastream) {
+                backup_datstream = Datastream;
+                ConfigParser_t cfg;
+                if (cfg.readFile(expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg")))
+                {
+                    std::cerr << "Error: Cannot open config file '" << expand_environment_variables("${MUSIC_BASE}/RPV-LFV-Analyzer/ConfigFiles/xs_Phys14.cfg") <<"'\n";
                 }
-            }
 
-            for (uint i = 0; i < generators.size(); i++) {
-                if (Datastream.Contains(generators[i].first)) {
-                    Datastream = Datastream.ReplaceAll(generators[i].first, "");
+                double testValue;
+
+                Datastream = Datastream.ReplaceAll("/", "");
+
+                std::string tags[] = { "MINIAODSIM",
+                                       "AODSIM",
+                                       "DR74",
+                                       "25ns",
+                                       "RunIISpring15",
+                                       "-Asympt",
+                                       "_Asympt",
+                                       "-TuneCUETP8M1",
+                                       "_TuneCUETP8M1",
+                                       "-CT10",
+                                       "_CT10",
+                                       "_tarball",
+                                       "-tarball",
+                                       "_cff",
+                                       "-cff",
+                                       "_tauola",
+                                       "-tauola",
+                                       "-evtgen",
+                                       "_evtgen",
+                                       "_MCRUN2_74_V9-v2",
+                                       "_MCRUN2_74_V9-v1",
+                                       "_MCRUN2_74_V9-v3"
+                 };
+
+                for (uint i = 0; i < sizeof(tags)/sizeof(tags[0]); i++) {
+                    Datastream = Datastream.ReplaceAll(tags[i], "");
                 }
-            }
 
-            std::string section = (std::string)Datastream;
+                std::vector< std::pair<std::string, std::string> > generators;
+                generators.push_back(std::pair<std::string, std::string>("_madgraph","MG"));
+                generators.push_back(std::pair<std::string, std::string>("-madgraph","MG"));
+                generators.push_back(std::pair<std::string, std::string>("madgraph","MG"));
+                generators.push_back(std::pair<std::string, std::string>("_powheg","PH"));
+                generators.push_back(std::pair<std::string, std::string>("-powheg","PH"));
+                generators.push_back(std::pair<std::string, std::string>("powheg","PH"));
+                generators.push_back(std::pair<std::string, std::string>("_sherpa","SP"));
+                generators.push_back(std::pair<std::string, std::string>("-sherpa","SP"));
+                generators.push_back(std::pair<std::string, std::string>("sherpa","SP"));
+                generators.push_back(std::pair<std::string, std::string>("_mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("-mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("_pythia8","P8"));
+                generators.push_back(std::pair<std::string, std::string>("-pythia8","P8"));
+                generators.push_back(std::pair<std::string, std::string>("pythia8","P8"));
 
-            double xs = 0.;
-            double weight = 0.;
-            double Nev = 0.;
+                for (uint i = 0; i < generators.size(); i++) {
+                    if (Datastream.Contains(generators[i].first)) {
+                        Datastream = Datastream.ReplaceAll(generators[i].first, "");
+                        Datastream += "_" + generators[i].second;
+                        break;
+                    }
+                }
 
-            if (cfg.getValue(section, "xs", &testValue)) {
-                xs = testValue;
-            } else {
-                std::cout << "Section/option [" << section << "] xs not found" << std::endl;
-            }
+                for (uint i = 0; i < generators.size(); i++) {
+                    if (Datastream.Contains(generators[i].first)) {
+                        Datastream = Datastream.ReplaceAll(generators[i].first, "");
+                    }
+                }
+
+                std::string section = (std::string)Datastream;
+
+                double xs = 0.;
+                double weight = 0.;
+                double Nev = 1.;
+
+                if (cfg.getValue(section, "xs", &testValue)) {
+                    xs = testValue;
+                } else {
+                    std::cout << "Section/option [" << section << "] xs not found" << std::endl;
+                }
     
-            if (cfg.getValue(section, "weight", &testValue)) {
-                weight = testValue;
-            } else {
-                std::cout << "Section/option [" << section << "] weight not found" << std::endl;
-            }
+                if (cfg.getValue(section, "weight", &testValue)) {
+                    weight = testValue;
+                } else {
+                    std::cout << "Section/option [" << section << "] weight not found" << std::endl;
+                }
 
-            if (cfg.getValue(section, "Nev", &testValue)) {
-                Nev = testValue;
-            } else {
-                std::cout << "Section/option [" << section << "] Nev not found" << std::endl;
-            }
+                if (cfg.getValue(section, "Nev", &testValue)) {
+                    Nev = testValue;
+                } else {
+                    std::cout << "Section/option [" << section << "] Nev not found" << std::endl;
+                }
 
-            sample_weight = lumi * xs * weight / Nev;
+                sample_weight = lumi * xs * weight / Nev;
 
-            if (events_ == 1) {
                 std::cout << "\n Weighting the sample " << section << " with the factor:\n";
                 std::cout << "\t " << sample_weight << " = " << lumi << "(lumi) * " << xs << "(xs) * ";
                 std::cout << weight << "(weight) / " << Nev << "(Nev)\n\n";
