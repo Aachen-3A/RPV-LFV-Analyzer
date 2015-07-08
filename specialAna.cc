@@ -3568,6 +3568,7 @@ void specialAna::initEvent(const pxl::Event* event) {
                 generators.push_back(std::pair<std::string, std::string>("sherpa","SP"));
                 generators.push_back(std::pair<std::string, std::string>("_mcatnlo","MC"));
                 generators.push_back(std::pair<std::string, std::string>("-mcatnlo","MC"));
+                generators.push_back(std::pair<std::string, std::string>("amcatnlo","MC"));
                 generators.push_back(std::pair<std::string, std::string>("mcatnlo","MC"));
                 generators.push_back(std::pair<std::string, std::string>("_pythia8","P8"));
                 generators.push_back(std::pair<std::string, std::string>("-pythia8","P8"));
