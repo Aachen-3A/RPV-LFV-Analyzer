@@ -85,26 +85,26 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     for (unsigned int i = 0; i < 4; i++) {
         // str(boost::format("N_{%s}")%particleLatex[i] )
         HistClass::CreateHisto("num", particles[i].c_str(), 40, 0, 39,                          TString::Format("N_{%s}", particleSymbols[i].c_str()));
-        HistClass::CreateHisto(3, "pt", particles[i].c_str(), 5000, 0, 5000,                    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()));
+        HistClass::CreateHisto(3, "pt", particles[i].c_str(), 500, 0, 5000,                    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()));
         if (particles[i] == "Muon") {
-            HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 1000, -10, 10,      TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 1000, -10, 10,   TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 1000, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 1000, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 1000, -10, 10,       TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 100, -10, 10,      TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 100, -10, 10,   TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 100, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 100, -10, 10,  TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 100, -10, 10,       TString::Format("(1/p_{T}^{reco} - 1/p_{T}^{gen})/1/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
         } else {
-            HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 1000, -10, 10,      TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 1000, -10, 10,   TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 1000, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
-            HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 1000, -10, 10,       TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_0_500", particles[i].c_str(), 100, -10, 10,      TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_500_1000", particles[i].c_str(), 100, -10, 10,   TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1000_1500", particles[i].c_str(), 100, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_1500_2000", particles[i].c_str(), 100, -10, 10,  TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto("pt_resolution_2000", particles[i].c_str(), 100, -10, 10,       TString::Format("(p_{T}^{reco} - p_{T}^{gen})/p_{T}^{gen}(%s)", particleSymbols[i].c_str()));
         }
         HistClass::CreateHisto(3, "eta", particles[i].c_str(), 80, -4, 4,                       TString::Format("#eta_{%s}", particleSymbols[i].c_str()));
         HistClass::CreateHisto(3, "phi", particles[i].c_str(), 40, -3.2, 3.2,                   TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()));
 
         if (not runOnData) {
             HistClass::CreateHisto(1, "num_Gen", particles[i].c_str(), 40, 0, 39,        TString::Format("N_{%s}", particleSymbols[i].c_str()));
-            HistClass::CreateHisto(1, "pt_Gen",  particles[i].c_str(), 5000, 0, 5000,    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()));
+            HistClass::CreateHisto(1, "pt_Gen",  particles[i].c_str(), 500, 0, 5000,    TString::Format("p_{T}^{%s} (GeV)", particleSymbols[i].c_str()));
             HistClass::CreateHisto(1, "eta_Gen", particles[i].c_str(), 80, -4, 4,        TString::Format("#eta_{%s}", particleSymbols[i].c_str()));
             HistClass::CreateHisto(1, "phi_Gen", particles[i].c_str(), 40, -3.2, 3.2,    TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()));
         }
@@ -134,9 +134,9 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
 
     HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
     HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_nGen_Pt_Eta", 62000, 0, 6200, "Mass (GeV)");
+    HistClass::CreateHisto("Total_eff_emu_efficiency_nGen_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
     HistClass::CreateHisto("Total_eff_emu_efficiency_RECO", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_Pt_Eta", 62000, 0, 6200, "Mass (GeV)");
+    HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
     HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_ID", 6200, 0, 6200, "Mass (GeV)");
     HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_cuts", 6200, 0, 6200, "Mass (GeV)");
 
@@ -1989,8 +1989,8 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     /// Cutflow histogram
     HistClass::CreateHisto(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos, 0, n_histos, "Cut stage");
     /// Resonant mass histogram
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               620, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                          part1, part2) );
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_Gen",              channel) + endung,               620, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                          part1, part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               6200, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                          part1, part2) );
+    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_Gen",              channel) + endung,               6200, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                          part1, part2) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_Pt",                    channel) + endung,               150, -20, 500, TString::Format("Pt_{%s,%s} (GeV)",                        part1, part2) );
     /// Delta R Histogram between muon and electron
     HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                    channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                           part1, part2) );
