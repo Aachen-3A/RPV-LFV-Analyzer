@@ -2202,7 +2202,6 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
 }
 
 bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list) {
-    bool forceHEEP = true;
     resonance_mass[channel] = 0;
 
     for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
@@ -3535,9 +3534,7 @@ void specialAna::initEvent(const pxl::Event* event) {
         // double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
         pileup_weight = m_GenEvtView->getUserRecord_def("PUWeight", 1.);
 
-        if (b_13TeV) {
-            weight = event_weight;
-        } else if (b_8TeV) {
+        if (b_13TeV or b_8TeV) {
             weight = event_weight * pileup_weight;
         } else {
             std::stringstream error;
@@ -3624,8 +3621,8 @@ void specialAna::initEvent(const pxl::Event* event) {
 
                 std::string section = (std::string)Datastream;
 
-                double xs = 0.;
-                double weight = 0.;
+                double xs = 1.;
+                double k_weight = 1.;
                 double Nev = 1.;
 
                 if (cfg.getValue(section, "xs", &testValue)) {
@@ -3635,7 +3632,7 @@ void specialAna::initEvent(const pxl::Event* event) {
                 }
     
                 if (cfg.getValue(section, "weight", &testValue)) {
-                    weight = testValue;
+                    k_weight = testValue;
                 } else {
                     std::cout << "Section/option [" << section << "] weight not found" << std::endl;
                 }
@@ -3646,11 +3643,11 @@ void specialAna::initEvent(const pxl::Event* event) {
                     std::cout << "Section/option [" << section << "] Nev not found" << std::endl;
                 }
 
-                sample_weight = lumi * xs * weight / Nev;
+                sample_weight = lumi * xs * k_weight / Nev;
 
                 std::cout << "\n Weighting the sample " << section << " with the factor:\n";
                 std::cout << "\t " << sample_weight << " = " << lumi << "(lumi) * " << xs << "(xs) * ";
-                std::cout << weight << "(weight) / " << Nev << "(Nev)\n\n";
+                std::cout << k_weight << "(weight) / " << Nev << "(Nev)\n\n";
             }
         }
 
