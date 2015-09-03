@@ -5,6 +5,7 @@
 
 #include "Main/EventSelector.hh"
 #include "Main/PDFTool.hh"
+#include "Main/Systematics.hh"
 
 #include "Tools/Tools.hh"
 
@@ -26,6 +27,7 @@ class AnalysisComposer {
                                        string outputDirectory,
                                        pdf::PDFInfo const &pdfInfo,
                                        EventSelector &selector,
+                                       Systematics &syst_shifter,
                                        const bool debug);
     void endAnalysis();
 
