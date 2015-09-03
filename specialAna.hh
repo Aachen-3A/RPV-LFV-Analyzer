@@ -213,6 +213,13 @@ class specialAna : public pxl::AnalysisProcess  {
     bool b_mutaue;
     bool b_mutaumu;
 
+    double ele_min_pt;
+    double ele_barrel_eta_max;
+    double ele_endcap_eta_min;
+    double ele_endcap_eta_max;
+    double muo_min_pt;
+    double muo_eta_max;
+
     std::map< std::string, Cuts > emu_cut_cfgs;
     std::map< std::string, Cuts > etau_cut_cfgs;
     std::map< std::string, Cuts > mutau_cut_cfgs;

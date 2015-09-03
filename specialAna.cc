@@ -37,6 +37,13 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     b_mutaue = m_channel.find("mutaue") != std::string::npos ? true : false;
     b_mutaumu = m_channel.find("mutaumu") != std::string::npos ? true : false;
 
+    ele_min_pt = 35;
+    ele_barrel_eta_max = 1.4442;
+    ele_endcap_eta_min = 1.566;
+    ele_endcap_eta_max = 2.5;
+    muo_min_pt = 55;
+    muo_eta_max = 2.1;
+
     std::string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
     events_ = 0;
@@ -2309,8 +2316,8 @@ bool specialAna::Check_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_
     if (name == m_TauType) {
         return true;
     } else if (name == "Ele") {
-        bool ele_eta = TMath::Abs(part->getEta()) < 2.5 ? true : false;
-        bool ele_pt  = part->getPt() > 110. ? true : false;
+        bool ele_eta = (TMath::Abs(part->getEta()) < ele_barrel_eta_max or (TMath::Abs(part->getEta()) > ele_endcap_eta_min and TMath::Abs(part->getEta()) < ele_endcap_eta_max)) ? true : false;
+        bool ele_pt  = part->getPt() > ele_min_pt ? true : false;
         if (not do_pt_cut) ele_pt = true;
         if (not do_eta_cut) ele_eta = true;
         if (ele_eta and ele_pt) {
@@ -2319,8 +2326,8 @@ bool specialAna::Check_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_eta_
             return false;
         }
     } else if (name == "Muon") {
-        bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
-        bool muo_pt  = part->getPt() > 45. ? true : false;
+        bool muo_eta = TMath::Abs(part->getEta()) < muo_eta_max ? true : false;
+        bool muo_pt  = part->getPt() > muo_min_pt ? true : false;
         if (not do_pt_cut) muo_pt = true;
         if (not do_eta_cut) muo_eta = true;
         if (muo_eta and muo_pt) {
@@ -2338,10 +2345,10 @@ bool specialAna::Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_
         return true;
     } else if (TMath::Abs(part -> getPdgNumber()) == 11) {
         bool ele_eta = true;
-        if (TMath::Abs(part->getEta()) > 2.5 or (TMath::Abs(part->getEta()) < 1.566 and TMath::Abs(part->getEta()) > 1.4442)) {
+        if (TMath::Abs(part->getEta()) > ele_endcap_eta_max or (TMath::Abs(part->getEta()) < ele_endcap_eta_min and TMath::Abs(part->getEta()) > ele_barrel_eta_max)) {
             ele_eta = false;
         }
-        bool ele_pt  = part->getPt() > 35. ? true : false;
+        bool ele_pt  = part->getPt() > ele_min_pt ? true : false;
         if (not do_pt_cut) ele_pt = true;
         if (not do_eta_cut) ele_eta = true;
         if (ele_eta and ele_pt) {
@@ -2350,8 +2357,8 @@ bool specialAna::Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut, bool do_
             return false;
         }
     } else if (TMath::Abs(part -> getPdgNumber()) == 13) {
-        bool muo_eta = TMath::Abs(part->getEta()) < 2.1 ? true : false;
-        bool muo_pt  = part->getPt() > 45. ? true : false;
+        bool muo_eta = TMath::Abs(part->getEta()) < muo_eta_max ? true : false;
+        bool muo_pt  = part->getPt() > muo_min_pt ? true : false;
         if (not do_pt_cut) muo_pt = true;
         if (not do_eta_cut) muo_eta = true;
         if (muo_eta and muo_pt) {
@@ -2390,8 +2397,8 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut, bool do_eta_c
     } else if (b_13TeV) {
         muon_ISO = muon -> getUserRecord("IsoR3SumPt").asFloat() / muon -> getPt() < 0.1 ? true : false;
     }
-    bool muon_eta = TMath::Abs(muon -> getEta()) < 2.1 ? true : false;
-    bool muon_pt = muon -> getPt() > 45. ? true : false;
+    bool muon_eta = TMath::Abs(muon -> getEta()) < muo_eta_max ? true : false;
+    bool muon_pt = muon -> getPt() > muo_min_pt ? true : false;
     if (not do_pt_cut) {
         muon_pt = true;
     }
@@ -2404,9 +2411,9 @@ bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut, bool do_eta_c
 
 bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cut, bool forceHEEP) {
     bool ele_ID = ele->getUserRecord("IDpassed").asBool() ? true : false;
-    bool ele_eta = TMath::Abs(ele -> getEta()) < 2.5 ? true : false;
+    bool ele_eta = (TMath::Abs(ele->getEta()) < ele_barrel_eta_max or (TMath::Abs(ele->getEta()) > ele_endcap_eta_min and TMath::Abs(ele->getEta()) < ele_endcap_eta_max)) ? true : false;
 
-    bool ele_pt = ele -> getPt() > 35. ? true : false;
+    bool ele_pt = ele -> getPt() > ele_min_pt ? true : false;
 
     if (not do_pt_cut) {
         ele_pt = true;
