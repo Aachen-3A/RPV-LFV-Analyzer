@@ -1832,7 +1832,6 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
     HistClass::CreateHisto(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos, 0, n_histos, "Cut stage");
     /// Resonant mass histogram
     HistClass::CreateHisto(n_histos, TString::Format("%s_Mass",                  channel) + endung,               6200, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                          part1, part2) );
-    HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_Gen",              channel) + endung,               6200, 0, 6200, TString::Format("M_{%s,%s} (GeV)",                          part1, part2) );
     HistClass::CreateHisto(n_histos, TString::Format("%s_Pt",                    channel) + endung,               150, -20, 500, TString::Format("Pt_{%s,%s} (GeV)",                        part1, part2) );
     /// Delta R Histogram between muon and electron
     HistClass::CreateHisto(n_histos, TString::Format("%s_dR",                    channel) + endung,               500, 0, 10, TString::Format("#Delta R_{%s,%s}",                           part1, part2) );
@@ -1892,6 +1891,8 @@ void specialAna::Create_Resonance_histograms(int n_histos, const char* channel, 
         HistClass::CreateHisto(TString::Format("%s_Eff_vs_Mass_Pass", channel), 600, 0, 6000);
         HistClass::CreateHisto(TString::Format("%s_Eff_vs_Nvtx_All", channel), 70, 0, 70);
         HistClass::CreateHisto(TString::Format("%s_Eff_vs_Nvtx_Pass", channel), 70, 0, 70);
+
+        HistClass::CreateHisto(n_histos, TString::Format("%s_Mass_Gen", channel), 6200, 0, 6200, TString::Format("M_{%s,%s} (GeV)", part1, part2) );
     }
 }
 
@@ -1900,7 +1901,6 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
     HistClass::Fill(TString::Format("%s_Cutflow",                         channel) + endung,               n_histos,                                                          weight);
     /// Resonant mass histogram
     HistClass::Fill(n_histos, TString::Format("%s_Mass",                  channel) + endung,               resonance_mass[channel],                                           weight);
-    HistClass::Fill(n_histos, TString::Format("%s_Mass_Gen",                  channel) + endung,               resonance_mass_gen[channel],                                           weight);
     HistClass::Fill(n_histos, TString::Format("%s_Pt",                  channel) + endung,                 resonance_mass["Pt"],                                              weight);
     /// Delta R between electron and muon
     HistClass::Fill(n_histos, TString::Format("%s_dR",                    channel) + endung,               DeltaR(sel_lepton_prompt[channel], sel_lepton_nprompt[channel]),                     weight);
@@ -1968,6 +1968,10 @@ void specialAna::Fill_Resonance_histograms(int n_histos, const char* channel, co
         HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET",       channel, part2) + endung,        sel_lepton_nprompt[channel] -> getPt() / sel_met[channel] -> getPt(),                weight);
         HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_MET_corr",  channel, part2) + endung,        sel_lepton_nprompt_corr[channel] -> getPt() / sel_met[channel] -> getPt(),           weight);
         HistClass::Fill(n_histos, TString::Format("%s_pT_ratio_%s_%s_corr",   channel, part1, part2) + endung, sel_lepton_prompt[channel] -> getPt() / sel_lepton_nprompt_corr[channel] -> getPt(), weight);
+    }
+
+    if (endung == const_cast<char*>("")) {
+        HistClass::Fill(n_histos, TString::Format("%s_Mass_Gen", channel), resonance_mass_gen[channel], weight);
     }
 
     if (n_histos == 0 and resonance_mass_gen[channel] != 0) {
