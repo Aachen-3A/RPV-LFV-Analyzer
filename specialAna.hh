@@ -61,6 +61,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void Create_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
     void Fill_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
 
+    void Init_channel_histos(std::string const channel, std::string const part_1, std::string const part_2, const std::map< std::string, Cuts > &m_cfg);
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
@@ -143,6 +144,7 @@ class specialAna : public pxl::AnalysisProcess  {
     pxl::EventView *m_TrigEvtView;
 
     bool runOnData;
+    bool useSyst;
     bool doTriggerStudies;
     bool doSampleWeighting;
     double lumi;
