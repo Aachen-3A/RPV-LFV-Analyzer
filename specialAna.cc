@@ -45,7 +45,7 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     ele_endcap_eta_min = 1.566;
     ele_endcap_eta_max = 2.5;
     muo_min_pt = 55;
-    muo_eta_max = 2.1;
+    muo_eta_max = 2.1; /// 2.4
 
     std::string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
