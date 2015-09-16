@@ -29,7 +29,7 @@
 
 class specialAna : public pxl::AnalysisProcess  {
  public:
-    explicit specialAna(const Tools::MConfig &config);
+    explicit specialAna(const Tools::MConfig &config, Systematics &syst_shifter);
     virtual ~specialAna();
 
     virtual void endJob(const Serializable*);
@@ -38,6 +38,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void channel_writer(TFile* file, const char* channel);
 
     TFile* file1;
+    Systematics* m_syst_shifter;
 
     bool tail_selector(const pxl::Event* event);
 

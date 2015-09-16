@@ -56,7 +56,7 @@ pxl::AnalysisFork AnalysisComposer::addForkObjects(const Tools::MConfig &config,
 
     // add validation to fork
     specialAna *ana = 0;
-    ana = new specialAna(config);
+    ana = new specialAna(config, syst_shifter);
     fork.insertObject(ana, "RPV-LFV-Analyzer");
     return fork;
 }

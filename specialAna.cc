@@ -8,7 +8,7 @@
 #include "boost/format.hpp"
 #pragma GCC diagnostic pop
 
-specialAna::specialAna(const Tools::MConfig &cfg) :
+specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     runOnData(cfg.GetItem< bool >("General.RunOnData")),
     doTriggerStudies(cfg.GetItem< bool >("General.DoTriggerStudies")),
     doSampleWeighting(cfg.GetItem< bool >("General.DoSampleWeighting")),
@@ -25,6 +25,8 @@ specialAna::specialAna(const Tools::MConfig &cfg) :
     m_channel(cfg.GetItem< std::string >("RPV.channel")),
     config_(cfg)
 {
+    m_syst_shifter=&syst_shifter;
+
     b_14TeV = m_dataPeriod == "14TeV" ? true : false;
     b_13TeV = m_dataPeriod == "13TeV" ? true : false;
     b_8TeV = m_dataPeriod == "8TeV" ? true : false;
