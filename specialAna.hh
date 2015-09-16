@@ -61,7 +61,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void Create_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
     void Fill_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
 
-    void Init_channel_histos(std::string const channel, std::string const part_1, std::string const part_2, const std::map< std::string, Cuts > &m_cfg);
+    void Init_channel_histos(std::string const channel, std::string const part_1, std::string const part_2, const std::map< std::string, Cuts > &m_cfg, Systematics &syst_shifter);
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
@@ -153,6 +153,10 @@ class specialAna : public pxl::AnalysisProcess  {
 
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
+
+    const std::string shifted[5]   = {"Ele", "Muon", "Tau", "met", "Jet"};
+    const std::string type[2]      = {"Scale", "Resolution"};
+    const std::string updown[2]    = {"Up", "Down"};
 
     TString d_mydisc[66];
 
