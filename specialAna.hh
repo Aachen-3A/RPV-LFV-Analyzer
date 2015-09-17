@@ -42,6 +42,8 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool tail_selector(const pxl::Event* event);
 
+    void WritePxlioEvent(const pxl::Event* event);
+
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
 
@@ -145,6 +147,7 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool runOnData;
     bool useSyst;
+    bool writePxlio;
     bool doTriggerStudies;
     bool doSampleWeighting;
     double lumi;
@@ -161,6 +164,8 @@ class specialAna : public pxl::AnalysisProcess  {
     TString d_mydisc[66];
 
     bool isOldPXLFile;
+
+    pxl::OutputFile PxlOutFile;
 
     const std::string m_cutdatafile;
     const std::vector< std::string >  m_trigger_string;
