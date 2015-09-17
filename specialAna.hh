@@ -145,6 +145,7 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool runOnData;
     bool useSyst;
+    bool writePxlio;
     bool doTriggerStudies;
     bool doSampleWeighting;
     double lumi;
