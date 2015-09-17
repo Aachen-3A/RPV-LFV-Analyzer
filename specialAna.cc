@@ -11,6 +11,7 @@
 specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     runOnData(cfg.GetItem< bool >("General.RunOnData")),
     useSyst( cfg.GetItem< bool >( "General.useSYST" ) ),
+    writePxlio( cfg.GetItem< bool >( "General.writePxlio" ) ),
     doTriggerStudies(cfg.GetItem< bool >("General.DoTriggerStudies")),
     doSampleWeighting(cfg.GetItem< bool >("General.DoSampleWeighting")),
     lumi(cfg.GetItem< double >("General.lumi")),
