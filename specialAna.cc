@@ -21,6 +21,7 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     m_TauType(cfg.GetItem< std::string >("Tau.Type.Rec")),
     doFakeRate(cfg.GetItem< bool >("Ele.DoFakeRate")),
 
+    PxlOutFile("SpecialPxlio.pxlio"),
     m_trigger_string(Tools::splitString< std::string >(cfg.GetItem< std::string >("RPV.trigger_list"))),
     d_mydiscmu({"isPFMuon", "isGlobalMuon", "isTrackerMuon", "isStandAloneMuon", "isTightMuon", "isHighPtMuon"}),
     m_dataPeriod(cfg.GetItem< std::string >("General.DataPeriod")),
@@ -51,6 +52,12 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     std::string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
     events_ = 0;
+
+    if (writePxlio) {
+        PxlOutFile.setCompressionMode(6);
+    } else {
+        system( "rm SpecialPxlio.pxlio" );
+    }
 
     // number of events, saved in a histogram
     HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
@@ -3192,6 +3199,10 @@ void specialAna::endJob(const Serializable*) {
     file1->Close();
 
     delete file1;
+
+    if (writePxlio) {
+        PxlOutFile.close();
+    }
 }
 
 void specialAna::initEvent(const pxl::Event* event) {

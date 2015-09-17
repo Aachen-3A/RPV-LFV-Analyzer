@@ -163,6 +163,8 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool isOldPXLFile;
 
+    pxl::OutputFile PxlOutFile;
+
     const std::string m_cutdatafile;
     const std::vector< std::string >  m_trigger_string;
     TString d_mydiscmu[6];
