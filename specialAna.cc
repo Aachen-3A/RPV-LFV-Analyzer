@@ -53,53 +53,52 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
     events_ = 0;
 
+    // number of events, saved in a histogram
+    HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
+
     if (writePxlio) {
         PxlOutFile.setCompressionMode(6);
     } else {
         system( "rm SpecialPxlio.pxlio" );
+
+        sample_weight = 1.;
+        backup_datstream = "";
+    
+        if (doTriggerStudies) {
+            Create_trigger_effs();
+        }
+    
+        Create_RECO_effs();
+        Create_ID_effs();
+    
+        mkeep_resonance_mass["emu"] = 0;
+        mkeep_resonance_mass["etau"] = 0;
+        mkeep_resonance_mass["mutau"] = 0;
+        mkeep_resonance_mass["etaue"] = 0;
+        mkeep_resonance_mass["etaumu"] = 0;
+        mkeep_resonance_mass["mutaue"] = 0;
+        mkeep_resonance_mass["mutaumu"] = 0;
+        mkeep_resonance_mass["run"] = 0;
+        mkeep_resonance_mass["ls"] = 0;
+        mkeep_resonance_mass["event"] = 0;
+    
+        resonance_mass["emu"] = 0;
+        resonance_mass_gen["emu"] = 0;
+        resonance_mass["etau"] = 0;
+        resonance_mass_gen["etau"] = 0;
+        resonance_mass["mutau"] = 0;
+        resonance_mass_gen["mutau"] = 0;
+        resonance_mass["etaue"] = 0;
+        resonance_mass_gen["etaue"] = 0;
+        resonance_mass["etaumu"] = 0;
+        resonance_mass_gen["etaumu"] = 0;
+        resonance_mass["mutaue"] = 0;
+        resonance_mass_gen["mutaue"] = 0;
+        resonance_mass["mutaumu"] = 0;
+        resonance_mass_gen["mutaumu"] = 0;
+    
+        HistClass::CreateTree(&mkeep_resonance_mass, "data_events");
     }
-
-    // number of events, saved in a histogram
-    HistClass::CreateHistoUnchangedName("h_counters", 10, 0, 11, "N_{events}");
-
-    sample_weight = 1.;
-    backup_datstream = "";
-
-    if (doTriggerStudies) {
-        Create_trigger_effs();
-    }
-
-    Create_RECO_effs();
-    Create_ID_effs();
-
-    mkeep_resonance_mass["emu"] = 0;
-    mkeep_resonance_mass["etau"] = 0;
-    mkeep_resonance_mass["mutau"] = 0;
-    mkeep_resonance_mass["etaue"] = 0;
-    mkeep_resonance_mass["etaumu"] = 0;
-    mkeep_resonance_mass["mutaue"] = 0;
-    mkeep_resonance_mass["mutaumu"] = 0;
-    mkeep_resonance_mass["run"] = 0;
-    mkeep_resonance_mass["ls"] = 0;
-    mkeep_resonance_mass["event"] = 0;
-
-    resonance_mass["emu"] = 0;
-    resonance_mass_gen["emu"] = 0;
-    resonance_mass["etau"] = 0;
-    resonance_mass_gen["etau"] = 0;
-    resonance_mass["mutau"] = 0;
-    resonance_mass_gen["mutau"] = 0;
-    resonance_mass["etaue"] = 0;
-    resonance_mass_gen["etaue"] = 0;
-    resonance_mass["etaumu"] = 0;
-    resonance_mass_gen["etaumu"] = 0;
-    resonance_mass["mutaue"] = 0;
-    resonance_mass_gen["mutaue"] = 0;
-    resonance_mass["mutaumu"] = 0;
-    resonance_mass_gen["mutaumu"] = 0;
-
-    HistClass::CreateTree(&mkeep_resonance_mass, "data_events");
-
     for (unsigned int i = 0; i < 4; i++) {
         // str(boost::format("N_{%s}")%particleLatex[i] )
         HistClass::CreateHisto("num", particles[i].c_str(), 40, 0, 39,                          TString::Format("N_{%s}", particleSymbols[i].c_str()));
@@ -128,115 +127,117 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
         }
     }
 
-    HistClass::CreateHisto("LLE_Gen", 100, 0, 1, "LLE");
-    HistClass::CreateHisto("LQD_Gen", 100, 0, 0.001, "LQD");
-    HistClass::CreateHisto("MSnl_Gen", 4000, 0, 4000, "MSnl");
-
-    HistClass::CreateHisto("Ctr_Vtx_unweighted", 100, 0, 100, "N_{vtx}");
-    HistClass::CreateHisto("Ctr_Vtx_weighted", 100, 0, 100, "N_{vtx}");
-
-    HistClass::CreateHisto("Ctr_Vtx_emu_unweighted", 100, 0, 100, "N_{vtx}");
-    HistClass::CreateHisto("Ctr_Vtx_emu_weighted", 100, 0, 100, "N_{vtx}");
-
-    HistClass::CreateHisto("Ctr_pT_hat", 5000, 0, 5000, "#hat{p_{T}} (GeV)");
-    HistClass::CreateHisto("Ctr_HT", 5000, 0, 5000, "H_{T} (GeV)");
-
-    HistClass::CreateHisto("Ctr_TTbar_mass_pre", 500, 0, 5000, "M_{tt} (GeV)");
-    HistClass::CreateHisto("Ctr_TTbar_mass_post", 500, 0, 5000, "M_{tt} (GeV)");
-
-    HistClass::CreateHisto("Ctr_HT_pre", 500, 0, 5000, "H_{T} (GeV)");
-    HistClass::CreateHisto("Ctr_HT_post", 500, 0, 5000, "H_{T} (GeV)");
-
-    HistClass::CreateHisto("Ctr_DY_mass_pre", 500, 0, 5000, "M_{#gamma,Z} (GeV)");
-    HistClass::CreateHisto("Ctr_DY_mass_post", 500, 0, 5000, "M_{#gamma,Z} (GeV)");
-
-    HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_nGen_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_RECO", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_ID", 6200, 0, 6200, "Mass (GeV)");
-    HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_cuts", 6200, 0, 6200, "Mass (GeV)");
-
-    if (doFakeRate) {
-        HistClass::CreateHisto("JetFakeRate", 620, 0, 6200, "m(e#mu) [GeV]");
-        HistClass::CreateHisto("JetFakeRate #eta", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate #phi", 32, 0, 3.2, "|#phi|");
-        HistClass::CreateHisto("JetFakeRate E_{T} in barrel", 70, 0, 3500, "E_{T}");
-        HistClass::CreateHisto("JetFakeRate E_{T} in endcap", 70, 0, 3500, "E_{T}");
-        HistClass::CreateHisto("JetFakeRate E_{T}=35 - 50", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=50 - 80", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=80 - 100", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=100 - 200", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=200 - 300", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=300 - 1000", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}>1000", 30, 0, 3, "|#eta|");
-
-        HistClass::CreateHisto("JetFakeRate HEEP", 620, 0, 6200, "m(e#mu) [GeV]");
-        HistClass::CreateHisto("JetFakeRate HEEP #eta", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate HEEP #phi", 32, 0, 3.2, "|#phi|");
-        HistClass::CreateHisto("JetFakeRate E_{T} HEEP in barrel", 70, 0, 3500, "E_{T}");
-        HistClass::CreateHisto("JetFakeRate E_{T} HEEP in endcap", 70, 0, 3500, "E_{T}");
-        HistClass::CreateHisto("JetFakeRate E_{T}=35 - 50 HEEP", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=50 - 80 HEEP", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=80 - 100 HEEP", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=100 - 200 HEEP" , 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=200 - 300 HEEP", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}=300 - 1000 HEEP", 30, 0, 3, "|#eta|");
-        HistClass::CreateHisto("JetFakeRate E_{T}>1000 HEEP", 30, 0, 3, "|#eta|");
+    if (not writePxlio) {
+        HistClass::CreateHisto("LLE_Gen", 100, 0, 1, "LLE");
+        HistClass::CreateHisto("LQD_Gen", 100, 0, 0.001, "LQD");
+        HistClass::CreateHisto("MSnl_Gen", 4000, 0, 4000, "MSnl");
+    
+        HistClass::CreateHisto("Ctr_Vtx_unweighted", 100, 0, 100, "N_{vtx}");
+        HistClass::CreateHisto("Ctr_Vtx_weighted", 100, 0, 100, "N_{vtx}");
+    
+        HistClass::CreateHisto("Ctr_Vtx_emu_unweighted", 100, 0, 100, "N_{vtx}");
+        HistClass::CreateHisto("Ctr_Vtx_emu_weighted", 100, 0, 100, "N_{vtx}");
+    
+        HistClass::CreateHisto("Ctr_pT_hat", 5000, 0, 5000, "#hat{p_{T}} (GeV)");
+        HistClass::CreateHisto("Ctr_HT", 5000, 0, 5000, "H_{T} (GeV)");
+    
+        HistClass::CreateHisto("Ctr_TTbar_mass_pre", 500, 0, 5000, "M_{tt} (GeV)");
+        HistClass::CreateHisto("Ctr_TTbar_mass_post", 500, 0, 5000, "M_{tt} (GeV)");
+    
+        HistClass::CreateHisto("Ctr_HT_pre", 500, 0, 5000, "H_{T} (GeV)");
+        HistClass::CreateHisto("Ctr_HT_post", 500, 0, 5000, "H_{T} (GeV)");
+    
+        HistClass::CreateHisto("Ctr_DY_mass_pre", 500, 0, 5000, "M_{#gamma,Z} (GeV)");
+        HistClass::CreateHisto("Ctr_DY_mass_post", 500, 0, 5000, "M_{#gamma,Z} (GeV)");
+    
+        HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
+        HistClass::CreateHisto("Total_eff_emu_efficiency_nGen", 6200, 0, 6200, "Mass (GeV)");
+        HistClass::CreateHisto("Total_eff_emu_efficiency_nGen_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
+        HistClass::CreateHisto("Total_eff_emu_efficiency_RECO", 6200, 0, 6200, "Mass (GeV)");
+        HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
+        HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_ID", 6200, 0, 6200, "Mass (GeV)");
+        HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_cuts", 6200, 0, 6200, "Mass (GeV)");
+    
+        if (doFakeRate) {
+            HistClass::CreateHisto("JetFakeRate", 620, 0, 6200, "m(e#mu) [GeV]");
+            HistClass::CreateHisto("JetFakeRate #eta", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate #phi", 32, 0, 3.2, "|#phi|");
+            HistClass::CreateHisto("JetFakeRate E_{T} in barrel", 70, 0, 3500, "E_{T}");
+            HistClass::CreateHisto("JetFakeRate E_{T} in endcap", 70, 0, 3500, "E_{T}");
+            HistClass::CreateHisto("JetFakeRate E_{T}=35 - 50", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=50 - 80", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=80 - 100", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=100 - 200", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=200 - 300", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=300 - 1000", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}>1000", 30, 0, 3, "|#eta|");
+    
+            HistClass::CreateHisto("JetFakeRate HEEP", 620, 0, 6200, "m(e#mu) [GeV]");
+            HistClass::CreateHisto("JetFakeRate HEEP #eta", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate HEEP #phi", 32, 0, 3.2, "|#phi|");
+            HistClass::CreateHisto("JetFakeRate E_{T} HEEP in barrel", 70, 0, 3500, "E_{T}");
+            HistClass::CreateHisto("JetFakeRate E_{T} HEEP in endcap", 70, 0, 3500, "E_{T}");
+            HistClass::CreateHisto("JetFakeRate E_{T}=35 - 50 HEEP", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=50 - 80 HEEP", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=80 - 100 HEEP", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=100 - 200 HEEP" , 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=200 - 300 HEEP", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}=300 - 1000 HEEP", 30, 0, 3, "|#eta|");
+            HistClass::CreateHisto("JetFakeRate E_{T}>1000 HEEP", 30, 0, 3, "|#eta|");
+        }
+    
+        if (not runOnData) {
+            Create_Gen_histograms("emu", "ele", "muo");
+            Create_Gen_histograms("etau", "ele", "tau");
+            Create_Gen_histograms("mutau", "muo", "tau");
+            Create_Gen_histograms("etaue", "ele", "tau_ele");
+            Create_Gen_histograms("etaumu", "ele", "tau_muo");
+            Create_Gen_histograms("mutaue", "muo", "tau_ele");
+            Create_Gen_histograms("mutaumu", "muo", "tau_muo");
+        }
+    
+        ///-----------------------------------------------------------------
+        /// Init for the e-mu channel
+        channel_stages["emu"] = 5;
+        Init_emu_cuts();
+        Init_channel_histos("emu", "ele", "muo", emu_cut_cfgs, syst_shifter);
+    
+        ///-----------------------------------------------------------------
+        /// Init for the e-tau_h channel
+        channel_stages["etau"] = 1;
+        Init_etau_cuts();
+        Init_channel_histos("etau", "ele", "tau", etau_cut_cfgs, syst_shifter);
+    
+        ///-----------------------------------------------------------------
+        /// Init for the mu-tau_h channel
+        channel_stages["mutau"] = 7;
+        Init_mutau_cuts();
+        Init_channel_histos("mutau", "muo", "tau", mutau_cut_cfgs, syst_shifter);
+    
+        ///-----------------------------------------------------------------
+        /// Init for the e-tau_e channel
+        channel_stages["etaue"] = 1;
+        Init_etaue_cuts();
+        Init_channel_histos("etaue", "ele", "tau_ele", etaue_cut_cfgs, syst_shifter);
+    
+        ///-----------------------------------------------------------------
+        /// Init for the e-tau_mu channel
+        channel_stages["etaumu"] = 1;
+        Init_etaumu_cuts();
+        Init_channel_histos("etaumu", "ele", "tau_muo", etaumu_cut_cfgs, syst_shifter);
+    
+        ///-----------------------------------------------------------------
+        /// Init for the mu-tau_e channel
+        channel_stages["mutaue"] = 6;
+        Init_mutaue_cuts();
+        Init_channel_histos("mutaue", "muo", "tau_ele", mutaue_cut_cfgs, syst_shifter);
+    
+        ///-----------------------------------------------------------------
+        /// Init for the mu-tau_mu channel
+        channel_stages["mutaumu"] = 1;
+        Init_mutaumu_cuts();
+        Init_channel_histos("mutaumu", "muo", "tau_muo", mutaumu_cut_cfgs, syst_shifter);
     }
-
-    if (not runOnData) {
-        Create_Gen_histograms("emu", "ele", "muo");
-        Create_Gen_histograms("etau", "ele", "tau");
-        Create_Gen_histograms("mutau", "muo", "tau");
-        Create_Gen_histograms("etaue", "ele", "tau_ele");
-        Create_Gen_histograms("etaumu", "ele", "tau_muo");
-        Create_Gen_histograms("mutaue", "muo", "tau_ele");
-        Create_Gen_histograms("mutaumu", "muo", "tau_muo");
-    }
-
-    ///-----------------------------------------------------------------
-    /// Init for the e-mu channel
-    channel_stages["emu"] = 5;
-    Init_emu_cuts();
-    Init_channel_histos("emu", "ele", "muo", emu_cut_cfgs, syst_shifter);
-
-    ///-----------------------------------------------------------------
-    /// Init for the e-tau_h channel
-    channel_stages["etau"] = 1;
-    Init_etau_cuts();
-    Init_channel_histos("etau", "ele", "tau", etau_cut_cfgs, syst_shifter);
-
-    ///-----------------------------------------------------------------
-    /// Init for the mu-tau_h channel
-    channel_stages["mutau"] = 7;
-    Init_mutau_cuts();
-    Init_channel_histos("mutau", "muo", "tau", mutau_cut_cfgs, syst_shifter);
-
-    ///-----------------------------------------------------------------
-    /// Init for the e-tau_e channel
-    channel_stages["etaue"] = 1;
-    Init_etaue_cuts();
-    Init_channel_histos("etaue", "ele", "tau_ele", etaue_cut_cfgs, syst_shifter);
-
-    ///-----------------------------------------------------------------
-    /// Init for the e-tau_mu channel
-    channel_stages["etaumu"] = 1;
-    Init_etaumu_cuts();
-    Init_channel_histos("etaumu", "ele", "tau_muo", etaumu_cut_cfgs, syst_shifter);
-
-    ///-----------------------------------------------------------------
-    /// Init for the mu-tau_e channel
-    channel_stages["mutaue"] = 6;
-    Init_mutaue_cuts();
-    Init_channel_histos("mutaue", "muo", "tau_ele", mutaue_cut_cfgs, syst_shifter);
-
-    ///-----------------------------------------------------------------
-    /// Init for the mu-tau_mu channel
-    channel_stages["mutaumu"] = 1;
-    Init_mutaumu_cuts();
-    Init_channel_histos("mutaumu", "muo", "tau_muo", mutaumu_cut_cfgs, syst_shifter);
 }
 
 specialAna::~specialAna() {
@@ -247,11 +248,10 @@ void specialAna::analyseEvent(const pxl::Event* event) {
 
     if (tail_selector(event)) return;
 
-    if (not runOnData) {
+    if (not runOnData and not writePxlio) {
         Fill_Gen_Controll_histo();
+        GenSelector();
     }
-
-    GenSelector();
 
     for (uint i = 0; i < MuonList->size(); i++) {
         if (MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1) continue;
@@ -275,11 +275,11 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     }
     HistClass::Fill("MET_num", METList->size(), weight);
 
-    if (doTriggerStudies) {
+    if (doTriggerStudies and not writePxlio) {
         Fill_trigger_effs();
     }
 
-    if (doFakeRate) {
+    if (doFakeRate and not writePxlio) {
         pxl::Particle* temp_ele = 0;
         double FakeRate = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
@@ -323,15 +323,20 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         temp_ele = 0;
     }
 
-    Fill_RECO_effs();
-    Fill_ID_effs();
+    if (not writePxlio) {
+        Fill_RECO_effs();
+        Fill_ID_effs();
+    }
 
     if (TriggerSelector(event)) {
-        FillControllHistos();
 
         if (writePxlio) {
             WritePxlioEvent(event);
+            // endEvent(event);
+            return;
         }
+
+        FillControllHistos();
 
         for (uint i = 0; i < MuonList->size(); i++) {
             if (MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1) continue;
@@ -442,7 +447,7 @@ bool specialAna::tail_selector(const pxl::Event* event) {
             if (cut_w_mass <= 300) return true;
         }
     } else if (b_13TeV) {
-        HistClass::Fill("Ctr_HT_pre", getHT(), weight);
+        if (not writePxlio) HistClass::Fill("Ctr_HT_pre", getHT(), weight);
         if (Datastream.Contains("WJetsToLNu_Tune")) {
              if (getHT() > 100) {
                  return true;
@@ -452,7 +457,7 @@ bool specialAna::tail_selector(const pxl::Event* event) {
                  // return true;
              // }
         // }
-        HistClass::Fill("Ctr_HT_post", getHT(), weight);
+        if (not writePxlio) HistClass::Fill("Ctr_HT_post", getHT(), weight);
     }
 
     /// DY tail fitting
@@ -3154,78 +3159,78 @@ void specialAna::Fill_overall_efficiencies() {
 }
 
 void specialAna::endJob(const Serializable*) {
-    Fill_overall_efficiencies();
-
-    std::cout << "Triggers that fired in this sample:" << std::endl;
-    for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
-        std::cout << *itr << std::endl;
-    }
-
-    file1->cd();
-    HistClass::WriteAll("counters");
-    if (not runOnData) {
-        file1->mkdir("MC");
-        file1->cd("MC/");
-        HistClass::WriteAll("_Gen");
-    }
-    if (doTriggerStudies) {
+    if (not writePxlio) {
+        Fill_overall_efficiencies();
+    
+        std::cout << "Triggers that fired in this sample:" << std::endl;
+        for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
+            std::cout << *itr << std::endl;
+        }
+    
         file1->cd();
-        file1->mkdir("HLT_Effs");
-        file1->cd("HLT_Effs/");
-        HistClass::WriteAllEff("HLT");
-    }
-    file1->cd();
-    file1->mkdir("ID_Effs");
-    file1->cd("ID_Effs/");
-    HistClass::WriteAllEff("ID");
-    HistClass::WriteAll2("ID");
-    file1->cd();
-    file1->mkdir("RECO_Effs");
-    file1->cd("RECO_Effs/");
-    HistClass::WriteAllEff("RECO");
-    HistClass::WriteAll2("RECO");
-    HistClass::WriteAll("RECO");
-    file1->cd();
-    file1->mkdir("JetFakeRate");
-    file1->cd("JetFakeRate/");
-    HistClass::WriteAll("JetFakeRate");
-    file1->cd();
-    file1->mkdir("Ctr");
-    file1->cd("Ctr/");
-    HistClass::WriteAll("_Ctr_");
-    file1->cd();
-    file1->mkdir("Taus");
-    file1->cd("Taus/");
-    HistClass::WriteAll("_Tau_", "_Tau_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
-    file1->cd();
-    file1->mkdir("Muons");
-    file1->cd("Muons/");
-    HistClass::WriteAll("_Muon_", "_Muon_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
-    file1->cd();
-    file1->mkdir("METs");
-    file1->cd("METs/");
-    HistClass::WriteAll("_MET_", "_MET_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
-    file1->cd();
-    file1->mkdir("Eles");
-    file1->cd("Eles/");
-    HistClass::WriteAll("_Ele_", "_Ele_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
-    file1->cd();
-    HistClass::WriteAllTrees("data_events");
-    channel_writer(file1, "emu");
-    channel_writer(file1, "etau");
-    channel_writer(file1, "mutau");
-    channel_writer(file1, "etaue");
-    channel_writer(file1, "etaumu");
-    channel_writer(file1, "mutaue");
-    channel_writer(file1, "mutaumu");
-
-    HistClass::CleanUp();
-
-    file1->Close();
-
-    delete file1;
-
-    if (writePxlio) {
+        HistClass::WriteAll("counters");
+        if (not runOnData) {
+            file1->mkdir("MC");
+            file1->cd("MC/");
+            HistClass::WriteAll("_Gen");
+        }
+        if (doTriggerStudies) {
+            file1->cd();
+            file1->mkdir("HLT_Effs");
+            file1->cd("HLT_Effs/");
+            HistClass::WriteAllEff("HLT");
+        }
+        file1->cd();
+        file1->mkdir("ID_Effs");
+        file1->cd("ID_Effs/");
+        HistClass::WriteAllEff("ID");
+        HistClass::WriteAll2("ID");
+        file1->cd();
+        file1->mkdir("RECO_Effs");
+        file1->cd("RECO_Effs/");
+        HistClass::WriteAllEff("RECO");
+        HistClass::WriteAll2("RECO");
+        HistClass::WriteAll("RECO");
+        file1->cd();
+        file1->mkdir("JetFakeRate");
+        file1->cd("JetFakeRate/");
+        HistClass::WriteAll("JetFakeRate");
+        file1->cd();
+        file1->mkdir("Ctr");
+        file1->cd("Ctr/");
+        HistClass::WriteAll("_Ctr_");
+        file1->cd();
+        file1->mkdir("Taus");
+        file1->cd("Taus/");
+        HistClass::WriteAll("_Tau_", "_Tau_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
+        file1->cd();
+        file1->mkdir("Muons");
+        file1->cd("Muons/");
+        HistClass::WriteAll("_Muon_", "_Muon_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
+        file1->cd();
+        file1->mkdir("METs");
+        file1->cd("METs/");
+        HistClass::WriteAll("_MET_", "_MET_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
+        file1->cd();
+        file1->mkdir("Eles");
+        file1->cd("Eles/");
+        HistClass::WriteAll("_Ele_", "_Ele_", "sys:N-1:emu:etau:mutau:etaue:etaumu:mutaue:mutaumu");
+        file1->cd();
+        HistClass::WriteAllTrees("data_events");
+        channel_writer(file1, "emu");
+        channel_writer(file1, "etau");
+        channel_writer(file1, "mutau");
+        channel_writer(file1, "etaue");
+        channel_writer(file1, "etaumu");
+        channel_writer(file1, "mutaue");
+        channel_writer(file1, "mutaumu");
+    
+        HistClass::CleanUp();
+    
+        file1->Close();
+    
+        delete file1;
+    } else {
         PxlOutFile.close();
     }
 }
