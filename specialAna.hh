@@ -42,6 +42,8 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool tail_selector(const pxl::Event* event);
 
+    void WritePxlioEvent(const pxl::Event* event);
+
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
 

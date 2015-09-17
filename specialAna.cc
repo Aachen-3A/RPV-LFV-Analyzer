@@ -329,6 +329,10 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     if (TriggerSelector(event)) {
         FillControllHistos();
 
+        if (writePxlio) {
+            WritePxlioEvent(event);
+        }
+
         for (uint i = 0; i < MuonList->size(); i++) {
             if (MuonList->at(i)->getPt() < 25 or TMath::Abs(MuonList->at(i)->getEta()) > 2.1) continue;
             Fill_Particle_histos(1, MuonList->at(i));
@@ -533,6 +537,27 @@ bool specialAna::tail_selector(const pxl::Event* event) {
     }
 
     return false;
+}
+
+void specialAna::WritePxlioEvent(const pxl::Event* event) {
+    if ( numMuon > 0 and numEle > 0) {
+        pxl::Event new_event;
+
+        new_event.setUserRecord("MC", event->getUserRecord("MC"));
+        new_event.setUserRecord("Run", event->getUserRecord("Run"));
+        new_event.setUserRecord("LumiSection", event->getUserRecord("LumiSection"));
+        new_event.setUserRecord("EventNum", event->getUserRecord("EventNum"));
+        new_event.setUserRecord("BX", event->getUserRecord("BX"));
+        new_event.setUserRecord("Orbit", event->getUserRecord("Orbit"));
+        new_event.setUserRecord("Dataset", event->getUserRecord("Dataset"));
+
+        new_event.getObjectOwner().setIndexEntry("Rec", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Rec")));
+        new_event.getObjectOwner().setIndexEntry("Gen", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Gen")));
+        new_event.getObjectOwner().setIndexEntry("Trig", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Trig")));
+        new_event.getObjectOwner().setIndexEntry("Filter", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Filter")));
+
+        PxlOutFile.writeEvent(&new_event);
+    }
 }
 
 void specialAna::FillSystematics(const pxl::Event* event, std::string const particleName) {
