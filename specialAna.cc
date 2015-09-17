@@ -246,9 +246,18 @@ specialAna::~specialAna() {
 void specialAna::analyseEvent(const pxl::Event* event) {
     initEvent(event);
 
+    if (writePxlio) {
+        if (not tail_selector(event) and TriggerSelector(event) and numMuon > 0 and numEle > 0) {
+            WritePxlioEvent(event);
+        } else {
+            WriteEmptyPxlioEvent(event);
+        }
+        return;
+    }
+
     if (tail_selector(event)) return;
 
-    if (not runOnData and not writePxlio) {
+    if (not runOnData) {
         Fill_Gen_Controll_histo();
         GenSelector();
     }
@@ -275,11 +284,11 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     }
     HistClass::Fill("MET_num", METList->size(), weight);
 
-    if (doTriggerStudies and not writePxlio) {
+    if (doTriggerStudies) {
         Fill_trigger_effs();
     }
 
-    if (doFakeRate and not writePxlio) {
+    if (doFakeRate) {
         pxl::Particle* temp_ele = 0;
         double FakeRate = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
@@ -323,18 +332,10 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         temp_ele = 0;
     }
 
-    if (not writePxlio) {
-        Fill_RECO_effs();
-        Fill_ID_effs();
-    }
+    Fill_RECO_effs();
+    Fill_ID_effs();
 
     if (TriggerSelector(event)) {
-
-        if (writePxlio) {
-            WritePxlioEvent(event);
-            // endEvent(event);
-            return;
-        }
 
         FillControllHistos();
 
@@ -545,24 +546,36 @@ bool specialAna::tail_selector(const pxl::Event* event) {
 }
 
 void specialAna::WritePxlioEvent(const pxl::Event* event) {
-    if ( numMuon > 0 and numEle > 0) {
-        pxl::Event new_event;
+    pxl::Event new_event;
 
-        new_event.setUserRecord("MC", event->getUserRecord("MC"));
-        new_event.setUserRecord("Run", event->getUserRecord("Run"));
-        new_event.setUserRecord("LumiSection", event->getUserRecord("LumiSection"));
-        new_event.setUserRecord("EventNum", event->getUserRecord("EventNum"));
-        new_event.setUserRecord("BX", event->getUserRecord("BX"));
-        new_event.setUserRecord("Orbit", event->getUserRecord("Orbit"));
-        new_event.setUserRecord("Dataset", event->getUserRecord("Dataset"));
+    new_event.setUserRecord("MC", event->getUserRecord("MC"));
+    new_event.setUserRecord("Run", event->getUserRecord("Run"));
+    new_event.setUserRecord("LumiSection", event->getUserRecord("LumiSection"));
+    new_event.setUserRecord("EventNum", event->getUserRecord("EventNum"));
+    new_event.setUserRecord("BX", event->getUserRecord("BX"));
+    new_event.setUserRecord("Orbit", event->getUserRecord("Orbit"));
+    new_event.setUserRecord("Dataset", event->getUserRecord("Dataset"));
 
-        new_event.getObjectOwner().setIndexEntry("Rec", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Rec")));
-        new_event.getObjectOwner().setIndexEntry("Gen", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Gen")));
-        new_event.getObjectOwner().setIndexEntry("Trig", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Trig")));
-        new_event.getObjectOwner().setIndexEntry("Filter", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Filter")));
+    new_event.getObjectOwner().setIndexEntry("Rec", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Rec")));
+    new_event.getObjectOwner().setIndexEntry("Gen", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Gen")));
+    new_event.getObjectOwner().setIndexEntry("Trig", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Trig")));
+    new_event.getObjectOwner().setIndexEntry("Filter", new_event.getObjectOwner().create< pxl::EventView >(event->getObjectOwner().findObject< pxl::EventView >("Filter")));
 
-        PxlOutFile.writeEvent(&new_event);
-    }
+    PxlOutFile.writeEvent(&new_event);
+}
+
+void specialAna::WriteEmptyPxlioEvent(const pxl::Event* event) {
+    pxl::Event new_event;
+
+    new_event.setUserRecord("MC", event->getUserRecord("MC"));
+    new_event.setUserRecord("Run", event->getUserRecord("Run"));
+    new_event.setUserRecord("LumiSection", event->getUserRecord("LumiSection"));
+    new_event.setUserRecord("EventNum", event->getUserRecord("EventNum"));
+    new_event.setUserRecord("BX", event->getUserRecord("BX"));
+    new_event.setUserRecord("Orbit", event->getUserRecord("Orbit"));
+    new_event.setUserRecord("Dataset", event->getUserRecord("Dataset"));
+
+    PxlOutFile.writeEvent(&new_event);
 }
 
 void specialAna::FillSystematics(const pxl::Event* event, std::string const particleName) {
