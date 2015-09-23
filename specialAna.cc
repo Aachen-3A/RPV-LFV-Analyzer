@@ -245,6 +245,7 @@ specialAna::~specialAna() {
 
 void specialAna::analyseEvent(const pxl::Event* event) {
     initEvent(event);
+    if (m_RecEvtView == 0) return;
 
     if (writePxlio) {
         if (not tail_selector(event) and TriggerSelector(event) and numMuon > 0 and numEle > 0) {
@@ -3262,6 +3263,7 @@ void specialAna::initEvent(const pxl::Event* event) {
     mkeep_resonance_mass["mutaumu"] = 0;
 
     m_RecEvtView = event->getObjectOwner().findObject< pxl::EventView >("Rec");
+    if (m_RecEvtView == 0) return;
     m_GenEvtView = event->getObjectOwner().findObject< pxl::EventView >("Gen");
     if (event->getObjectOwner().findObject< pxl::EventView >("Trig")) {
         m_TrigEvtView = event->getObjectOwner().findObject< pxl::EventView >("Trig");
