@@ -1601,17 +1601,15 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
 
         bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
-        pxl::Particle* part_2;
-        bool second_match_found = false;
+        pxl::Particle* part_2 = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
             pxl::Particle *part_k = *part_kt;
             if (not Check_Par_ID(part_k, false, false)) continue;
             if (part->getId() == part_k->getId()) continue;
             part_2 = (pxl::Particle*)part_k->clone();
-            second_match_found = true;
         }
 
-        if (match_found and second_match_found) {
+        if (match_found and part_2) {
             if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), true);
@@ -1627,7 +1625,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part_2->getEta(), part_2->getPhi(), true);
             }
-        } else if (second_match_found) {
+        } else if (part_2) {
             if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), false);
@@ -1644,7 +1642,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                                    part_2->getEta(), part_2->getPhi(), false);
             }
         }
-        if (second_match_found) delete part_2;
+        if (part_2) delete part_2;
     }
 }
 
