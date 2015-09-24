@@ -2604,10 +2604,9 @@ bool specialAna::TriggerSelector(const pxl::Event* event) {
         for (auto const it : m_trigger_string) {
             triggered = m_TrigEvtView->hasUserRecord(it) ? true : false;
 
-            pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
-            for ( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
-                if (std::string::npos != (*us).first.find(it)) {
-                    triggers.insert(us->first);
+            for (auto us : m_TrigEvtView->getUserRecords()) {
+                if (std::string::npos != us.first.find(it)) {
+                    triggers.insert(us.first);
                 }
             }
         }
