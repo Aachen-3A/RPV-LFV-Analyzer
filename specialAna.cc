@@ -3269,7 +3269,6 @@ void specialAna::initEvent(const pxl::Event* event) {
     for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it) {
         pxl::Particle *part = *part_it;
         std::string Name = part->getName();
-        // part->setP4(part->getPx() * 1.05, part->getPy() * 1.05, part->getPz(), part->getE() * 0.95);
         // Only fill the collection if we want to use the particle!
         if (Name == "Muon") {
             MuonList->push_back(part);
