@@ -1595,21 +1595,11 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
         particles_2 = TauList;
     }
 
-    std::vector< pxl::Particle* > AllTriggers;
-    m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
-
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles_1->begin(); part_jt != particles_1->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
         if (not Check_Par_ID(part, false, false)) continue;
 
-        bool match_found = false;
-        for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
-            pxl::Particle *trig = *part_it;
-            if (trigger_name.find(trig->getName()) != std::string::npos) {
-                match_found = true;
-                break;
-            }
-        }
+        bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
         pxl::Particle* part_2;
         bool second_match_found = false;
@@ -1669,28 +1659,11 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
         particles = TauList;
     }
 
-    std::vector< pxl::Particle* > AllTriggers;
-    m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
-
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles->begin(); part_jt != particles->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
         if (not Check_Par_ID(part, false, false)) continue;
 
-        bool match_found = false;
-        double trig_match_dr = 10;
-        pxl::Particle* trig_cand;
-        for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
-            pxl::Particle *trig = *part_it;
-            if (trigger_name.find(trig->getName()) != std::string::npos) {
-                if (match_found and trig_cand->getE() == trig->getE()) continue;
-                double dummy_dr = DeltaR(trig, part);
-                if (dummy_dr < trig_match_dr) {
-                    trig_match_dr = dummy_dr;
-                    match_found = true;
-                    trig_cand = (pxl::Particle*)trig->clone();
-                }
-            }
-        }
+        bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
         if (match_found) {
             if (Check_Par_ID(part, false, true)) {
@@ -1717,7 +1690,6 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
         }
-        if (match_found) delete trig_cand;
     }
 }
 
