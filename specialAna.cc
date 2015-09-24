@@ -2603,15 +2603,12 @@ bool specialAna::TriggerSelector(const pxl::Event* event) {
             }
         }
     } else if (b_13TeV) {
-        for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
-            try {
-                triggered = m_TrigEvtView->getUserRecord(*it);
-            } catch ( std::runtime_error &exc ) {
-                continue;
-            }
+        for (auto const it : m_trigger_string) {
+            triggered = m_TrigEvtView->hasUserRecord(it) ? true : false;
+
             pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
             for ( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
-                if (std::string::npos != (*us).first.find(*it)) {
+                if (std::string::npos != (*us).first.find(it)) {
                     triggers.insert(us->first);
                 }
             }
@@ -3147,12 +3144,12 @@ void specialAna::Fill_overall_efficiencies() {
 void specialAna::endJob(const Serializable*) {
     if (not writePxlio) {
         Fill_overall_efficiencies();
-    
+
         std::cout << "Triggers that fired in this sample:" << std::endl;
-        for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
-            std::cout << *itr << std::endl;
+        for (auto itr : triggers) {
+            std::cout << itr << std::endl;
         }
-    
+
         file1->cd();
         HistClass::WriteAll("counters");
         if (not runOnData) {
@@ -3210,11 +3207,11 @@ void specialAna::endJob(const Serializable*) {
         channel_writer(file1, "etaumu");
         channel_writer(file1, "mutaue");
         channel_writer(file1, "mutaumu");
-    
+
         HistClass::CleanUp();
-    
+
         file1->Close();
-    
+
         delete file1;
     } else {
         PxlOutFile.close();
