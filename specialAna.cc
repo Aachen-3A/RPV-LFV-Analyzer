@@ -2602,10 +2602,11 @@ bool specialAna::TriggerSelector(const pxl::Event* event) {
         }
     } else if (b_13TeV) {
         for (auto const it : m_trigger_string) {
-            triggered = m_TrigEvtView->hasUserRecord(it) ? true : false;
+            // triggered = m_TrigEvtView->hasUserRecord(it) ? true : false;
 
             for (auto us : m_TrigEvtView->getUserRecords()) {
                 if (std::string::npos != us.first.find(it)) {
+                    triggered = true;
                     triggers.insert(us.first);
                 }
             }
@@ -3350,8 +3351,6 @@ void specialAna::initEvent(const pxl::Event* event) {
     EleListGen     = new std::vector< pxl::Particle* >;
     MuonListGen    = new std::vector< pxl::Particle* >;
     GammaListGen   = new std::vector< pxl::Particle* >;
-    METListGen     = new std::vector< pxl::Particle* >;
-    JetListGen     = new std::vector< pxl::Particle* >;
     TauListGen     = new std::vector< pxl::Particle* >;
     TauVisListGen  = new std::vector< pxl::Particle* >;
     S3ListGen      = new std::vector< pxl::Particle* >;
@@ -3421,6 +3420,9 @@ void specialAna::initEvent(const pxl::Event* event) {
                 }
 
                 std::vector< std::pair<std::string, std::string> > generators;
+                generators.push_back(std::pair<std::string, std::string>("_calchep","CA"));
+                generators.push_back(std::pair<std::string, std::string>("-calchep","CA"));
+                generators.push_back(std::pair<std::string, std::string>("calchep","CA"));
                 generators.push_back(std::pair<std::string, std::string>("_madgraph","MG"));
                 generators.push_back(std::pair<std::string, std::string>("-madgraph","MG"));
                 generators.push_back(std::pair<std::string, std::string>("madgraph","MG"));
@@ -3498,24 +3500,20 @@ void specialAna::initEvent(const pxl::Event* event) {
         for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); part_it++) {
             pxl::Particle *part = *part_it;
             std::string Name = part->getName();
+            int pdg_id = abs(part->getPdgNumber());
             // Only fill the collection if we want to use the particle!
-            if (Name == "Muon") {
+            if (pdg_id == 13 and part->getUserRecord("Accepted").toBool()) { /// Muons
                 MuonListGen->push_back(part);
-            } else if (Name == "Ele") {
+            } else if (pdg_id == 11 and part->getUserRecord("Accepted").toBool()) { ///Electrons
                 EleListGen->push_back(part);
-            } else if (Name == "Gamma") {
+            } else if (pdg_id == 22 and part->getUserRecord("Accepted").toBool()) { ///Photons
                 GammaListGen->push_back(part);
-            } else if (Name == "Tau") {
+            } else if (pdg_id == 15 and part->getUserRecord("Accepted").toBool()) { ///Taus
                 TauListGen->push_back(part);
-            } else if (Name == (m_METType+"_gen")) {
-                METListGen->push_back(part);
-            } else if (Name == m_JetAlgo) {
-                JetListGen->push_back(part);
-            } else if (Name == genCollection) {
-                S3ListGen->push_back(part);
-                if (part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
-                    TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
-                }
+            }
+            S3ListGen->push_back(part);
+            if (pdg_id == 15) {
+                TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
             }
         }
     }
@@ -3589,8 +3587,6 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete EleListGen;
         delete MuonListGen;
         delete GammaListGen;
-        delete METListGen;
-        delete JetListGen;
         delete TauListGen;
         delete S3ListGen;
 
@@ -3603,8 +3599,6 @@ void specialAna::endEvent(const pxl::Event* event) {
         EleListGen = 0;
         MuonListGen = 0;
         GammaListGen = 0;
-        METListGen = 0;
-        JetListGen = 0;
         TauListGen = 0;
     }
 

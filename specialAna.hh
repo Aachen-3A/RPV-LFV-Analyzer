@@ -210,8 +210,6 @@ class specialAna : public pxl::AnalysisProcess  {
     std::vector< pxl::Particle* > * TauListGen;
     std::vector< pxl::Particle* > * TauVisListGen;
     std::vector< pxl::Particle* > * GammaListGen;
-    std::vector< pxl::Particle* > * METListGen;
-    std::vector< pxl::Particle* > * JetListGen;
     std::vector< pxl::Particle* > * S3ListGen;
 
     bool b_14TeV;
