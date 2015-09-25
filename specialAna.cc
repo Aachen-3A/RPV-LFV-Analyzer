@@ -1179,6 +1179,18 @@ void specialAna::Create_ID_object_effs(std::string object) {
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+
+    if (object == "Muon") {
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_validCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_isGlobalMuon", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_ptErrorCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_NMatchedStations", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_VHitsMuonSys", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_VHitsPixel", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_TrackerLayersWithMeas", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_DxyCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_DzCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+    }
 }
 
 void specialAna::Fill_ID_effs() {
@@ -1216,6 +1228,75 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
                 HistClass::FillEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()), part_i->getPt(), false);
                 HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
+
+            if (object == "Muon") {
+                if (matched_reco_particle->getUserRecord("validCocktail").toBool()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_validCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_validCocktail", part_i->getPt(), false);
+                }
+
+                if (matched_reco_particle->getUserRecord("isGlobalMuon").toBool()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_isGlobalMuon", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_isGlobalMuon", part_i->getPt(), false);
+                }
+
+                if (0.3 > matched_reco_particle->getUserRecord("ptErrorCocktail").toDouble()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_ptErrorCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_ptErrorCocktail", part_i->getPt(), false);
+                }
+
+                if (1 < matched_reco_particle->getUserRecord("NMatchedStations").toInt32()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_NMatchedStations", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_NMatchedStations", part_i->getPt(), false);
+                }
+
+                try{
+                    if (0 < matched_reco_particle->getUserRecord("VHitsMuonSys").toInt32()) {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsMuonSys", part_i->getPt(), true);
+                    } else {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsMuonSys", part_i->getPt(), false);
+                    }
+                } catch ( std::runtime_error &exc ) {
+                    std::cerr << "No user record 'VHitsMuonSys' found" << std::endl;
+                }
+
+                try{
+                    if (0 < matched_reco_particle->getUserRecord("VHitsPixel").toInt32()) {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsPixel", part_i->getPt(), true);
+                    } else {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsPixel", part_i->getPt(), false);
+                    }
+                } catch ( std::runtime_error &exc ) {
+                    std::cerr << "No user record 'VHitsPixel' found" << std::endl;
+                }
+
+                try{
+                    if (5 < matched_reco_particle->getUserRecord("TrackerLayersWithMeas").toInt32()) {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_TrackerLayersWithMeas", part_i->getPt(), true);
+                    } else {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_TrackerLayersWithMeas", part_i->getPt(), false);
+                    }
+                } catch ( std::runtime_error &exc ) {
+                    std::cerr << "No user record 'TrackerLayersWithMeas' found" << std::endl;
+                }
+
+                if (0.2 > fabs(matched_reco_particle->getUserRecord("DxyCocktail").toDouble())) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DxyCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DxyCocktail", part_i->getPt(), false);
+                }
+
+                if (0.5 > fabs(matched_reco_particle->getUserRecord("DzCocktail").toDouble())) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DzCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DzCocktail", part_i->getPt(), false);
+                }
+            }
+
             if (Check_Par_Acc(matched_reco_particle)) {
                 if (Check_Par_ID(matched_reco_particle, false, false)) {
                     HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), true);
@@ -1595,33 +1676,21 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
         particles_2 = TauList;
     }
 
-    std::vector< pxl::Particle* > AllTriggers;
-    m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
-
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles_1->begin(); part_jt != particles_1->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
         if (not Check_Par_ID(part, false, false)) continue;
 
-        bool match_found = false;
-        for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
-            pxl::Particle *trig = *part_it;
-            if (trigger_name.find(trig->getName()) != std::string::npos) {
-                match_found = true;
-                break;
-            }
-        }
+        bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
-        pxl::Particle* part_2;
-        bool second_match_found = false;
+        pxl::Particle* part_2 = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
             pxl::Particle *part_k = *part_kt;
             if (not Check_Par_ID(part_k, false, false)) continue;
             if (part->getId() == part_k->getId()) continue;
             part_2 = (pxl::Particle*)part_k->clone();
-            second_match_found = true;
         }
 
-        if (match_found and second_match_found) {
+        if (match_found and part_2) {
             if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), true);
@@ -1637,7 +1706,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part_2->getEta(), part_2->getPhi(), true);
             }
-        } else if (second_match_found) {
+        } else if (part_2) {
             if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), false);
@@ -1654,7 +1723,7 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
                                    part_2->getEta(), part_2->getPhi(), false);
             }
         }
-        if (second_match_found) delete part_2;
+        if (part_2) delete part_2;
     }
 }
 
@@ -1669,28 +1738,11 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
         particles = TauList;
     }
 
-    std::vector< pxl::Particle* > AllTriggers;
-    m_TrigEvtView->getObjectsOfType< pxl::Particle >(AllTriggers);
-
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles->begin(); part_jt != particles->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
         if (not Check_Par_ID(part, false, false)) continue;
 
-        bool match_found = false;
-        double trig_match_dr = 10;
-        pxl::Particle* trig_cand;
-        for (std::vector< pxl::Particle* >::const_iterator part_it = AllTriggers.begin(); part_it != AllTriggers.end(); ++part_it) {
-            pxl::Particle *trig = *part_it;
-            if (trigger_name.find(trig->getName()) != std::string::npos) {
-                if (match_found and trig_cand->getE() == trig->getE()) continue;
-                double dummy_dr = DeltaR(trig, part);
-                if (dummy_dr < trig_match_dr) {
-                    trig_match_dr = dummy_dr;
-                    match_found = true;
-                    trig_cand = (pxl::Particle*)trig->clone();
-                }
-            }
-        }
+        bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
         if (match_found) {
             if (Check_Par_ID(part, false, true)) {
@@ -1717,7 +1769,6 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
         }
-        if (match_found) delete trig_cand;
     }
 }
 
@@ -2252,13 +2303,13 @@ bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
 }
 
 bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut, bool do_eta_cut) {
-    bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? true : false;
-    bool muon_ISO = false;
-    if (b_8TeV) {
-        muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
-    } else if (b_13TeV) {
-        muon_ISO = muon -> getUserRecord("IsoR3SumPt").asFloat() / muon -> getPt() < 0.1 ? true : false;
-    }
+    bool muon_ID = muon->getUserRecord("IDpassed").asBool() ? true : false;
+    bool muon_ISO = true;
+    // if (b_8TeV) {
+        // muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
+    // } else if (b_13TeV) {
+        // muon_ISO = muon -> getUserRecord("IsoR3SumPt").asFloat() / muon -> getPt() < 0.1 ? true : false;
+    // }
     bool muon_eta = TMath::Abs(muon -> getEta()) < muo_eta_max ? true : false;
     bool muon_pt = muon -> getPt() > muo_min_pt ? true : false;
     if (not do_pt_cut) {
@@ -2631,16 +2682,13 @@ bool specialAna::TriggerSelector(const pxl::Event* event) {
             }
         }
     } else if (b_13TeV) {
-        for (std::vector< std::string >::const_iterator it=m_trigger_string.begin(); it!= m_trigger_string.end(); it++) {
-            try {
-                triggered = m_TrigEvtView->getUserRecord(*it);
-            } catch ( std::runtime_error &exc ) {
-                continue;
-            }
-            pxl::UserRecords::const_iterator us = m_TrigEvtView->getUserRecords().begin();
-            for ( ; us != m_TrigEvtView->getUserRecords().end(); ++us ) {
-                if (std::string::npos != (*us).first.find(*it)) {
-                    triggers.insert(us->first);
+        for (auto const it : m_trigger_string) {
+            // triggered = m_TrigEvtView->hasUserRecord(it) ? true : false;
+
+            for (auto us : m_TrigEvtView->getUserRecords()) {
+                if (std::string::npos != us.first.find(it)) {
+                    triggered = true;
+                    triggers.insert(us.first);
                 }
             }
         }
@@ -3175,12 +3223,12 @@ void specialAna::Fill_overall_efficiencies() {
 void specialAna::endJob(const Serializable*) {
     if (not writePxlio) {
         Fill_overall_efficiencies();
-    
+
         std::cout << "Triggers that fired in this sample:" << std::endl;
-        for (auto itr = triggers.begin(); itr != triggers.end(); ++itr) {
-            std::cout << *itr << std::endl;
+        for (auto itr : triggers) {
+            std::cout << itr << std::endl;
         }
-    
+
         file1->cd();
         HistClass::WriteAll("counters");
         if (not runOnData) {
@@ -3238,11 +3286,11 @@ void specialAna::endJob(const Serializable*) {
         channel_writer(file1, "etaumu");
         channel_writer(file1, "mutaue");
         channel_writer(file1, "mutaumu");
-    
+
         HistClass::CleanUp();
-    
+
         file1->Close();
-    
+
         delete file1;
     } else {
         PxlOutFile.close();
@@ -3303,7 +3351,6 @@ void specialAna::initEvent(const pxl::Event* event) {
     for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticles.begin(); part_it != AllParticles.end(); ++part_it) {
         pxl::Particle *part = *part_it;
         std::string Name = part->getName();
-        // part->setP4(part->getPx() * 1.05, part->getPy() * 1.05, part->getPz(), part->getE() * 0.95);
         // Only fill the collection if we want to use the particle!
         if (Name == "Muon") {
             MuonList->push_back(part);
@@ -3385,8 +3432,6 @@ void specialAna::initEvent(const pxl::Event* event) {
     EleListGen     = new std::vector< pxl::Particle* >;
     MuonListGen    = new std::vector< pxl::Particle* >;
     GammaListGen   = new std::vector< pxl::Particle* >;
-    METListGen     = new std::vector< pxl::Particle* >;
-    JetListGen     = new std::vector< pxl::Particle* >;
     TauListGen     = new std::vector< pxl::Particle* >;
     TauVisListGen  = new std::vector< pxl::Particle* >;
     S3ListGen      = new std::vector< pxl::Particle* >;
@@ -3456,6 +3501,9 @@ void specialAna::initEvent(const pxl::Event* event) {
                 }
 
                 std::vector< std::pair<std::string, std::string> > generators;
+                generators.push_back(std::pair<std::string, std::string>("_calchep","CA"));
+                generators.push_back(std::pair<std::string, std::string>("-calchep","CA"));
+                generators.push_back(std::pair<std::string, std::string>("calchep","CA"));
                 generators.push_back(std::pair<std::string, std::string>("_madgraph","MG"));
                 generators.push_back(std::pair<std::string, std::string>("-madgraph","MG"));
                 generators.push_back(std::pair<std::string, std::string>("madgraph","MG"));
@@ -3533,24 +3581,20 @@ void specialAna::initEvent(const pxl::Event* event) {
         for (std::vector< pxl::Particle* >::const_iterator part_it = AllParticlesGen.begin(); part_it != AllParticlesGen.end(); part_it++) {
             pxl::Particle *part = *part_it;
             std::string Name = part->getName();
+            int pdg_id = abs(part->getPdgNumber());
             // Only fill the collection if we want to use the particle!
-            if (Name == "Muon") {
+            if (pdg_id == 13 and part->getUserRecord("Accepted").toBool()) { /// Muons
                 MuonListGen->push_back(part);
-            } else if (Name == "Ele") {
+            } else if (pdg_id == 11 and part->getUserRecord("Accepted").toBool()) { ///Electrons
                 EleListGen->push_back(part);
-            } else if (Name == "Gamma") {
+            } else if (pdg_id == 22 and part->getUserRecord("Accepted").toBool()) { ///Photons
                 GammaListGen->push_back(part);
-            } else if (Name == "Tau") {
+            } else if (pdg_id == 15 and part->getUserRecord("Accepted").toBool()) { ///Taus
                 TauListGen->push_back(part);
-            } else if (Name == (m_METType+"_gen")) {
-                METListGen->push_back(part);
-            } else if (Name == m_JetAlgo) {
-                JetListGen->push_back(part);
-            } else if (Name == genCollection) {
-                S3ListGen->push_back(part);
-                if (part->getPdgNumber() == 15 or part->getPdgNumber() == -15) {
-                    TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
-                }
+            }
+            S3ListGen->push_back(part);
+            if (pdg_id == 15) {
+                TauVisListGen->push_back(Get_tau_truth_decay_mode(*m_GenEvtView, part));
             }
         }
     }
@@ -3624,8 +3668,6 @@ void specialAna::endEvent(const pxl::Event* event) {
         delete EleListGen;
         delete MuonListGen;
         delete GammaListGen;
-        delete METListGen;
-        delete JetListGen;
         delete TauListGen;
         delete S3ListGen;
 
@@ -3638,8 +3680,6 @@ void specialAna::endEvent(const pxl::Event* event) {
         EleListGen = 0;
         MuonListGen = 0;
         GammaListGen = 0;
-        METListGen = 0;
-        JetListGen = 0;
         TauListGen = 0;
     }
 
