@@ -1179,6 +1179,18 @@ void specialAna::Create_ID_object_effs(std::string object) {
                          TString::Format("p_{T}^{%s(gen)} (GeV)", object.c_str()));
     HistClass::CreateEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc_gen", object.c_str()), 150, -3, 3, 150, -3.2, 3.2,
                          TString::Format("#eta(%s(gen))", object.c_str()), TString::Format("#phi(%s(gen)) (rad)", object.c_str()));
+
+    if (object == "Muon") {
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_validCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_isGlobalMuon", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_ptErrorCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_NMatchedStations", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_VHitsMuonSys", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_VHitsPixel", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_TrackerLayersWithMeas", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_DxyCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+        HistClass::CreateEff("Muon_ID_vs_pT_gen_DzCocktail", 300, 0, 3000, "p_{T}^{muon(gen)} (GeV)");
+    }
 }
 
 void specialAna::Fill_ID_effs() {
@@ -1216,6 +1228,75 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
                 HistClass::FillEff(TString::Format("%s_ID_vs_pT_gen", object.c_str()), part_i->getPt(), false);
                 HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_gen", object.c_str()), part_i->getEta(), part_i->getPhi(), false);
             }
+
+            if (object == "Muon") {
+                if (matched_reco_particle->getUserRecord("validCocktail").toBool()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_validCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_validCocktail", part_i->getPt(), false);
+                }
+
+                if (matched_reco_particle->getUserRecord("isGlobalMuon").toBool()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_isGlobalMuon", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_isGlobalMuon", part_i->getPt(), false);
+                }
+
+                if (0.3 > matched_reco_particle->getUserRecord("ptErrorCocktail").toDouble()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_ptErrorCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_ptErrorCocktail", part_i->getPt(), false);
+                }
+
+                if (1 < matched_reco_particle->getUserRecord("NMatchedStations").toInt32()) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_NMatchedStations", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_NMatchedStations", part_i->getPt(), false);
+                }
+
+                try{
+                    if (0 < matched_reco_particle->getUserRecord("VHitsMuonSys").toInt32()) {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsMuonSys", part_i->getPt(), true);
+                    } else {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsMuonSys", part_i->getPt(), false);
+                    }
+                } catch ( std::runtime_error &exc ) {
+                    std::cerr << "No user record 'VHitsMuonSys' found" << std::endl;
+                }
+
+                try{
+                    if (0 < matched_reco_particle->getUserRecord("VHitsPixel").toInt32()) {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsPixel", part_i->getPt(), true);
+                    } else {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_VHitsPixel", part_i->getPt(), false);
+                    }
+                } catch ( std::runtime_error &exc ) {
+                    std::cerr << "No user record 'VHitsPixel' found" << std::endl;
+                }
+
+                try{
+                    if (5 < matched_reco_particle->getUserRecord("TrackerLayersWithMeas").toInt32()) {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_TrackerLayersWithMeas", part_i->getPt(), true);
+                    } else {
+                        HistClass::FillEff("Muon_ID_vs_pT_gen_TrackerLayersWithMeas", part_i->getPt(), false);
+                    }
+                } catch ( std::runtime_error &exc ) {
+                    std::cerr << "No user record 'TrackerLayersWithMeas' found" << std::endl;
+                }
+
+                if (0.2 > fabs(matched_reco_particle->getUserRecord("DxyCocktail").toDouble())) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DxyCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DxyCocktail", part_i->getPt(), false);
+                }
+
+                if (0.5 > fabs(matched_reco_particle->getUserRecord("DzCocktail").toDouble())) {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DzCocktail", part_i->getPt(), true);
+                } else {
+                    HistClass::FillEff("Muon_ID_vs_pT_gen_DzCocktail", part_i->getPt(), false);
+                }
+            }
+
             if (Check_Par_Acc(matched_reco_particle)) {
                 if (Check_Par_ID(matched_reco_particle, false, false)) {
                     HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), true);
