@@ -2303,13 +2303,13 @@ bool specialAna::Check_Tau_ID(pxl::Particle* tau) {
 }
 
 bool specialAna::Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut, bool do_eta_cut) {
-    bool muon_ID = muon->getUserRecord("isHighPtMuon").asBool() ? true : false;
-    bool muon_ISO = false;
-    if (b_8TeV) {
-        muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
-    } else if (b_13TeV) {
-        muon_ISO = muon -> getUserRecord("IsoR3SumPt").asFloat() / muon -> getPt() < 0.1 ? true : false;
-    }
+    bool muon_ID = muon->getUserRecord("IDpassed").asBool() ? true : false;
+    bool muon_ISO = true;
+    // if (b_8TeV) {
+        // muon_ISO = muon -> getUserRecord("IsoR3SumPt").asDouble() / muon -> getPt() < 0.1 ? true : false;
+    // } else if (b_13TeV) {
+        // muon_ISO = muon -> getUserRecord("IsoR3SumPt").asFloat() / muon -> getPt() < 0.1 ? true : false;
+    // }
     bool muon_eta = TMath::Abs(muon -> getEta()) < muo_eta_max ? true : false;
     bool muon_pt = muon -> getPt() > muo_min_pt ? true : false;
     if (not do_pt_cut) {
