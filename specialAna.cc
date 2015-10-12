@@ -3445,7 +3445,7 @@ void specialAna::initEvent(const pxl::Event* event) {
 
     if (not runOnData) {
         event_weight = m_GenEvtView->getUserRecord("Weight");
-        event_weight = 1;
+        // event_weight = 1;
         // double varKfactor_weight = m_GenEvtView->getUserRecord_def( "kfacWeight",1. );
         pileup_weight = m_GenEvtView->getUserRecord_def("PUWeight", 1.);
 
