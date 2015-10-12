@@ -762,12 +762,14 @@ void specialAna::FillSystematicsUpDown(const pxl::Event* event, std::string cons
 }
 
 void specialAna::FillControllHistos() {
-    HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
-    HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
-
     if (not runOnData) {
         HistClass::Fill("Ctr_pT_hat", getPtHat(), weight);
         HistClass::Fill("Ctr_HT", getHT(), weight);
+        HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * sample_weight);
+        HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * sample_weight * pileup_weight);
+    } else {
+        HistClass::Fill("Ctr_Vtx_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
+        HistClass::Fill("Ctr_Vtx_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
     }
 
     if (resonance_mass_gen["emu"] != 0 and Check_Gen_Par_Acc(sel_part1_gen["emu"]) and Check_Gen_Par_Acc(sel_part2_gen["emu"])) {
@@ -856,8 +858,8 @@ void specialAna::KinematicsSelector(std::string const endung) {
             if (endung == "") {
                 keep_data_event = true;
                 mkeep_resonance_mass["emu"] = resonance_mass["emu"];
-                HistClass::Fill("Ctr_Vtx_emu_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight);
-                HistClass::Fill("Ctr_Vtx_emu_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * pileup_weight);
+                HistClass::Fill("Ctr_Vtx_emu_unweighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * sample_weight);
+                HistClass::Fill("Ctr_Vtx_emu_weighted", m_RecEvtView->getUserRecord("NumVertices"), event_weight * sample_weight * pileup_weight);
             }
         } else {
             b_emu_success = false;
