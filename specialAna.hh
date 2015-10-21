@@ -19,6 +19,8 @@
 #include "TH2F.h"
 #include "TString.h"
 #include "TLorentzVector.h"
+#include "TEfficiency.h"
+
 #include <TFile.h>
 
 #include "Main/Systematics.hh"
@@ -39,6 +41,8 @@ class specialAna : public pxl::AnalysisProcess  {
 
     TFile* file1;
     Systematics* m_syst_shifter;
+    
+    TEfficiency* Eff_JetFakeEle_Test;
 
     bool tail_selector(const pxl::Event* event);
 
@@ -114,6 +118,8 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true, bool forceHEEP = true);
 
     int FindJetFakeElectrons(pxl::Particle* ele);
+    
+    void Fill_FakeRate_Eff();
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
@@ -137,6 +143,8 @@ class specialAna : public pxl::AnalysisProcess  {
     double MT(pxl::Particle* lepton, pxl::Particle* met);
     double getPtHat();
     double getHT();
+    
+    double Get_FakeRate(pxl::Particle* part);
 
 
     static std::string expand_environment_variables( std::string s );
@@ -230,6 +238,18 @@ class specialAna : public pxl::AnalysisProcess  {
     double ele_endcap_eta_max;
     double muo_min_pt;
     double muo_eta_max;
+    
+    double eta_Barrel_max;
+    double eta_Endcap_min;
+    double eta_Endcap_max;
+    int Barrel_InnerLayerLostHits_max;
+    int Endcap_InnerLayerLostHits_max;
+    double Barrel_sigmaIetaIeta_max;
+    double Endcap_sigmaIetaIeta_max;
+    double Barrel_dxy_max;
+    double Endcap_dxy_max;
+    double Barrel_HoE_max;
+    double Endcap_HoE_max;
 
     std::map< std::string, Cuts > emu_cut_cfgs;
     std::map< std::string, Cuts > etau_cut_cfgs;

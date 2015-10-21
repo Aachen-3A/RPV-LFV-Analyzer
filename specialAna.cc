@@ -48,6 +48,18 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     ele_endcap_eta_max = 2.5;
     muo_min_pt = 55;
     muo_eta_max = 2.1; /// 2.4
+    
+    eta_Barrel_max = 1.442;
+    eta_Endcap_min = 1.56;
+    eta_Endcap_max = 2.5;
+    Barrel_InnerLayerLostHits_max = 1;
+    Endcap_InnerLayerLostHits_max = 1;
+    Barrel_sigmaIetaIeta_max = 0.013;
+    Endcap_sigmaIetaIeta_max = 0.034;
+    Barrel_dxy_max = 0.02;
+    Endcap_dxy_max = 0.05;
+    Barrel_HoE_max = 0.15;
+    Endcap_HoE_max = 0.1;
 
     std::string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
@@ -126,7 +138,10 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
             HistClass::CreateHisto(1, "phi_Gen", particles[i].c_str(), 40, -3.2, 3.2,    TString::Format("#phi_{%s} (rad)", particleSymbols[i].c_str()));
         }
     }
-
+    
+    //writePxlio = true;
+     
+     
     if (not writePxlio) {
         HistClass::CreateHisto("LLE_Gen", 100, 0, 1, "LLE");
         HistClass::CreateHisto("LQD_Gen", 100, 0, 0.001, "LQD");
@@ -157,7 +172,9 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
         HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_Pt_Eta", 6200, 0, 6200, "Mass (GeV)");
         HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_ID", 6200, 0, 6200, "Mass (GeV)");
         HistClass::CreateHisto("Total_eff_emu_efficiency_RECO_cuts", 6200, 0, 6200, "Mass (GeV)");
-    
+		
+		
+		
         if (doFakeRate) {
             HistClass::CreateHisto("JetFakeRate", 620, 0, 6200, "m(e#mu) [GeV]");
             HistClass::CreateHisto("JetFakeRate #eta", 30, 0, 3, "|#eta|");
@@ -184,7 +201,10 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
             HistClass::CreateHisto("JetFakeRate E_{T}=200 - 300 HEEP", 30, 0, 3, "|#eta|");
             HistClass::CreateHisto("JetFakeRate E_{T}=300 - 1000 HEEP", 30, 0, 3, "|#eta|");
             HistClass::CreateHisto("JetFakeRate E_{T}>1000 HEEP", 30, 0, 3, "|#eta|");
+            
+            
         }
+        
     
         if (not runOnData) {
             Create_Gen_histograms("emu", "ele", "muo");
@@ -288,10 +308,12 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     if (doTriggerStudies) {
         Fill_trigger_effs();
     }
-
-    if (doFakeRate) {
+		
+		
+		
+    /*if (doFakeRate) {
         pxl::Particle* temp_ele = 0;
-        double FakeRate = 0;
+        //double FakeRate = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
             pxl::Particle* ele = *part_it;
             int temp = FindJetFakeElectrons(ele);
@@ -299,43 +321,51 @@ void specialAna::analyseEvent(const pxl::Event* event) {
                 HistClass::Fill("JetFakeRate", resonance_mass["emu"], weight);
                 if (temp < 3) {
                     temp_ele = (pxl::Particle*) ele->clone();
+                    
                 }
             }
             if (temp > 2.5 and FindResonance("emu", *EleList, *MuonList)) {
                 HistClass::Fill("JetFakeRate HEEP", resonance_mass["emu"], weight);
             }
         }
-        if (not runOnData and temp_ele) {
-            // define FakeRate, currently 8TeV;
-            if (fabs(temp_ele->getEta()) < 1.442) {
-                if (temp_ele->getEt() > 35 and temp_ele->getEt() < 98) {
-                    FakeRate = 0.0226 - 0.000153 * temp_ele->getEt();
-                } else if (temp_ele->getEt() > 98 and temp_ele->getEt() < 191.9) {
-                    FakeRate = 0.0115 - 0.0000398 * temp_ele->getEt();
-                } else {
-                    FakeRate = 0.00382;
-                }
-            } else if (fabs(temp_ele->getEta()) > 1.56 and fabs(temp_ele->getEta()) < 2.5) {
-                if (temp_ele->getEt() > 35 and temp_ele->getEt() < 89.9) {
-                    FakeRate = 0.0823 - 0.000522 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
-                } else if (temp_ele->getEt() > 89.9 and temp_ele->getEt() < 166.4) {
-                    FakeRate = 0.0403 - 0.0000545 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
-                } else {
-                    FakeRate = 0.0290 + 0.0000132 * temp_ele->getEt() + (fabs(temp_ele->getEta()) - 1.9) * 0.065;
-                }
-            }
+        if (not runOnData and temp_ele) {  //and temp_ele
+            
+			double FakeRate = Get_FakeRate(temp_ele);
             weight = weight*1/(1-FakeRate);
             // whereas FakeRate is yet to get from Data
             // as the functional form is not set, yet!;
             // supposed to use pileupweight and others aswell?!
+            
         }
         delete temp_ele;
         temp_ele = 0;
-    }
+    }*/
 
     Fill_RECO_effs();
     Fill_ID_effs();
-
+	
+	//here insert the doFakeRate if loop
+	if(doFakeRate){
+		double FakeRate = 0;
+		pxl::Particle* temp_ele = 0;
+		if(FindResonance("emu", *EleList, *MuonList)){
+			
+			if(not runOnData){
+				
+				temp_ele = (pxl::Particle*) sel_lepton_prompt["emu"]->clone();
+				FakeRate = Get_FakeRate(temp_ele);
+				//std::cout << "here comes the FakeRate" << FakeRate << std::endl;
+				weight = weight*1/(1-FakeRate);
+				// whereas FakeRate is yet to get from Data
+				// as the functional form is not set, yet!;
+				// supposed to use pileupweight and others aswell?!
+			}	
+		}
+		delete temp_ele;
+		temp_ele = 0;
+	
+	}
+	
     if (TriggerSelector(event)) {
 
         FillControllHistos();
@@ -391,6 +421,34 @@ void specialAna::analyseEvent(const pxl::Event* event) {
         }
     }
     endEvent(event);
+}
+
+double specialAna::Get_FakeRate (pxl::Particle* part){
+	
+	double FakeRate = 0;
+	// define FakeRate, currently 8TeV;
+     if (fabs(part->getEta()) < 1.442) {
+         if (part->getEt() > 35 and part->getEt() < 98) {
+               FakeRate = 0.0226 - 0.000153 * part->getEt();
+         } else if (part->getEt() > 98 and part->getEt() < 191.9) {
+               FakeRate = 0.0115 - 0.0000398 * part->getEt();
+         } else {
+               FakeRate = 0.00382;
+         }
+    } else if (fabs(part->getEta()) > 1.56 and fabs(part->getEta()) < 2.5) {
+         if (part->getEt() > 35 and part->getEt() < 89.9) {
+                    FakeRate = 0.0823 - 0.000522 * part->getEt() + (fabs(part->getEta()) - 1.9) * 0.065;
+         } else if (part->getEt() > 89.9 and part->getEt() < 166.4) {
+                    FakeRate = 0.0403 - 0.0000545 * part->getEt() + (fabs(part->getEta()) - 1.9) * 0.065;
+         } else {
+                    FakeRate = 0.0290 + 0.0000132 * part->getEt() + (fabs(part->getEta()) - 1.9) * 0.065;
+         }
+    }
+     
+     
+     return FakeRate;
+	
+	
 }
 
 void specialAna::Init_channel_histos(std::string const channel, std::string const part_1, std::string const part_2, const std::map< std::string, Cuts > &m_cfg, Systematics &syst_shifter) {
@@ -830,7 +888,7 @@ void specialAna::Init_etaue_cuts() {
 void specialAna::Init_etaumu_cuts() {
     etaumu_cut_cfgs["kinematics"] = Cuts("kinematics",          500, 0, 500);
 }
-
+ 
 void specialAna::Init_mutaue_cuts() {
     mutaue_cut_cfgs["kinematics"] = Cuts("kinematics",          500, 0, 500);
     mutaue_cut_cfgs["BJet_veto"] = Cuts("BJet_veto",            10, 0, 10);
@@ -1153,6 +1211,8 @@ void specialAna::Create_ID_effs() {
     Create_ID_object_effs("Ele");
     Create_ID_object_effs("Tau");
 }
+
+
 
 void specialAna::Create_ID_object_effs(std::string object) {
     HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         300, 0, 3000,
@@ -2073,12 +2133,12 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
     resonance_mass_gen[channel] = 0;
     if (b_13TeV) {
         for (std::vector< pxl::Particle* >::const_iterator part_it = gen_list.begin(); part_it != gen_list.end(); ++part_it) {
-            pxl::Particle *part_i = *part_it;
+            pxl::Particle *part_i =*part_it;
             if (TMath::Abs(part_i -> getPdgNumber()) == id_1) {
                 for (std::vector< pxl::Particle* >::const_iterator part_jt = gen_list.begin(); part_jt != gen_list.end(); ++part_jt) {
                     pxl::Particle *part_j = *part_jt;
                     if (TMath::Abs(part_j -> getPdgNumber()) != id_2) continue;
-                    pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                    pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();//part_sum = (pxl::Particle*) part_i->clone();
                     part_sum -> addP4(part_j);
                     if (part_sum -> getMass() > resonance_mass_gen[channel]) {
                         resonance_mass_gen[channel] = part_sum -> getMass();
@@ -2135,7 +2195,7 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
             }
         }
     }
-
+	
     if (resonance_mass[channel] > 0) {
         return true;
     } else {
@@ -2343,19 +2403,26 @@ bool specialAna::Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut, bool do_eta_cu
     return false;
 }
 
+void specialAna::Fill_FakeRate_Eff(){
+	
+	HistClass::CreateEff("Eff_JetFakeRate", HistClass::ReturnHist("JetFakeRate"), HistClass::ReturnHist("JetFakeRate HEEP"));
+	HistClass::CreateEff("Eff_JetFakeRate #eta", HistClass::ReturnHist("JetFakeRate #eta"), HistClass::ReturnHist("JetFakeRate HEEP #eta"));
+	HistClass::CreateEff("Eff_JetFakeRate #phi", HistClass::ReturnHist("JetFakeRate #phi"), HistClass::ReturnHist("JetFakeRate HEEP #phi"));
+	/*HistClass::CreateEff("Eff_JetFakeRate E_{T} in barrel", HistClass::ReturnHist("JetFakeRate E_{T} in barrel"), HistClass::ReturnHist("JetFakeRate E_{T} HEEP  in barrel"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T} in endcap", HistClass::ReturnHist("JetFakeRate E_{T} in endcap"), HistClass::ReturnHist("JetFakeRate E_{T} HEEP  in endcap"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}=35 - 50", HistClass::ReturnHist("JetFakeRate E_{T}=35 - 50"), HistClass::ReturnHist("JetFakeRate E_{T}=35 - 50"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}=50 - 80", HistClass::ReturnHist("JetFakeRate E_{T}=50 - 80"), HistClass::ReturnHist("JetFakeRate E_{T}=50 - 80"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}=80 - 100", HistClass::ReturnHist("JetFakeRate E_{T}=80 - 100"), HistClass::ReturnHist("JetFakeRate E_{T}=80 - 100"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}=100 - 200", HistClass::ReturnHist("JetFakeRate E_{T}=100 - 200"), HistClass::ReturnHist("JetFakeRate E_{T}=100 - 200"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}=200 - 300", HistClass::ReturnHist("JetFakeRate E_{T}=200 - 300"), HistClass::ReturnHist("JetFakeRate E_{T}=200 - 300"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}=300 - 1000", HistClass::ReturnHist("JetFakeRate E_{T}=300 - 1000"), HistClass::ReturnHist("JetFakeRate E_{T}=300 - 1000"));
+	HistClass::CreateEff("Eff_JetFakeRate E_{T}>1000", HistClass::ReturnHist("JetFakeRate E_{T}>1000"), HistClass::ReturnHist("JetFakeRate E_{T}>1000"));
+	*/
+}
+
+
 int specialAna::FindJetFakeElectrons(pxl::Particle* ele) {
     double const abseta = fabs(ele->getEta());
-    double eta_Barrel_max = 1.442;
-    double eta_Endcap_min = 1.56;
-    double eta_Endcap_max = 2.5;
-    int Barrel_InnerLayerLostHits_max = 1;
-    int Endcap_InnerLayerLostHits_max = 1;
-    double Barrel_sigmaIetaIeta_max = 0.013;
-    double Endcap_sigmaIetaIeta_max = 0.034;
-    double Barrel_dxy_max = 0.02;
-    double Endcap_dxy_max = 0.05;
-    double Barrel_HoE_max = 0.15;
-    double Endcap_HoE_max = 0.1;
     bool fakechecks = false;
     bool allchecks = false;
     if ( abseta < eta_Barrel_max ) {
@@ -3223,6 +3290,7 @@ void specialAna::Fill_overall_efficiencies() {
 void specialAna::endJob(const Serializable*) {
     if (not writePxlio) {
         Fill_overall_efficiencies();
+        Fill_FakeRate_Eff();
 
         std::cout << "Triggers that fired in this sample:" << std::endl;
         for (auto itr : triggers) {
@@ -3257,6 +3325,8 @@ void specialAna::endJob(const Serializable*) {
         file1->mkdir("JetFakeRate");
         file1->cd("JetFakeRate/");
         HistClass::WriteAll("JetFakeRate");
+        HistClass::WriteAllEff("JetFakeRate");
+        
         file1->cd();
         file1->mkdir("Ctr");
         file1->cd("Ctr/");
@@ -3428,14 +3498,17 @@ void specialAna::initEvent(const pxl::Event* event) {
     resonance_mass_gen["mutaue"] = 0;
     resonance_mass["mutaumu"] = 0;
     resonance_mass_gen["mutaumu"] = 0;
-
-    EleListGen     = new std::vector< pxl::Particle* >;
-    MuonListGen    = new std::vector< pxl::Particle* >;
-    GammaListGen   = new std::vector< pxl::Particle* >;
-    TauListGen     = new std::vector< pxl::Particle* >;
-    TauVisListGen  = new std::vector< pxl::Particle* >;
-    S3ListGen      = new std::vector< pxl::Particle* >;
-
+	
+	
+	if(not runOnData){
+		EleListGen     = new std::vector< pxl::Particle* >;
+		MuonListGen    = new std::vector< pxl::Particle* >;
+		GammaListGen   = new std::vector< pxl::Particle* >;
+		TauListGen     = new std::vector< pxl::Particle* >;
+		TauVisListGen  = new std::vector< pxl::Particle* >;
+		S3ListGen      = new std::vector< pxl::Particle* >;
+	}
+	
     weight = 1.;
 
     event_weight = 1;
