@@ -3,9 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include <unordered_set>
 #include <fstream>
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 /// clean up the header!!!
@@ -27,7 +29,7 @@
 
 class specialAna : public pxl::AnalysisProcess  {
  public:
-    explicit specialAna(const Tools::MConfig &config);
+    explicit specialAna(const Tools::MConfig &config, Systematics &syst_shifter);
     virtual ~specialAna();
 
     virtual void endJob(const Serializable*);
@@ -36,8 +38,12 @@ class specialAna : public pxl::AnalysisProcess  {
     void channel_writer(TFile* file, const char* channel);
 
     TFile* file1;
+    Systematics* m_syst_shifter;
 
     bool tail_selector(const pxl::Event* event);
+
+    void WritePxlioEvent(const pxl::Event* event);
+    void WriteEmptyPxlioEvent(const pxl::Event* event);
 
     void Create_Gen_histograms(const char* channel, const char* part1, const char* part2);
     void Fill_Gen_histograms(const char* channel, const char* part1, const char* part2);
@@ -58,6 +64,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void Create_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
     void Fill_N1_histos(const char* channel, const std::map< std::string, Cuts > &m_cfg, std::string const endung = "");
 
+    void Init_channel_histos(std::string const channel, std::string const part_1, std::string const part_2, const std::map< std::string, Cuts > &m_cfg, Systematics &syst_shifter);
     void Create_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
     void Fill_Resonance_histograms(int n_histos, const char* channel, const char* part1, const char* part2, std::string const endung = "");
 
@@ -103,8 +110,10 @@ class specialAna : public pxl::AnalysisProcess  {
     bool Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Tau_ID(pxl::Particle* tau);
-    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true);
-    //~ void Check_Ele_ID_Eff(std::vector< pxl::Particle* > part1_list, bool do_pt_cut = true, bool do_eta_cut = true);
+
+    bool Check_Ele_ID(pxl::Particle* ele, bool do_pt_cut = true, bool do_eta_cut = true, bool forceHEEP = true);
+
+    int FindJetFakeElectrons(pxl::Particle* ele);
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
@@ -129,6 +138,8 @@ class specialAna : public pxl::AnalysisProcess  {
     double getPtHat();
     double getHT();
 
+
+    static std::string expand_environment_variables( std::string s );
     void raw_input(TString question);
 
     pxl::EventView *m_RecEvtView;
@@ -136,15 +147,26 @@ class specialAna : public pxl::AnalysisProcess  {
     pxl::EventView *m_TrigEvtView;
 
     bool runOnData;
+    bool useSyst;
+    bool writePxlio;
     bool doTriggerStudies;
+    bool doSampleWeighting;
+    double lumi;
     const std::string m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
+    bool doFakeRate;
 
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
 
+    const std::string shifted[5]   = {"Ele", "Muon", "Tau", "met", "Jet"};
+    const std::string type[2]      = {"Scale", "Resolution"};
+    const std::string updown[2]    = {"Up", "Down"};
+
     TString d_mydisc[66];
 
     bool isOldPXLFile;
+
+    pxl::OutputFile PxlOutFile;
 
     const std::string m_cutdatafile;
     const std::vector< std::string >  m_trigger_string;
@@ -158,6 +180,8 @@ class specialAna : public pxl::AnalysisProcess  {
     double temp_event;
 
     double weight;
+    double sample_weight;
+    TString backup_datstream;
 
     unsigned int numMuon;
     unsigned int numEle;
@@ -186,8 +210,6 @@ class specialAna : public pxl::AnalysisProcess  {
     std::vector< pxl::Particle* > * TauListGen;
     std::vector< pxl::Particle* > * TauVisListGen;
     std::vector< pxl::Particle* > * GammaListGen;
-    std::vector< pxl::Particle* > * METListGen;
-    std::vector< pxl::Particle* > * JetListGen;
     std::vector< pxl::Particle* > * S3ListGen;
 
     bool b_14TeV;
@@ -201,6 +223,13 @@ class specialAna : public pxl::AnalysisProcess  {
     bool b_etaumu;
     bool b_mutaue;
     bool b_mutaumu;
+
+    double ele_min_pt;
+    double ele_barrel_eta_max;
+    double ele_endcap_eta_min;
+    double ele_endcap_eta_max;
+    double muo_min_pt;
+    double muo_eta_max;
 
     std::map< std::string, Cuts > emu_cut_cfgs;
     std::map< std::string, Cuts > etau_cut_cfgs;
@@ -233,7 +262,7 @@ class specialAna : public pxl::AnalysisProcess  {
     std::map< std::string, float > mLeptonTree;
 
     bool keep_data_event;
-    std::map< std::string, float > mkeep_resonance_mass;
+    std::unordered_map< std::string, float > mkeep_resonance_mass;
 
     double event_weight;
     double pileup_weight;

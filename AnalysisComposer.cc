@@ -24,16 +24,7 @@ using std::string;
 AnalysisComposer::AnalysisComposer() :
     m_analysisName("RPV-LFV-Analyzer"),
     m_outputDirectory("./MusicOutDir"),
-    runOnData(false),
-    // music variables
-    ECMerger(2),
-    NoCcControl(false),
-    runSpecialAna(true),
-    NoCcEventClass(false),
-    runCcEventClass(false),
-    DumpECHistos(false)//,
-    // m_XSectionsFile("$MUSIC_BASE/ConfigFiles/XSections.txt"),
-    // m_PlotConfigFile("$MUSIC_BASE/ConfigFiles/ControlPlots2.cfg")
+    runOnData(false)
 {}
 
 po::options_description AnalysisComposer::getCmdArguments() {
@@ -54,6 +45,7 @@ pxl::AnalysisFork AnalysisComposer::addForkObjects(const Tools::MConfig &config,
                                         string outputDirectory,
                                         pdf::PDFInfo const &pdfInfo,
                                         EventSelector &selector,
+                                        Systematics &syst_shifter,
                                         const bool debug) {
     // This is the function where you need to initalize your Analysis.
     // Create one or several implementations of pxl::AnalysisProcess and
@@ -64,7 +56,7 @@ pxl::AnalysisFork AnalysisComposer::addForkObjects(const Tools::MConfig &config,
 
     // add validation to fork
     specialAna *ana = 0;
-    ana = new specialAna(config);
+    ana = new specialAna(config, syst_shifter);
     fork.insertObject(ana, "RPV-LFV-Analyzer");
     return fork;
 }
