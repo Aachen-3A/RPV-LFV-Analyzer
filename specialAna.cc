@@ -60,6 +60,8 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
     Endcap_dxy_max = 0.05;
     Barrel_HoE_max = 0.15;
     Endcap_HoE_max = 0.1;
+    
+    forceHEEP_ele = !(doFakeRate);
 
     std::string safeFileName = "SpecialHistos.root";
     file1 = new TFile(safeFileName.c_str(), "RECREATE");
@@ -108,7 +110,8 @@ specialAna::specialAna(const Tools::MConfig &cfg, Systematics &syst_shifter) :
         resonance_mass_gen["mutaue"] = 0;
         resonance_mass["mutaumu"] = 0;
         resonance_mass_gen["mutaumu"] = 0;
-    
+		
+		
         HistClass::CreateTree(&mkeep_resonance_mass, "data_events");
     }
     for (unsigned int i = 0; i < 4; i++) {
@@ -311,24 +314,24 @@ void specialAna::analyseEvent(const pxl::Event* event) {
 		
 		
 		
-    /*if (doFakeRate) {
-        pxl::Particle* temp_ele = 0;
+    if (doFakeRate) {
+        //pxl::Particle* temp_ele = 0;
         //double FakeRate = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_it = EleList->begin(); part_it != EleList->end(); part_it++) {
             pxl::Particle* ele = *part_it;
             int temp = FindJetFakeElectrons(ele);
             if (temp > 0 and FindResonance("emu", *EleList, *MuonList)) {
                 HistClass::Fill("JetFakeRate", resonance_mass["emu"], weight);
-                if (temp < 3) {
-                    temp_ele = (pxl::Particle*) ele->clone();
+                //if (temp < 3) {
+                    //temp_ele = (pxl::Particle*) ele->clone();
                     
-                }
+                //}
             }
             if (temp > 2.5 and FindResonance("emu", *EleList, *MuonList)) {
                 HistClass::Fill("JetFakeRate HEEP", resonance_mass["emu"], weight);
             }
         }
-        if (not runOnData and temp_ele) {  //and temp_ele
+        /*if (not runOnData and temp_ele) {  //and temp_ele
             
 			double FakeRate = Get_FakeRate(temp_ele);
             weight = weight*1/(1-FakeRate);
@@ -336,34 +339,17 @@ void specialAna::analyseEvent(const pxl::Event* event) {
             // as the functional form is not set, yet!;
             // supposed to use pileupweight and others aswell?!
             
-        }
-        delete temp_ele;
-        temp_ele = 0;
-    }*/
+        }*/
+        //delete temp_ele;
+        //temp_ele = 0;
+    }
 
     Fill_RECO_effs();
     Fill_ID_effs();
 	
 	//here insert the doFakeRate if loop
 	if(doFakeRate){
-		double FakeRate = 0;
-		pxl::Particle* temp_ele = 0;
-		if(FindResonance("emu", *EleList, *MuonList)){
-			
-			if(not runOnData){
-				
-				temp_ele = (pxl::Particle*) sel_lepton_prompt["emu"]->clone();
-				FakeRate = Get_FakeRate(temp_ele);
-				//std::cout << "here comes the FakeRate" << FakeRate << std::endl;
-				weight = weight*1/(1-FakeRate);
-				// whereas FakeRate is yet to get from Data
-				// as the functional form is not set, yet!;
-				// supposed to use pileupweight and others aswell?!
-			}	
-		}
-		delete temp_ele;
-		temp_ele = 0;
-	
+		Reweighting_JetFakingEle("emu");
 	}
 	
     if (TriggerSelector(event)) {
@@ -423,6 +409,33 @@ void specialAna::analyseEvent(const pxl::Event* event) {
     endEvent(event);
 }
 
+void specialAna::Reweighting_JetFakingEle(std::string const channel){
+	
+	FakeRate_JetFakingEle = 1.;
+	double dummy_FakeRate = 0;
+	if(channel == "emu"){
+		pxl::Particle* temp_ele = 0;
+		if(FindResonance(channel.c_str(), *EleList, *MuonList)){
+			temp_ele = (pxl::Particle*) sel_lepton_prompt[channel]->clone();
+			dummy_FakeRate = Get_FakeRate(temp_ele);
+			//std::cout << "here comes the FakeRate" << FakeRate << std::endl;
+			if(not runOnData){
+				weight = weight*dummy_FakeRate/(1-dummy_FakeRate);
+				// whereas FakeRate is yet to get from Data
+				// as the functional form is not set, yet!;
+				// supposed to use pileupweight and others aswell?!
+				// the reweighting is motivated by other CMS high resonance mass searches
+			}	
+		}
+		delete temp_ele;
+		temp_ele = 0;
+	}
+	
+	FakeRate_JetFakingEle = dummy_FakeRate;
+	
+	
+}
+
 double specialAna::Get_FakeRate (pxl::Particle* part){
 	
 	double FakeRate = 0;
@@ -450,6 +463,8 @@ double specialAna::Get_FakeRate (pxl::Particle* part){
 	
 	
 }
+
+
 
 void specialAna::Init_channel_histos(std::string const channel, std::string const part_1, std::string const part_2, const std::map< std::string, Cuts > &m_cfg, Systematics &syst_shifter) {
     Create_Resonance_histograms(channel_stages[channel], channel.c_str(), part_1.c_str(), part_2.c_str());
@@ -1212,8 +1227,6 @@ void specialAna::Create_ID_effs() {
     Create_ID_object_effs("Tau");
 }
 
-
-
 void specialAna::Create_ID_object_effs(std::string object) {
     HistClass::CreateEff(TString::Format("%s_ID_vs_pT", object.c_str()),         300, 0, 3000,
                          TString::Format("p_{T}^{%s(reco)} (GeV)", object.c_str()));
@@ -1273,7 +1286,7 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
             }
         }
         if (matched_reco_particle != 0) {
-            if (Check_Par_ID(matched_reco_particle, false, false)) {
+            if (Check_Par_ID(matched_reco_particle, false, false,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_ID_vs_pT", object.c_str()), matched_reco_particle->getPt(), true);
                 HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                 HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
@@ -1358,7 +1371,7 @@ void specialAna::Fill_ID_object_effs(std::string object, int id, std::vector< px
             }
 
             if (Check_Par_Acc(matched_reco_particle)) {
-                if (Check_Par_ID(matched_reco_particle, false, false)) {
+                if (Check_Par_ID(matched_reco_particle, false, false,forceHEEP_ele)) {
                     HistClass::FillEff(TString::Format("%s_ID_vs_pT_in_Acc", object.c_str()), matched_reco_particle->getPt(), true);
                     HistClass::FillEff(TString::Format("%s_ID_vs_Nvtx_in_Acc", object.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
                     HistClass::FillEff(TString::Format("%s_ID_vs_eta_vs_phi_in_Acc", object.c_str()), matched_reco_particle->getEta(), matched_reco_particle->getPhi(), true);
@@ -1738,47 +1751,47 @@ void specialAna::Get_Trigger_match_2(std::string trigger_name) {
 
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles_1->begin(); part_jt != particles_1->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
-        if (not Check_Par_ID(part, false, false)) continue;
+        if (not Check_Par_ID(part, false, false,forceHEEP_ele)) continue;
 
         bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
         pxl::Particle* part_2 = 0;
         for (std::vector< pxl::Particle* >::const_iterator part_kt = particles_2->begin(); part_kt != particles_2->end(); ++part_kt) {
             pxl::Particle *part_k = *part_kt;
-            if (not Check_Par_ID(part_k, false, false)) continue;
+            if (not Check_Par_ID(part_k, false, false,forceHEEP_ele)) continue;
             if (part->getId() == part_k->getId()) continue;
             part_2 = (pxl::Particle*)part_k->clone();
         }
 
         if (match_found and part_2) {
-            if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
+            if (Check_Par_ID(part, false, true,forceHEEP_ele) and Check_Par_ID(part_2, false, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), true);
             }
-            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, true)) {
+            if (Check_Par_ID(part, true, true,forceHEEP_ele) and Check_Par_ID(part_2, true, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
             }
-            if (Check_Par_ID(part, true, false) and Check_Par_ID(part_2, true, true)) {
+            if (Check_Par_ID(part, true, false,forceHEEP_ele) and Check_Par_ID(part_2, true, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
                                    part->getEta(), part->getPhi(), true);
             }
-            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, false)) {
+            if (Check_Par_ID(part, true, true,forceHEEP_ele) and Check_Par_ID(part_2, true, false,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part_2->getEta(), part_2->getPhi(), true);
             }
         } else if (part_2) {
-            if (Check_Par_ID(part, false, true) and Check_Par_ID(part_2, false, true)) {
+            if (Check_Par_ID(part, false, true ,forceHEEP_ele) and Check_Par_ID(part_2, false, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s,%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part->getPt(), part_2->getPt(), false);
             }
-            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, true)) {
+            if (Check_Par_ID(part, true, true,forceHEEP_ele) and Check_Par_ID(part_2, true, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
-            if (Check_Par_ID(part, true, false) and Check_Par_ID(part_2, true, true)) {
+            if (Check_Par_ID(part, true, false,forceHEEP_ele) and Check_Par_ID(part_2, true, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
                                    part->getEta(), part->getPhi(), false);
             }
-            if (Check_Par_ID(part, true, true) and Check_Par_ID(part_2, true, false)) {
+            if (Check_Par_ID(part, true, true,forceHEEP_ele) and Check_Par_ID(part_2, true, false,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart2Name().c_str()),
                                    part_2->getEta(), part_2->getPhi(), false);
             }
@@ -1800,32 +1813,32 @@ void specialAna::Get_Trigger_match_1(std::string trigger_name) {
 
     for (std::vector< pxl::Particle* >::const_iterator part_jt = particles->begin(); part_jt != particles->end(); ++part_jt) {
         pxl::Particle *part = *part_jt;
-        if (not Check_Par_ID(part, false, false)) continue;
+        if (not Check_Par_ID(part, false, false,forceHEEP_ele)) continue;
 
         bool match_found = m_TrigEvtView->hasUserRecord(trigger_name) ? true : false;
 
         if (match_found) {
-            if (Check_Par_ID(part, false, true)) {
+            if (Check_Par_ID(part, false, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
                                    part->getPt(), true);
             }
-            if (Check_Par_ID(part, true, false)) {
+            if (Check_Par_ID(part, true, false,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
                                    part->getEta(), part->getPhi(), true);
             }
-            if (Check_Par_ID(part)) {
+            if (Check_Par_ID(part,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), true);
             }
         } else {
-            if (Check_Par_ID(part, false, true)) {
+            if (Check_Par_ID(part, false, true,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_pT(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
                                    part->getPt(), false);
             }
-            if (Check_Par_ID(part, true, false)) {
+            if (Check_Par_ID(part, true, false,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_eta_vs_phi(%s)", trigger_name.c_str(), trigger_defs[trigger_name.c_str()]->GetPart1Name().c_str()),
                                    part->getEta(), part->getPhi(), false);
             }
-            if (Check_Par_ID(part)) {
+            if (Check_Par_ID(part,forceHEEP_ele)) {
                 HistClass::FillEff(TString::Format("%s_vs_Nvtx", trigger_name.c_str()), m_RecEvtView->getUserRecord("NumVertices"), false);
             }
         }
@@ -2180,10 +2193,10 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
 
     for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
         pxl::Particle *part_i = *part_it;
-        if (Check_Par_ID(part_i)) {
+        if (Check_Par_ID(part_i,forceHEEP_ele)) {
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
-                if (not Check_Par_ID(part_j)) continue;
+                if (not Check_Par_ID(part_j,forceHEEP_ele)) continue;
                 pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
                 part_sum -> addP4(part_j);
                 if (part_sum -> getMass() > resonance_mass[channel]) {
@@ -2203,15 +2216,51 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
     }
 }
 
+
+bool specialAna::FindResonance_FakeRate(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list, bool forceHEEP) {
+    double resonance_mass_FakeRate = 0;
+
+    for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
+        pxl::Particle *part_i = *part_it;
+        if (Check_Par_ID(part_i,forceHEEP)) {
+            for (std::vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt) {
+                pxl::Particle *part_j = *part_jt;
+                if (not Check_Par_ID(part_j,forceHEEP)) continue;
+                pxl::Particle *part_sum = (pxl::Particle*) part_i->clone();
+                part_sum -> addP4(part_j);
+                if (part_sum -> getMass() > resonance_mass_FakeRate) {
+                    resonance_mass_FakeRate = part_sum -> getMass();
+                    sel_lepton_prompt_FakeRate[channel] = (pxl::Particle*) part_i->clone();
+                    sel_lepton_nprompt_FakeRate[channel] = (pxl::Particle*) part_j->clone();
+                }
+                delete part_sum;
+            }
+        }
+    }
+	
+	
+    if (resonance_mass_FakeRate > 0) {
+        if(sel_lepton_prompt_FakeRate[channel]->getUserRecord("FakeID")){
+			std::cout << "FOUND IT" << std::endl;
+		}
+        return true;
+    } else {
+        return false;
+    }
+    
+    
+}
+
+
 bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list, std::vector< pxl::Particle* > met_list) {
     resonance_mass[channel] = 0;
     if (not sel_met[channel]) return false;
     for (std::vector< pxl::Particle* >::const_iterator part_it = part1_list.begin(); part_it != part1_list.end(); ++part_it) {
         pxl::Particle *part_i = *part_it;
-        if (Check_Par_ID(part_i)) {
+        if (Check_Par_ID(part_i,forceHEEP_ele)) {
             for (std::vector< pxl::Particle* >::const_iterator part_jt = part2_list.begin(); part_jt != part2_list.end(); ++part_jt) {
                 pxl::Particle *part_j = *part_jt;
-                if (not Check_Par_ID(part_j)) continue;
+                if (not Check_Par_ID(part_j,forceHEEP_ele)) continue;
                 pxl::Particle* dummy_taumu = (pxl::Particle*) part_i->clone();
                 pxl::Particle* dummy_taumu_uncorr = (pxl::Particle*) part_i->clone();
                 dummy_taumu->addP4(part_j);
@@ -2268,13 +2317,13 @@ bool specialAna::FindResonance(const char* channel, std::vector< pxl::Particle* 
     }
 }
 
-bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut) {
+bool specialAna::Check_Par_ID(pxl::Particle* part, bool do_pt_cut, bool do_eta_cut, bool forceHEEP) {
     std::string name = part -> getName();
     if (name == m_TauType) {
         bool tau_id = Check_Tau_ID(part);
         return tau_id;
     } else if (name == "Ele") {
-        bool ele_id = Check_Ele_ID(part, do_pt_cut, do_eta_cut);
+		bool ele_id = Check_Ele_ID(part, do_pt_cut, do_eta_cut,forceHEEP);
         return ele_id;
     } else if (name == "Muon") {
         bool muo_id = Check_Muo_ID(part, do_pt_cut, do_eta_cut);
@@ -3475,7 +3524,25 @@ void specialAna::initEvent(const pxl::Event* event) {
     sel_lepton_nprompt["etaumu"] = 0;
     sel_lepton_nprompt["mutaue"] = 0;
     sel_lepton_nprompt["mutaumu"] = 0;
+	
+	if(doFakeRate){
+		sel_lepton_prompt_FakeRate["emu"] = 0;
+		sel_lepton_prompt_FakeRate["etau"] = 0;
+		sel_lepton_prompt_FakeRate["mutau"] = 0;
+		sel_lepton_prompt_FakeRate["etaue"] = 0;
+		sel_lepton_prompt_FakeRate["etaumu"] = 0;
+		sel_lepton_prompt_FakeRate["mutaue"] = 0;
+		sel_lepton_prompt_FakeRate["mutaumu"] = 0;
 
+		sel_lepton_nprompt_FakeRate["emu"] = 0;
+		sel_lepton_nprompt_FakeRate["etau"] = 0;
+		sel_lepton_nprompt_FakeRate["mutau"] = 0;
+		sel_lepton_nprompt_FakeRate["etaue"] = 0;
+		sel_lepton_nprompt_FakeRate["etaumu"] = 0;
+		sel_lepton_nprompt_FakeRate["mutaue"] = 0;
+		sel_lepton_nprompt_FakeRate["mutaumu"] = 0;
+	}
+	
     sel_lepton_nprompt_corr["emu"] = 0;
     sel_lepton_nprompt_corr["etau"] = 0;
     sel_lepton_nprompt_corr["mutau"] = 0;
@@ -3695,6 +3762,23 @@ void specialAna::endEvent(const pxl::Event* event) {
         }
     }
 
+	if(doFakeRate){
+		
+		for (auto const &it1 : sel_lepton_prompt_FakeRate) {
+			if (it1.second != 0) {
+				delete it1.second;
+				sel_lepton_prompt_FakeRate[it1.first] = 0;
+			}
+		}
+
+		for (auto const &it1 : sel_lepton_nprompt_FakeRate) {
+			if (it1.second != 0) {
+				delete it1.second;
+				sel_lepton_nprompt_FakeRate[it1.first] = 0;
+			}
+		}
+	}
+	
     for (auto const &it1 : sel_lepton_nprompt_corr) {
         if (it1.second != 0) {
             delete it1.second;

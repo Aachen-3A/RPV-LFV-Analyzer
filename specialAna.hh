@@ -76,6 +76,7 @@ class specialAna : public pxl::AnalysisProcess  {
 
     bool FindResonance(const char* channel, std::vector< pxl::Particle* > gen_list);
     bool FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list);
+    bool FindResonance_FakeRate(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list, bool forceHEEP);
     bool FindResonance(const char* channel, std::vector< pxl::Particle* > part1_list, std::vector< pxl::Particle* > part2_list, std::vector< pxl::Particle* > met_list);
 
     void GenSelector();
@@ -109,7 +110,7 @@ class specialAna : public pxl::AnalysisProcess  {
     void initEvent(const pxl::Event* event);
     void endEvent(const pxl::Event* event);
 
-    bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
+    bool Check_Par_ID(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true, bool forceHEEP = true);
     bool Check_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Gen_Par_Acc(pxl::Particle* part, bool do_pt_cut = true, bool do_eta_cut = true);
     bool Check_Muo_ID(pxl::Particle* muon, bool do_pt_cut = true, bool do_eta_cut = true);
@@ -120,6 +121,7 @@ class specialAna : public pxl::AnalysisProcess  {
     int FindJetFakeElectrons(pxl::Particle* ele);
     
     void Fill_FakeRate_Eff();
+    void Reweighting_JetFakingEle(std::string const channel);
 
     std::vector<double> Make_zeta_stuff(pxl::Particle* muon, pxl::Particle* tau, pxl::Particle* met);
     bool Make_zeta_cut(Cuts* cuts);
@@ -145,6 +147,7 @@ class specialAna : public pxl::AnalysisProcess  {
     double getHT();
     
     double Get_FakeRate(pxl::Particle* part);
+    double FakeRate_JetFakingEle;
 
 
     static std::string expand_environment_variables( std::string s );
@@ -162,6 +165,7 @@ class specialAna : public pxl::AnalysisProcess  {
     double lumi;
     const std::string m_JetAlgo, m_BJets_algo, m_METType, m_TauType;
     bool doFakeRate;
+    bool forceHEEP_ele;
 
     const std::string particles[4] = {"Ele", "Muon", "Tau", "MET"};
     const std::string particleSymbols[4] = {"e", "#mu", "#tau", "E_{T}^{miss}"};
@@ -274,6 +278,8 @@ class specialAna : public pxl::AnalysisProcess  {
     /// map to keep track of the selected reco level particles for each channel
     std::map< std::string, pxl::Particle*> sel_lepton_prompt;
     std::map< std::string, pxl::Particle*> sel_lepton_nprompt;
+    std::map< std::string, pxl::Particle*> sel_lepton_prompt_FakeRate;
+    std::map< std::string, pxl::Particle*> sel_lepton_nprompt_FakeRate;
     std::map< std::string, pxl::Particle*> sel_met;
     std::map< std::string, pxl::Particle*> sel_lepton_nprompt_corr;
 
